@@ -67,7 +67,7 @@
 
     <header class="top">
       <h1>Capsule Override</h1>
-      <p class="lede">Cochez <b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5 — variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</p>
+      <p class="lede"><b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5. <span class="lede-more">Variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</span></p>
 
       <section class="console" aria-label="Progression">
         <div class="scores">
@@ -96,32 +96,69 @@
           <span class="seg-m" id="bar-m" style="width:0%"></span>
           <span class="seg-u" id="bar-u" style="width:0%"></span>
         </div>
-        <div class="by-rarity" id="by-rarity"></div>
+        <details class="rarity-fold" id="rarity-fold">
+          <summary>Detail par rarete</summary>
+          <div class="by-rarity" id="by-rarity"></div>
+        </details>
       </section>
     </header>
 
     <div class="controls">
-      <label class="search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
-        <input id="q" type="search" placeholder="Rechercher un esprit, un effet, un lieu…" aria-label="Rechercher">
-      </label>
-      <div class="chips" id="rarity-chips" role="group" aria-label="Filtrer par rarete"></div>
-      <div class="seg" id="status-seg" role="group" aria-label="Filtrer par statut"></div>
-      <div class="seg" id="view-seg" role="group" aria-label="Affichage">
-        <button type="button" data-view="cards" aria-pressed="true">Cartes</button>
-        <button type="button" data-view="list" aria-pressed="false">Liste</button>
+      <div class="controls-bar">
+        <label class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          <input id="q" type="search" placeholder="Rechercher un esprit, un lieu…" aria-label="Rechercher un esprit">
+        </label>
+
+        <div class="seg view-seg" id="view-seg" role="group" aria-label="Affichage">
+          <button type="button" data-view="cards" aria-pressed="true" title="Vue detaillee">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3.5" y="4.5" width="17" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="17" height="6" rx="1.6"/>
+            </svg>
+            <span>Cartes</span>
+          </button>
+          <button type="button" data-view="list" aria-pressed="false" title="Vue compacte">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 6.5h16M4 12h16M4 17.5h16"/>
+            </svg>
+            <span>Liste</span>
+          </button>
+        </div>
+
+        <button type="button" class="iconbtn filters-toggle" id="btn-filters"
+                aria-expanded="false" aria-controls="filter-panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3.5 6.5h17M6.5 12h11M10 17.5h4"/>
+          </svg>
+          <span>Filtres</span>
+          <span class="filters-count" id="filters-count" hidden></span>
+        </button>
+
+        <button type="button" class="btn-share" id="btn-export" title="Generer une image de ma liste et la partager">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 15.5V3.5M12 3.5 7.5 8M12 3.5 16.5 8"/>
+            <path d="M4.5 14.5v3.6a2.4 2.4 0 0 0 2.4 2.4h10.2a2.4 2.4 0 0 0 2.4-2.4v-3.6"/>
+          </svg>
+          <span>Exporter</span>
+        </button>
       </div>
 
-      <button type="button" class="btn-share" id="btn-export" title="Generer une image de ma liste et la partager">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 15.5V3.5M12 3.5 7.5 8M12 3.5 16.5 8"/>
-          <path d="M4.5 14.5v3.6a2.4 2.4 0 0 0 2.4 2.4h10.2a2.4 2.4 0 0 0 2.4-2.4v-3.6"/>
-        </svg>
-        <span>Exporter</span>
-      </button>
+      <div class="filter-panel" id="filter-panel">
+        <div class="filter-row">
+          <span class="filter-label" id="lbl-rarity">Rarete</span>
+          <div class="chips" id="rarity-chips" role="group" aria-labelledby="lbl-rarity"></div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="lbl-status">Statut</span>
+          <div class="seg" id="status-seg" role="group" aria-labelledby="lbl-status"></div>
+        </div>
+        <div class="filter-row filter-row-end">
+          <button type="button" class="filters-reset" id="btn-reset-filters" hidden>Tout reafficher</button>
+        </div>
+      </div>
     </div>
 
-    <p class="count" id="count"></p>
+    <p class="count" id="count" role="status" aria-live="polite"></p>
     <div class="grid" id="grid"></div>
     <p class="empty" id="empty" hidden>Aucun esprit ne correspond a ces filtres.</p>
 

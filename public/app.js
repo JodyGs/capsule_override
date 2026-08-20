@@ -230,7 +230,11 @@ function buildCards() {
       <p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>
       <div class="src"><b>Source</b><span>${esc(sprite.source)}</span></div>
       <div class="vt">
-        <div class="vt-head"><span>Variante</span><span>Deb.</span><span>Mai.</span></div>
+        <div class="vt-head">
+          <span>Variante</span>
+          <span class="vt-key t-u" title="Debloque"><span class="vt-glyph">${ICON_U}</span><em>Deb.</em></span>
+          <span class="vt-key t-m" title="Maitrise au niveau 5"><span class="vt-glyph">${ICON_M}</span><em>Mai.</em></span>
+        </div>
         ${rows}
       </div>`;
 
@@ -336,6 +340,9 @@ function renderStats() {
 }
 
 function buildRarityPanel() {
+  // Depliee d'office quand la place le permet, repliee sur telephone.
+  $("rarity-fold").open = window.matchMedia("(min-width: 621px)").matches;
+
   const box = $("by-rarity");
   box.innerHTML = "";
   for (const rarity of ["rare", "epic", "legendary", "mythic"]) {
@@ -416,6 +423,43 @@ $("q").addEventListener("input", (e) => {
   applyFilters();
 });
 
+/* --- panneau de filtres repliable (telephone) --- */
+const filterPanel = $("filter-panel");
+const filtersToggle = $("btn-filters");
+
+filtersToggle.addEventListener("click", () => {
+  const open = filterPanel.classList.toggle("is-open");
+  filtersToggle.setAttribute("aria-expanded", String(open));
+});
+
+$("btn-reset-filters").addEventListener("click", () => {
+  state.filters.q = "";
+  state.filters.rarity = "all";
+  state.filters.status = "all";
+  $("q").value = "";
+  for (const b of $("rarity-chips").querySelectorAll(".chip")) {
+    b.setAttribute("aria-pressed", String(b.dataset.rarity === "all"));
+  }
+  for (const b of $("status-seg").querySelectorAll("button")) {
+    b.setAttribute("aria-pressed", String(b.dataset.status === "all"));
+  }
+  applyFilters();
+});
+
+/* Combien de filtres sont actifs : la pastille evite d'ouvrir le panneau
+   juste pour verifier pourquoi la liste est courte. */
+function refreshFilterBadge() {
+  const active =
+    (state.filters.rarity !== "all" ? 1 : 0) +
+    (state.filters.status !== "all" ? 1 : 0) +
+    (state.filters.q ? 1 : 0);
+  const badge = $("filters-count");
+  badge.hidden = active === 0;
+  badge.textContent = active;
+  filtersToggle.classList.toggle("has-filters", active > 0);
+  $("btn-reset-filters").hidden = active === 0;
+}
+
 function matches(sprite) {
   const f = state.filters;
   if (f.rarity !== "all" && sprite.rarity !== f.rarity) return false;
@@ -441,9 +485,12 @@ function applyFilters() {
     if (ok) shown += 1;
   }
   $("empty").hidden = shown > 0;
-  $("count").textContent =
-    `${shown} ${shown > 1 ? "esprits affiches" : "esprit affiche"} · ` +
-    `${state.catalogue.sprites.length} au total cette saison`;
+  refreshFilterBadge();
+
+  const total = state.catalogue.sprites.length;
+  $("count").textContent = shown === total
+    ? `${total} esprits cette saison`
+    : `${shown} sur ${total} esprits`;
 }
 
 /* ============================================================

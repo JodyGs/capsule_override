@@ -83,9 +83,7 @@ body{
   padding:9px 11px 8px;border-radius:4px;letter-spacing:.5px;display:inline-block;
 }
 
-/* ============================================================
-   Ecran d'authentification
-   ============================================================ */
+/* Repli affiche si le catalogue de la saison ne peut pas etre charge. */
 .gate{min-height:100vh;display:grid;place-items:center;padding:32px 20px}
 .gate-card{
   width:100%;max-width:430px;background:var(--surface);
@@ -97,8 +95,6 @@ body{
   margin:16px 0 6px;line-height:1.1;
 }
 .gate-top p{margin:0;color:var(--ink-2);font-size:13.5px}
-
-.gate form{padding:24px 28px 28px;display:flex;flex-direction:column;gap:15px}
 
 
 .btn{
@@ -176,7 +172,21 @@ h1{
 .bar .seg-m{background:var(--gold)}
 .bar .seg-u{background:var(--accent)}
 
-.by-rarity{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));border-top:1px solid var(--line);background:var(--surface-2)}
+.rarity-fold{border-top:1px solid var(--line);background:var(--surface-2)}
+.rarity-fold > summary{
+  cursor:pointer;list-style:none;padding:11px 20px;
+  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;
+  color:var(--ink-3);display:flex;align-items:center;gap:8px;user-select:none;
+}
+.rarity-fold > summary::-webkit-details-marker{display:none}
+.rarity-fold > summary::after{
+  content:"";width:6px;height:6px;flex:none;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);transition:transform .2s ease;
+}
+.rarity-fold[open] > summary::after{transform:rotate(-135deg) translate(-1px,-1px)}
+.rarity-fold > summary:hover{color:var(--ink-2)}
+.by-rarity{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));border-top:1px solid var(--line)}
 .rr{padding:12px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
 .rr:last-child{border-right:0}
 .rr-k{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:7px}
@@ -187,13 +197,38 @@ h1{
 
 /* ---------- filtres ---------- */
 .controls{
-  position:sticky;top:0;z-index:20;margin-top:22px;padding:12px 0;
-  background:color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:20;margin-top:22px;padding:12px 0 0;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
-  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  display:flex;flex-direction:column;gap:10px;
 }
-.search{position:relative;flex:1 1 220px;min-width:180px}
+.controls-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filter-panel{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding-bottom:12px}
+.filter-row{display:flex;align-items:center;gap:9px;min-width:0}
+.filter-row-end{margin-left:auto}
+.view-seg button{display:inline-flex;align-items:center;gap:7px}
+.view-seg svg{flex:none}
+.filter-label{
+  font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.13em;
+  color:var(--ink-3);flex:none;
+}
+/* Le bouton Filtres n'a de sens que la ou le panneau se replie, c'est-a-dire
+   sur telephone. Selecteur double pour passer devant .iconbtn, defini plus bas. */
+.filters-toggle.filters-toggle{display:none}
+/* Filtres actifs : le bouton doit le dire sans qu'on l'ouvre. */
+.filters-toggle.has-filters{border-color:var(--accent);color:var(--accent)}
+.filters-count{
+  min-width:17px;height:17px;padding:0 4px;border-radius:9px;
+  background:var(--accent);color:var(--accent-ink);
+  font-size:10px;font-weight:700;display:grid;place-items:center;line-height:1;
+}
+.filters-reset{
+  background:none;border:0;cursor:pointer;color:var(--accent);
+  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
+  padding:6px 4px;text-decoration:underline;text-underline-offset:3px;
+}
+.search{position:relative;flex:1 1 220px;min-width:170px}
 .search input{
   width:100%;font:inherit;font-size:14px;color:var(--ink);
   background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;
@@ -201,7 +236,7 @@ h1{
 }
 .search input::placeholder{color:var(--ink-3)}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
 .chip{
   font-family:var(--f-mono);font-size:11px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-2);background:var(--surface);
@@ -211,7 +246,7 @@ h1{
 .chip:hover{background:var(--surface-2)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip .dot{width:7px;height:7px;border-radius:2px;background:currentColor;opacity:.85}
-.seg{display:flex;background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;min-width:0}
 .seg button{
   font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
   color:var(--ink-2);background:none;border:0;border-right:1px solid var(--line);
@@ -245,7 +280,7 @@ h1{
 .btn-share svg{flex:none}
 
 /* ---------- grille ---------- */
-.count{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);padding:18px 0 12px}
+.count{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);padding:18px 0 12px;margin:0}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .grid.is-list{grid-template-columns:1fr;gap:8px}
 
@@ -254,6 +289,9 @@ h1{
   border-radius:var(--radius);box-shadow:var(--shadow);
   padding:16px 18px 14px 20px;display:flex;flex-direction:column;gap:12px;
   transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  /* Sans ceci, le contenu minimum de la carte elargit la colonne de grille
+     et fait deborder la page sur les ecrans etroits. */
+  min-width:0;
 }
 .card::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--rc,var(--ink-3))}
 .card:hover{box-shadow:var(--shadow-lift);transform:translateY(-1px)}
@@ -277,9 +315,15 @@ h1{
   font-family:var(--f-display);font-weight:700;font-size:19px;
   filter:none;
 }
-.name{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.005em;line-height:1.2;margin:0}
-.name em{font-style:normal;color:var(--ink-3);font-weight:500;font-size:13px;display:block;letter-spacing:0}
-.tags{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+.name{
+  font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.005em;
+  line-height:1.2;margin:0;min-width:0;overflow-wrap:break-word;
+}
+.name em{
+  font-style:normal;color:var(--ink-3);font-weight:500;font-size:13px;display:block;
+  letter-spacing:0;overflow-wrap:anywhere;   /* pseudos de createurs sans espace */
+}
+.tags{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none;max-width:45%}
 .tag{font-family:var(--f-mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:3px 7px;border-radius:4px;border:1px solid currentColor;white-space:nowrap}
 .tag.rarity{color:var(--rc,var(--ink-3))}
 .tag.soon{color:var(--ink-3);border-style:dashed}
@@ -289,12 +333,19 @@ h1{
 .effect .unconf{color:var(--ink-3);font-style:italic}
 .src{display:flex;gap:8px;align-items:baseline;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);border-top:1px dashed var(--line);padding-top:10px;line-height:1.45}
 .src b{color:var(--ink-2);font-weight:500;flex:none;letter-spacing:.08em;text-transform:uppercase;font-size:10px}
+.src span{min-width:0;overflow-wrap:break-word}
 
 .vt{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:5px}
 .vt-head,.vrow{display:grid;grid-template-columns:1fr 34px 34px;gap:8px;align-items:center}
-.vt-head span{font-family:var(--f-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);text-align:center}
-.vt-head span:first-child{text-align:left}
-.vname{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.vt-head > span{font-family:var(--f-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);text-align:center}
+.vt-head > span:first-child{text-align:left}
+.vt-key{display:flex;flex-direction:column;align-items:center;gap:2px}
+.vt-key em{font-style:normal}
+.vt-glyph{width:13px;height:13px;display:block}
+.vt-glyph svg{width:100%;height:100%;display:block}
+.vt-key.t-u .vt-glyph{color:var(--accent)}
+.vt-key.t-m .vt-glyph{color:var(--gold)}
+.vname{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px;min-width:0}
 .vname i{width:6px;height:6px;border-radius:50%;flex:none;background:var(--line-strong)}
 .vrow.v-gold .vname i{background:var(--gold)}
 .vrow.v-cheat .vname i{background:var(--r-epic)}
@@ -360,14 +411,21 @@ dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
 .note strong{color:var(--ink);font-weight:600}
 .note a{color:var(--accent);text-underline-offset:2px}
 .note ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink-2);line-height:1.6}
-.foot{display:block;margin-top:32px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:11px;color:var(--ink-3);line-height:1.7}
-.foot a{color:var(--ink-3)}
+.foot{
+  display:block;margin-top:32px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:var(--f-mono);font-size:11px;color:var(--ink-3);
+  line-height:2;                 /* liens de credits plus faciles a viser au doigt */
+}
+.foot a{color:var(--ink-3);text-underline-offset:3px}
 
 @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
-@media (max-width:560px){
-  .score{border-right:0;border-bottom:1px solid var(--line)}
-  .rr{border-right:0}
-  .controls{position:static;backdrop-filter:none}
+/* La barre de filtres reste accessible pendant qu'on parcourt la liste :
+   compacte, elle ne coute que deux rangees. */
+@media (max-width:620px){
+  .controls{
+    top:calc(-1px + env(safe-area-inset-top));
+    box-shadow:0 6px 16px -12px rgba(0,0,0,.5);
+  }
 }
 
 /* ============================================================
@@ -424,37 +482,66 @@ body{
   .appbar{padding-top:14px;align-items:center;gap:8px}
   .appbar-right{gap:6px}
   .season{display:none}
+
+  /* Le detail des consignes vit deja dans les notes du bas : on abrege ici
+     pour que le premier esprit apparaisse sans avoir a faire defiler. */
+  .lede-more{display:none}
+  .lede{font-size:13.5px;line-height:1.5}
+  h1{margin-bottom:6px}
+  .top{padding:12px 0}
+  .console{margin-top:12px}
   #sync-label{display:none}          /* la pastille suffit, le detail est dans Reglages */
   #theme-label{display:none}          /* l'icone porte le sens, aria-label le nomme */
   .theme-btn{padding:8px 11px}
 
-  /* Deux compteurs par ligne, sinon la colonne est illisible. */
+  /* Bandeau de score : deux compteurs par ligne, resserres.
+     C'est un rappel, pas le sujet ; le detail vit sous « Detail par rarete ».
+     Une seule regle .score ici, pour qu'aucune ne se fasse annuler. */
   .scores{grid-template-columns:1fr 1fr}
-  .score{padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .score{
+    padding:9px 13px;gap:0;
+    border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
   .score:nth-child(2n){border-right:0}
   .score:nth-last-child(-n+2){border-bottom:0}
-  .score-v{font-size:26px}
+  .score-v{font-size:20px;line-height:1.25}
+  .score-v small{font-size:12px}
+  .score-k{font-size:9.5px;letter-spacing:.11em}
+  .score-sub{display:none}
+
   .by-rarity{grid-template-columns:1fr 1fr}
+  .rr{padding:9px 13px;gap:4px}
+  .rr-v{font-size:11.5px}
   .rr:nth-child(2n){border-right:0}
   .rr:nth-child(-n+2){border-bottom:1px solid var(--line)}
 
-  /* Filtres : la recherche sur toute la largeur, le reste defile. */
-  .controls{
-    padding:10px 0;gap:8px;
-    top:0;
-  }
-  .search{flex:0 0 100%}
-  .chips{
-    flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
-    padding-bottom:2px;margin-bottom:-2px;
-  }
-  .chips::-webkit-scrollbar{height:0}
-  .chip{flex:0 0 auto}
-  #status-seg{overflow-x:auto;max-width:100%}
-  #status-seg button{flex:0 0 auto}
-  .btn-share{padding:9px 16px 9px 14px}
+  /* Barre compacte : recherche + Filtres + Exporter tiennent sur une ligne,
+     et le detail des filtres se deplie a la demande. */
+  .controls{padding:10px 0;gap:0}
+  .controls-bar{gap:8px;padding-bottom:10px}
+  .search{flex:1 1 100%;order:-1}
+  .filters-toggle.filters-toggle{display:inline-flex;flex:1 1 0;justify-content:center}
+  .btn-share{flex:1 1 0;justify-content:center;padding:0 14px}
+  /* L'icone porte le sens ; le libelle reste dans title et aria-label. */
+  .view-seg{flex:none;width:auto}
+  .view-seg span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .view-seg button{padding:0 14px;gap:0}
 
-  .count{padding:14px 0 10px;font-size:10.5px}
+  .filter-panel{
+    display:none;flex-direction:column;align-items:stretch;gap:12px;
+    padding:2px 0 12px;border-top:1px dashed var(--line);
+  }
+  .filter-row-end{margin-left:0}
+  .filter-panel.is-open{display:flex}
+  .filter-row{flex-direction:column;align-items:stretch;gap:7px}
+  .filter-label{letter-spacing:.14em}
+  .chips{flex-wrap:wrap}
+  .chip{flex:1 1 auto;justify-content:center}
+  .filter-panel .seg{width:100%}
+  .filter-panel .seg button{flex:1 1 0;text-align:center}
+  .filters-reset{align-self:flex-start}
+
+  .count{padding:12px 0 9px;font-size:10px;letter-spacing:.1em}
 
   /* Cartes : plus d'air, cibles tactiles plus larges. */
   .card{padding:15px 16px 13px 18px;gap:11px}
@@ -466,12 +553,19 @@ body{
   .tog svg{width:17px;height:17px}
   .vname{font-size:12.5px}
 
-  /* La vue liste n'a pas de sens sur un ecran etroit. */
-  .grid.is-list .card{grid-template-columns:1fr;gap:10px;padding:15px 16px 13px 18px}
-  .grid.is-list .name em{display:block}
-  .grid.is-list .vt{grid-auto-flow:row;gap:5px}
+  /* Vue Liste sur telephone : on garde le strict necessaire pour cocher vite.
+     Effet et source restent consultables en repassant sur Cartes. */
+  .grid.is-list .card{grid-template-columns:1fr;gap:9px;padding:12px 14px 11px 16px}
+  .grid.is-list .card-top{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .grid.is-list .tags{flex-direction:row;align-items:center;max-width:none}
+  .grid.is-list .name{font-size:16px}
+  .grid.is-list .name em{display:none}
+  .grid.is-list .effect,
+  .grid.is-list .src{display:none}
+  .grid.is-list .sprite-icon{width:34px;height:34px}
+  .grid.is-list .vt{grid-auto-flow:row;gap:4px;border-top:1px solid var(--line);padding-top:8px}
   .grid.is-list .vt-head{display:grid}
-  .grid.is-list .vrow{grid-template-columns:1fr 46px 46px}
+  .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
   .grid.is-list .vname{flex-direction:row;font-size:12.5px;text-transform:none;letter-spacing:0}
 
   .notes{margin-top:32px}
@@ -499,16 +593,43 @@ body{
 }
 
 @media (max-width:380px){
+  /* Sous 380 px, garder le libelle de Filtres ferait passer la barre
+     sur trois rangees : l'icone et la pastille suffisent. */
+  .filters-toggle > span:not(.filters-count){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .filters-toggle{flex:0 0 auto;gap:6px;padding:0 14px}
+  .btn-share{flex:1 1 auto}
   .vt-head,.vrow,.grid.is-list .vrow{grid-template-columns:1fr 42px 42px;gap:8px}
-  .tog{width:42px}
-  .scores{grid-template-columns:1fr}
-  .score{border-right:0}
-  .by-rarity{grid-template-columns:1fr}
-  .rr{border-right:0}
+  .tog{width:42px;min-width:42px}
+  /* On garde deux colonnes : empiler les quatre compteurs ferait un bandeau
+     de 700 px et repousserait la liste hors de l'ecran. */
+  .score{padding:8px 11px}
+  .score-v{font-size:19px}
+  .score-k{font-size:9px;letter-spacing:.09em}
+  .rr{padding:8px 11px}
+  .rr-k{font-size:9.5px;letter-spacing:.09em}
+  .rr-v{font-size:11px}
+  .wrap{padding-left:12px;padding-right:12px}
 }
 
-/* Pas de survol colle au doigt sur ecran tactile. */
+/* Ecrans tactiles : pas de survol colle au doigt, et des cibles a 44 px. */
 @media (hover:none){
   .card:hover{transform:none;box-shadow:var(--shadow)}
   .tog:hover{border-color:var(--line-strong);color:var(--ink-3)}
+  .chip,
+  .seg button,
+  .iconbtn,
+  .btn-share,
+  .sheet-close,
+  .filters-reset{min-height:44px}
+  .chip{padding:0 14px}
+  .seg button{padding:0 14px}
+  .iconbtn{padding:0 13px}
+  .btn-share{padding:0 17px}
+  .sheet-close{min-width:44px}
+  .rarity-fold > summary{padding:15px 20px}
+  /* Les deux coches sont l'interaction principale : elles doivent etre
+     les cibles les plus confortables de la page. */
+  .tog{min-height:44px;min-width:44px}
+  .vt-head,.vrow,
+  .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
 }
