@@ -6,7 +6,14 @@
 
 const $ = (id) => document.getElementById(id);
 
-const K_STORE = "capsule-override.store.v4";
+/* Deux collections, chacune avec son catalogue et son propre stockage.
+   Rien n'est partage entre elles : ni les coches, ni les compteurs, ni l'export. */
+const COLLECTIONS = {
+  current: { file: "sprites.json",        store: "capsule-override.store.v4",   label: "Saison en cours" },
+  legacy:  { file: "sprites-legacy.json", store: "capsule-override.legacy.v1",  label: "Saisons passees" }
+};
+
+const K_COLLECTION = "capsule-override.collection";
 const K_THEME = "capsule-override.theme";
 // Sauvegardes laissees par les versions precedentes de l'app.
 const K_LEGACY_PROFILES = ["capsule-override.store.v3", "capsule-override.store.v2"];
@@ -17,12 +24,16 @@ const ICON_U = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 const ICON_M = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8.5 7.5 11 12 4l4.5 7L21 8.5l-1.8 9.5H4.8L3 8.5Z"/></svg>';
 
 const state = {
+  which: "current",     // clef dans COLLECTIONS
   catalogue: null,
   live: [],
   denom: 0,
   entries: {},
   filters: { q: "", rarity: "all", status: "all", view: "cards" }
 };
+
+const catalogueCache = new Map();
+const storeKey = () => COLLECTIONS[state.which].store;
 
 const cards = new Map();
 const now = () => Date.now();
@@ -92,11 +103,13 @@ darkQuery.addEventListener("change", () => {
    ============================================================ */
 function readStore() {
   try {
-    const raw = localStorage.getItem(K_STORE);
+    const raw = localStorage.getItem(storeKey());
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed.entries === "object") return parsed.entries || {};
     }
+    // Les reprises d'anciennes sauvegardes ne concernent que la saison en cours.
+    if (state.which !== "current") return {};
 
     // Versions a profils multiples : on reprend celui qui etait ouvert.
     for (const key of K_LEGACY_PROFILES) {
@@ -124,7 +137,7 @@ let saveTimer = null;
 function saveStore({ immediate = false } = {}) {
   const write = () => {
     try {
-      localStorage.setItem(K_STORE, JSON.stringify({ v: 4, updatedAt: now(), entries: state.entries }));
+      localStorage.setItem(storeKey(), JSON.stringify({ v: 4, updatedAt: now(), entries: state.entries }));
       flashSaved();
     } catch {
       setSync("warn", "Stockage plein");
@@ -332,7 +345,10 @@ function renderStats() {
     }
     const line = $(`rr-${rarity}`);
     if (!line) continue;
-    line.textContent = `${rm} / ${d} maitrises`;
+    // Les deux chiffres, aux couleurs de la barre : sans cela on croit a un
+    // bug quand on coche « debloque » et que le compteur de maitrises ne bouge pas.
+    line.querySelector(".rr-u").textContent = `${ru} / ${d}`;
+    line.querySelector(".rr-m").textContent = `${rm} / ${d}`;
     const track = line.nextElementSibling;
     track.querySelector(".m").style.width = d ? `${(rm / d) * 100}%` : "0%";
     track.querySelector(".u").style.width = d ? `${((ru - rm) / d) * 100}%` : "0%";
@@ -350,7 +366,10 @@ function buildRarityPanel() {
     el.className = "rr";
     el.innerHTML = `
       <span class="rr-k"><i class="rr-dot" style="background:var(${rarityToken(rarity)})"></i>${rarityLabel(rarity)}</span>
-      <span class="rr-v" id="rr-${rarity}">0 / 0</span>
+      <span class="rr-v" id="rr-${rarity}">
+        <span class="rr-line"><b class="rr-u">0 / 0</b> debloques</span>
+        <span class="rr-line"><b class="rr-m">0 / 0</b> maitrises</span>
+      </span>
       <span class="rr-track"><i class="m" style="width:0%;background:var(--gold)"></i><i class="u" style="width:0%;background:var(--accent)"></i></span>`;
     box.appendChild(el);
   }
@@ -370,7 +389,9 @@ const STATUS = [
 function buildFilters() {
   const seg = $("status-seg");
   seg.innerHTML = "";
+  const pending = state.catalogue.sprites.some((x) => !x.released);
   for (const st of STATUS) {
+    if (st.id === "soon" && !pending) continue;   // saison close : rien a venir
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = st.label;
@@ -616,12 +637,14 @@ async function renderCollectionImage() {
   ctx.fillRect(0, 0, W, H);
 
   /* --- entete --- */
-  ctx.fillStyle = c.accent;
-  roundRect(ctx, PAD, 38, 118, 30, 5);
-  ctx.fill();
-  ctx.fillStyle = c.accentInk;
+  const code = state.catalogue.code || "OVERRIDE";
   ctx.font = '10px "Press Start 2P", monospace';
-  ctx.fillText("OVERRIDE", PAD + 13, 58);
+  const codeW = ctx.measureText(code).width + 26;
+  ctx.fillStyle = state.which === "legacy" ? c.rarity.legendary : c.accent;
+  roundRect(ctx, PAD, 38, codeW, 30, 5);
+  ctx.fill();
+  ctx.fillStyle = state.which === "legacy" ? c.bg : c.accentInk;
+  ctx.fillText(code, PAD + 13, 58);
 
   ctx.fillStyle = c.ink;
   ctx.font = display(38);
@@ -687,7 +710,9 @@ async function renderCollectionImage() {
   }
 
   /* --- colonnes --- */
-  const colX = [W - PAD - 180, W - PAD - 110, W - PAD - 34];
+  // Une colonne par variante : la saison passee n'en compte qu'une.
+  const colW = 76;
+  const colX = variants.map((_, i) => W - PAD - 34 - (variants.length - 1 - i) * colW);
   ctx.fillStyle = c.ink3;
   ctx.font = mono(11, 600);
   ctx.textAlign = "center";
@@ -846,7 +871,8 @@ $("btn-export").addEventListener("click", async (e) => {
   try {
     const blob = await renderCollectionImage();
     const stamp = new Date().toISOString().slice(0, 10);
-    const outcome = await shareImage(blob, `capsule-override-${stamp}.png`);
+    const suffix = state.which === "legacy" ? "-legacy" : "";
+    const outcome = await shareImage(blob, `capsule-override${suffix}-${stamp}.png`);
 
     if (outcome === "shared") $("account").close();
     else if (outcome === "copied") {
@@ -875,7 +901,7 @@ $("btn-backup").addEventListener("click", async () => {
     entries: state.entries
   }, null, 2);
 
-  const filename = "capsule-override.json";
+  const filename = state.which === "legacy" ? "capsule-override-legacy.json" : "capsule-override.json";
   const file = new File([text], filename, { type: "application/json" });
 
   if (navigator.canShare?.({ files: [file] })) {
@@ -953,12 +979,14 @@ $("btn-account").addEventListener("click", async () => {
 $("account-close").addEventListener("click", () => $("account").close());
 
 $("btn-wipe").addEventListener("click", () => {
-  if (!confirm("Decocher toute la collection sur cet appareil ? C'est definitif.")) return;
+  if (!confirm(`Decocher toute la collection « ${state.catalogue.season} » sur cet appareil ? C'est definitif.`)) return;
   state.entries = {};
   try {
-    localStorage.removeItem(K_STORE);
-    for (const key of [...K_LEGACY_PROFILES, K_LEGACY_ACTIVE, K_LEGACY_FLAT]) {
-      localStorage.removeItem(key);
+    localStorage.removeItem(storeKey());
+    if (state.which === "current") {
+      for (const key of [...K_LEGACY_PROFILES, K_LEGACY_ACTIVE, K_LEGACY_FLAT]) {
+        localStorage.removeItem(key);
+      }
     }
   } catch { /* rien a nettoyer */ }
   $("account").close();
@@ -1052,38 +1080,84 @@ function redraw() {
   applyFilters();
 }
 
+async function fetchCatalogue(which) {
+  if (catalogueCache.has(which)) return catalogueCache.get(which);
+  const res = await fetch(COLLECTIONS[which].file, { cache: "no-cache" });
+  if (!res.ok) throw new Error("catalogue");
+  const data = await res.json();
+  catalogueCache.set(which, data);
+  return data;
+}
+
+/* Bascule d'une collection a l'autre : catalogue, coches, compteurs et
+   filtres sont entierement reconstruits. Les deux ne se melangent jamais. */
+async function loadCollection(which, { remember = true } = {}) {
+  state.which = which;
+  state.catalogue = await fetchCatalogue(which);
+  state.live = state.catalogue.sprites.filter((x) => x.released);
+  state.denom = state.live.length * state.catalogue.variants.length;
+  state.entries = readStore();
+
+  const legacy = which === "legacy";
+  document.body.classList.toggle("is-legacy", legacy);
+  $("legacy-banner").hidden = !legacy;
+  $("legacy-note").textContent = state.catalogue.variantsNote || "";
+  $("btn-legacy").setAttribute("aria-pressed", String(legacy));
+  const swap = legacy ? "Revenir a la saison en cours" : "Voir les esprits des saisons passees";
+  $("btn-legacy-label").textContent = legacy ? "Saison en cours" : "Legacy";
+  $("btn-legacy").title = swap;
+  $("btn-legacy").setAttribute("aria-label", swap);
+  $("season-label").textContent = `Fortnite · ${state.catalogue.season}`;
+  $("season-mark").textContent = state.catalogue.code || "OVERRIDE";
+
+  const unit = state.catalogue.variants.length > 1 ? "entrees collectees" : "esprits rencontres";
+  $("s-unlocked-sub").textContent = unit;
+  $("s-unlocked-d").textContent = `/${state.denom}`;
+  $("s-mastered-d").textContent = `/${state.denom}`;
+  $("s-full-d").textContent = `/${state.live.length}`;
+  $("s-full-sub").textContent = state.catalogue.variants.length > 1
+    ? `${state.catalogue.variants.length} variantes maitrisees` : "maitrises et extraits";
+
+  buildCards();
+  buildRarityPanel();
+  buildFilters();
+  redraw();
+
+  if (remember) {
+    try { localStorage.setItem(K_COLLECTION, which); } catch { /* navigation privee */ }
+  }
+  // Certains navigateurs anciens ignorent la forme a objet : on retombe
+  // sur la signature historique plutot que de laisser remonter une erreur.
+  try { window.scrollTo({ top: 0, behavior: "instant" }); }
+  catch { try { window.scrollTo(0, 0); } catch { /* pas de defilement ici */ } }
+}
+
+$("btn-legacy").addEventListener("click", () => {
+  loadCollection(state.which === "legacy" ? "current" : "legacy").catch(() => {
+    notify("Le catalogue des saisons passees n'a pas pu etre charge.");
+  });
+});
+
 async function boot() {
   try { theme = localStorage.getItem(K_THEME) || "auto"; } catch { /* navigation privee */ }
   applyTheme(theme, { persist: false });
 
+  let start = "current";
+  try { start = localStorage.getItem(K_COLLECTION) === "legacy" ? "legacy" : "current"; } catch { /* ignore */ }
+
   try {
-    const res = await fetch("sprites.json", { cache: "no-cache" });
-    state.catalogue = await res.json();
-  } catch {
+    await loadCollection(start, { remember: false });
+  } catch (err) {
+    console.error("[capsule] chargement impossible", err);
     document.body.innerHTML =
       '<main class="gate"><div class="gate-card"><div class="gate-top">' +
-      "<h1>Catalogue introuvable</h1><p>Le fichier sprites.json n'a pas pu etre charge. " +
+      "<h1>Catalogue introuvable</h1><p>La liste des esprits n'a pas pu etre chargee. " +
       "Rechargez la page ; si vous etes hors ligne, ouvrez l'app une fois avec du reseau.</p>" +
       "</div></div></main>";
     return;
   }
 
-  state.live = state.catalogue.sprites.filter((s) => s.released);
-  state.denom = state.live.length * state.catalogue.variants.length;
-
-  $("season-label").textContent = `Fortnite · ${state.catalogue.season}`;
-  $("s-unlocked-d").textContent = `/${state.denom}`;
-  $("s-mastered-d").textContent = `/${state.denom}`;
-  $("s-full-d").textContent = `/${state.live.length}`;
-
-  buildCards();
-  buildRarityPanel();
-  buildFilters();
-
-  state.entries = readStore();
-
   $("app").hidden = false;
-  redraw();
 
   const persisted = await requestPersistence();
   storageLabel = persisted ? "Garde sur cet appareil" : "Sur cet appareil";

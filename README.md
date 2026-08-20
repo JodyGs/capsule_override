@@ -7,6 +7,9 @@ Application web **installable sur iPhone et Android**, qui fonctionne hors conne
 **Aucun compte, aucun serveur, aucune base de données** : vos coches sont écrites dans le
 stockage du téléphone et y restent. Thème clair, sombre ou automatique, au choix.
 
+Deux collections cohabitent sans jamais se mélanger : la **saison en cours** (Chapitre 7
+Saison 4 — Override) et les **saisons passées**, accessibles par le bouton *Legacy*.
+
 ---
 
 ## Essayer en local
@@ -109,6 +112,31 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 
 ---
 
+## Legacy : les saisons passées
+
+Le bouton **Legacy**, à côté de Réglages, bascule sur le catalogue des saisons terminées —
+aujourd'hui le **Chapitre 7 Saison 3 « Runners »** et ses 25 esprits de base.
+
+C'est une collection **entièrement séparée** : son propre catalogue
+(`public/sprites-legacy.json`), sa propre clé de stockage
+(`capsule-override.legacy.v1`), ses propres compteurs, son propre export. Cocher un esprit
+d'un côté ne touche jamais l'autre. La collection ouverte est retenue d'une visite à
+l'autre, et le bandeau orange rappelle en permanence qu'on ne regarde pas la saison en cours.
+
+Une limite assumée : la Saison 3 comptait **92 variantes** en plus des 25 esprits de base
+(Or 20, Gummy 20, Galaxy 20, Gem 8, Holofoil 11, Cube 9, Quack 4), soit 117 pièces. Epic n'a
+jamais publié quelle variante existait pour quel esprit, donc seuls les esprits de base sont
+suivis. C'est écrit dans l'app plutôt que deviné.
+
+### Ajouter une saison
+
+Créez un `public/sprites-<saison>.json` sur le même modèle, ajoutez-le à `COLLECTIONS` dans
+`public/app.js`, ses identifiants à `WIKI_NAME` dans `scripts/fetch-sprite-icons.py`, et son
+fichier à la liste du service worker. Les identifiants d'esprits doivent être préfixés pour
+ne pas entrer en collision d'une saison à l'autre (`l-` pour Runners).
+
+---
+
 ## Thème
 
 Trois modes, accessibles par le bouton de la barre du haut (qui les fait défiler) ou par
@@ -159,12 +187,17 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 36 vérifications au vert : génération des 17 cartes et des 102
+Testé dans un DOM simulé, 57 vérifications au vert : génération des 17 cartes et des 102
 boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise
-d'une ancienne sauvegarde à profils, et surtout **réouverture de l'app avec des données
-existantes** — les coches sont toutes restituées.
+d'une ancienne sauvegarde à profils, la bascule Legacy avec l'étanchéité des deux
+collections, et surtout **réouverture de l'app avec des données existantes** — les coches
+sont toutes restituées.
+
+Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les
+deux modes de pointeur : débordement horizontal, cibles tactiles, texte tronqué, erreurs
+console. Aucun défaut mesuré.
 
 L'image d'export a été rendue pour de vrai, hors navigateur, avec les vraies polices, dans
 les deux thèmes, et inspectée visuellement.

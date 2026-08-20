@@ -49,7 +49,7 @@
 
     <div class="appbar">
       <div class="appbar-left">
-        <span class="mark">OVERRIDE</span>
+        <span class="mark" id="season-mark">OVERRIDE</span>
         <span class="season" id="season-label">Fortnite · Chapitre 7 Saison 4</span>
       </div>
       <div class="appbar-right">
@@ -60,6 +60,13 @@
           <span class="theme-icon" id="theme-icon" aria-hidden="true"></span>
           <span id="theme-label">Auto</span>
         </button>
+        <button type="button" class="iconbtn legacy-btn" id="btn-legacy" aria-pressed="false"
+                title="Voir les esprits des saisons passees, suivis a part">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3.6 8.2 12 4l8.4 4.2-8.4 4.2z"/><path d="M3.6 12 12 16.2 20.4 12"/><path d="M3.6 15.8 12 20l8.4-4.2"/>
+          </svg>
+          <span id="btn-legacy-label">Legacy</span>
+        </button>
         <button type="button" class="iconbtn" id="btn-install" hidden>Installer</button>
         <button type="button" class="iconbtn" id="btn-account">Reglages</button>
       </div>
@@ -69,12 +76,20 @@
       <h1>Capsule Override</h1>
       <p class="lede"><b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5. <span class="lede-more">Variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</span></p>
 
+      <div class="legacy-banner" id="legacy-banner" hidden>
+        <p><strong>Saison passee.</strong> Ces esprits ne se ramassent plus en partie : ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits. Cette collection est <strong>totalement independante</strong> de la saison en cours — coches, compteurs et export separes.</p>
+        <details class="legacy-why">
+          <summary>Pourquoi 25 esprits et pas 117 ?</summary>
+          <p class="form-note" id="legacy-note"></p>
+        </details>
+      </div>
+
       <section class="console" aria-label="Progression">
         <div class="scores">
           <div class="score is-unlocked">
             <span class="score-k">Debloques</span>
             <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/33</small></span>
-            <span class="score-sub">entrees collectees</span>
+            <span class="score-sub" id="s-unlocked-sub">entrees collectees</span>
           </div>
           <div class="score is-mastered">
             <span class="score-k">Maitrises</span>
@@ -89,7 +104,7 @@
           <div class="score">
             <span class="score-k">Esprits complets</span>
             <span class="score-v" id="s-full">0<small id="s-full-d">/11</small></span>
-            <span class="score-sub">3 variantes maitrisees</span>
+            <span class="score-sub" id="s-full-sub">3 variantes maitrisees</span>
           </div>
         </div>
         <div class="bar" aria-hidden="true">

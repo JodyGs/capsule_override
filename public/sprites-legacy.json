@@ -1,0 +1,284 @@
+{
+  "season": "Chapitre 7 Saison 3 — Runners",
+  "code": "RUNNERS",
+  "seasonEnd": "2026-08-20",
+  "updatedAt": "2026-08-20",
+  "note": "Saison terminee. Ces esprits ne sont plus ramassables en partie ; ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits.",
+  "variantsNote": "La saison comptait 92 variantes en plus des 25 esprits de base (Or 20, Gummy 20, Galaxy 20, Gem 8, Holofoil 11, Cube 9, Quack 4), soit 117 pieces. Epic n'a jamais publie quelles variantes existaient pour quel esprit : seuls les esprits de base sont suivis ici.",
+  "variants": [
+    {
+      "id": "base",
+      "name": "Esprit",
+      "note": "L'esprit de base."
+    }
+  ],
+  "rarities": [
+    {
+      "id": "rare",
+      "label": "Rare"
+    },
+    {
+      "id": "epic",
+      "label": "Epique"
+    },
+    {
+      "id": "legendary",
+      "label": "Legendaire"
+    },
+    {
+      "id": "mythic",
+      "label": "Mythique"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "l-earth",
+      "name": "Terre",
+      "sub": "Earth Sprite",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Meilleures chances de trouver du butin rare en ouvrant les coffres.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-fire",
+      "name": "Feu",
+      "sub": "Fire Sprite",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Declenche une explosion de flammes apres avoir inflige assez de degats a un ennemi.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-water",
+      "name": "Eau",
+      "sub": "Water Sprite",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Regenere le bouclier dans l'eau, pour vous et vos coequipiers proches.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-fishy",
+      "name": "Poisson",
+      "sub": "Fishy Sprite",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Nage nettement plus rapide. Subir des degats accelere aussi brievement vos deplacements.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-air",
+      "name": "Air",
+      "sub": "Air Sprite",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Sprint plus rapide, saut plus haut, et plus aucun degat de chute.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-duck",
+      "name": "Canard",
+      "sub": "Duck Sprite",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Emoter ou lancer une piste musicale regenere le bouclier.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-ghost",
+      "name": "Fantome",
+      "sub": "Ghost Sprite",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Accorde une breve invisibilite a chaque rechargement.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-demon",
+      "name": "Demon",
+      "sub": "Demon Sprite",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Siphonne de la vie et du bouclier sur chaque ennemi elimine.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-king",
+      "name": "Roi",
+      "sub": "King Sprite",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Votre pioche inflige davantage de degats.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-striker",
+      "name": "Attaquant",
+      "sub": "Striker Sprite",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Accorde Surregime lors des actions de mobilite.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-aura",
+      "name": "Aura",
+      "sub": "Aura Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Gagne une charge de Roche electrique apres avoir inflige assez de degats.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-dream",
+      "name": "Reve",
+      "sub": "Dream Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Lache des objets aleatoires en montant de niveau, et explose en butin legendaire au niveau max.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-punk",
+      "name": "Punk",
+      "sub": "Punk Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Resultat aleatoire : recompense puissante, ou rien du tout.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-boss",
+      "name": "Boss",
+      "sub": "Boss Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Augmente vos points de vie et de bouclier maximum.",
+      "source": "Lache par n'importe quel boss apres l'avoir vaincu",
+      "icon": true
+    },
+    {
+      "id": "l-seven",
+      "name": "Sept",
+      "sub": "Seven Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Les traces de pas ennemies deviennent visibles pour toute votre escouade.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-llama",
+      "name": "Lama",
+      "sub": "Lootin' Llama Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Ouvrir une caisse de munitions peut ameliorer une arme : 5 % au niveau 1, jusqu'a 20 % au niveau 5.",
+      "source": "Coffres reliques",
+      "icon": true
+    },
+    {
+      "id": "l-peely",
+      "name": "Peely",
+      "sub": "Peeky Peely Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Signale les esprits rares alentour, mais vous marque sur la carte. Portee de 40 m au niveau 1 a 80 m au niveau 5.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-zeropoint",
+      "name": "Point Zero",
+      "sub": "Zero Point Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Fait apparaitre une Bulle de bouclier Jr. autour de vous a chaque soin utilise sur vous-meme.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-grim",
+      "name": "Grim",
+      "sub": "Grim Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Quiconque vous attaque se retrouve marque pendant un moment.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-burntpeanut",
+      "name": "TheBurntPeanut",
+      "sub": "TheBurntPeanut Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Petite chance d'obtenir des objets rares aleatoires sur vos eliminations.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines"
+    },
+    {
+      "id": "l-vinijr",
+      "name": "Vini Jr.",
+      "sub": "Vini Jr. Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Le sprint autorise des glissades destructrices ; le coup de pied glisse augmente cadence de tir et vitesse de rechargement.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-batman",
+      "name": "Batman",
+      "sub": "Batman Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Permet de s'elancer dans les airs et de deployer la Bat-cape.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-pollo",
+      "name": "Pollo",
+      "sub": "Pollo Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Apres une elimination, regenere lentement le bouclier pour vous et l'escouade proche.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-ironmouse",
+      "name": "Ironmouse",
+      "sub": "Ironmouse Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Regenere la vie quand elle est basse, avec camouflage et gravite reduite pendant la regeneration. De 60 PV au niveau 1 a 100 PV au niveau 5.",
+      "source": "Coffres · Butin au sol · Lache par les joueurs elimines",
+      "icon": true
+    },
+    {
+      "id": "l-johnwick",
+      "name": "John Wick",
+      "sub": "John Wick Sprite",
+      "rarity": "mythic",
+      "released": true,
+      "effect": "Mettre un joueur a terre revele les autres alentour. Duree du marquage de 3 s au niveau 1 a 5 s au niveau 5.",
+      "source": "Uniquement dans le mode Springfield Reloaded, jamais en Battle Royale classique",
+      "icon": true
+    }
+  ]
+}

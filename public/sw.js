@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v6";
+const VERSION = "capsule-v8";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -11,6 +11,7 @@ const SHELL = [
   "./styles.css",
   "./app.js",
   "./sprites.json",
+  "./sprites-legacy.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
@@ -30,7 +31,31 @@ const SHELL = [
   "./icons/sprites/jackrabbit.png",
   "./icons/sprites/klombo.png",
   "./icons/sprites/crown.png",
-  "./icons/sprites/stormscout.png"
+  "./icons/sprites/stormscout.png",
+  "./icons/sprites/l-earth.png",
+  "./icons/sprites/l-fire.png",
+  "./icons/sprites/l-water.png",
+  "./icons/sprites/l-fishy.png",
+  "./icons/sprites/l-air.png",
+  "./icons/sprites/l-duck.png",
+  "./icons/sprites/l-ghost.png",
+  "./icons/sprites/l-demon.png",
+  "./icons/sprites/l-king.png",
+  "./icons/sprites/l-striker.png",
+  "./icons/sprites/l-aura.png",
+  "./icons/sprites/l-dream.png",
+  "./icons/sprites/l-punk.png",
+  "./icons/sprites/l-boss.png",
+  "./icons/sprites/l-seven.png",
+  "./icons/sprites/l-llama.png",
+  "./icons/sprites/l-peely.png",
+  "./icons/sprites/l-zeropoint.png",
+  "./icons/sprites/l-grim.png",
+  "./icons/sprites/l-vinijr.png",
+  "./icons/sprites/l-batman.png",
+  "./icons/sprites/l-pollo.png",
+  "./icons/sprites/l-ironmouse.png",
+  "./icons/sprites/l-johnwick.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -80,7 +105,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Le catalogue de la saison change au fil des patchs : reseau d'abord.
-  if (url.pathname.endsWith("/sprites.json")) {
+  if (/\/sprites(-legacy)?\.json$/.test(url.pathname)) {
     event.respondWith(
       fetch(request)
         .then((res) => putInCache(request, res))

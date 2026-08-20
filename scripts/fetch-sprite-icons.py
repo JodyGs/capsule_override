@@ -25,7 +25,10 @@ import urllib.request
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CATALOGUE = os.path.join(ROOT, "public", "sprites.json")
+CATALOGUES = [
+    os.path.join(ROOT, "public", "sprites.json"),
+    os.path.join(ROOT, "public", "sprites-legacy.json"),
+]
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
 SIZE = 96          # affiche autour de 32 px, confortable en ecran 3x
 BASE = "https://fortnite.weirdgloop.org/images/"
@@ -50,6 +53,20 @@ WIKI_NAME = {
     "honey": "Honey",
     "pond": "Pond",
     "xray": "X-Ray",
+
+    # Chapitre 7 Saison 3 — Runners. Le prefixe « l- » evite toute collision
+    # d'identifiant avec la saison en cours.
+    "l-earth": "Earth", "l-fire": "Fire", "l-water": "Water",
+    "l-fishy": "Fishy", "l-air": "Air",
+    "l-duck": "Duck", "l-ghost": "Ghost", "l-demon": "Demon",
+    "l-king": "King", "l-striker": "Striker",
+    "l-aura": "Aura", "l-dream": "Dream", "l-punk": "Punk",
+    "l-boss": "Boss", "l-seven": "Seven",
+    "l-llama": "Lootin'_Llama", "l-peely": "Peeky_Peely",
+    "l-zeropoint": "Zero_Point", "l-grim": "Grim",
+    "l-burntpeanut": "TheBurntPeanut", "l-vinijr": "Vini_Jr.",
+    "l-batman": "Batman", "l-pollo": "Pollo",
+    "l-ironmouse": "Ironmouse", "l-johnwick": "John_Wick",
 }
 
 
@@ -86,47 +103,50 @@ def fetch(name):
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    with io.open(CATALOGUE, encoding="utf-8") as handle:
-        catalogue = json.load(handle)
+    total_found, total_missing = [], []
 
-    found, missing = [], []
-    for sprite in catalogue["sprites"]:
-        wiki = WIKI_NAME.get(sprite["id"])
-        if not wiki:
-            missing.append((sprite["id"], "nom wiki inconnu"))
-            continue
-        try:
-            raw = fetch(wiki)
-        except Exception as err:                       # noqa: BLE001
-            reason = "pas encore sorti" if "404" in str(err) or "22" in str(err) else type(err).__name__
-            missing.append((sprite["id"], reason))
-            sprite.pop("icon", None)
-            continue
+    for path in CATALOGUES:
+        with io.open(path, encoding="utf-8") as handle:
+            catalogue = json.load(handle)
 
-        image = Image.open(io.BytesIO(raw)).convert("RGBA")
-        image.thumbnail((SIZE, SIZE), Image.LANCZOS)
+        label = os.path.basename(path)
+        found, missing = [], []
+        for sprite in catalogue["sprites"]:
+            wiki = WIKI_NAME.get(sprite["id"])
+            if not wiki:
+                missing.append((sprite["id"], "nom wiki inconnu"))
+                sprite.pop("icon", None)
+                continue
+            try:
+                raw = fetch(wiki)
+                image = Image.open(io.BytesIO(raw)).convert("RGBA")
+            except Exception as err:               # noqa: BLE001
+                reason = "pas encore sorti" if "404" in str(err) or "22" in str(err) else type(err).__name__
+                missing.append((sprite["id"], reason))
+                sprite.pop("icon", None)
+                continue
 
-        # Carre exact, sujet centre : les lignes de la liste restent alignees.
-        canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-        canvas.paste(image, ((SIZE - image.width) // 2, (SIZE - image.height) // 2), image)
+            image.thumbnail((SIZE, SIZE), Image.LANCZOS)
 
-        path = os.path.join(OUT_DIR, f"{sprite['id']}.png")
-        canvas.save(path, optimize=True)
-        sprite["icon"] = True
-        found.append((sprite["id"], os.path.getsize(path)))
+            # Carre exact, sujet centre : les lignes de la liste restent alignees.
+            canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+            canvas.paste(image, ((SIZE - image.width) // 2, (SIZE - image.height) // 2), image)
+            canvas.save(os.path.join(OUT_DIR, f"{sprite['id']}.png"), optimize=True)
+            sprite["icon"] = True
+            found.append(sprite["id"])
 
-    with io.open(CATALOGUE, "w", encoding="utf-8") as handle:
-        json.dump(catalogue, handle, indent=2, ensure_ascii=False)
-        handle.write("\n")
+        with io.open(path, "w", encoding="utf-8") as handle:
+            json.dump(catalogue, handle, indent=2, ensure_ascii=False)
+            handle.write("\n")
 
-    total = sum(size for _, size in found)
-    print(f"{len(found)} icones recuperees, {total / 1024:.0f} Ko au total")
-    for sprite_id, size in found:
-        print(f"   {sprite_id:<12} {size / 1024:5.1f} Ko")
-    if missing:
-        print(f"\n{len(missing)} sans icone (pastille de repli dans l'app) :")
+        print(f"{label} : {len(found)} icone(s) recuperee(s), {len(missing)} sans")
         for sprite_id, why in missing:
-            print(f"   {sprite_id:<12} {why}")
+            print(f"   {sprite_id:<16} {why}")
+        total_found += found
+        total_missing += missing
+
+    size = sum(os.path.getsize(os.path.join(OUT_DIR, f"{i}.png")) for i in total_found)
+    print(f"\nTotal : {len(total_found)} icones, {size / 1024:.0f} Ko")
     return 0
 
 

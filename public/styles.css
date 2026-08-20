@@ -130,6 +130,40 @@ body{
 .sync[data-state="warn"]{color:var(--warn)}
 .sync[data-state="warn"] i{background:var(--warn)}
 
+/* Bouton Legacy : discret par defaut, teinte quand on est dans le passe. */
+.legacy-btn{gap:8px}
+.legacy-btn svg{flex:none}
+.legacy-btn[aria-pressed="true"]{
+  border-color:var(--r-legendary);color:var(--r-legendary);
+  background:color-mix(in srgb, var(--r-legendary) 12%, transparent);
+}
+
+/* Bandeau qui rappelle qu'on ne regarde pas la saison en cours. */
+.legacy-banner{
+  margin-top:16px;padding:14px 16px;border-radius:var(--radius);
+  background:color-mix(in srgb, var(--r-legendary) 9%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--r-legendary) 38%, transparent);
+  display:flex;flex-direction:column;gap:8px;
+}
+.legacy-banner p{margin:0;font-size:13px;line-height:1.55;color:var(--ink-2);max-width:74ch}
+.legacy-banner strong{color:var(--ink);font-weight:600}
+.legacy-banner .form-note{font-size:11px;line-height:1.6;padding-top:8px}
+.legacy-why > summary{
+  cursor:pointer;list-style:none;font-family:var(--f-mono);font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--r-legendary);
+  display:inline-flex;align-items:center;gap:7px;padding:2px 0;
+}
+.legacy-why > summary::-webkit-details-marker{display:none}
+.legacy-why > summary::after{
+  content:"";width:5px;height:5px;flex:none;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);transition:transform .2s ease;
+}
+.legacy-why[open] > summary::after{transform:rotate(-135deg) translate(-1px,-1px)}
+
+/* Dans le passe, le liseret de l'app rappelle la couleur legendaire. */
+body.is-legacy .mark{background:var(--r-legendary);color:var(--bg)}
+
 /* Bouton de theme : icone + libelle du mode courant */
 .theme-btn{gap:8px}
 .theme-icon{display:inline-flex;width:15px;height:15px;flex:none}
@@ -191,7 +225,13 @@ h1{
 .rr:last-child{border-right:0}
 .rr-k{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:7px}
 .rr-dot{width:7px;height:7px;border-radius:2px;flex:none}
-.rr-v{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rr-v{
+  font-family:var(--f-mono);font-size:12px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;display:flex;flex-direction:column;gap:1px;
+}
+.rr-line{display:flex;gap:5px;align-items:baseline;white-space:nowrap}
+.rr-u{color:var(--accent);font-weight:600}
+.rr-m{color:var(--gold);font-weight:600}
 .rr-track{height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden;display:flex}
 .rr-track i{display:block;transition:width .35s ease}
 
@@ -492,7 +532,11 @@ body{
   .console{margin-top:12px}
   #sync-label{display:none}          /* la pastille suffit, le detail est dans Reglages */
   #theme-label{display:none}          /* l'icone porte le sens, aria-label le nomme */
-  .theme-btn{padding:8px 11px}
+  #btn-legacy-label{display:none}     /* l'etat presse et le bandeau disent le mode */
+  .theme-btn,
+  .legacy-btn{padding:8px 12px;min-width:44px;justify-content:center;gap:0}
+  .legacy-banner{padding:12px 14px}
+  .legacy-banner p{font-size:12.5px}
 
   /* Bandeau de score : deux compteurs par ligne, resserres.
      C'est un rappel, pas le sujet ; le detail vit sous « Detail par rarete ».
@@ -511,7 +555,7 @@ body{
 
   .by-rarity{grid-template-columns:1fr 1fr}
   .rr{padding:9px 13px;gap:4px}
-  .rr-v{font-size:11.5px}
+  .rr-v{font-size:11px}
   .rr:nth-child(2n){border-right:0}
   .rr:nth-child(-n+2){border-bottom:1px solid var(--line)}
 
@@ -521,11 +565,25 @@ body{
   .controls-bar{gap:8px;padding-bottom:10px}
   .search{flex:1 1 100%;order:-1}
   .filters-toggle.filters-toggle{display:inline-flex;flex:1 1 0;justify-content:center}
-  .btn-share{flex:1 1 0;justify-content:center;padding:0 14px}
+  .btn-share{flex:1 1 0;justify-content:center}
+
+  /* --- confort tactile : hauteurs garanties, sans dependre du pointeur --- */
+  .chip,
+  .seg button,
+  .iconbtn,
+  .btn-share,
+  .filters-reset{min-height:44px}
+  .sheet-close{min-height:44px;min-width:44px;padding:8px 10px;font-size:24px}
+  .rarity-fold > summary{padding:15px 20px}
+  /* Les deux coches sont l'interaction principale : ce sont elles qui
+     doivent etre les cibles les plus confortables de la page. */
+  .tog{min-height:44px;min-width:44px}
+  .vt-head,.vrow,
+  .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
   /* L'icone porte le sens ; le libelle reste dans title et aria-label. */
   .view-seg{flex:none;width:auto}
   .view-seg span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-  .view-seg button{padding:0 14px;gap:0}
+  .view-seg button{padding:9px 14px;gap:0}
 
   .filter-panel{
     display:none;flex-direction:column;align-items:stretch;gap:12px;
@@ -535,10 +593,25 @@ body{
   .filter-panel.is-open{display:flex}
   .filter-row{flex-direction:column;align-items:stretch;gap:7px}
   .filter-label{letter-spacing:.14em}
-  .chips{flex-wrap:wrap}
-  .chip{flex:1 1 auto;justify-content:center}
-  .filter-panel .seg{width:100%}
-  .filter-panel .seg button{flex:1 1 0;text-align:center}
+  /* Les puces se rangent sur plusieurs lignes sans jamais s'etirer ni
+     deborder : flex:0 1 auto, et une largeur minimale qui les laisse tenir. */
+  .chips{flex-wrap:wrap;gap:7px}
+  .chip{flex:0 1 auto;justify-content:center;min-width:0}
+
+  /* Le groupe de statut adopte la meme forme que les puces : en barre
+     segmentee, « A venir » se coupait en deux sur un ecran etroit. */
+  .filter-panel .seg{
+    width:100%;flex-wrap:wrap;gap:7px;
+    background:none;border:0;border-radius:0;overflow:visible;
+  }
+  .filter-panel .seg button{
+    flex:0 1 auto;text-align:center;white-space:nowrap;
+    border:1px solid var(--line-strong);border-radius:7px;
+    background:var(--surface);padding:0 13px;
+  }
+  .filter-panel .seg button[aria-pressed="true"]{
+    background:var(--accent);color:var(--accent-ink);border-color:var(--accent);
+  }
   .filters-reset{align-self:flex-start}
 
   .count{padding:12px 0 9px;font-size:10px;letter-spacing:.1em}
@@ -580,7 +653,6 @@ body{
   }
   .sheet-body{padding:18px 18px 26px}
   .sheet-head{position:sticky;top:0;background:var(--surface);z-index:1}
-  .sheet-close{padding:8px 10px;font-size:24px}
 
   /* Ecran de connexion : plein cadre plutot qu'une carte flottante. */
   .gate{padding:0;align-items:stretch}
@@ -596,7 +668,7 @@ body{
   /* Sous 380 px, garder le libelle de Filtres ferait passer la barre
      sur trois rangees : l'icone et la pastille suffisent. */
   .filters-toggle > span:not(.filters-count){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-  .filters-toggle{flex:0 0 auto;gap:6px;padding:0 14px}
+  .filters-toggle{flex:0 0 auto;gap:6px;padding:9px 14px}
   .btn-share{flex:1 1 auto}
   .vt-head,.vrow,.grid.is-list .vrow{grid-template-columns:1fr 42px 42px;gap:8px}
   .tog{width:42px;min-width:42px}
@@ -607,29 +679,18 @@ body{
   .score-k{font-size:9px;letter-spacing:.09em}
   .rr{padding:8px 11px}
   .rr-k{font-size:9.5px;letter-spacing:.09em}
-  .rr-v{font-size:11px}
+  .rr-v{font-size:10.5px}
   .wrap{padding-left:12px;padding-right:12px}
 }
 
-/* Ecrans tactiles : pas de survol colle au doigt, et des cibles a 44 px. */
+/* Ecrans tactiles : pas d'etat de survol qui reste colle au doigt.
+   La TAILLE des cibles, elle, ne depend pas du pointeur : voir le bloc
+   « confort tactile » ci-dessus. Un navigateur mobile peut tres bien
+   annoncer hover:hover (mode bureau, souris ou stylet branche), et une
+   hauteur qui dependrait de cette requete s'effondrerait dans ce cas. */
 @media (hover:none){
   .card:hover{transform:none;box-shadow:var(--shadow)}
   .tog:hover{border-color:var(--line-strong);color:var(--ink-3)}
-  .chip,
-  .seg button,
-  .iconbtn,
-  .btn-share,
-  .sheet-close,
-  .filters-reset{min-height:44px}
-  .chip{padding:0 14px}
-  .seg button{padding:0 14px}
-  .iconbtn{padding:0 13px}
-  .btn-share{padding:0 17px}
-  .sheet-close{min-width:44px}
-  .rarity-fold > summary{padding:15px 20px}
-  /* Les deux coches sont l'interaction principale : elles doivent etre
-     les cibles les plus confortables de la page. */
-  .tog{min-height:44px;min-width:44px}
-  .vt-head,.vrow,
-  .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
+  .btn-share:hover{filter:none}
+  .chip:hover,.seg button:hover,.iconbtn:hover{background:inherit}
 }
