@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v8";
+const VERSION = "capsule-v9";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [

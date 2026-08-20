@@ -115,7 +115,7 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 ## Legacy : les saisons passées
 
 Le bouton **Legacy**, à côté de Réglages, bascule sur le catalogue des saisons terminées —
-aujourd'hui le **Chapitre 7 Saison 3 « Runners »** et ses 25 esprits de base.
+aujourd'hui le **Chapitre 7 Saison 3 « Runners »**, ses 25 esprits et leurs 95 variantes.
 
 C'est une collection **entièrement séparée** : son propre catalogue
 (`public/sprites-legacy.json`), sa propre clé de stockage
@@ -123,10 +123,30 @@ C'est une collection **entièrement séparée** : son propre catalogue
 d'un côté ne touche jamais l'autre. La collection ouverte est retenue d'une visite à
 l'autre, et le bandeau orange rappelle en permanence qu'on ne regarde pas la saison en cours.
 
-Une limite assumée : la Saison 3 comptait **92 variantes** en plus des 25 esprits de base
-(Or 20, Gummy 20, Galaxy 20, Gem 8, Holofoil 11, Cube 9, Quack 4), soit 117 pièces. Epic n'a
-jamais publié quelle variante existait pour quel esprit, donc seuls les esprits de base sont
-suivis. C'est écrit dans l'app plutôt que deviné.
+### Les variantes, reconstituées fichier par fichier
+
+Epic n'a jamais publié quelle variante existait pour quel esprit. La matrice a donc été
+**établie empiriquement** : l'API MediaWiki de la Fortnite Wiki a été interrogée pour
+énumérer tous les fichiers `<Variante>_<Esprit>_Sprite_-_Item_-_Fortnite.png`, et chaque
+entrée a été vérifiée comme réellement servie.
+
+| Ligne | Esprits concernés |
+|---|---|
+| Or | 20 |
+| Gummy | 20 |
+| Galaxy | 20 |
+| Holofoil | 12 |
+| Gem | 10 |
+| Cube | 9 |
+| Quack | 4 |
+
+Soit **25 esprits de base et 95 variantes, 120 pièces**. Zero Point les possède toutes les
+huit ; les cinq collaborations tardives (TheBurntPeanut, Vini Jr., Pollo, Ironmouse,
+John Wick) n'en ont aucune.
+
+À noter : la presse annonçait 92 variantes en août 2026, soit 117 pièces. La wiki en recense
+trois de plus — deux Gem et une Holofoil — dont l'existence des fichiers a été confirmée une
+par une. C'est le chiffre retenu ici, et l'écart est expliqué dans l'app.
 
 ### Ajouter une saison
 
@@ -187,12 +207,12 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 57 vérifications au vert : génération des 17 cartes et des 102
+Testé dans un DOM simulé, 66 vérifications au vert : génération des 17 cartes et des 102
 boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise
-d'une ancienne sauvegarde à profils, la bascule Legacy avec l'étanchéité des deux
-collections, et surtout **réouverture de l'app avec des données existantes** — les coches
+d'une ancienne sauvegarde à profils, la bascule Legacy avec l'étanchéité des deux collections et
+le nombre exact de variantes par esprit, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
 Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les

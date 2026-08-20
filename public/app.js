@@ -150,6 +150,20 @@ function saveStore({ immediate = false } = {}) {
 
 const statusOf = (spriteId, variant) => state.entries?.[spriteId]?.[variant] || 0;
 
+/* Toutes les variantes n'existent pas pour tous les esprits : la saison 3 en
+   compte de 1 a 8 selon l'esprit. Un catalogue sans precision par esprit
+   applique simplement sa liste globale. */
+function variantsOf(sprite) {
+  if (!Array.isArray(sprite.variants)) return state.catalogue.variants;
+  const set = new Set(sprite.variants);
+  return state.catalogue.variants.filter((v) => set.has(v.id));
+}
+
+/* Nombre total de pieces a collectionner dans la collection courante. */
+function countPieces() {
+  return state.live.reduce((n, sprite) => n + variantsOf(sprite).length, 0);
+}
+
 function setStatus(spriteId, variant, value) {
   const slot = (state.entries[spriteId] ||= {});
   if (value) slot[variant] = value;
@@ -223,7 +237,7 @@ function buildCards() {
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
     if (!sprite.released) tags += '<span class="tag soon">A venir</span>';
 
-    const rows = state.catalogue.variants.map((v) => `
+    const rows = variantsOf(sprite).map((v) => `
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}">
         <span class="vname"><i></i>${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
@@ -264,11 +278,12 @@ function paintCard(sprite) {
     const level = Number(btn.dataset.lvl);
     btn.setAttribute("aria-pressed", statusOf(btn.dataset.s, btn.dataset.v) >= level ? "true" : "false");
   }
-  for (const v of state.catalogue.variants) {
+  const own = variantsOf(sprite);
+  for (const v of own) {
     if (statusOf(sprite.id, v.id) === 2) mastered += 1;
   }
 
-  const done = mastered === state.catalogue.variants.length;
+  const done = mastered === own.length;
   card.classList.toggle("is-done", done);
 
   const tags = card.querySelector(".tags");
@@ -315,13 +330,14 @@ $("grid").addEventListener("click", (e) => {
 function renderStats() {
   let unlocked = 0, mastered = 0, full = 0;
   for (const sprite of state.live) {
+    const own = variantsOf(sprite);
     let done = 0;
-    for (const v of state.catalogue.variants) {
+    for (const v of own) {
       const value = statusOf(sprite.id, v.id);
       if (value >= 1) unlocked += 1;
       if (value === 2) { mastered += 1; done += 1; }
     }
-    if (done === state.catalogue.variants.length) full += 1;
+    if (done === own.length) full += 1;
   }
 
   const denom = state.denom;
@@ -334,10 +350,10 @@ function renderStats() {
 
   for (const rarity of ["rare", "epic", "legendary", "mythic"]) {
     const subset = state.live.filter((s) => s.rarity === rarity);
-    const d = subset.length * state.catalogue.variants.length;
+    const d = subset.reduce((n, sprite) => n + variantsOf(sprite).length, 0);
     let ru = 0, rm = 0;
     for (const sprite of subset) {
-      for (const v of state.catalogue.variants) {
+      for (const v of variantsOf(sprite)) {
         const value = statusOf(sprite.id, v.id);
         if (value >= 1) ru += 1;
         if (value === 2) rm += 1;
@@ -485,7 +501,7 @@ function matches(sprite) {
   const f = state.filters;
   if (f.rarity !== "all" && sprite.rarity !== f.rarity) return false;
 
-  const values = state.catalogue.variants.map((v) => statusOf(sprite.id, v.id));
+  const values = variantsOf(sprite).map((v) => statusOf(sprite.id, v.id));
   if (f.status === "missing" && !values.some((v) => v < 2)) return false;
   if (f.status === "unlocked" && !values.some((v) => v >= 1)) return false;
   if (f.status === "mastered" && !values.every((v) => v === 2)) return false;
@@ -610,11 +626,15 @@ async function renderCollectionImage() {
 
   const c = palette();
   const rows = state.live;
-  const variants = state.catalogue.variants;
+  // Seules les lignes de variantes reellement presentes dans la collection.
+  const used = new Set(rows.flatMap((sprite) => variantsOf(sprite).map((v) => v.id)));
+  const variants = state.catalogue.variants.filter((v) => used.has(v.id));
   const icons = await loadSpriteIcons(rows);
 
-  const W = 900;
   const PAD = 40;
+  const COL = 66;
+  // L'image s'elargit avec le nombre de colonnes plutot que de les comprimer.
+  const W = Math.max(900, 420 + variants.length * COL + PAD * 2);
   const HEAD = 292;
   const ROW = 64;
   const FOOT = 92;
@@ -710,22 +730,20 @@ async function renderCollectionImage() {
   }
 
   /* --- colonnes --- */
-  // Une colonne par variante : la saison passee n'en compte qu'une.
-  const colW = 76;
-  const colX = variants.map((_, i) => W - PAD - 34 - (variants.length - 1 - i) * colW);
+  const colX = variants.map((_, i) => W - PAD - 33 - (variants.length - 1 - i) * COL);
   ctx.fillStyle = c.ink3;
   ctx.font = mono(11, 600);
   ctx.textAlign = "center";
+  const SHORT = { cheat: "CHEAT M.", holofoil: "HOLO." };
   variants.forEach((v, i) => {
-    const label = v.id === "cheat" ? "CHEAT M." : v.name.toUpperCase();
-    ctx.fillText(label, colX[i], HEAD - 18);
+    ctx.fillText(SHORT[v.id] || v.name.toUpperCase(), colX[i], HEAD - 18);
   });
   ctx.textAlign = "left";
 
   /* --- lignes --- */
   rows.forEach((sprite, i) => {
     const y = HEAD + i * ROW;
-    const complete = variants.every((v) => statusOf(sprite.id, v.id) === 2);
+    const complete = variantsOf(sprite).every((v) => statusOf(sprite.id, v.id) === 2);
 
     ctx.fillStyle = i % 2 ? c.surface : c.surface2;
     roundRect(ctx, PAD, y + 5, W - PAD * 2, ROW - 10, 8);
@@ -765,7 +783,9 @@ async function renderCollectionImage() {
     const rarity = (state.catalogue.rarities.find((r) => r.id === sprite.rarity)?.label || "").toUpperCase();
     ctx.fillText(complete ? `${rarity} · COMPLET` : rarity, textX, y + 50);
 
+    const own = new Set(variantsOf(sprite).map((v) => v.id));
     variants.forEach((v, k) => {
+      if (!own.has(v.id)) return;        // variante inexistante : case laissee vide
       const value = statusOf(sprite.id, v.id);
       const cx = colX[k] - 11, cy = y + 20;
       if (value === 2) glyph(ctx, pathStar, cx, cy, 22, { fill: c.gold });
@@ -790,6 +810,16 @@ async function renderCollectionImage() {
 
   glyph(ctx, pathStar, PAD + 110, footY - 6, 18, { fill: c.gold });
   ctx.fillText("maitrise (extrait au niveau 5)", PAD + 134, footY + 8);
+
+  if (variants.length > 1) {
+    ctx.fillStyle = c.line;
+    roundRect(ctx, PAD + 400, footY - 1, 12, 3, 2);
+    ctx.fill();
+    ctx.fillStyle = c.ink2;
+    ctx.fillText("pas encore obtenu", PAD + 424, footY + 8);
+    ctx.fillStyle = c.ink3;
+    ctx.fillText("case vide = cette variante n'existe pas pour cet esprit", PAD + 590, footY + 8);
+  }
 
   ctx.fillStyle = c.ink3;
   ctx.font = mono(11);
@@ -1095,7 +1125,7 @@ async function loadCollection(which, { remember = true } = {}) {
   state.which = which;
   state.catalogue = await fetchCatalogue(which);
   state.live = state.catalogue.sprites.filter((x) => x.released);
-  state.denom = state.live.length * state.catalogue.variants.length;
+  state.denom = countPieces();
   state.entries = readStore();
 
   const legacy = which === "legacy";
@@ -1110,13 +1140,13 @@ async function loadCollection(which, { remember = true } = {}) {
   $("season-label").textContent = `Fortnite · ${state.catalogue.season}`;
   $("season-mark").textContent = state.catalogue.code || "OVERRIDE";
 
-  const unit = state.catalogue.variants.length > 1 ? "entrees collectees" : "esprits rencontres";
-  $("s-unlocked-sub").textContent = unit;
+  $("s-unlocked-sub").textContent = state.catalogue.variants.length > 1
+    ? "pieces collectees" : "esprits rencontres";
   $("s-unlocked-d").textContent = `/${state.denom}`;
   $("s-mastered-d").textContent = `/${state.denom}`;
   $("s-full-d").textContent = `/${state.live.length}`;
   $("s-full-sub").textContent = state.catalogue.variants.length > 1
-    ? `${state.catalogue.variants.length} variantes maitrisees` : "maitrises et extraits";
+    ? "toutes variantes maitrisees" : "maitrises et extraits";
 
   buildCards();
   buildRarityPanel();
