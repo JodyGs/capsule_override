@@ -115,7 +115,7 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 ## Legacy : les saisons passées
 
 Le bouton **Legacy**, à côté de Réglages, bascule sur le catalogue des saisons terminées —
-aujourd'hui le **Chapitre 7 Saison 3 « Runners »**, ses 25 esprits et leurs 95 variantes.
+aujourd'hui le **Chapitre 7 Saison 3 « Runners »**, ses 25 esprits et leurs 92 variantes.
 
 C'est une collection **entièrement séparée** : son propre catalogue
 (`public/sprites-legacy.json`), sa propre clé de stockage
@@ -135,18 +135,20 @@ entrée a été vérifiée comme réellement servie.
 | Or | 20 |
 | Gummy | 20 |
 | Galaxy | 20 |
-| Holofoil | 12 |
-| Gem | 10 |
+| Holofoil | 11 |
+| Gem | 8 |
 | Cube | 9 |
 | Quack | 4 |
 
-Soit **25 esprits de base et 95 variantes, 120 pièces**. Zero Point les possède toutes les
-huit ; les cinq collaborations tardives (TheBurntPeanut, Vini Jr., Pollo, Ironmouse,
+Soit **25 esprits de base et 92 variantes, 117 pièces**. Zero Point les possède toutes les
+sept ; les cinq collaborations tardives (TheBurntPeanut, Vini Jr., Pollo, Ironmouse,
 John Wick) n'en ont aucune.
 
-À noter : la presse annonçait 92 variantes en août 2026, soit 117 pièces. La wiki en recense
-trois de plus — deux Gem et une Holofoil — dont l'existence des fichiers a été confirmée une
-par une. C'est le chiffre retenu ici, et l'écart est expliqué dans l'app.
+**Trois entrées de la wiki ont été retirées** : `Gem_Ghost`, `Gem_Punk` et `Holofoil_Duck`.
+Leurs fichiers existent bien sur le serveur de la wiki, mais un joueur a signalé que ces
+variantes n'apparaissent pas en jeu — et leur retrait fait tomber les totaux exactement sur
+les chiffres publiés par Epic (Gem 8, Holofoil 11, 117 pièces). La présence d'un fichier
+n'est donc pas une preuve de sortie : c'est un bon rappel des limites de la méthode.
 
 ### Ajouter une saison
 
@@ -238,7 +240,7 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 84 vérifications au vert : génération des 17 cartes et des 102
+Testé dans un DOM simulé, 88 vérifications au vert : génération des 17 cartes et des 102
 boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise

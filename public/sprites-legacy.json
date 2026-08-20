@@ -4,7 +4,7 @@
   "seasonEnd": "2026-08-20",
   "updatedAt": "2026-08-20",
   "note": "Saison terminee. Ces esprits ne sont plus ramassables en partie ; ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits.",
-  "variantsNote": "Chaque esprit ne possede pas toutes les variantes : la liste ci-dessous est etablie fichier par fichier depuis la Fortnite Wiki. 25 esprits de base et 95 variantes, soit 120 pieces. La presse annoncait 92 variantes en aout 2026 ; la wiki en recense trois de plus (deux Gem, une Holofoil), toutes verifiees comme existantes.",
+  "variantsNote": "Chaque esprit ne possede pas toutes les variantes : la liste a ete etablie fichier par fichier depuis la Fortnite Wiki, puis corrigee sur signalement en jeu. Trois entrees de la wiki n'existent pas reellement (Gem Fantome, Gem Punk, Holofoil Canard) et ont ete retirees. 25 esprits de base et 92 variantes, soit 117 pieces — le compte annonce par Epic.",
   "variants": [
     {
       "id": "base",
@@ -171,8 +171,7 @@
         "gold",
         "gummy",
         "galaxy",
-        "gem",
-        "holofoil"
+        "gem"
       ]
     },
     {
@@ -189,7 +188,6 @@
         "gold",
         "gummy",
         "galaxy",
-        "gem",
         "holofoil"
       ]
     },
@@ -292,7 +290,6 @@
         "gold",
         "gummy",
         "galaxy",
-        "gem",
         "cube"
       ]
     },
