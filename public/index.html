@@ -111,6 +111,14 @@
         <button type="button" data-view="cards" aria-pressed="true">Cartes</button>
         <button type="button" data-view="list" aria-pressed="false">Liste</button>
       </div>
+
+      <button type="button" class="btn-share" id="btn-export" title="Generer une image de ma liste et la partager">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 15.5V3.5M12 3.5 7.5 8M12 3.5 16.5 8"/>
+          <path d="M4.5 14.5v3.6a2.4 2.4 0 0 0 2.4 2.4h10.2a2.4 2.4 0 0 0 2.4-2.4v-3.6"/>
+        </svg>
+        <span>Exporter</span>
+      </button>
     </div>
 
     <p class="count" id="count"></p>
@@ -149,7 +157,10 @@
       <a href="https://spritechecklist.net/season-4">Sprite Checklist</a>,
       <a href="https://techwiser.com/fortnite-chapter-7-season-4-sprites/">TechWiser</a> et
       <a href="https://www.vice.com/en/article/fortnite-chapter-7-season-4-sprites-list/">VICE</a>.
-      Projet de fan, sans lien avec Epic Games.
+      Icones des esprits issues de la <a href="https://fortnite.weirdgloop.org/">Fortnite Wiki</a>.
+      Fortnite et ses visuels appartiennent a Epic Games ; projet de fan non commercial,
+      publie dans le cadre de la <a href="https://www.fortnite.com/news/fan-content-policy">Fan Content Policy</a>,
+      sans lien ni affiliation avec Epic Games.
     </div>
   </div>
 </div>
@@ -185,23 +196,13 @@
     <hr>
 
     <section>
-      <h3>Partager ma liste</h3>
-      <div class="row">
-        <button type="button" class="btn btn-primary" id="btn-export">Exporter en image</button>
-      </div>
-      <p class="form-note">Genere une image de votre collection et ouvre la feuille de partage du telephone : WhatsApp, Messages, Discord, ce que vous voulez. Sur ordinateur, l'image est copiee dans le presse-papier — il n'y a plus qu'a la coller dans la conversation.</p>
-    </section>
-
-    <hr>
-
-    <section>
       <h3>Transferer vers un autre telephone</h3>
       <div class="row">
         <button type="button" class="btn btn-ghost" id="btn-backup">Sauvegarde JSON</button>
         <button type="button" class="btn btn-ghost" id="btn-import">Importer un fichier</button>
         <input type="file" id="file" accept="application/json,.json" hidden>
       </div>
-      <p class="form-note">L'image se partage, mais ne se reimporte pas. Pour deplacer vos coches vers un autre appareil, passez par la sauvegarde JSON.</p>
+      <p class="form-note">Le bouton <strong>Exporter</strong> de la barre du haut produit une image, faite pour etre envoyee dans une conversation — mais elle ne se reimporte pas. Pour deplacer vos coches vers un autre appareil, passez par la sauvegarde JSON.</p>
     </section>
 
     <hr>

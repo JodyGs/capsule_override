@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v4";
+const VERSION = "capsule-v5";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -16,7 +16,21 @@ const SHELL = [
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",
   "./icons/favicon-32.png",
-  "./icons/favicon-180.png"
+  "./icons/favicon-180.png",
+
+  // Icones des esprits : indispensables pour que la liste reste lisible hors ligne.
+  "./icons/sprites/jonesy.png",
+  "./icons/sprites/bush.png",
+  "./icons/sprites/adventure.png",
+  "./icons/sprites/8bit.png",
+  "./icons/sprites/sonic.png",
+  "./icons/sprites/tails.png",
+  "./icons/sprites/shadow.png",
+  "./icons/sprites/killswitch.png",
+  "./icons/sprites/jackrabbit.png",
+  "./icons/sprites/klombo.png",
+  "./icons/sprites/crown.png",
+  "./icons/sprites/stormscout.png"
 ];
 
 self.addEventListener("install", (event) => {

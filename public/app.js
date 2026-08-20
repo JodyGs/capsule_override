@@ -186,6 +186,17 @@ const rarityToken = (id) => ({
 const rarityLabel = (id) =>
   state.catalogue.rarities.find((r) => r.id === id)?.label || id;
 
+const iconUrl = (sprite) => `icons/sprites/${sprite.id}.png`;
+
+/* Les esprits pas encore sortis n'ont pas d'icone : on affiche une pastille
+   portant leur initiale, teintee de leur rarete. */
+function spriteIconMarkup(sprite) {
+  if (sprite.icon) {
+    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="44" height="44" loading="lazy" decoding="async">`;
+  }
+  return `<span class="sprite-icon is-empty" aria-hidden="true">${esc(sprite.name.trim()[0] || "?")}</span>`;
+}
+
 function buildCards() {
   const grid = $("grid");
   grid.innerHTML = "";
@@ -210,7 +221,10 @@ function buildCards() {
 
     card.innerHTML = `
       <div class="card-top">
-        <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
+        <div class="ident">
+          ${spriteIconMarkup(sprite)}
+          <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
+        </div>
         <div class="tags">${tags}</div>
       </div>
       <p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>
@@ -501,6 +515,25 @@ async function loadFonts() {
   } catch { /* on se rabattra sur les polices systeme */ }
 }
 
+/* Le canvas ne peut dessiner que des images deja chargees. */
+async function loadSpriteIcons(sprites) {
+  const pairs = await Promise.all(sprites.map(async (sprite) => {
+    if (!sprite.icon) return [sprite.id, null];
+    try {
+      const img = new Image();
+      img.src = iconUrl(sprite);
+      await (img.decode ? img.decode() : new Promise((ok, ko) => {
+        img.onload = ok;
+        img.onerror = ko;
+      }));
+      return [sprite.id, img];
+    } catch {
+      return [sprite.id, null];   // une icone manquante ne doit pas bloquer l'export
+    }
+  }));
+  return new Map(pairs);
+}
+
 async function renderCollectionImage() {
   await loadFonts();
 
@@ -510,10 +543,11 @@ async function renderCollectionImage() {
   const c = palette();
   const rows = state.live;
   const variants = state.catalogue.variants;
+  const icons = await loadSpriteIcons(rows);
 
   const W = 900;
   const PAD = 40;
-  const HEAD = 262;
+  const HEAD = 292;
   const ROW = 64;
   const FOOT = 92;
   const H = HEAD + rows.length * ROW + FOOT;
@@ -562,25 +596,35 @@ async function renderCollectionImage() {
   const denom = state.denom;
   const pct = denom ? Math.round((mastered / denom) * 100) : 0;
 
-  ctx.fillStyle = c.gold;
-  ctx.font = display(46);
-  const scoreText = `${mastered}/${denom}`;
-  ctx.fillText(scoreText, PAD, 192);
-  const scoreWidth = ctx.measureText(scoreText).width;
+  // Deux chiffres de meme rang : ce qui est acquis, et ce qui est maitrise.
+  const masteredText = `${mastered}/${denom}`;
+  const unlockedText = `${unlocked}/${denom}`;
 
-  // « MAITRISES » sur la meme ligne de base que le chiffre, le detail a l'autre bout.
-  ctx.fillStyle = c.ink3;
-  ctx.font = mono(13, 600);
-  ctx.fillText("MAITRISES", PAD + scoreWidth + 14, 192);
+  ctx.font = display(46);
+  const gap = Math.max(230, ctx.measureText(masteredText).width + 90);
+
+  const scoreBlock = (x, value, label, color) => {
+    ctx.fillStyle = color;
+    ctx.font = display(46);
+    ctx.fillText(value, x, 194);
+    ctx.fillStyle = c.ink3;
+    ctx.font = mono(12, 600);
+    ctx.fillText(label, x + 2, 216);
+  };
+  scoreBlock(PAD, unlockedText, "DEBLOQUES", c.accent);
+  scoreBlock(PAD + gap, masteredText, "MAITRISES", c.gold);
 
   ctx.textAlign = "right";
   ctx.fillStyle = c.ink2;
-  ctx.font = mono(14);
-  ctx.fillText(`${unlocked} debloques  ·  ${pct}%`, W - PAD, 192);
+  ctx.font = display(28, 600);
+  ctx.fillText(`${pct}%`, W - PAD, 194);
+  ctx.fillStyle = c.ink3;
+  ctx.font = mono(12, 600);
+  ctx.fillText("MAITRISE", W - PAD, 216);
   ctx.textAlign = "left";
 
   /* --- barre de progression --- */
-  const barY = 210, barW = W - PAD * 2, barH = 8;
+  const barY = 238, barW = W - PAD * 2, barH = 8;
   ctx.fillStyle = c.surface2;
   roundRect(ctx, PAD, barY, barW, barH, 4);
   ctx.fill();
@@ -620,14 +664,34 @@ async function renderCollectionImage() {
     roundRect(ctx, PAD, y + 13, 3, ROW - 26, 2);
     ctx.fill();
 
+    // Icone de l'esprit, ou pastille a initiale si elle n'existe pas encore.
+    const icon = icons.get(sprite.id);
+    const iconSize = 40;
+    const iconX = PAD + 18, iconY = y + (ROW - iconSize) / 2;
+    if (icon) {
+      ctx.drawImage(icon, iconX, iconY, iconSize, iconSize);
+    } else {
+      ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+      ctx.globalAlpha = 0.16;
+      roundRect(ctx, iconX, iconY, iconSize, iconSize, 10);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+      ctx.font = display(20, 700);
+      ctx.textAlign = "center";
+      ctx.fillText(sprite.name.trim()[0] || "?", iconX + iconSize / 2, iconY + iconSize / 2 + 7);
+      ctx.textAlign = "left";
+    }
+
+    const textX = iconX + iconSize + 16;
     ctx.fillStyle = complete ? c.gold : c.ink;
     ctx.font = display(20, 600);
-    ctx.fillText(sprite.name, PAD + 20, y + 33);
+    ctx.fillText(sprite.name, textX, y + 33);
 
     ctx.fillStyle = c.ink3;
     ctx.font = mono(11);
     const rarity = (state.catalogue.rarities.find((r) => r.id === sprite.rarity)?.label || "").toUpperCase();
-    ctx.fillText(complete ? `${rarity} · COMPLET` : rarity, PAD + 20, y + 50);
+    ctx.fillText(complete ? `${rarity} · COMPLET` : rarity, textX, y + 50);
 
     variants.forEach((v, k) => {
       const value = statusOf(sprite.id, v.id);

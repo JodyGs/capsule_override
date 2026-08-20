@@ -133,17 +133,22 @@ public/                  l'application, statique de bout en bout
   app.js                 tout le comportement
   styles.css             thème clair et sombre, passe mobile
   sprites.json           le catalogue de la saison
+  icons/sprites/         l'icone de chaque esprit, telle qu'elle apparaît en jeu
   manifest.webmanifest   nom, icônes, mode plein écran
   sw.js                  service worker : fonctionnement hors connexion
   icons/
 serve.js                 prévisualisation locale uniquement
-scripts/make-icons.py    régénère les icônes (npm run icons)
+scripts/make-icons.py         régénère les icônes de l'app (npm run icons)
+scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprite-icons)
 ```
 
 ### Mettre à jour la liste des esprits
 
 Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand Storm Scout sort ou
-que les esprits communautaires arrivent. Passer un esprit de `"released": false` à `true`
+que les esprits communautaires arrivent. Puis `npm run sprite-icons` pour récupérer les
+icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 96 px
+et coche le champ `icon` des esprits trouvés. Ceux qui n'existent pas encore gardent une
+pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
 Pensez à incrémenter `VERSION` dans `public/sw.js` après une modification, pour que les
@@ -185,4 +190,11 @@ développement. À confirmer de votre côté.
 Données recoupées le 20 août 2026 sur Game Rant, Insider Gaming, Destructoid, Sprite
 Checklist, TechWiser et VICE. Storm Scout et les cinq esprits communautaires n'étaient pas
 encore sortis : leurs raretés et effets sont signalés comme non confirmés dans l'interface.
-Projet de fan, sans lien avec Epic Games.
+## Crédits et droits
+
+Les icônes des esprits proviennent de la [Fortnite Wiki](https://fortnite.weirdgloop.org/).
+Fortnite, ses visuels et ses noms appartiennent à **Epic Games**. Ce projet est une œuvre de
+fan **non commerciale**, publiée dans le cadre de la
+[Fan Content Policy](https://www.fortnite.com/news/fan-content-policy) d'Epic, sans lien ni
+affiliation avec Epic Games. Ne l'utilisez pas à des fins commerciales, et gardez
+l'attribution affichée dans l'app.

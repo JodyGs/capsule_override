@@ -4,9 +4,12 @@
   "private": true,
   "description": "Traqueur des esprits Fortnite Chapitre 7 Saison 4 Override. Application web installable, donnees gardees sur l'appareil.",
   "type": "module",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node serve.js",
-    "icons": "python3 scripts/make-icons.py"
+    "icons": "python3 scripts/make-icons.py",
+    "sprite-icons": "python3 scripts/fetch-sprite-icons.py"
   }
 }
