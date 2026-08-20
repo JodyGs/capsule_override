@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capsule Override</title>
+<meta name="description" content="Traqueur des esprits de Fortnite Chapitre 7 Saison 4 Override : debloque, maitrise, variantes Or et Cheat Master. Vos coches restent sur votre telephone.">
+
+<!-- Installation sur mobile -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#F1EFF6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F0C16" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+
+<!-- iOS : Safari ignore le manifeste, il lui faut ses propres balises -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Capsule">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="180x180" href="icons/favicon-180.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app" hidden>
+  <div class="wrap">
+
+    <div class="appbar">
+      <div class="appbar-left">
+        <span class="mark">OVERRIDE</span>
+        <span class="season" id="season-label">Fortnite · Chapitre 7 Saison 4</span>
+      </div>
+      <div class="appbar-left">
+        <button type="button" class="iconbtn" id="btn-install" hidden>Installer</button>
+        <button type="button" class="iconbtn" id="btn-account">Reglages</button>
+      </div>
+    </div>
+
+    <header class="top">
+      <h1>Capsule Override</h1>
+      <p class="lede">Cochez <b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5 — variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</p>
+
+      <section class="roster" aria-label="Joueurs">
+        <div class="roster-head">
+          <h2>Joueurs sur cet appareil</h2>
+          <span class="sync" id="sync" data-state="live"><i></i><span id="sync-label">Sur cet appareil</span></span>
+        </div>
+        <div class="roster-list" id="roster"></div>
+      </section>
+
+      <section class="console" aria-label="Progression">
+        <div class="scores">
+          <div class="score is-unlocked">
+            <span class="score-k">Debloques</span>
+            <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/33</small></span>
+            <span class="score-sub">entrees collectees</span>
+          </div>
+          <div class="score is-mastered">
+            <span class="score-k">Maitrises</span>
+            <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/33</small></span>
+            <span class="score-sub">extraits au niveau 5</span>
+          </div>
+          <div class="score">
+            <span class="score-k">Completion</span>
+            <span class="score-v" id="s-pct">0<small>%</small></span>
+            <span class="score-sub">du contenu disponible</span>
+          </div>
+          <div class="score">
+            <span class="score-k">Esprits complets</span>
+            <span class="score-v" id="s-full">0<small id="s-full-d">/11</small></span>
+            <span class="score-sub">3 variantes maitrisees</span>
+          </div>
+        </div>
+        <div class="bar" aria-hidden="true">
+          <span class="seg-m" id="bar-m" style="width:0%"></span>
+          <span class="seg-u" id="bar-u" style="width:0%"></span>
+        </div>
+        <div class="by-rarity" id="by-rarity"></div>
+      </section>
+    </header>
+
+    <div class="controls">
+      <label class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+        <input id="q" type="search" placeholder="Rechercher un esprit, un effet, un lieu…" aria-label="Rechercher">
+      </label>
+      <div class="chips" id="rarity-chips" role="group" aria-label="Filtrer par rarete"></div>
+      <div class="seg" id="status-seg" role="group" aria-label="Filtrer par statut"></div>
+      <div class="seg" id="view-seg" role="group" aria-label="Affichage">
+        <button type="button" data-view="cards" aria-pressed="true">Cartes</button>
+        <button type="button" data-view="list" aria-pressed="false">Liste</button>
+      </div>
+    </div>
+
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>Aucun esprit ne correspond a ces filtres.</p>
+
+    <section class="notes">
+      <div class="note">
+        <h3>Comment on maitrise un esprit</h3>
+        <p>Faire monter un esprit au <strong>niveau 5</strong> ne suffit pas : il faut le <strong>banquer a un site d'extraction</strong> (ou remporter la Victoire Royale en le tenant au niveau 5). C'est la qu'il passe « maitrise », qu'il avance le palier de Maitrise des esprits et qu'il devient un style de la <strong>Capsule a esprits</strong> pour les detenteurs du passe de combat.</p>
+        <p>Seul l'esprit equipe en slot principal gagne de l'XP. Elimination +200, doublon extrait +200, mise a terre +100, conteneur fouille +75. Le <strong>Mastery Monday</strong> (lundi, 15 h heure francaise) double l'XP d'esprit.</p>
+      </div>
+      <div class="note">
+        <h3>Ce qui n'est pas encore sorti</h3>
+        <p><strong>Storm Scout</strong> est dans les fichiers mais arrive lors d'un futur Sprite Day. Sa rarete n'est pas confirmee.</p>
+        <p>Les <strong>5 esprits communautaires</strong> du concours Design-a-Sprite debarquent en cours de saison. Epic a officialise les noms et leurs createurs, mais pas les raretes ni les sources ; les effets listes ici viennent de la presse specialisee et restent a confirmer.</p>
+        <p>Variantes : <strong>Or</strong> a partir des Golden Hours du 22 aout, <strong>Cheat Master</strong> en nouveaute de saison.</p>
+      </div>
+      <div class="note">
+        <h3>Ou chercher</h3>
+        <ul>
+          <li><strong>Coffres a codes de triche</strong> — la meilleure source : un esprit aleatoire, avec une rarete de coffre qui augmente vos chances de haut tier.</li>
+          <li><strong>Zones hautes et montagneuses</strong> — 8-Bit, Aventure, Jonesy, Jackrabbit, Storm Scout.</li>
+          <li><strong>Greenhill</strong> — le POI Sonic : Sonic, Tails, Shadow.</li>
+          <li><strong>De nuit uniquement</strong> — Killswitch.</li>
+          <li><strong>Choix de depart</strong> — Buisson, Aventure, Jonesy.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="foot">
+      Donnees recoupees le 20 aout 2026 a partir de
+      <a href="https://gamerant.com/fortnite-override-ch7-s4-all-sprites-effects-locations-how-to-get/">Game Rant</a>,
+      <a href="https://insider-gaming.com/fortnite-chapter-7-season-4-sprites/">Insider Gaming</a>,
+      <a href="https://www.destructoid.com/all-fortnite-chapter-7-season-4-sprites/">Destructoid</a>,
+      <a href="https://spritechecklist.net/season-4">Sprite Checklist</a>,
+      <a href="https://techwiser.com/fortnite-chapter-7-season-4-sprites/">TechWiser</a> et
+      <a href="https://www.vice.com/en/article/fortnite-chapter-7-season-4-sprites-list/">VICE</a>.
+      Projet de fan, sans lien avec Epic Games.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     Creation d'un profil
+     ============================================================ -->
+<dialog class="sheet" id="profile-sheet">
+  <div class="sheet-head">
+    <h2>Nouveau joueur</h2>
+    <button type="button" class="sheet-close" id="profile-sheet-cancel" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <form id="form-profile" novalidate>
+      <div class="field">
+        <label for="profile-name">Pseudo en jeu</label>
+        <input type="text" id="profile-name" maxlength="18" autocomplete="nickname" required placeholder="Votre pseudo Epic">
+        <span class="err" id="profile-name-err"></span>
+      </div>
+      <div class="field">
+        <label id="profile-color-label">Couleur</label>
+        <div class="swatches" id="profile-colors" role="group" aria-labelledby="profile-color-label"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Commencer a cocher</button>
+      <p class="form-note">Pas de compte, pas d'e-mail, rien qui sorte du telephone. Jusqu'a cinq joueurs peuvent se partager cet appareil.</p>
+    </form>
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Reglages
+     ============================================================ -->
+<dialog class="sheet" id="account">
+  <div class="sheet-head">
+    <h2>Reglages</h2>
+    <button type="button" class="sheet-close" id="account-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+
+    <section>
+      <h3>Ou sont mes donnees</h3>
+      <p class="form-note" id="storage-state"></p>
+      <p class="form-note">Rien n'est envoye sur internet : tout est ecrit dans le stockage de ce navigateur. Desinstaller l'app ou effacer les donnees de site supprime vos coches.</p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h3>Transferer vers un autre telephone</h3>
+      <div class="row">
+        <button type="button" class="btn btn-ghost" id="btn-export">Exporter / Partager</button>
+        <button type="button" class="btn btn-ghost" id="btn-import">Importer un fichier</button>
+        <input type="file" id="file" accept="application/json,.json" hidden>
+      </div>
+      <p class="form-note">L'export ouvre la feuille de partage : AirDrop, Messages, Drive, ce que vous voulez. Sur l'autre telephone, installez l'app puis utilisez Importer.</p>
+    </section>
+
+    <hr>
+
+    <section>
+      <h3>Zone sensible</h3>
+      <div class="row"><button type="button" class="btn btn-danger" id="btn-wipe">Tout effacer</button></div>
+      <p class="form-note">Supprime tous les profils et toutes les coches de cet appareil. Exportez d'abord si vous voulez les garder.</p>
+    </section>
+
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Installation iOS
+     ============================================================ -->
+<dialog class="sheet" id="ios-install">
+  <div class="sheet-head">
+    <h2>Installer sur iPhone</h2>
+    <button type="button" class="sheet-close" id="ios-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <ol class="steps">
+      <li>Touchez <strong>Partager</strong> dans la barre de Safari — le carre avec la fleche vers le haut.</li>
+      <li>Faites defiler, puis choisissez <strong>Sur l'ecran d'accueil</strong>.</li>
+      <li>Touchez <strong>Ajouter</strong>. L'icone rejoint vos applications.</li>
+    </ol>
+    <p class="form-note">Il faut passer par <strong>Safari</strong> : Chrome et Firefox sur iPhone ne proposent pas l'ajout a l'ecran d'accueil.</p>
+  </div>
+</dialog>
+
+<div class="toast" id="update-toast" hidden>
+  <span>Une nouvelle version est prete.</span>
+  <button type="button" id="btn-update">Recharger</button>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

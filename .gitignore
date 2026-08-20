@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+
+# Documents personnels qui trainent dans le dossier de travail
+*.pdf
