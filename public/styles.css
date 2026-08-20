@@ -97,49 +97,20 @@ body{
   margin:16px 0 6px;line-height:1.1;
 }
 .gate-top p{margin:0;color:var(--ink-2);font-size:13.5px}
-.gate-seats{
-  display:block;margin-top:12px;font-family:var(--f-mono);font-size:10.5px;
-  text-transform:uppercase;letter-spacing:.11em;color:var(--ink-3);
-}
-.tabs{display:flex;border-bottom:1px solid var(--line);background:var(--surface-2)}
-.tabs button{
-  flex:1;background:none;border:0;border-bottom:2px solid transparent;cursor:pointer;
-  padding:13px 10px;color:var(--ink-3);
-  font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;
-}
-.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);background:var(--surface)}
+
 .gate form{padding:24px 28px 28px;display:flex;flex-direction:column;gap:15px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{
-  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);
-}
-.field input{
-  font:inherit;font-size:15px;color:var(--ink);background:var(--surface-2);
-  border:1px solid var(--line-strong);border-radius:8px;padding:11px 13px;width:100%;
-}
-.field input::placeholder{color:var(--ink-3)}
-.field input[aria-invalid="true"]{border-color:var(--warn);background:var(--warn-soft)}
-.field .err{font-size:12px;color:var(--warn);min-height:0}
-.field .err:empty{display:none}
-.swatches{display:flex;gap:8px;padding-top:2px}
-.sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
-.sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}
+
 
 .btn{
   border-radius:8px;cursor:pointer;padding:12px 16px;border:1px solid transparent;
   font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;
 }
-.btn-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.btn-primary:disabled{opacity:.55;cursor:progress}
+
 .btn-ghost{background:none;color:var(--ink-2);border-color:var(--line-strong)}
 .btn-ghost:hover{background:var(--surface-2);color:var(--ink)}
 .btn-danger{background:none;color:var(--warn);border-color:var(--warn)}
 .btn-danger:hover{background:var(--warn-soft)}
 
-.form-error{
-  margin:0;padding:11px 13px;border-radius:8px;background:var(--warn-soft);
-  color:var(--warn);font-size:13px;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);
-}
 .form-note{margin:0;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);line-height:1.6}
 
 /* ============================================================
@@ -152,14 +123,29 @@ body{
   padding:18px 0 0;
 }
 .appbar-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.appbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Indicateur d'enregistrement */
+.sync{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none;transition:background .2s}
+.sync[data-state="live"] i{background:var(--accent)}
+.sync[data-state="saving"]{color:var(--gold)}
+.sync[data-state="saving"] i{background:var(--gold)}
+.sync[data-state="warn"]{color:var(--warn)}
+.sync[data-state="warn"] i{background:var(--warn)}
+
+/* Bouton de theme : icone + libelle du mode courant */
+.theme-btn{gap:8px}
+.theme-icon{display:inline-flex;width:15px;height:15px;flex:none}
+.theme-icon svg{width:100%;height:100%;display:block}
+
+/* Choix a trois etats dans les reglages */
+.seg-wide{width:100%}
+.seg-wide button{flex:1;padding:11px 8px}
 .season{
   font-family:var(--f-mono);font-size:11px;font-weight:500;
   text-transform:uppercase;letter-spacing:.14em;color:var(--ink-3);
 }
-.whoami{display:flex;align-items:center;gap:9px}
-.whoami .pdot{width:9px;height:9px;border-radius:50%}
-.whoami .me{font-family:var(--f-display);font-weight:600;font-size:15px}
-.whoami .mail{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
 
 .top{padding:22px 0}
 h1{
@@ -169,77 +155,6 @@ h1{
 .lede{color:var(--ink-2);max-width:64ch;margin:0}
 .lede b{color:var(--ink);font-weight:600}
 
-.banner{
-  margin-top:16px;padding:11px 15px;border-radius:8px;font-size:13px;
-  display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;
-}
-.banner.warn{background:var(--warn-soft);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
-.banner.info{background:var(--accent-soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent)}
-.banner button{
-  background:none;border:1px solid currentColor;color:inherit;border-radius:6px;padding:5px 10px;cursor:pointer;
-  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
-}
-
-/* ---------- classement ---------- */
-.roster{
-  margin-top:22px;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
-}
-.roster-head{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  padding:11px 18px;border-bottom:1px solid var(--line);background:var(--surface-2);
-}
-.roster-head h2{
-  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;
-  color:var(--ink-3);margin:0;font-weight:600;
-}
-.sync{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3)}
-.sync i{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
-.sync[data-state="live"]{color:var(--accent)}
-.sync[data-state="live"] i{background:var(--accent)}
-.sync[data-state="saving"] i{background:var(--gold);animation:blink 1s infinite}
-.sync[data-state="warn"]{color:var(--warn)}
-.sync[data-state="warn"] i{background:var(--warn)}
-@keyframes blink{50%{opacity:.25}}
-
-.roster-list{display:flex;gap:9px;padding:14px 18px;flex-wrap:wrap;align-items:stretch}
-.pslot{
-  display:flex;align-items:stretch;background:var(--surface-2);
-  border:1px solid var(--line-strong);border-radius:9px;overflow:hidden;
-  transition:border-color .15s, box-shadow .15s;
-}
-.pslot[data-active="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.player{
-  display:flex;flex-direction:column;gap:4px;align-items:flex-start;justify-content:center;
-  padding:9px 13px;background:none;border:0;cursor:pointer;min-width:150px;text-align:left;
-  color:inherit;font:inherit;
-}
-.pname{font-family:var(--f-display);font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:7px;line-height:1.2}
-.pdot{width:8px;height:8px;border-radius:50%;flex:none}
-.pmine{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
-.pstat{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.04em;font-variant-numeric:tabular-nums}
-.ptrack{width:100%;height:3px;border-radius:2px;background:var(--surface-3);overflow:hidden;display:block}
-.ptrack i{display:block;height:100%;background:var(--gold);transition:width .3s ease}
-
-.pdel{
-  background:none;border:0;border-left:1px solid var(--line);color:var(--ink-3);
-  cursor:pointer;padding:0 11px;font-size:17px;line-height:1;
-}
-.pdel:hover{color:var(--warn);background:var(--surface-3)}
-.padd{
-  display:inline-flex;align-items:center;gap:7px;background:none;color:var(--ink-2);
-  border:1px dashed var(--line-strong);border-radius:9px;padding:9px 15px;cursor:pointer;
-  font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.07em;
-  white-space:nowrap;
-}
-.padd:hover{border-color:var(--accent);color:var(--accent)}
-.rfull{
-  font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);
-  align-self:center;padding:0 6px;letter-spacing:.05em;white-space:nowrap;
-}
-
-/* Sans profil, la grille reste visible mais inerte. */
-.grid.no-player{opacity:.4;pointer-events:none;filter:saturate(.35)}
 
 /* ---------- panneau de score ---------- */
 .console{
@@ -316,7 +231,6 @@ h1{
 .count{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);padding:18px 0 12px}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .grid.is-list{grid-template-columns:1fr;gap:8px}
-.grid.read-only .tog{cursor:default;opacity:.9}
 
 .card{
   position:relative;background:var(--surface);border:1px solid var(--line);
@@ -398,7 +312,7 @@ dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
 .sheet-body h3{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);margin:0;font-weight:600}
 .sheet-body form{display:flex;flex-direction:column;gap:12px}
 .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.ok-note{font-size:12.5px;color:var(--accent);margin:0}
+
 .sheet-body hr{border:0;border-top:1px solid var(--line);margin:0}
 
 /* ---------- notes ---------- */
@@ -471,21 +385,12 @@ body{
   .wrap{padding-left:14px;padding-right:14px}
 
   /* La barre du haut passe sur deux lignes, l'identite d'abord. */
-  .appbar{padding-top:14px;align-items:flex-start}
-  .appbar-left{width:100%;justify-content:space-between}
-  .whoami .mail{display:none}
+  .appbar{padding-top:14px;align-items:center;gap:8px}
+  .appbar-right{gap:6px}
   .season{display:none}
-
-  /* Le classement defile horizontalement plutot que de s'empiler. */
-  .roster-list{
-    flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;padding:12px 14px;gap:8px;
-  }
-  .roster-list::-webkit-scrollbar{height:0}
-  .pslot{flex:0 0 auto;scroll-snap-align:start}
-  .player{min-width:132px}
-  .pdel{padding:0 14px;font-size:19px}
-  .padd{padding:11px 16px}
+  #sync-label{display:none}          /* la pastille suffit, le detail est dans Reglages */
+  #theme-label{display:none}          /* l'icone porte le sens, aria-label le nomme */
+  .theme-btn{padding:8px 11px}
 
   /* Deux compteurs par ligne, sinon la colonne est illisible. */
   .scores{grid-template-columns:1fr 1fr}
@@ -549,7 +454,7 @@ body{
   .gate-card{max-width:none;border:0;border-radius:0;min-height:100vh;box-shadow:none;display:flex;flex-direction:column}
   .gate-top{padding:calc(28px + env(safe-area-inset-top)) 22px 20px}
   .gate form{padding:22px 22px calc(32px + env(safe-area-inset-bottom))}
-  .field input{padding:13px 14px;font-size:16px}  /* 16px : evite le zoom auto d'iOS */
+  .search input{font-size:16px}   /* 16px : evite le zoom automatique d'iOS */
   .btn{padding:14px 16px}
   .sw{width:34px;height:34px}
 }

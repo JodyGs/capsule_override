@@ -6,11 +6,12 @@
 
 const $ = (id) => document.getElementById(id);
 
-const PALETTE = ["#E8574B", "#2EA5C9", "#7BB33A", "#C879D6", "#E6A32B"];
-const MAX_PROFILES = 5;
-const K_STORE = "capsule-override.store.v3";
-const K_ACTIVE = "capsule-override.active";
-const K_LEGACY = ["capsule-override.store.v2", "capsule-override.v1"];
+const K_STORE = "capsule-override.store.v4";
+const K_THEME = "capsule-override.theme";
+// Sauvegardes laissees par les versions precedentes de l'app.
+const K_LEGACY_PROFILES = ["capsule-override.store.v3", "capsule-override.store.v2"];
+const K_LEGACY_ACTIVE = "capsule-override.active";
+const K_LEGACY_FLAT = "capsule-override.v1";
 
 const ICON_U = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>';
 const ICON_M = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8.5 7.5 11 12 4l4.5 7L21 8.5l-1.8 9.5H4.8L3 8.5Z"/></svg>';
@@ -19,48 +20,111 @@ const state = {
   catalogue: null,
   live: [],
   denom: 0,
-  store: { v: 3, profiles: [] },
-  activeId: null,
+  entries: {},
   filters: { q: "", rarity: "all", status: "all", view: "cards" }
 };
 
 const cards = new Map();
-
-/* ------------------------------------------------------------
-   Stockage
-   ------------------------------------------------------------ */
 const now = () => Date.now();
-const uid = () => `p${now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 
+/* ============================================================
+   Theme : systeme, clair ou sombre
+   ============================================================ */
+const THEMES = [
+  { id: "auto",  label: "Auto",   note: "L'app suit le reglage clair ou sombre de votre telephone." },
+  { id: "light", label: "Clair",  note: "L'app reste claire, quel que soit le reglage du telephone." },
+  { id: "dark",  label: "Sombre", note: "L'app reste sombre, quel que soit le reglage du telephone." }
+];
+
+const SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>';
+const MOON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.7 8.7 0 1 0 11.1 11.1Z"/></svg>';
+const AUTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6v16.8" /><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8Z" fill="currentColor" stroke="none"/></svg>';
+
+let theme = "auto";
+const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+const resolvedDark = () => theme === "dark" || (theme === "auto" && darkQuery.matches);
+
+function applyTheme(next, { persist = true } = {}) {
+  theme = THEMES.some((t) => t.id === next) ? next : "auto";
+
+  if (theme === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", theme);
+
+  // La barre d'etat du telephone doit suivre, sinon elle jure en mode installe.
+  const meta = $("theme-color");
+  if (meta) meta.content = resolvedDark() ? "#0F0C16" : "#F1EFF6";
+
+  if (persist) {
+    try { localStorage.setItem(K_THEME, theme); } catch { /* stockage bloque */ }
+  }
+
+  const current = THEMES.find((t) => t.id === theme);
+  $("theme-label").textContent = current.label;
+  $("theme-icon").innerHTML = theme === "auto" ? AUTO : theme === "dark" ? MOON : SUN;
+  $("btn-theme").setAttribute("aria-label", `Theme : ${current.label}. Changer.`);
+  $("btn-theme").title = current.note;
+
+  for (const b of $("theme-seg").querySelectorAll("button")) {
+    b.setAttribute("aria-pressed", String(b.dataset.theme === theme));
+  }
+  $("theme-note").textContent = current.note;
+}
+
+// Le bouton de la barre fait defiler les trois modes.
+$("btn-theme").addEventListener("click", () => {
+  const i = THEMES.findIndex((t) => t.id === theme);
+  applyTheme(THEMES[(i + 1) % THEMES.length].id);
+});
+
+$("theme-seg").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (b) applyTheme(b.dataset.theme);
+});
+
+// En mode Auto, suivre le telephone s'il bascule en cours de route.
+darkQuery.addEventListener("change", () => {
+  if (theme === "auto") applyTheme("auto", { persist: false });
+});
+
+/* ============================================================
+   Stockage
+   ============================================================ */
 function readStore() {
   try {
     const raw = localStorage.getItem(K_STORE);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.profiles)) return parsed;
+      if (parsed && typeof parsed.entries === "object") return parsed.entries || {};
     }
-    // Reprise des versions precedentes de l'app.
-    for (const key of K_LEGACY) {
+
+    // Versions a profils multiples : on reprend celui qui etait ouvert.
+    for (const key of K_LEGACY_PROFILES) {
       const old = localStorage.getItem(key);
       if (!old) continue;
       const parsed = JSON.parse(old);
-      if (parsed && Array.isArray(parsed.profiles)) {
-        return { v: 3, profiles: parsed.profiles.filter((p) => !p.deleted) };
-      }
-      if (parsed && typeof parsed === "object") {
-        return { v: 3, profiles: [{ id: uid(), name: "Joueur 1", color: PALETTE[0], createdAt: now(), updatedAt: now(), data: parsed }] };
-      }
+      const profiles = (parsed?.profiles || []).filter((p) => p && !p.deleted);
+      if (!profiles.length) continue;
+      const activeId = localStorage.getItem(K_LEGACY_ACTIVE);
+      const chosen = profiles.find((p) => p.id === activeId) || profiles[0];
+      return chosen.data || {};
+    }
+
+    // Toute premiere version : les coches etaient stockees a plat.
+    const flat = localStorage.getItem(K_LEGACY_FLAT);
+    if (flat) {
+      const parsed = JSON.parse(flat);
+      if (parsed && typeof parsed === "object") return parsed;
     }
   } catch { /* stockage illisible : on repart proprement */ }
-  return { v: 3, profiles: [] };
+  return {};
 }
 
 let saveTimer = null;
 function saveStore({ immediate = false } = {}) {
   const write = () => {
     try {
-      localStorage.setItem(K_STORE, JSON.stringify(state.store));
-      if (state.activeId) localStorage.setItem(K_ACTIVE, state.activeId);
+      localStorage.setItem(K_STORE, JSON.stringify({ v: 4, updatedAt: now(), entries: state.entries }));
       flashSaved();
     } catch {
       setSync("warn", "Stockage plein");
@@ -71,22 +135,13 @@ function saveStore({ immediate = false } = {}) {
   else saveTimer = setTimeout(write, 250);
 }
 
-const profiles = () => state.store.profiles;
-const active = () => profiles().find((p) => p.id === state.activeId) || null;
-
-function statusOf(spriteId, variant) {
-  return active()?.data?.[spriteId]?.[variant] || 0;
-}
+const statusOf = (spriteId, variant) => state.entries?.[spriteId]?.[variant] || 0;
 
 function setStatus(spriteId, variant, value) {
-  const profile = active();
-  if (!profile) return;
-  const bucket = (profile.data ||= {});
-  const slot = (bucket[spriteId] ||= {});
+  const slot = (state.entries[spriteId] ||= {});
   if (value) slot[variant] = value;
   else delete slot[variant];
-  if (!Object.keys(slot).length) delete bucket[spriteId];
-  profile.updatedAt = now();
+  if (!Object.keys(slot).length) delete state.entries[spriteId];
   saveStore();
 }
 
@@ -94,32 +149,32 @@ function setStatus(spriteId, variant, value) {
 async function requestPersistence() {
   if (!navigator.storage?.persist) return null;
   try {
-    const already = await navigator.storage.persisted?.();
-    return already || await navigator.storage.persist();
+    return (await navigator.storage.persisted?.()) || (await navigator.storage.persist());
   } catch {
     return null;
   }
 }
 
 /* ------------------------------------------------------------
-   Indicateur d'etat
+   Indicateur d'enregistrement
    ------------------------------------------------------------ */
+let storageLabel = "Sur cet appareil";
+let flashTimer = null;
+
 function setSync(kind, label) {
   $("sync").dataset.state = kind;
   $("sync-label").textContent = label;
 }
 
-let flashTimer = null;
 function flashSaved() {
   setSync("saving", "Enregistre");
   clearTimeout(flashTimer);
   flashTimer = setTimeout(() => setSync("live", storageLabel), 1200);
 }
-let storageLabel = "Sur cet appareil";
 
-/* ------------------------------------------------------------
+/* ============================================================
    Catalogue
-   ------------------------------------------------------------ */
+   ============================================================ */
 const esc = (str) => String(str).replace(/[&<>"]/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -202,7 +257,7 @@ function paintCard(sprite) {
    ------------------------------------------------------------ */
 $("grid").addEventListener("click", (e) => {
   const btn = e.target.closest(".tog");
-  if (!btn || !active()) return;
+  if (!btn) return;
 
   const { s: spriteId, v: variant } = btn.dataset;
   const level = Number(btn.dataset.lvl);
@@ -213,7 +268,6 @@ $("grid").addEventListener("click", (e) => {
   setStatus(spriteId, variant, next);
   paintCard(state.catalogue.sprites.find((x) => x.id === spriteId));
   renderStats();
-  renderRoster();
 
   if (next > current) {
     btn.classList.remove("pulse");
@@ -227,25 +281,19 @@ $("grid").addEventListener("click", (e) => {
 /* ------------------------------------------------------------
    Scores
    ------------------------------------------------------------ */
-function tally(profile) {
+function renderStats() {
   let unlocked = 0, mastered = 0, full = 0;
   for (const sprite of state.live) {
     let done = 0;
     for (const v of state.catalogue.variants) {
-      const value = profile?.data?.[sprite.id]?.[v.id] || 0;
+      const value = statusOf(sprite.id, v.id);
       if (value >= 1) unlocked += 1;
       if (value === 2) { mastered += 1; done += 1; }
     }
     if (done === state.catalogue.variants.length) full += 1;
   }
-  return { unlocked, mastered, full };
-}
 
-function renderStats() {
-  const profile = active();
-  const { unlocked, mastered, full } = tally(profile);
   const denom = state.denom;
-
   $("s-unlocked").firstChild.nodeValue = unlocked;
   $("s-mastered").firstChild.nodeValue = mastered;
   $("s-pct").firstChild.nodeValue = denom ? Math.round((mastered / denom) * 100) : 0;
@@ -259,7 +307,7 @@ function renderStats() {
     let ru = 0, rm = 0;
     for (const sprite of subset) {
       for (const v of state.catalogue.variants) {
-        const value = profile?.data?.[sprite.id]?.[v.id] || 0;
+        const value = statusOf(sprite.id, v.id);
         if (value >= 1) ru += 1;
         if (value === 2) rm += 1;
       }
@@ -287,127 +335,9 @@ function buildRarityPanel() {
   }
 }
 
-/* ------------------------------------------------------------
-   Profils locaux
-   ------------------------------------------------------------ */
-function renderRoster() {
-  const box = $("roster");
-  box.innerHTML = "";
-
-  for (const profile of profiles()) {
-    const { mastered } = tally(profile);
-    const pct = state.denom ? (mastered / state.denom) * 100 : 0;
-    const slot = document.createElement("div");
-    slot.className = "pslot";
-    slot.dataset.active = String(profile.id === state.activeId);
-    slot.innerHTML = `
-      <button type="button" class="player" data-id="${profile.id}">
-        <span class="pname"><span class="pdot" style="background:${esc(profile.color)}"></span>${esc(profile.name)}</span>
-        <span class="pstat">${mastered} / ${state.denom} maitrises</span>
-        <span class="ptrack"><i style="width:${pct}%"></i></span>
-      </button>
-      <button type="button" class="pdel" data-del="${profile.id}" aria-label="Retirer ${esc(profile.name)}" title="Retirer ${esc(profile.name)}">&times;</button>`;
-    box.appendChild(slot);
-  }
-
-  if (profiles().length < MAX_PROFILES) {
-    const add = document.createElement("button");
-    add.type = "button";
-    add.className = "padd";
-    add.id = "btn-add";
-    add.textContent = profiles().length ? "+ Ajouter un joueur" : "+ Creer mon profil";
-    box.appendChild(add);
-  } else {
-    const full = document.createElement("span");
-    full.className = "rfull";
-    full.textContent = `${MAX_PROFILES} joueurs — c'est complet`;
-    box.appendChild(full);
-  }
-
-  $("grid").classList.toggle("no-player", !profiles().length);
-}
-
-$("roster").addEventListener("click", (e) => {
-  if (e.target.closest("#btn-add")) return openProfileSheet();
-
-  const del = e.target.closest(".pdel");
-  if (del) {
-    const profile = profiles().find((p) => p.id === del.dataset.del);
-    if (!profile) return;
-    if (!confirm(`Retirer ${profile.name} ? Sa collection sera effacee de cet appareil.`)) return;
-    state.store.profiles = profiles().filter((p) => p.id !== profile.id);
-    if (state.activeId === profile.id) state.activeId = profiles()[0]?.id || null;
-    saveStore({ immediate: true });
-    redraw();
-    if (!profiles().length) openProfileSheet();
-    return;
-  }
-
-  const btn = e.target.closest(".player");
-  if (btn) {
-    state.activeId = btn.dataset.id;
-    saveStore({ immediate: true });
-    redraw();
-  }
-});
-
-/* --- feuille de creation de profil --- */
-const profileSheet = $("profile-sheet");
-let pickedColor = PALETTE[0];
-
-function buildSwatches(container, current, onPick) {
-  container.innerHTML = "";
-  PALETTE.forEach((color, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "sw";
-    b.style.background = color;
-    b.dataset.color = color;
-    b.setAttribute("aria-label", `Couleur ${i + 1}`);
-    b.setAttribute("aria-pressed", String(color === current));
-    b.addEventListener("click", () => {
-      for (const x of container.querySelectorAll(".sw")) {
-        x.setAttribute("aria-pressed", String(x === b));
-      }
-      onPick(color);
-    });
-    container.appendChild(b);
-  });
-}
-
-function openProfileSheet() {
-  const used = new Set(profiles().map((p) => p.color));
-  pickedColor = PALETTE.find((c) => !used.has(c)) || PALETTE[profiles().length % PALETTE.length];
-  buildSwatches($("profile-colors"), pickedColor, (c) => { pickedColor = c; });
-  $("profile-name").value = "";
-  $("profile-name-err").textContent = "";
-  $("profile-sheet-cancel").hidden = !profiles().length;
-  profileSheet.showModal();
-  setTimeout(() => $("profile-name").focus(), 80);
-}
-
-$("profile-sheet-cancel").addEventListener("click", () => profileSheet.close());
-
-$("form-profile").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const name = $("profile-name").value.trim();
-  if (!name) {
-    $("profile-name-err").textContent = "Choisissez un pseudo.";
-    return;
-  }
-  if (profiles().length >= MAX_PROFILES) return;
-
-  const profile = { id: uid(), name, color: pickedColor, createdAt: now(), updatedAt: now(), data: {} };
-  state.store.profiles.push(profile);
-  state.activeId = profile.id;
-  saveStore({ immediate: true });
-  profileSheet.close();
-  redraw();
-});
-
-/* ------------------------------------------------------------
+/* ============================================================
    Filtres
-   ------------------------------------------------------------ */
+   ============================================================ */
 const STATUS = [
   { id: "all", label: "Tout" },
   { id: "missing", label: "Manquants" },
@@ -497,29 +427,23 @@ function applyFilters() {
     if (ok) shown += 1;
   }
   $("empty").hidden = shown > 0;
-
-  const profile = active();
   $("count").textContent =
     `${shown} ${shown > 1 ? "esprits affiches" : "esprit affiche"} · ` +
-    `${state.catalogue.sprites.length} au total cette saison` +
-    (profile ? ` · collection de ${profile.name}` : " · aucun profil");
+    `${state.catalogue.sprites.length} au total cette saison`;
 }
 
-/* ------------------------------------------------------------
+/* ============================================================
    Sauvegarde manuelle : transferer vers un autre telephone
-   ------------------------------------------------------------ */
-function backupPayload() {
-  return JSON.stringify({
+   ============================================================ */
+$("btn-export").addEventListener("click", async () => {
+  const text = JSON.stringify({
     app: "capsule-override",
-    version: 3,
+    version: 4,
     season: state.catalogue.season,
     exportedAt: new Date().toISOString(),
-    profiles: profiles()
+    entries: state.entries
   }, null, 2);
-}
 
-$("btn-export").addEventListener("click", async () => {
-  const text = backupPayload();
   const filename = "capsule-override.json";
   const file = new File([text], filename, { type: "application/json" });
 
@@ -550,32 +474,34 @@ $("file").addEventListener("change", async () => {
   if (!file) return;
   try {
     const parsed = JSON.parse(await file.text());
-    let incoming = null;
+    let incoming = parsed.entries || parsed.data || null;
 
-    if (Array.isArray(parsed.profiles)) {
-      incoming = parsed.profiles.filter((p) => p && p.id && !p.deleted);
-    } else if (parsed.entries || parsed.data) {
-      incoming = [{
-        id: uid(), name: parsed.user?.name || "Import",
-        color: parsed.user?.color || PALETTE[1],
-        createdAt: now(), updatedAt: now(),
-        data: parsed.entries || parsed.data
-      }];
+    // Sauvegarde d'une version a profils : on prend le premier.
+    if (!incoming && Array.isArray(parsed.profiles) && parsed.profiles.length) {
+      incoming = parsed.profiles[0].data;
     }
-    if (!incoming?.length) throw new Error("format");
+    if (!incoming || typeof incoming !== "object") throw new Error("format");
 
-    if (!confirm(`Importer ${incoming.length} profil${incoming.length > 1 ? "s" : ""} ? Un profil deja present sera remplace par la version du fichier.`)) return;
+    // On ne garde que ce que le catalogue connait.
+    const known = new Set(state.catalogue.sprites.map((s) => s.id));
+    const variants = new Set(state.catalogue.variants.map((v) => v.id));
+    const clean = {};
+    for (const [spriteId, slots] of Object.entries(incoming)) {
+      if (!known.has(spriteId)) continue;
+      for (const [variant, value] of Object.entries(slots || {})) {
+        if (variants.has(variant) && (value === 1 || value === 2)) {
+          (clean[spriteId] ||= {})[variant] = value;
+        }
+      }
+    }
+    const count = Object.values(clean).reduce((n, s) => n + Object.keys(s).length, 0);
+    if (!count) throw new Error("vide");
 
-    // Fusion par identifiant : le fichier fait foi pour les profils qu'il contient.
-    const byId = new Map(profiles().map((p) => [p.id, p]));
-    for (const p of incoming) byId.set(p.id, p);
-    state.store.profiles = [...byId.values()]
-      .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0))
-      .slice(0, MAX_PROFILES);
+    if (!confirm(`Remplacer votre collection par ce fichier ? ${count} coche${count > 1 ? "s" : ""} seront restaurees.`)) return;
 
-    if (!active()) state.activeId = profiles()[0]?.id || null;
+    state.entries = clean;
     saveStore({ immediate: true });
-    accountSheet.close();
+    $("account").close();
     redraw();
   } catch {
     alert("Ce fichier n'est pas une sauvegarde Capsule Override valide.");
@@ -584,39 +510,35 @@ $("file").addEventListener("change", async () => {
   }
 });
 
-/* ------------------------------------------------------------
+/* ============================================================
    Panneau reglages
-   ------------------------------------------------------------ */
-const accountSheet = $("account");
-
+   ============================================================ */
 $("btn-account").addEventListener("click", async () => {
   const persisted = await navigator.storage?.persisted?.().catch(() => null);
   $("storage-state").textContent = persisted
     ? "Vos donnees sont marquees comme durables : le navigateur ne les effacera pas pour faire de la place."
     : "Le navigateur peut effacer ces donnees s'il manque d'espace. Exportez une sauvegarde de temps en temps.";
-  accountSheet.showModal();
+  $("account").showModal();
 });
-$("account-close").addEventListener("click", () => accountSheet.close());
+$("account-close").addEventListener("click", () => $("account").close());
 
 $("btn-wipe").addEventListener("click", () => {
-  if (!confirm("Effacer tous les profils et toutes les coches de cet appareil ? C'est definitif.")) return;
+  if (!confirm("Decocher toute la collection sur cet appareil ? C'est definitif.")) return;
+  state.entries = {};
   try {
     localStorage.removeItem(K_STORE);
-    localStorage.removeItem(K_ACTIVE);
-    for (const key of K_LEGACY) localStorage.removeItem(key);
+    for (const key of [...K_LEGACY_PROFILES, K_LEGACY_ACTIVE, K_LEGACY_FLAT]) {
+      localStorage.removeItem(key);
+    }
   } catch { /* rien a nettoyer */ }
-  state.store = { v: 3, profiles: [] };
-  state.activeId = null;
-  accountSheet.close();
+  $("account").close();
   redraw();
-  openProfileSheet();
 });
 
-/* ------------------------------------------------------------
+/* ============================================================
    Installation sur mobile
-   ------------------------------------------------------------ */
+   ============================================================ */
 const installBtn = $("btn-install");
-const iosSheet = $("ios-install");
 let installPrompt = null;
 
 const isStandalone = () =>
@@ -645,16 +567,16 @@ installBtn.addEventListener("click", async () => {
     installPrompt = null;
     return;
   }
-  iosSheet.showModal();   // Safari n'expose aucune API : on explique le geste.
+  $("ios-install").showModal();   // Safari n'expose aucune API : on explique le geste.
 });
 
-$("ios-close").addEventListener("click", () => iosSheet.close());
+$("ios-close").addEventListener("click", () => $("ios-install").close());
 
 if (isIOS() && !isStandalone()) installBtn.hidden = false;
 
-/* ------------------------------------------------------------
+/* ============================================================
    Service worker
-   ------------------------------------------------------------ */
+   ============================================================ */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
@@ -691,17 +613,19 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-/* ------------------------------------------------------------
+/* ============================================================
    Demarrage
-   ------------------------------------------------------------ */
+   ============================================================ */
 function redraw() {
-  renderRoster();
   state.catalogue.sprites.forEach(paintCard);
   renderStats();
   applyFilters();
 }
 
 async function boot() {
+  try { theme = localStorage.getItem(K_THEME) || "auto"; } catch { /* navigation privee */ }
+  applyTheme(theme, { persist: false });
+
   try {
     const res = await fetch("sprites.json", { cache: "no-cache" });
     state.catalogue = await res.json();
@@ -726,9 +650,7 @@ async function boot() {
   buildRarityPanel();
   buildFilters();
 
-  state.store = readStore();
-  try { state.activeId = localStorage.getItem(K_ACTIVE); } catch { /* prive */ }
-  if (!active()) state.activeId = profiles()[0]?.id || null;
+  state.entries = readStore();
 
   $("app").hidden = false;
   redraw();
@@ -736,8 +658,6 @@ async function boot() {
   const persisted = await requestPersistence();
   storageLabel = persisted ? "Garde sur cet appareil" : "Sur cet appareil";
   setSync("live", storageLabel);
-
-  if (!profiles().length) openProfileSheet();
 }
 
 boot();

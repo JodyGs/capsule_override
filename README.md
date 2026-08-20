@@ -5,7 +5,7 @@ Cochez ce que vous avez *débloqué* et *maîtrisé*, variantes Or et Cheat Mast
 
 Application web **installable sur iPhone et Android**, qui fonctionne hors connexion.
 **Aucun compte, aucun serveur, aucune base de données** : vos coches sont écrites dans le
-stockage du téléphone et y restent.
+stockage du téléphone et y restent. Thème clair, sombre ou automatique, au choix.
 
 ---
 
@@ -71,7 +71,8 @@ ne savent pas le faire), puis **Partager → Sur l'écran d'accueil → Ajouter*
 
 ## Où vivent les données
 
-Tout est dans le `localStorage` du navigateur, sous la clé `capsule-override.store.v3`.
+Tout est dans le `localStorage` du navigateur, sous la clé `capsule-override.store.v4`
+(plus le thème sous `capsule-override.theme`).
 Au démarrage, l'app appelle `navigator.storage.persist()` pour demander au système de ne pas
 effacer ces données quand la place manque — l'écran **Réglages** vous dit si c'est accordé.
 
@@ -81,10 +82,26 @@ soumise à la purge des 7 jours qui touche les simples sites web.
 
 **Transférer vers un autre téléphone** : *Réglages → Exporter / Partager* ouvre la feuille de
 partage du système (AirDrop, Messages, Drive…). Sur l'autre appareil, installez l'app puis
-*Réglages → Importer*. Le fichier contient tous les profils.
+*Réglages → Importer*.
 
-Jusqu'à **cinq profils** cohabitent sur un même appareil — pratique pour une tablette
-partagée. Chacun a sa collection ; on bascule d'un simple appui sur la pastille.
+Les sauvegardes des versions précédentes sont reprises automatiquement, y compris celles à
+plusieurs profils — c'est le profil qui était ouvert qui devient votre collection.
+
+---
+
+## Thème
+
+Trois modes, accessibles par le bouton de la barre du haut (qui les fait défiler) ou par
+*Réglages → Apparence* :
+
+| Mode | Effet |
+|---|---|
+| **Auto** | Suit le réglage clair/sombre du téléphone, et bascule avec lui en direct. |
+| **Clair** | Reste clair quoi qu'il arrive. |
+| **Sombre** | Reste sombre quoi qu'il arrive. |
+
+Le choix est retenu et appliqué **avant le premier rendu** — pas de flash blanc à
+l'ouverture. La couleur de la barre d'état du téléphone suit, ce qui compte en mode installé.
 
 ---
 
@@ -117,11 +134,12 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 40 vérifications au vert : génération des 17 cartes et des 102
-boutons, création et bascule de profils, plafond à 5, règle « maîtrisé implique débloqué »,
-badge *Complet*, compteurs et barres, filtres par rareté, statut et recherche, écriture dans
-le stockage, et surtout **réouverture de l'app avec des données existantes** — profils, profil
-actif et coches sont tous restitués.
+Testé dans un DOM simulé, 36 vérifications au vert : génération des 17 cartes et des 102
+boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
+par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
+les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise
+d'une ancienne sauvegarde à profils, et surtout **réouverture de l'app avec des données
+existantes** — les coches sont toutes restituées.
 
 Non vérifié : le rendu visuel réel et l'installation sur un vrai téléphone, faute de
 navigateur dans l'environnement de développement. À confirmer de votre côté.

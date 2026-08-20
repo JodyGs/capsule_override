@@ -6,13 +6,28 @@
 <title>Capsule Override</title>
 <meta name="description" content="Traqueur des esprits de Fortnite Chapitre 7 Saison 4 Override : debloque, maitrise, variantes Or et Cheat Master. Vos coches restent sur votre telephone.">
 
+<!-- Le theme est applique avant le premier rendu, sinon la page clignote. -->
+<script>
+(function () {
+  try {
+    var choice = localStorage.getItem("capsule-override.theme") || "auto";
+    if (choice === "light" || choice === "dark") {
+      document.documentElement.setAttribute("data-theme", choice);
+    }
+    var dark = choice === "dark" ||
+      (choice === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var meta = document.createElement("meta");
+    meta.name = "theme-color";
+    meta.id = "theme-color";
+    meta.content = dark ? "#0F0C16" : "#F1EFF6";
+    document.head.appendChild(meta);
+  } catch (e) { /* stockage bloque : on garde le theme du systeme */ }
+})();
+</script>
+
 <!-- Installation sur mobile -->
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#F1EFF6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0F0C16" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
-
-<!-- iOS : Safari ignore le manifeste, il lui faut ses propres balises -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -37,7 +52,14 @@
         <span class="mark">OVERRIDE</span>
         <span class="season" id="season-label">Fortnite · Chapitre 7 Saison 4</span>
       </div>
-      <div class="appbar-left">
+      <div class="appbar-right">
+        <span class="sync" id="sync" data-state="live" title="Vos coches sont enregistrees sur cet appareil">
+          <i></i><span id="sync-label">Sur cet appareil</span>
+        </span>
+        <button type="button" class="iconbtn theme-btn" id="btn-theme" aria-live="polite">
+          <span class="theme-icon" id="theme-icon" aria-hidden="true"></span>
+          <span id="theme-label">Auto</span>
+        </button>
         <button type="button" class="iconbtn" id="btn-install" hidden>Installer</button>
         <button type="button" class="iconbtn" id="btn-account">Reglages</button>
       </div>
@@ -46,14 +68,6 @@
     <header class="top">
       <h1>Capsule Override</h1>
       <p class="lede">Cochez <b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5 — variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</p>
-
-      <section class="roster" aria-label="Joueurs">
-        <div class="roster-head">
-          <h2>Joueurs sur cet appareil</h2>
-          <span class="sync" id="sync" data-state="live"><i></i><span id="sync-label">Sur cet appareil</span></span>
-        </div>
-        <div class="roster-list" id="roster"></div>
-      </section>
 
       <section class="console" aria-label="Progression">
         <div class="scores">
@@ -141,31 +155,6 @@
 </div>
 
 <!-- ============================================================
-     Creation d'un profil
-     ============================================================ -->
-<dialog class="sheet" id="profile-sheet">
-  <div class="sheet-head">
-    <h2>Nouveau joueur</h2>
-    <button type="button" class="sheet-close" id="profile-sheet-cancel" aria-label="Fermer">&times;</button>
-  </div>
-  <div class="sheet-body">
-    <form id="form-profile" novalidate>
-      <div class="field">
-        <label for="profile-name">Pseudo en jeu</label>
-        <input type="text" id="profile-name" maxlength="18" autocomplete="nickname" required placeholder="Votre pseudo Epic">
-        <span class="err" id="profile-name-err"></span>
-      </div>
-      <div class="field">
-        <label id="profile-color-label">Couleur</label>
-        <div class="swatches" id="profile-colors" role="group" aria-labelledby="profile-color-label"></div>
-      </div>
-      <button type="submit" class="btn btn-primary">Commencer a cocher</button>
-      <p class="form-note">Pas de compte, pas d'e-mail, rien qui sorte du telephone. Jusqu'a cinq joueurs peuvent se partager cet appareil.</p>
-    </form>
-  </div>
-</dialog>
-
-<!-- ============================================================
      Reglages
      ============================================================ -->
 <dialog class="sheet" id="account">
@@ -174,6 +163,18 @@
     <button type="button" class="sheet-close" id="account-close" aria-label="Fermer">&times;</button>
   </div>
   <div class="sheet-body">
+
+    <section>
+      <h3>Apparence</h3>
+      <div class="seg seg-wide" id="theme-seg" role="group" aria-label="Theme">
+        <button type="button" data-theme="auto" aria-pressed="true">Systeme</button>
+        <button type="button" data-theme="light" aria-pressed="false">Clair</button>
+        <button type="button" data-theme="dark" aria-pressed="false">Sombre</button>
+      </div>
+      <p class="form-note" id="theme-note"></p>
+    </section>
+
+    <hr>
 
     <section>
       <h3>Ou sont mes donnees</h3>
@@ -198,7 +199,7 @@
     <section>
       <h3>Zone sensible</h3>
       <div class="row"><button type="button" class="btn btn-danger" id="btn-wipe">Tout effacer</button></div>
-      <p class="form-note">Supprime tous les profils et toutes les coches de cet appareil. Exportez d'abord si vous voulez les garder.</p>
+      <p class="form-note">Decoche l'integralite de la collection sur cet appareil. Exportez d'abord si vous voulez la garder.</p>
     </section>
 
   </div>
