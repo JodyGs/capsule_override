@@ -1,0 +1,62 @@
+{
+  "season": "Chapitre 7 Saison 4 — Override",
+  "updatedAt": "2026-08-20",
+  "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
+  "note": "Aucun code n'a expire a ce jour. Epic en distribue de nouveaux via le Discord officiel Fortnite, dans le cadre de l'ARG Override.",
+  "sources": ["PCGamesN", "Dexerto", "Nintendo Life", "TheGamer", "allthings.how", "Insider Gaming"],
+  "groups": [
+    {
+      "id": "sprites",
+      "label": "Esprits Cheat Master",
+      "codes": [
+        { "code": "GottaGoFast",   "reward": "Esprit Sonic Cheat Master",   "once": true, "tag": "Sonic" },
+        { "code": "IWannaFlyHigh", "reward": "Esprit Tails Cheat Master",   "once": true, "tag": "Sonic" },
+        { "code": "8BitBlast",     "reward": "Esprit 8-Bit Cheat Master",   "once": true },
+        { "code": "Born2Play",     "reward": "Esprit Aventure Cheat Master","once": true },
+        { "code": "Play4All",      "reward": "Esprit Jonesy Cheat Master",  "once": true }
+      ]
+    },
+    {
+      "id": "dust",
+      "label": "Poussiere d'esprit",
+      "hint": "Quatre mots dans quatre langues, distribues par les comptes Fortnite regionaux.",
+      "codes": [
+        { "code": "Magilume",     "reward": "2 000 poussieres d'esprit", "once": true },
+        { "code": "Chispambo",    "reward": "2 000 poussieres d'esprit", "once": true },
+        { "code": "Perlimpinpin", "reward": "2 000 poussieres d'esprit", "once": true },
+        { "code": "Abgestaubt",   "reward": "2 000 poussieres d'esprit", "once": true }
+      ]
+    },
+    {
+      "id": "gizmos",
+      "label": "Gizmos et objets",
+      "codes": [
+        { "code": "O2Override",      "reward": "Lama de ravitaillement + 5 extracteurs portables", "once": true,
+          "warn": "Quatre sources sur six annoncent 5 extracteurs, deux n'en annoncent qu'un." },
+        { "code": "TakeYourHeart",   "reward": "2 accelerateurs d'extraction", "once": true, "tag": "Persona 5" },
+        { "code": "PerfectOrder",    "reward": "4 tacos epices", "once": true },
+        { "code": "SurviveTheNight", "reward": "2 localisateurs de code", "once": true, "tag": "99 Nights in the Forest" },
+        { "code": "FindItChat",      "reward": "2 localisateurs de code", "once": true }
+      ]
+    },
+    {
+      "id": "xp",
+      "label": "XP et cosmetiques",
+      "codes": [
+        { "code": "OverrideXP",          "reward": "40 000 XP", "once": true },
+        { "code": "BeMoreAlien",         "reward": "Ecran de chargement « Override Ready »", "once": true },
+        { "code": "ReachYourImpossible", "reward": "Ecran de chargement « Block Party »", "once": true }
+      ]
+    },
+    {
+      "id": "tetris",
+      "label": "Bloc Tetris",
+      "hint": "Les deux seuls codes reutilisables : ils changent l'apparence du lobby, sans recompense a collecter.",
+      "codes": [
+        { "code": "LetsBlockAndRoll", "reward": "Vous transforme en bloc Tetris", "once": false, "tag": "Tetris" },
+        { "code": "DontBlockMe",      "reward": "Remet votre avatar normal", "once": false, "tag": "Tetris",
+          "warn": "Trois sources y voient une seconde transformation ; Dexerto, le plus recent, dit que le code annule. Essayez-le apres LetsBlockAndRoll." }
+      ]
+    }
+  ]
+}

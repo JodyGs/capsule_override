@@ -130,6 +130,79 @@ body{
 .sync[data-state="warn"]{color:var(--warn)}
 .sync[data-state="warn"] i{background:var(--warn)}
 
+/* Bouton Codes : une pastille annonce combien restent a utiliser. */
+.codes-btn{gap:8px}
+.codes-btn svg{flex:none}
+.codes-count{
+  min-width:17px;height:17px;padding:0 4px;border-radius:9px;
+  background:var(--gold);color:var(--gold-ink);
+  font-size:10px;font-weight:700;display:grid;place-items:center;line-height:1;
+}
+
+/* --- modale des codes --- */
+.sheet-wide{width:min(620px,calc(100vw - 32px))}
+.codes-progress{
+  margin-left:auto;font-family:var(--f-mono);font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);white-space:nowrap;
+}
+.codes-group{display:flex;flex-direction:column;gap:9px}
+.codes-group h3{
+  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;
+  color:var(--ink-3);margin:0;font-weight:600;
+}
+.codes-ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+
+.code-row{
+  display:grid;grid-template-columns:auto minmax(0,auto) minmax(0,1fr);
+  align-items:center;gap:11px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:8px 11px;transition:border-color .15s,background .15s;
+}
+.code-row.is-used{
+  background:var(--accent-soft);
+  border-color:color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.code-check{
+  width:30px;height:30px;flex:none;display:grid;place-items:center;padding:0;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink-3);
+}
+.code-check svg{width:14px;height:14px;display:block}
+.code-check[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.code-check.is-reusable{
+  cursor:default;border-style:dashed;font-size:15px;color:var(--ink-3);background:none;
+}
+.code-text{
+  font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--ink);
+  background:none;border:0;border-bottom:1px dashed var(--line-strong);
+  padding:2px 0;cursor:pointer;text-align:left;white-space:nowrap;
+}
+.code-text:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.code-row.is-used .code-text{color:var(--ink-2)}
+.code-reward{
+  font-size:12.5px;color:var(--ink-2);line-height:1.45;min-width:0;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;
+}
+.code-tag{
+  font-style:normal;font-family:var(--f-mono);font-size:9.5px;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--ink-3);border:1px solid var(--line-strong);
+  border-radius:4px;padding:1px 5px;white-space:nowrap;
+}
+.code-warn{
+  flex:1 1 100%;font-size:11px;color:var(--warn);line-height:1.5;
+}
+
+@media (max-width:620px){
+  .sheet-wide{width:100vw}
+  .codes-progress{width:100%;margin-left:0;order:3;padding-top:2px}
+  .sheet-head{flex-wrap:wrap}
+  /* En colonne etroite, la recompense passe sous le code. */
+  .code-row{grid-template-columns:auto minmax(0,1fr);gap:9px 10px;padding:9px 11px}
+  .code-reward{grid-column:2;font-size:12px}
+  .code-check{width:34px;height:34px}
+  #btn-codes-label{display:none}
+  .codes-btn{padding:8px 12px;gap:6px}
+}
+
 /* Bouton Legacy : discret par defaut, teinte quand on est dans le passe. */
 .legacy-btn{gap:8px}
 .legacy-btn svg{flex:none}
@@ -428,7 +501,10 @@ h1{
 dialog.sheet{
   border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);
   padding:0;width:min(440px,calc(100vw - 32px));box-shadow:var(--shadow-lift);
+  /* Sans plafond, une longue liste sort de l'ecran sans moyen de defiler. */
+  max-height:86vh;overflow-y:auto;
 }
+dialog.sheet .sheet-head{position:sticky;top:0;background:var(--surface);z-index:1}
 dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
 .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
 .sheet-head h2{font-family:var(--f-display);font-size:19px;font-weight:700;margin:0}
@@ -652,7 +728,6 @@ body{
     padding-bottom:env(safe-area-inset-bottom);
   }
   .sheet-body{padding:18px 18px 26px}
-  .sheet-head{position:sticky;top:0;background:var(--surface);z-index:1}
 
   /* Ecran de connexion : plein cadre plutot qu'une carte flottante. */
   .gate{padding:0;align-items:stretch}

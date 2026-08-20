@@ -1024,6 +1024,156 @@ $("btn-wipe").addEventListener("click", () => {
 });
 
 /* ============================================================
+   Codes du panneau d'administration du lobby
+   ============================================================ */
+const K_CODES = "capsule-override.codes.v1";
+const codesDialog = $("codes");
+let codesData = null;
+let codesUsed = {};
+
+function readCodes() {
+  try {
+    const raw = localStorage.getItem(K_CODES);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveCodes() {
+  try { localStorage.setItem(K_CODES, JSON.stringify(codesUsed)); } catch { /* stockage plein */ }
+}
+
+const allCodes = () => (codesData?.groups || []).flatMap((g) => g.codes);
+const onceCodes = () => allCodes().filter((c) => c.once);
+
+function refreshCodesBadge() {
+  const total = onceCodes().length;
+  const used = onceCodes().filter((c) => codesUsed[c.code.toUpperCase()]).length;
+  const left = total - used;
+
+  const badge = $("codes-count");
+  badge.hidden = left === 0 || !total;
+  badge.textContent = left;
+  $("btn-codes").title = total
+    ? `${left} code${left > 1 ? "s" : ""} pas encore utilise${left > 1 ? "s" : ""} sur ${total}`
+    : "Les codes du panneau d'administration du lobby";
+
+  const progress = $("codes-progress");
+  if (progress) progress.textContent = total ? `${used} / ${total} utilises` : "";
+}
+
+function buildCodes() {
+  const box = $("codes-list");
+  box.innerHTML = "";
+
+  for (const group of codesData.groups) {
+    const section = document.createElement("section");
+    section.className = "codes-group";
+    section.innerHTML = `
+      <h3>${esc(group.label)}</h3>
+      ${group.hint ? `<p class="form-note">${esc(group.hint)}</p>` : ""}`;
+
+    const list = document.createElement("ul");
+    list.className = "codes-ul";
+    for (const entry of group.codes) {
+      const key = entry.code.toUpperCase();
+      const li = document.createElement("li");
+      li.className = "code-row";
+      li.innerHTML = `
+        ${entry.once
+          ? `<button type="button" class="code-check" data-code="${key}" aria-pressed="false"
+                     aria-label="Marquer ${esc(entry.code)} comme utilise">${ICON_U}</button>`
+          : '<span class="code-check is-reusable" aria-hidden="true">&#8635;</span>'}
+        <button type="button" class="code-text" data-copy="${esc(entry.code)}"
+                title="Copier ${esc(entry.code)}">${esc(entry.code)}</button>
+        <span class="code-reward">${esc(entry.reward)}${
+          entry.tag ? `<em class="code-tag">${esc(entry.tag)}</em>` : ""}${
+          entry.once ? "" : '<em class="code-tag">reutilisable</em>'}${
+          entry.warn ? `<small class="code-warn">${esc(entry.warn)}</small>` : ""}</span>`;
+      list.appendChild(li);
+    }
+    section.appendChild(list);
+    box.appendChild(section);
+  }
+  paintCodes();
+}
+
+function paintCodes() {
+  for (const btn of $("codes-list").querySelectorAll(".code-check[data-code]")) {
+    const on = Boolean(codesUsed[btn.dataset.code]);
+    btn.setAttribute("aria-pressed", String(on));
+    btn.closest(".code-row").classList.toggle("is-used", on);
+  }
+  refreshCodesBadge();
+}
+
+$("codes-list").addEventListener("click", async (e) => {
+  const check = e.target.closest(".code-check[data-code]");
+  if (check) {
+    const key = check.dataset.code;
+    if (codesUsed[key]) delete codesUsed[key];
+    else codesUsed[key] = true;
+    saveCodes();
+    paintCodes();
+    if (navigator.vibrate) navigator.vibrate(10);
+    return;
+  }
+
+  const copy = e.target.closest(".code-text");
+  if (copy) {
+    const text = copy.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(text);
+      notify(`« ${text} » copie.`);
+    } catch {
+      notify("Copie impossible ici — recopiez le code a la main.");
+    }
+  }
+});
+
+$("btn-codes-reset").addEventListener("click", () => {
+  if (!confirm("Decocher tous les codes ? Vous perdrez le suivi de ceux deja utilises.")) return;
+  codesUsed = {};
+  saveCodes();
+  paintCodes();
+});
+
+$("btn-codes").addEventListener("click", async () => {
+  if (!codesData) {
+    try {
+      const res = await fetch("cheat-codes.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error("codes");
+      codesData = await res.json();
+    } catch {
+      notify("La liste des codes n'a pas pu etre chargee.");
+      return;
+    }
+    $("codes-where").textContent = codesData.where || "";
+    $("codes-note").textContent = codesData.note || "";
+    buildCodes();
+  }
+  codesDialog.showModal();
+});
+
+$("codes-close").addEventListener("click", () => codesDialog.close());
+
+/* Le compteur du bouton doit etre juste des le premier affichage, sans
+   attendre que l'utilisateur ouvre la modale. */
+async function primeCodes() {
+  codesUsed = readCodes();
+  try {
+    const res = await fetch("cheat-codes.json", { cache: "no-cache" });
+    if (!res.ok) return;
+    codesData = await res.json();
+    $("codes-where").textContent = codesData.where || "";
+    $("codes-note").textContent = codesData.note || "";
+    buildCodes();
+  } catch { /* hors ligne au premier lancement : la modale reessaiera */ }
+}
+
+/* ============================================================
    Installation sur mobile
    ============================================================ */
 const installBtn = $("btn-install");
@@ -1188,6 +1338,8 @@ async function boot() {
   }
 
   $("app").hidden = false;
+
+  primeCodes();
 
   const persisted = await requestPersistence();
   storageLabel = persisted ? "Garde sur cet appareil" : "Sur cet appareil";

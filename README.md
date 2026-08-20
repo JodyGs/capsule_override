@@ -157,6 +157,33 @@ ne pas entrer en collision d'une saison à l'autre (`l-` pour Runners).
 
 ---
 
+## Codes du lobby
+
+Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
+`…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
+dorée indique combien restent à utiliser.
+
+**19 codes**, groupés par type de récompense, chacun cochable une fois utilisé. Toucher un
+code le copie dans le presse-papier. Le suivi vit dans sa propre clé
+(`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
+se consomme au niveau du compte Epic, pas de la saison.
+
+Les deux codes Tetris (`LetsBlockAndRoll`, `DontBlockMe`) sont **réutilisables** : ils ne
+sont pas cochables et ne comptent pas dans le total de 17.
+
+La liste vient de `public/cheat-codes.json`, recoupée sur six sources le 20 août 2026
+(PCGamesN, Dexerto, Nintendo Life, TheGamer, allthings.how, Insider Gaming). Deux entrées
+portent un avertissement en rouge là où les sources se contredisent :
+
+- **`O2Override`** — quatre sources sur six annoncent 5 extracteurs portables, deux un seul.
+- **`DontBlockMe`** — trois sources y voient une seconde transformation Tetris ; Dexerto, le
+  plus récent, dit que le code annule la transformation.
+
+Epic distribue de nouveaux codes via le Discord officiel dans le cadre de l'ARG Override :
+ajoutez-les dans `public/cheat-codes.json` et incrémentez `VERSION` dans `public/sw.js`.
+
+---
+
 ## Thème
 
 Trois modes, accessibles par le bouton de la barre du haut (qui les fait défiler) ou par
@@ -181,6 +208,7 @@ public/                  l'application, statique de bout en bout
   app.js                 tout le comportement
   styles.css             thème clair et sombre, passe mobile
   sprites.json           le catalogue de la saison
+  cheat-codes.json       les codes du panneau d'administration du lobby
   icons/sprites/         l'icone de chaque esprit, telle qu'elle apparaît en jeu
   manifest.webmanifest   nom, icônes, mode plein écran
   sw.js                  service worker : fonctionnement hors connexion
@@ -207,12 +235,13 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 66 vérifications au vert : génération des 17 cartes et des 102
+Testé dans un DOM simulé, 79 vérifications au vert : génération des 17 cartes et des 102
 boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise
 d'une ancienne sauvegarde à profils, la bascule Legacy avec l'étanchéité des deux collections et
-le nombre exact de variantes par esprit, et surtout **réouverture de l'app avec des données existantes** — les coches
+le nombre exact de variantes par esprit, le suivi des codes du lobby et son
+indépendance vis-à-vis des collections, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
 Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les

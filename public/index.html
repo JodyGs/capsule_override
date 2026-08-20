@@ -60,6 +60,14 @@
           <span class="theme-icon" id="theme-icon" aria-hidden="true"></span>
           <span id="theme-label">Auto</span>
         </button>
+        <button type="button" class="iconbtn codes-btn" id="btn-codes"
+                title="Les codes du panneau d'administration du lobby">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.6" y="4.4" width="18.8" height="15.2" rx="2.4"/><path d="M6.8 10.2 9.4 12.6 6.8 15"/><path d="M12.4 15.2h4.6"/>
+          </svg>
+          <span id="btn-codes-label">Codes</span>
+          <span class="codes-count" id="codes-count" hidden></span>
+        </button>
         <button type="button" class="iconbtn legacy-btn" id="btn-legacy" aria-pressed="false"
                 title="Voir les esprits des saisons passees, suivis a part">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -265,6 +273,25 @@
       <p class="form-note">Decoche l'integralite de la collection sur cet appareil. Exportez d'abord si vous voulez la garder.</p>
     </section>
 
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Codes du panneau d'administration
+     ============================================================ -->
+<dialog class="sheet sheet-wide" id="codes">
+  <div class="sheet-head">
+    <h2>Codes du lobby</h2>
+    <span class="codes-progress" id="codes-progress"></span>
+    <button type="button" class="sheet-close" id="codes-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <p class="form-note" id="codes-where"></p>
+    <div id="codes-list"></div>
+    <p class="form-note" id="codes-note"></p>
+    <div class="row">
+      <button type="button" class="btn btn-ghost" id="btn-codes-reset">Tout decocher</button>
+    </div>
   </div>
 </dialog>
 
