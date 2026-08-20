@@ -106,6 +106,8 @@ body{
   font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;
 }
 
+.btn-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn-primary:disabled{opacity:.6;cursor:progress}
 .btn-ghost{background:none;color:var(--ink-2);border-color:var(--line-strong)}
 .btn-ghost:hover{background:var(--surface-2);color:var(--ink)}
 .btn-danger{background:none;color:var(--warn);border-color:var(--warn)}

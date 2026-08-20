@@ -80,12 +80,32 @@ Ce qui **efface** vos coches : désinstaller l'app, vider les données de site d
 ou le bouton *Tout effacer*. Sur iOS, une app installée depuis l'écran d'accueil n'est pas
 soumise à la purge des 7 jours qui touche les simples sites web.
 
-**Transférer vers un autre téléphone** : *Réglages → Exporter / Partager* ouvre la feuille de
-partage du système (AirDrop, Messages, Drive…). Sur l'autre appareil, installez l'app puis
-*Réglages → Importer*.
-
 Les sauvegardes des versions précédentes sont reprises automatiquement, y compris celles à
 plusieurs profils — c'est le profil qui était ouvert qui devient votre collection.
+
+---
+
+## Partager sa liste
+
+*Réglages → **Exporter en image*** dessine la collection sur un canvas et produit un PNG
+portrait : en-tête, score, barre de progression, une ligne par esprit avec ses trois
+variantes, et une légende. L'image reprend le thème actif — elle ressemble à ce que vous
+voyez à l'écran.
+
+L'app essaie ensuite trois voies, dans cet ordre :
+
+1. **`navigator.share`** — sur téléphone, ouvre la feuille de partage du système. WhatsApp,
+   Messages, Discord, Instagram y figurent : l'image part directement dans la conversation.
+2. **Presse-papier** — sur ordinateur, où le partage de fichiers n'existe pas, l'image est
+   copiée. Il n'y a plus qu'à la coller dans WhatsApp Web ou Discord.
+3. **Téléchargement** — dernier recours si ni l'un ni l'autre n'est disponible.
+
+Une précision technique : on ne peut pas pré-attacher une image à WhatsApp par une URL
+`wa.me` — ce lien ne transporte que du texte. La feuille de partage native est la seule voie
+qui dépose vraiment le fichier dans la conversation, et c'est celle que l'app emprunte.
+
+**Transférer vers un autre téléphone** est une autre affaire : l'image ne se réimporte pas.
+Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 
 ---
 
@@ -141,8 +161,12 @@ les trois modes de thème avec leur persistance et la couleur de barre d'état, 
 d'une ancienne sauvegarde à profils, et surtout **réouverture de l'app avec des données
 existantes** — les coches sont toutes restituées.
 
-Non vérifié : le rendu visuel réel et l'installation sur un vrai téléphone, faute de
-navigateur dans l'environnement de développement. À confirmer de votre côté.
+L'image d'export a été rendue pour de vrai, hors navigateur, avec les vraies polices, dans
+les deux thèmes, et inspectée visuellement.
+
+Non vérifié : le rendu de l'interface elle-même, l'installation sur un vrai téléphone, et le
+comportement de la feuille de partage, faute de navigateur dans l'environnement de
+développement. À confirmer de votre côté.
 
 ---
 

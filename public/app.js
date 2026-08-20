@@ -433,9 +433,329 @@ function applyFilters() {
 }
 
 /* ============================================================
-   Sauvegarde manuelle : transferer vers un autre telephone
+   Export en image : une liste a envoyer par message
    ============================================================ */
-$("btn-export").addEventListener("click", async () => {
+
+/* Les glyphes sont ceux de l'interface, en donnees de chemin SVG.
+   Construits a la demande : sur un navigateur sans Path2D, seul l'export
+   est indisponible, le reste de l'app continue de fonctionner. */
+const GLYPH_CHECK = "M4.5 12.5 9.5 17.5 19.5 6.5";
+const GLYPH_STAR = "M3 8.5 7.5 11 12 4l4.5 7L21 8.5l-1.8 9.5H4.8L3 8.5Z";
+
+/* Dessine un glyphe defini sur une grille de 24, a la taille voulue. */
+function glyph(ctx, path, x, y, size, { fill, stroke, width = 3 }) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(size / 24, size / 24);
+  if (fill) { ctx.fillStyle = fill; ctx.fill(path); }
+  if (stroke) {
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.stroke(path);
+  }
+  ctx.restore();
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+}
+
+/* Les couleurs viennent du theme actif : l'image ressemble a ce qu'on voit. */
+function palette() {
+  const css = getComputedStyle(document.documentElement);
+  const read = (name, fallback) => css.getPropertyValue(name).trim() || fallback;
+  return {
+    bg: read("--bg", "#0F0C16"),
+    surface: read("--surface", "#181322"),
+    surface2: read("--surface-2", "#1F1930"),
+    line: read("--line", "#2D2542"),
+    ink: read("--ink", "#EFEBF7"),
+    ink2: read("--ink-2", "#A9A1C0"),
+    ink3: read("--ink-3", "#7C7398"),
+    accent: read("--accent", "#2BE3E8"),
+    accentInk: read("--accent-ink", "#07222A"),
+    gold: read("--gold", "#FFC93C"),
+    rarity: {
+      rare: read("--r-rare", "#5AA2FF"),
+      epic: read("--r-epic", "#B478FF"),
+      legendary: read("--r-legendary", "#FFA33F"),
+      mythic: read("--r-mythic", "#FFE05C"),
+      unknown: read("--ink-3", "#7C7398")
+    }
+  };
+}
+
+async function loadFonts() {
+  if (!document.fonts) return;
+  try {
+    await Promise.all([
+      document.fonts.load('700 34px "Chakra Petch"'),
+      document.fonts.load('600 20px "Chakra Petch"'),
+      document.fonts.load('500 14px "IBM Plex Mono"'),
+      document.fonts.load('600 14px "IBM Plex Mono"')
+    ]);
+    await document.fonts.ready;
+  } catch { /* on se rabattra sur les polices systeme */ }
+}
+
+async function renderCollectionImage() {
+  await loadFonts();
+
+  const pathCheck = new Path2D(GLYPH_CHECK);
+  const pathStar = new Path2D(GLYPH_STAR);
+
+  const c = palette();
+  const rows = state.live;
+  const variants = state.catalogue.variants;
+
+  const W = 900;
+  const PAD = 40;
+  const HEAD = 262;
+  const ROW = 64;
+  const FOOT = 92;
+  const H = HEAD + rows.length * ROW + FOOT;
+
+  // Deux fois la taille : l'image reste nette une fois reduite par la messagerie.
+  const scale = 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = W * scale;
+  canvas.height = H * scale;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(scale, scale);
+  ctx.textBaseline = "alphabetic";
+
+  const display = (size, weight = 700) => `${weight} ${size}px "Chakra Petch", system-ui, sans-serif`;
+  const mono = (size, weight = 500) => `${weight} ${size}px "IBM Plex Mono", ui-monospace, monospace`;
+
+  /* --- fond --- */
+  ctx.fillStyle = c.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  /* --- entete --- */
+  ctx.fillStyle = c.accent;
+  roundRect(ctx, PAD, 38, 118, 30, 5);
+  ctx.fill();
+  ctx.fillStyle = c.accentInk;
+  ctx.font = '10px "Press Start 2P", monospace';
+  ctx.fillText("OVERRIDE", PAD + 13, 58);
+
+  ctx.fillStyle = c.ink;
+  ctx.font = display(38);
+  ctx.fillText("Capsule Override", PAD, 116);
+
+  ctx.fillStyle = c.ink3;
+  ctx.font = mono(13);
+  ctx.fillText(String(state.catalogue.season).toUpperCase(), PAD, 140);
+
+  /* --- score --- */
+  let unlocked = 0, mastered = 0;
+  for (const sprite of rows) {
+    for (const v of variants) {
+      const value = statusOf(sprite.id, v.id);
+      if (value >= 1) unlocked += 1;
+      if (value === 2) mastered += 1;
+    }
+  }
+  const denom = state.denom;
+  const pct = denom ? Math.round((mastered / denom) * 100) : 0;
+
+  ctx.fillStyle = c.gold;
+  ctx.font = display(46);
+  const scoreText = `${mastered}/${denom}`;
+  ctx.fillText(scoreText, PAD, 192);
+  const scoreWidth = ctx.measureText(scoreText).width;
+
+  // « MAITRISES » sur la meme ligne de base que le chiffre, le detail a l'autre bout.
+  ctx.fillStyle = c.ink3;
+  ctx.font = mono(13, 600);
+  ctx.fillText("MAITRISES", PAD + scoreWidth + 14, 192);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = c.ink2;
+  ctx.font = mono(14);
+  ctx.fillText(`${unlocked} debloques  ·  ${pct}%`, W - PAD, 192);
+  ctx.textAlign = "left";
+
+  /* --- barre de progression --- */
+  const barY = 210, barW = W - PAD * 2, barH = 8;
+  ctx.fillStyle = c.surface2;
+  roundRect(ctx, PAD, barY, barW, barH, 4);
+  ctx.fill();
+  if (mastered) {
+    ctx.fillStyle = c.gold;
+    roundRect(ctx, PAD, barY, (barW * mastered) / denom, barH, 4);
+    ctx.fill();
+  }
+  if (unlocked > mastered) {
+    ctx.fillStyle = c.accent;
+    roundRect(ctx, PAD + (barW * mastered) / denom, barY, (barW * (unlocked - mastered)) / denom, barH, 4);
+    ctx.fill();
+  }
+
+  /* --- colonnes --- */
+  const colX = [W - PAD - 180, W - PAD - 110, W - PAD - 34];
+  ctx.fillStyle = c.ink3;
+  ctx.font = mono(11, 600);
+  ctx.textAlign = "center";
+  variants.forEach((v, i) => {
+    const label = v.id === "cheat" ? "CHEAT M." : v.name.toUpperCase();
+    ctx.fillText(label, colX[i], HEAD - 18);
+  });
+  ctx.textAlign = "left";
+
+  /* --- lignes --- */
+  rows.forEach((sprite, i) => {
+    const y = HEAD + i * ROW;
+    const complete = variants.every((v) => statusOf(sprite.id, v.id) === 2);
+
+    ctx.fillStyle = i % 2 ? c.surface : c.surface2;
+    roundRect(ctx, PAD, y + 5, W - PAD * 2, ROW - 10, 8);
+    ctx.fill();
+
+    // Liseré de rareté
+    ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+    roundRect(ctx, PAD, y + 13, 3, ROW - 26, 2);
+    ctx.fill();
+
+    ctx.fillStyle = complete ? c.gold : c.ink;
+    ctx.font = display(20, 600);
+    ctx.fillText(sprite.name, PAD + 20, y + 33);
+
+    ctx.fillStyle = c.ink3;
+    ctx.font = mono(11);
+    const rarity = (state.catalogue.rarities.find((r) => r.id === sprite.rarity)?.label || "").toUpperCase();
+    ctx.fillText(complete ? `${rarity} · COMPLET` : rarity, PAD + 20, y + 50);
+
+    variants.forEach((v, k) => {
+      const value = statusOf(sprite.id, v.id);
+      const cx = colX[k] - 11, cy = y + 20;
+      if (value === 2) glyph(ctx, pathStar, cx, cy, 22, { fill: c.gold });
+      else if (value === 1) glyph(ctx, pathCheck, cx, cy, 22, { stroke: c.accent, width: 3 });
+      else {
+        ctx.fillStyle = c.line;
+        roundRect(ctx, cx + 5, cy + 10, 12, 3, 2);
+        ctx.fill();
+      }
+    });
+  });
+
+  /* --- legende et pied de page --- */
+  const footY = HEAD + rows.length * ROW + 26;
+  ctx.fillStyle = c.line;
+  ctx.fillRect(PAD, footY - 18, W - PAD * 2, 1);
+
+  glyph(ctx, pathCheck, PAD, footY - 6, 18, { stroke: c.accent, width: 3 });
+  ctx.fillStyle = c.ink2;
+  ctx.font = mono(12);
+  ctx.fillText("debloque", PAD + 24, footY + 8);
+
+  glyph(ctx, pathStar, PAD + 110, footY - 6, 18, { fill: c.gold });
+  ctx.fillText("maitrise (extrait au niveau 5)", PAD + 134, footY + 8);
+
+  ctx.fillStyle = c.ink3;
+  ctx.font = mono(11);
+  const upcoming = state.catalogue.sprites.length - rows.length;
+  const host = location.hostname && !/^(localhost|127\.|\[?::1)/.test(location.hostname)
+    ? location.hostname : "";
+  const notes = [];
+  if (upcoming > 0) notes.push(`${upcoming} esprits pas encore sortis, non comptes`);
+  if (host) notes.push(host);
+  if (notes.length) ctx.fillText(notes.join("  ·  "), PAD, footY + 32);
+
+  const stamp = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  ctx.textAlign = "right";
+  ctx.fillText(stamp, W - PAD, footY + 32);
+  ctx.textAlign = "left";
+
+  return new Promise((done, fail) => {
+    canvas.toBlob((blob) => (blob ? done(blob) : fail(new Error("canvas"))), "image/png");
+  });
+}
+
+/* Message furtif en bas d'ecran. */
+let noticeTimer = null;
+function notify(message) {
+  const box = $("notice");
+  $("notice-text").textContent = message;
+  box.hidden = false;
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => { box.hidden = true; }, 3600);
+}
+
+/* Trois voies, de la plus directe a la plus manuelle :
+   la feuille de partage du telephone, le presse-papier, puis le telechargement. */
+async function shareImage(blob, filename) {
+  const file = new File([blob], filename, { type: "image/png" });
+
+  // 1. Telephone : ouvre WhatsApp, Messages, Discord… directement.
+  if (navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: "Ma collection d'esprits" });
+      return "shared";
+    } catch (err) {
+      if (err?.name === "AbortError") return "cancelled";
+      // Tout autre echec : on tente la suite.
+    }
+  }
+
+  // 2. Ordinateur : l'image atterrit dans le presse-papier, prete a coller.
+  if (navigator.clipboard?.write && window.ClipboardItem) {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      return "copied";
+    } catch { /* permission refusee ou format non gere */ }
+  }
+
+  // 3. Dernier recours : on la telecharge.
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  return "downloaded";
+}
+
+if (typeof Path2D === "undefined") {
+  // Navigateur trop ancien pour le canvas : on retire l'affordance plutot
+  // que de proposer un bouton qui echouera.
+  $("btn-export").hidden = true;
+}
+
+$("btn-export").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  const label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Generation…";
+
+  try {
+    const blob = await renderCollectionImage();
+    const stamp = new Date().toISOString().slice(0, 10);
+    const outcome = await shareImage(blob, `capsule-override-${stamp}.png`);
+
+    if (outcome === "shared") $("account").close();
+    else if (outcome === "copied") {
+      $("account").close();
+      notify("Image copiee — collez-la dans votre conversation.");
+    } else if (outcome === "downloaded") {
+      notify("Image enregistree dans vos telechargements.");
+    }
+  } catch {
+    notify("L'image n'a pas pu etre generee sur cet appareil.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+});
+
+/* ============================================================
+   Sauvegarde JSON : transferer vers un autre telephone
+   ============================================================ */
+$("btn-backup").addEventListener("click", async () => {
   const text = JSON.stringify({
     app: "capsule-override",
     version: 4,
@@ -447,13 +767,12 @@ $("btn-export").addEventListener("click", async () => {
   const filename = "capsule-override.json";
   const file = new File([text], filename, { type: "application/json" });
 
-  // Sur mobile, la feuille de partage est le geste naturel : AirDrop, messages, Drive.
   if (navigator.canShare?.({ files: [file] })) {
     try {
       await navigator.share({ files: [file], title: "Sauvegarde Capsule Override" });
       return;
     } catch (err) {
-      if (err?.name === "AbortError") return;   // partage annule : ne pas insister
+      if (err?.name === "AbortError") return;
     }
   }
 

@@ -185,13 +185,23 @@
     <hr>
 
     <section>
+      <h3>Partager ma liste</h3>
+      <div class="row">
+        <button type="button" class="btn btn-primary" id="btn-export">Exporter en image</button>
+      </div>
+      <p class="form-note">Genere une image de votre collection et ouvre la feuille de partage du telephone : WhatsApp, Messages, Discord, ce que vous voulez. Sur ordinateur, l'image est copiee dans le presse-papier — il n'y a plus qu'a la coller dans la conversation.</p>
+    </section>
+
+    <hr>
+
+    <section>
       <h3>Transferer vers un autre telephone</h3>
       <div class="row">
-        <button type="button" class="btn btn-ghost" id="btn-export">Exporter / Partager</button>
+        <button type="button" class="btn btn-ghost" id="btn-backup">Sauvegarde JSON</button>
         <button type="button" class="btn btn-ghost" id="btn-import">Importer un fichier</button>
         <input type="file" id="file" accept="application/json,.json" hidden>
       </div>
-      <p class="form-note">L'export ouvre la feuille de partage : AirDrop, Messages, Drive, ce que vous voulez. Sur l'autre telephone, installez l'app puis utilisez Importer.</p>
+      <p class="form-note">L'image se partage, mais ne se reimporte pas. Pour deplacer vos coches vers un autre appareil, passez par la sauvegarde JSON.</p>
     </section>
 
     <hr>
@@ -222,6 +232,8 @@
     <p class="form-note">Il faut passer par <strong>Safari</strong> : Chrome et Firefox sur iPhone ne proposent pas l'ajout a l'ecran d'accueil.</p>
   </div>
 </dialog>
+
+<div class="toast" id="notice" hidden role="status"><span id="notice-text"></span></div>
 
 <div class="toast" id="update-toast" hidden>
   <span>Une nouvelle version est prete.</span>
