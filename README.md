@@ -163,13 +163,16 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**19 codes**, groupés par type de récompense, chacun cochable une fois utilisé. Toucher un
-code le copie dans le presse-papier. Le suivi vit dans sa propre clé
+**19 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
-Les deux codes Tetris (`LetsBlockAndRoll`, `DontBlockMe`) sont **réutilisables** : ils ne
-sont pas cochables et ne comptent pas dans le total de 17.
+Les deux codes Tetris (`LetsBlockAndRoll`, `DontBlockMe`) se cochent comme les autres, mais
+leur case est en pointillés et ils **ne comptent pas dans les 17 récompenses** : ils ne
+donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
+une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
+d'accent.
 
 La liste vient de `public/cheat-codes.json`, recoupée sur six sources le 20 août 2026
 (PCGamesN, Dexerto, Nintendo Life, TheGamer, allthings.how, Insider Gaming). Deux entrées
@@ -235,7 +238,7 @@ de recharger.
 
 ## Ce qui a été vérifié, et ce qui ne l'a pas été
 
-Testé dans un DOM simulé, 79 vérifications au vert : génération des 17 cartes et des 102
+Testé dans un DOM simulé, 84 vérifications au vert : génération des 17 cartes et des 102
 boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs et barres, filtres
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise

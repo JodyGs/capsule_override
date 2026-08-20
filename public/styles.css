@@ -154,23 +154,32 @@ body{
 
 .code-row{
   display:grid;grid-template-columns:auto minmax(0,auto) minmax(0,1fr);
-  align-items:center;gap:11px;
+  align-items:start;gap:11px;
   background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
   padding:8px 11px;transition:border-color .15s,background .15s;
 }
+/* La case et le code s'alignent sur la premiere ligne de la recompense,
+   meme quand un avertissement allonge celle-ci. */
+.code-text,
+.code-reward{padding-top:5px}
+.code-row .code-check{margin-top:0}
 .code-row.is-used{
   background:var(--accent-soft);
   border-color:color-mix(in srgb, var(--accent) 40%, transparent);
 }
+/* Un code reutilisable coche est une note personnelle, pas une recompense
+   acquise : fond neutre plutot que la teinte d'accent. */
+.code-row.is-used:has(.is-reusable){background:var(--surface-3);border-color:var(--line-strong)}
 .code-check{
   width:30px;height:30px;flex:none;display:grid;place-items:center;padding:0;cursor:pointer;
   background:var(--surface);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink-3);
 }
 .code-check svg{width:14px;height:14px;display:block}
 .code-check[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.code-check.is-reusable{
-  cursor:default;border-style:dashed;font-size:15px;color:var(--ink-3);background:none;
-}
+/* Reutilisable : meme remplissage une fois coche, mais bordure pointillee
+   pour rappeler que le code peut etre retape et ne rapporte rien. */
+.code-check.is-reusable{border-style:dashed}
+.code-check.is-reusable[aria-pressed="true"]{border-style:dashed}
 .code-text{
   font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--ink);
   background:none;border:0;border-bottom:1px dashed var(--line-strong);

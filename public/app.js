@@ -1057,11 +1057,11 @@ function refreshCodesBadge() {
   badge.hidden = left === 0 || !total;
   badge.textContent = left;
   $("btn-codes").title = total
-    ? `${left} code${left > 1 ? "s" : ""} pas encore utilise${left > 1 ? "s" : ""} sur ${total}`
+    ? `${left} recompense${left > 1 ? "s" : ""} encore a reclamer sur ${total}`
     : "Les codes du panneau d'administration du lobby";
 
   const progress = $("codes-progress");
-  if (progress) progress.textContent = total ? `${used} / ${total} utilises` : "";
+  if (progress) progress.textContent = total ? `${used} / ${total} recompenses` : "";
 }
 
 function buildCodes() {
@@ -1081,11 +1081,14 @@ function buildCodes() {
       const key = entry.code.toUpperCase();
       const li = document.createElement("li");
       li.className = "code-row";
+      // Tout se coche, y compris les codes reutilisables : ils ne rapportent
+      // rien a reclamer, mais on veut pouvoir noter ceux deja essayes.
+      const verb = entry.once ? "comme utilise" : "comme deja essaye";
       li.innerHTML = `
-        ${entry.once
-          ? `<button type="button" class="code-check" data-code="${key}" aria-pressed="false"
-                     aria-label="Marquer ${esc(entry.code)} comme utilise">${ICON_U}</button>`
-          : '<span class="code-check is-reusable" aria-hidden="true">&#8635;</span>'}
+        <button type="button" class="code-check${entry.once ? "" : " is-reusable"}"
+                data-code="${key}" aria-pressed="false"
+                aria-label="Marquer ${esc(entry.code)} ${verb}"
+                title="Marquer ${esc(entry.code)} ${verb}">${ICON_U}</button>
         <button type="button" class="code-text" data-copy="${esc(entry.code)}"
                 title="Copier ${esc(entry.code)}">${esc(entry.code)}</button>
         <span class="code-reward">${esc(entry.reward)}${
@@ -1134,7 +1137,7 @@ $("codes-list").addEventListener("click", async (e) => {
 });
 
 $("btn-codes-reset").addEventListener("click", () => {
-  if (!confirm("Decocher tous les codes ? Vous perdrez le suivi de ceux deja utilises.")) return;
+  if (!confirm("Decocher les 19 codes ? Vous perdrez le suivi de ceux deja utilises.")) return;
   codesUsed = {};
   saveCodes();
   paintCodes();
