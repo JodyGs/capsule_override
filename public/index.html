@@ -51,6 +51,13 @@
       <div class="appbar-left">
         <span class="mark" id="season-mark">OVERRIDE</span>
         <span class="season" id="season-label">Fortnite · Chapitre 7 Saison 4</span>
+        <button type="button" class="player-chip" id="btn-player" hidden
+                title="Votre pseudo Epic — toucher pour le modifier">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.6"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/>
+          </svg>
+          <span id="player-name"></span>
+        </button>
       </div>
       <div class="appbar-right">
         <span class="sync" id="sync" data-state="live" title="Vos coches sont enregistrees sur cet appareil">
@@ -236,6 +243,17 @@
   <div class="sheet-body">
 
     <section>
+      <h3>Pseudo Epic Games</h3>
+      <div class="row">
+        <span class="player-current" id="player-current">Pas encore renseigne</span>
+        <button type="button" class="btn btn-ghost" id="btn-player-edit">Modifier</button>
+      </div>
+      <p class="form-note">Il apparait sur l'image d'export, pour qu'on sache a qui est la collection. Il reste sur cet appareil.</p>
+    </section>
+
+    <hr>
+
+    <section>
       <h3>Apparence</h3>
       <div class="seg seg-wide" id="theme-seg" role="group" aria-label="Theme">
         <button type="button" data-theme="auto" aria-pressed="true">Systeme</button>
@@ -273,6 +291,34 @@
       <p class="form-note">Decoche l'integralite de la collection sur cet appareil. Exportez d'abord si vous voulez la garder.</p>
     </section>
 
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Pseudo Epic : demande a la premiere utilisation, puis jamais
+     ============================================================ -->
+<dialog class="sheet" id="player">
+  <div class="sheet-head">
+    <h2 id="player-title">Votre pseudo Epic</h2>
+    <button type="button" class="sheet-close" id="player-close" aria-label="Fermer" hidden>&times;</button>
+  </div>
+  <div class="sheet-body">
+    <form id="player-form" novalidate>
+      <p class="form-note" id="player-intro">Sous quel nom jouez-vous ? Il servira a signer l'image que vous partagez, rien de plus : aucun compte, aucune connexion, il ne quitte pas ce telephone.</p>
+      <label class="field">
+        <span class="field-label">Pseudonyme Epic Games</span>
+        <input id="player-input" type="text" inputmode="text" maxlength="16"
+               autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="VotrePseudo" aria-describedby="player-error">
+      </label>
+      <p class="form-error" id="player-error" role="alert" hidden></p>
+      <div class="row">
+        <button type="submit" class="btn btn-primary" id="player-save">Enregistrer</button>
+        <button type="button" class="btn btn-ghost" id="player-skip">Plus tard</button>
+        <button type="button" class="btn btn-danger" id="player-forget" hidden>Effacer</button>
+      </div>
+      <p class="form-note">Entre 3 et 16 caracteres, comme chez Epic. Modifiable a tout moment dans Reglages.</p>
+    </form>
   </div>
 </dialog>
 

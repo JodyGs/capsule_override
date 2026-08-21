@@ -15,6 +15,7 @@ const COLLECTIONS = {
 
 const K_COLLECTION = "capsule-override.collection";
 const K_THEME = "capsule-override.theme";
+const K_PLAYER = "capsule-override.player.v1";
 // Sauvegardes laissees par les versions precedentes de l'app.
 const K_LEGACY_PROFILES = ["capsule-override.store.v3", "capsule-override.store.v2"];
 const K_LEGACY_ACTIVE = "capsule-override.active";
@@ -96,6 +97,114 @@ $("theme-seg").addEventListener("click", (e) => {
 // En mode Auto, suivre le telephone s'il bascule en cours de route.
 darkQuery.addEventListener("change", () => {
   if (theme === "auto") applyTheme("auto", { persist: false });
+});
+
+/* ============================================================
+   Pseudo Epic Games
+   Demande une seule fois : tant qu'il n'est pas enregistre, la fiche
+   s'ouvre au demarrage ; des qu'il l'est, plus personne ne la reclame.
+   ============================================================ */
+const PLAYER_MIN = 3;
+const PLAYER_MAX = 16;   // limite d'Epic sur les noms affiches
+
+function readPlayer() {
+  try {
+    const raw = localStorage.getItem(K_PLAYER);
+    if (!raw) return "";
+    // Les tout premiers enregistrements etaient une simple chaine.
+    const value = raw.trim().startsWith("{") ? JSON.parse(raw)?.name : raw;
+    return typeof value === "string" ? value.trim() : "";
+  } catch { return ""; }
+}
+
+function writePlayer(name) {
+  try {
+    if (name) localStorage.setItem(K_PLAYER, JSON.stringify({ name, setAt: now() }));
+    else localStorage.removeItem(K_PLAYER);
+    return true;
+  } catch {
+    return false;   // navigation privee ou stockage plein
+  }
+}
+
+/* Espaces multiples ecrases, bords rognes : « Jody  Gs » et « Jody Gs  »
+   sont le meme joueur. */
+const cleanPlayer = (value) => String(value || "").replace(/\s+/g, " ").trim();
+
+function playerProblem(name) {
+  if (!name) return "Entrez votre pseudo, ou choisissez « Plus tard ».";
+  if (name.length < PLAYER_MIN) return `Trop court : ${PLAYER_MIN} caracteres au minimum.`;
+  if (name.length > PLAYER_MAX) return `Trop long : ${PLAYER_MAX} caracteres au maximum.`;
+  return "";
+}
+
+function paintPlayer() {
+  const name = readPlayer();
+  const chip = $("btn-player");
+  chip.hidden = !name;
+  $("player-name").textContent = name;
+  chip.setAttribute("aria-label", name ? `Pseudo Epic : ${name}. Modifier.` : "Definir mon pseudo Epic");
+  $("player-current").textContent = name || "Pas encore renseigne";
+  $("player-current").classList.toggle("is-empty", !name);
+}
+
+const playerDialog = $("player");
+
+function openPlayer({ first = false } = {}) {
+  const name = readPlayer();
+  $("player-title").textContent = first ? "Votre pseudo Epic" : "Changer de pseudo";
+  $("player-intro").hidden = !first;
+  $("player-skip").hidden = !first;          // hors premiere fois, on ferme par la croix
+  $("player-close").hidden = first;
+  $("player-forget").hidden = first || !name;
+  $("player-save").textContent = first ? "Enregistrer" : "Mettre a jour";
+  $("player-error").hidden = true;
+  $("player-input").value = name;
+
+  playerDialog.showModal();
+  // iOS n'aime pas le focus pose dans le meme battement que l'ouverture.
+  setTimeout(() => { try { $("player-input").focus(); $("player-input").select(); } catch { /* champ absent */ } }, 60);
+}
+
+$("player-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = cleanPlayer($("player-input").value);
+  const problem = playerProblem(name);
+  if (problem) {
+    $("player-error").textContent = problem;
+    $("player-error").hidden = false;
+    $("player-input").focus();
+    return;
+  }
+  if (!writePlayer(name)) {
+    $("player-error").textContent = "Ce navigateur refuse d'enregistrer : le pseudo sera redemande.";
+    $("player-error").hidden = false;
+    return;
+  }
+  paintPlayer();
+  playerDialog.close();
+  notify(`Pseudo enregistre : ${name}`);
+});
+
+// La saisie efface le reproche : on ne laisse pas un message rouge sous un champ corrige.
+$("player-input").addEventListener("input", () => { $("player-error").hidden = true; });
+
+$("player-skip").addEventListener("click", () => playerDialog.close());
+$("player-close").addEventListener("click", () => playerDialog.close());
+
+$("player-forget").addEventListener("click", () => {
+  if (!confirm("Oublier votre pseudo sur cet appareil ? Il vous sera redemande au prochain lancement.")) return;
+  writePlayer("");
+  paintPlayer();
+  playerDialog.close();
+});
+
+$("btn-player").addEventListener("click", () => openPlayer());
+
+$("btn-player-edit").addEventListener("click", () => {
+  // Deux modales empilees se recouvrent mal sur telephone : on ferme d'abord.
+  $("account").close();
+  openPlayer();
 });
 
 /* ============================================================
@@ -674,6 +783,19 @@ async function renderCollectionImage() {
   ctx.font = mono(13);
   ctx.fillText(String(state.catalogue.season).toUpperCase(), PAD, 140);
 
+  // Signature : a qui appartient cette collection.
+  const player = readPlayer();
+  if (player) {
+    ctx.textAlign = "right";
+    ctx.fillStyle = c.ink3;
+    ctx.font = mono(11, 600);
+    ctx.fillText("PSEUDO EPIC", W - PAD, 46);
+    ctx.fillStyle = c.ink;
+    ctx.font = display(26, 600);
+    ctx.fillText(player, W - PAD, 76);
+    ctx.textAlign = "left";
+  }
+
   /* --- score --- */
   let unlocked = 0, mastered = 0;
   for (const sprite of rows) {
@@ -927,6 +1049,7 @@ $("btn-backup").addEventListener("click", async () => {
     app: "capsule-override",
     version: 4,
     season: state.catalogue.season,
+    player: readPlayer() || undefined,
     exportedAt: new Date().toISOString(),
     entries: state.entries
   }, null, 2);
@@ -984,6 +1107,13 @@ $("file").addEventListener("change", async () => {
     if (!count) throw new Error("vide");
 
     if (!confirm(`Remplacer votre collection par ce fichier ? ${count} coche${count > 1 ? "s" : ""} seront restaurees.`)) return;
+
+    // On n'ecrase jamais un pseudo deja pose sur cet appareil.
+    const incomingPlayer = cleanPlayer(parsed.player);
+    if (incomingPlayer && !readPlayer() && !playerProblem(incomingPlayer)) {
+      writePlayer(incomingPlayer);
+      paintPlayer();
+    }
 
     state.entries = clean;
     saveStore({ immediate: true });
@@ -1343,6 +1473,11 @@ async function boot() {
   $("app").hidden = false;
 
   primeCodes();
+  paintPlayer();
+
+  // Premiere utilisation, ou pseudo efface : on le demande. Une fois
+  // enregistre, cette fiche ne se rouvre que si on la demande.
+  if (!readPlayer()) openPlayer({ first: true });
 
   const persisted = await requestPersistence();
   storageLabel = persisted ? "Garde sur cet appareil" : "Sur cet appareil";

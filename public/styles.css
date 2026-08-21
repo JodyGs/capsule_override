@@ -107,7 +107,25 @@ body{
 .btn-danger{background:none;color:var(--warn);border-color:var(--warn)}
 .btn-danger:hover{background:var(--warn-soft)}
 
+.btn-primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn-primary:hover{filter:brightness(1.08)}
+
 .form-note{margin:0;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);line-height:1.6}
+.form-error{margin:0;font-family:var(--f-mono);font-size:11px;color:var(--warn);line-height:1.5}
+
+/* Champ de saisie des fiches */
+.field{display:flex;flex-direction:column;gap:7px}
+.field-label{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3);font-weight:600}
+.field input{
+  width:100%;font:inherit;font-size:15px;color:var(--ink);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:8px;
+  padding:11px 13px;
+}
+.field input::placeholder{color:var(--ink-3)}
+.field input:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+.player-current{font-family:var(--f-mono);font-size:12.5px;color:var(--ink);font-weight:600;overflow-wrap:anywhere}
+.player-current.is-empty{color:var(--ink-3);font-weight:500}
 
 /* ============================================================
    Application
@@ -120,6 +138,18 @@ body{
 }
 .appbar-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .appbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Pastille du pseudo : discrete, mais cliquable pour le changer. */
+.player-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:999px;
+  padding:5px 11px 5px 9px;cursor:pointer;color:var(--ink-2);
+  font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;
+  max-width:min(220px,46vw);
+}
+.player-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-chip svg{flex:none;color:var(--ink-3)}
+.player-chip:hover{border-color:var(--line-strong);color:var(--ink)}
 
 /* Indicateur d'enregistrement */
 .sync{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);white-space:nowrap}
@@ -620,6 +650,7 @@ body{
   #btn-legacy-label{display:none}     /* l'etat presse et le bandeau disent le mode */
   .theme-btn,
   .legacy-btn{padding:8px 12px;min-width:44px;justify-content:center;gap:0}
+  .player-chip{min-height:32px;max-width:60vw}
   .legacy-banner{padding:12px 14px}
   .legacy-banner p{font-size:12.5px}
 
@@ -743,7 +774,8 @@ body{
   .gate-card{max-width:none;border:0;border-radius:0;min-height:100vh;box-shadow:none;display:flex;flex-direction:column}
   .gate-top{padding:calc(28px + env(safe-area-inset-top)) 22px 20px}
   .gate form{padding:22px 22px calc(32px + env(safe-area-inset-bottom))}
-  .search input{font-size:16px}   /* 16px : evite le zoom automatique d'iOS */
+  .search input,
+  .field input{font-size:16px}   /* 16px : evite le zoom automatique d'iOS */
   .btn{padding:14px 16px}
   .sw{width:34px;height:34px}
 }

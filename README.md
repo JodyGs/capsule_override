@@ -75,7 +75,9 @@ ne savent pas le faire), puis **Partager → Sur l'écran d'accueil → Ajouter*
 ## Où vivent les données
 
 Tout est dans le `localStorage` du navigateur, sous la clé `capsule-override.store.v4`
-(plus le thème sous `capsule-override.theme`).
+(la saison passée sous `capsule-override.legacy.v1`, les codes du lobby sous
+`capsule-override.codes.v1`, le thème sous `capsule-override.theme`, le pseudo Epic sous
+`capsule-override.player.v1`).
 Au démarrage, l'app appelle `navigator.storage.persist()` pour demander au système de ne pas
 effacer ces données quand la place manque — l'écran **Réglages** vous dit si c'est accordé.
 
@@ -85,6 +87,25 @@ soumise à la purge des 7 jours qui touche les simples sites web.
 
 Les sauvegardes des versions précédentes sont reprises automatiquement, y compris celles à
 plusieurs profils — c'est le profil qui était ouvert qui devient votre collection.
+
+---
+
+## Le pseudo Epic
+
+Au tout premier lancement — et seulement tant qu'aucun pseudo n'est enregistré sur
+l'appareil — l'app ouvre une fiche qui demande le pseudonyme Epic Games du joueur.
+Trois à seize caractères, comme chez Epic ; les espaces multiples sont écrasés.
+**Plus tard** ferme la fiche sans rien écrire : elle sera reproposée au lancement suivant.
+
+Une fois le pseudo enregistré, la fiche ne se rouvre plus jamais d'elle-même. Le pseudo
+apparaît alors dans une pastille en haut à gauche — la toucher permet de le changer — et
+dans **Réglages → Pseudo Epic Games**, où *Effacer* le retire (il sera redemandé au
+prochain lancement).
+
+Il ne sert qu'à **signer l'image d'export**, en haut à droite de l'en-tête : sans lui,
+l'image est identique à ce qu'elle était. Il voyage aussi dans la sauvegarde JSON, mais à
+l'import il n'est adopté que si l'appareil n'en a pas déjà un — on n'écrase jamais le
+pseudo local. *Tout effacer* décoche la collection sans toucher au pseudo.
 
 ---
 
