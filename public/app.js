@@ -436,7 +436,9 @@ $("grid").addEventListener("click", (e) => {
 /* ------------------------------------------------------------
    Scores
    ------------------------------------------------------------ */
-function renderStats() {
+/* Le compte de la collection courante. Un seul endroit : l'ecran, l'image
+   d'export et le message de partage doivent annoncer les memes chiffres. */
+function tally() {
   let unlocked = 0, mastered = 0, full = 0;
   for (const sprite of state.live) {
     const own = variantsOf(sprite);
@@ -448,11 +450,15 @@ function renderStats() {
     }
     if (done === own.length) full += 1;
   }
-
   const denom = state.denom;
+  return { unlocked, mastered, full, denom, pct: denom ? Math.round((mastered / denom) * 100) : 0 };
+}
+
+function renderStats() {
+  const { unlocked, mastered, full, denom, pct } = tally();
   $("s-unlocked").firstChild.nodeValue = unlocked;
   $("s-mastered").firstChild.nodeValue = mastered;
-  $("s-pct").firstChild.nodeValue = denom ? Math.round((mastered / denom) * 100) : 0;
+  $("s-pct").firstChild.nodeValue = pct;
   $("s-full").firstChild.nodeValue = full;
   $("bar-m").style.width = `${(mastered / denom) * 100}%`;
   $("bar-u").style.width = `${((unlocked - mastered) / denom) * 100}%`;
@@ -797,16 +803,7 @@ async function renderCollectionImage() {
   }
 
   /* --- score --- */
-  let unlocked = 0, mastered = 0;
-  for (const sprite of rows) {
-    for (const v of variants) {
-      const value = statusOf(sprite.id, v.id);
-      if (value >= 1) unlocked += 1;
-      if (value === 2) mastered += 1;
-    }
-  }
-  const denom = state.denom;
-  const pct = denom ? Math.round((mastered / denom) * 100) : 0;
+  const { unlocked, mastered, denom, pct } = tally();
 
   // Deux chiffres de meme rang : ce qui est acquis, et ce qui est maitrise.
   const masteredText = `${mastered}/${denom}`;
@@ -973,6 +970,44 @@ function notify(message) {
   noticeTimer = setTimeout(() => { box.hidden = true; }, 3600);
 }
 
+/* ------------------------------------------------------------
+   Ce qui accompagne l'image dans la conversation
+   ------------------------------------------------------------ */
+
+/* « Chapitre 7 Saison 4 — Override » : la saison, sans le nom de code
+   qui figure deja sur la pastille de l'image. */
+const seasonText = () => String(state.catalogue.season || "").split("—")[0].trim();
+
+/* Le titre que reprennent les applications qui n'affichent pas de texte. */
+function shareTitle() {
+  const player = readPlayer();
+  return player ? `Les esprits de ${player}` : "Ma collection d'esprits";
+}
+
+/* Le message pre-rempli dans WhatsApp, Messages, Discord… Il dit qui
+   partage et ou il en est : l'image seule ne se lit pas dans une notification. */
+function shareText() {
+  const player = readPlayer();
+  const { unlocked, mastered, denom, pct } = tally();
+  const who = player ? `${player} — ` : "";
+  const when = state.which === "legacy" ? `saison passee, ${seasonText()}` : seasonText();
+  // Le denominateur compte les variantes des qu'il y en a : ce sont des
+  // pieces, pas des esprits. L'accord suit le mot choisi.
+  const many = state.catalogue.variants.length > 1;
+  const unit = many ? "pieces" : "esprits";
+  const e = many ? "es" : "s";
+  return `${who}Capsule Override, ${when} : ${unlocked}/${denom} ${unit} debloque${e}, `
+       + `${mastered}/${denom} maitrise${e} (${pct} % de maitrise).`;
+}
+
+/* Nom de fichier : « capsule-override-jody-gs-2026-08-21.png ». */
+function shareSlug() {
+  return readPlayer().toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")   // accents
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
+    .slice(0, 24);
+}
+
 /* Trois voies, de la plus directe a la plus manuelle :
    la feuille de partage du telephone, le presse-papier, puis le telechargement. */
 async function shareImage(blob, filename) {
@@ -981,7 +1016,9 @@ async function shareImage(blob, filename) {
   // 1. Telephone : ouvre WhatsApp, Messages, Discord… directement.
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], title: "Ma collection d'esprits" });
+      // Certaines applications ignorent le texte quand un fichier l'accompagne :
+      // c'est leur choix, l'image porte de toute facon la meme information.
+      await navigator.share({ files: [file], title: shareTitle(), text: shareText() });
       return "shared";
     } catch (err) {
       if (err?.name === "AbortError") return "cancelled";
@@ -1023,8 +1060,9 @@ $("btn-export").addEventListener("click", async (e) => {
   try {
     const blob = await renderCollectionImage();
     const stamp = new Date().toISOString().slice(0, 10);
+    const who = shareSlug() ? `-${shareSlug()}` : "";
     const suffix = state.which === "legacy" ? "-legacy" : "";
-    const outcome = await shareImage(blob, `capsule-override${suffix}-${stamp}.png`);
+    const outcome = await shareImage(blob, `capsule-override${who}${suffix}-${stamp}.png`);
 
     if (outcome === "shared") $("account").close();
     else if (outcome === "copied") {
@@ -1054,12 +1092,21 @@ $("btn-backup").addEventListener("click", async () => {
     entries: state.entries
   }, null, 2);
 
-  const filename = state.which === "legacy" ? "capsule-override-legacy.json" : "capsule-override.json";
+  const who = shareSlug() ? `-${shareSlug()}` : "";
+  const suffix = state.which === "legacy" ? "-legacy" : "";
+  const filename = `capsule-override${who}${suffix}.json`;
   const file = new File([text], filename, { type: "application/json" });
 
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], title: "Sauvegarde Capsule Override" });
+      const player = readPlayer();
+      await navigator.share({
+        files: [file],
+        title: player ? `Sauvegarde Capsule Override de ${player}` : "Sauvegarde Capsule Override",
+        text: player
+          ? `Collection de ${player} — ${seasonText()}. A ouvrir depuis Reglages → Importer un fichier.`
+          : `Collection ${seasonText()}. A ouvrir depuis Reglages → Importer un fichier.`
+      });
       return;
     } catch (err) {
       if (err?.name === "AbortError") return;

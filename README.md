@@ -102,8 +102,12 @@ apparaît alors dans une pastille en haut à gauche — la toucher permet de le 
 dans **Réglages → Pseudo Epic Games**, où *Effacer* le retire (il sera redemandé au
 prochain lancement).
 
-Il ne sert qu'à **signer l'image d'export**, en haut à droite de l'en-tête : sans lui,
-l'image est identique à ce qu'elle était. Il voyage aussi dans la sauvegarde JSON, mais à
+Il **signe l'image d'export**, en haut à droite de l'en-tête, et il ouvre le **message
+pré-rempli** de la feuille de partage : *« Jody Gs — Capsule Override, Chapitre 7 Saison 4 :
+22/33 pièces débloquées, 11/33 maîtrisées (33 % de maîtrise). »*. Le nom du fichier le reprend
+aussi (`capsule-override-jody-gs-2026-08-21.png`). Sans pseudo, image, message et nom de
+fichier retrouvent exactement leur forme d'avant. Certaines applications ignorent le texte
+quand un fichier l'accompagne — l'image porte de toute façon la même information. Il voyage aussi dans la sauvegarde JSON, mais à
 l'import il n'est adopté que si l'appareil n'en a pas déjà un — on n'écrase jamais le
 pseudo local. *Tout effacer* décoche la collection sans toucher au pseudo.
 
