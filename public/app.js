@@ -978,26 +978,24 @@ function notify(message) {
    qui figure deja sur la pastille de l'image. */
 const seasonText = () => String(state.catalogue.season || "").split("—")[0].trim();
 
+/* De quelle collection il s'agit, en un mot. */
+const collectionWord = () => (state.which === "legacy" ? "Legacy" : "Override");
+
 /* Le titre que reprennent les applications qui n'affichent pas de texte. */
 function shareTitle() {
   const player = readPlayer();
-  return player ? `Les esprits de ${player}` : "Ma collection d'esprits";
+  return player
+    ? `Les esprits ${collectionWord()} de ${player}`
+    : `Mes esprits ${collectionWord()}`;
 }
 
-/* Le message pre-rempli dans WhatsApp, Messages, Discord… Il dit qui
-   partage et ou il en est : l'image seule ne se lit pas dans une notification. */
+/* Le message pre-rempli dans WhatsApp, Messages, Discord… Volontairement
+   court : les chiffres sont deja sur l'image, les repeter ici ferait doublon. */
 function shareText() {
   const player = readPlayer();
-  const { unlocked, mastered, denom, pct } = tally();
-  const who = player ? `${player} — ` : "";
-  const when = state.which === "legacy" ? `saison passee, ${seasonText()}` : seasonText();
-  // Le denominateur compte les variantes des qu'il y en a : ce sont des
-  // pieces, pas des esprits. L'accord suit le mot choisi.
-  const many = state.catalogue.variants.length > 1;
-  const unit = many ? "pieces" : "esprits";
-  const e = many ? "es" : "s";
-  return `${who}Capsule Override, ${when} : ${unlocked}/${denom} ${unit} debloque${e}, `
-       + `${mastered}/${denom} maitrise${e} (${pct} % de maitrise).`;
+  return player
+    ? `${player} — ma collection d'esprits ${collectionWord()}.`
+    : `Ma collection d'esprits ${collectionWord()}.`;
 }
 
 /* Nom de fichier : « capsule-override-jody-gs-2026-08-21.png ». */
@@ -1103,9 +1101,9 @@ $("btn-backup").addEventListener("click", async () => {
       await navigator.share({
         files: [file],
         title: player ? `Sauvegarde Capsule Override de ${player}` : "Sauvegarde Capsule Override",
-        text: player
-          ? `Collection de ${player} — ${seasonText()}. A ouvrir depuis Reglages → Importer un fichier.`
-          : `Collection ${seasonText()}. A ouvrir depuis Reglages → Importer un fichier.`
+        text: (player ? `${player} — collection` : "Collection")
+          + ` ${collectionWord()} (${seasonText()}). `
+          + "A ouvrir depuis Reglages → Importer un fichier."
       });
       return;
     } catch (err) {
