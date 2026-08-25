@@ -328,7 +328,9 @@ const iconUrl = (sprite) => `icons/sprites/${sprite.id}.png`;
    portant leur initiale, teintee de leur rarete. */
 function spriteIconMarkup(sprite) {
   if (sprite.icon) {
-    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="44" height="44" loading="lazy" decoding="async">`;
+    // width/height reserve la place avant le chargement : sans eux la carte
+    // sursaute quand l'image arrive. La taille reelle vient du CSS.
+    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="64" height="64" loading="lazy" decoding="async">`;
   }
   return `<span class="sprite-icon is-empty" aria-hidden="true">${esc(sprite.name.trim()[0] || "?")}</span>`;
 }
@@ -875,7 +877,7 @@ async function renderCollectionImage() {
 
     // Icone de l'esprit, ou pastille a initiale si elle n'existe pas encore.
     const icon = icons.get(sprite.id);
-    const iconSize = 40;
+    const iconSize = 46;
     const iconX = PAD + 18, iconY = y + (ROW - iconSize) / 2;
     if (icon) {
       ctx.drawImage(icon, iconX, iconY, iconSize, iconSize);
@@ -886,9 +888,9 @@ async function renderCollectionImage() {
       ctx.fill();
       ctx.globalAlpha = 1;
       ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
-      ctx.font = display(20, 700);
+      ctx.font = display(23, 700);
       ctx.textAlign = "center";
-      ctx.fillText(sprite.name.trim()[0] || "?", iconX + iconSize / 2, iconY + iconSize / 2 + 7);
+      ctx.fillText(sprite.name.trim()[0] || "?", iconX + iconSize / 2, iconY + iconSize / 2 + 8);
       ctx.textAlign = "left";
     }
 
@@ -1267,8 +1269,10 @@ function buildCodes() {
         <button type="button" class="code-text" data-copy="${esc(entry.code)}"
                 title="Copier ${esc(entry.code)}">${esc(entry.code)}</button>
         <span class="code-reward">${esc(entry.reward)}${
+          entry.new ? '<em class="code-tag is-new">nouveau</em>' : ""}${
           entry.tag ? `<em class="code-tag">${esc(entry.tag)}</em>` : ""}${
           entry.once ? "" : '<em class="code-tag">reutilisable</em>'}${
+          entry.note ? `<small class="code-note">${esc(entry.note)}</small>` : ""}${
           entry.warn ? `<small class="code-warn">${esc(entry.warn)}</small>` : ""}</span>`;
       list.appendChild(li);
     }
@@ -1312,7 +1316,8 @@ $("codes-list").addEventListener("click", async (e) => {
 });
 
 $("btn-codes-reset").addEventListener("click", () => {
-  if (!confirm("Decocher les 19 codes ? Vous perdrez le suivi de ceux deja utilises.")) return;
+  const n = allCodes().length;
+  if (!confirm(`Decocher les ${n} codes ? Vous perdrez le suivi de ceux deja utilises.`)) return;
   codesUsed = {};
   saveCodes();
   paintCodes();

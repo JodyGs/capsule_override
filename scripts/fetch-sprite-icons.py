@@ -30,7 +30,7 @@ CATALOGUES = [
     os.path.join(ROOT, "public", "sprites-legacy.json"),
 ]
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
-SIZE = 96          # affiche autour de 32 px, confortable en ecran 3x
+SIZE = 192        # affiche jusqu'a 64 px, net sur les ecrans 3x
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
 
@@ -131,6 +131,11 @@ def main():
             # Carre exact, sujet centre : les lignes de la liste restent alignees.
             canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
             canvas.paste(image, ((SIZE - image.width) // 2, (SIZE - image.height) // 2), image)
+
+            # Palette de 256 couleurs : quatre fois plus leger a telecharger,
+            # sans difference visible sur ces aplats — verifie sur fond clair
+            # et sur fond sombre avant d'etre adopte.
+            canvas = canvas.quantize(colors=256, method=Image.FASTOCTREE)
             canvas.save(os.path.join(OUT_DIR, f"{sprite['id']}.png"), optimize=True)
             sprite["icon"] = True
             found.append(sprite["id"])

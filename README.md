@@ -191,27 +191,37 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**19 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**22 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
 Les deux codes Tetris (`LetsBlockAndRoll`, `DontBlockMe`) se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 17 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 20 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur six sources le 20 août 2026
-(PCGamesN, Dexerto, Nintendo Life, TheGamer, allthings.how, Insider Gaming). Deux entrées
-portent un avertissement en rouge là où les sources se contredisent :
+La liste vient de `public/cheat-codes.json`, recoupée sur huit sources le 25 août 2026
+(Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life, allthings.how, TheGamer,
+Insider Gaming). Trois codes portent une pastille dorée **nouveau** — ils sont apparus après
+le lancement de la saison :
 
-- **`O2Override`** — quatre sources sur six annoncent 5 extracteurs portables, deux un seul.
-- **`DontBlockMe`** — trois sources y voient une seconde transformation Tetris ; Dexerto, le
-  plus récent, dit que le code annule la transformation.
+- **`JonesyIsGolden`** — esprit Jonesy **Or**, actif depuis le 24 août. Le premier code à
+  offrir une variante Or plutôt qu'une Cheat Master.
+- **`GatherAndCraft`** — esprit Buisson Cheat Master, conditionné à la quête d'histoire de
+  Wrixel (Ziggy).
+- **`H0p0nVC`** — 2 000 poussières, cinquième mot de la série multilingue.
+
+Quatre entrées portent un avertissement là où les sources se contredisent (`O2Override`,
+`DontBlockMe`, `Play4All`, `H0p0nVC`), et une précision neutre en gris là où l'information
+est simplement utile. La distinction est volontaire : l'orange signale un désaccord entre
+sources, le gris une note.
 
 Epic distribue de nouveaux codes via le Discord officiel dans le cadre de l'ARG Override :
 ajoutez-les dans `public/cheat-codes.json` et incrémentez `VERSION` dans `public/sw.js`.
+Le champ `"new": true` allume la pastille dorée, `"warn"` l'avertissement orange et
+`"note"` la précision grise.
 
 ---
 
@@ -253,10 +263,20 @@ scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprit
 
 Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand Storm Scout sort ou
 que les esprits communautaires arrivent. Puis `npm run sprite-icons` pour récupérer les
-icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 96 px
-et coche le champ `icon` des esprits trouvés. Ceux qui n'existent pas encore gardent une
+icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 192 px,
+les ramène à une palette de 256 couleurs et coche le champ `icon` des esprits trouvés.
+192 px couvre l'affichage à 64 px sur un écran 3×, et la palette divise le poids par quatre —
+36 icônes pèsent 241 Ko contre 396 Ko pour les anciennes, deux fois plus petites. Ceux qui n'existent pas encore gardent une
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
+
+**État au 25 août 2026** : toujours **11 esprits jouables**. Storm Scout attend un Sprite Day,
+les cinq esprits communautaires attendent une mise à jour de mi-saison. Six autres noms
+circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly,
+Overshield — sans effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
+l'app, pas ajoutés au catalogue** : un fichier servi n'est pas une sortie, la saison passée
+l'a déjà prouvé (voir plus haut). S'ils sortent, ils entrent dans `sprites.json` comme les
+autres.
 
 Pensez à incrémenter `VERSION` dans `public/sw.js` après une modification, pour que les
 téléphones déjà installés récupèrent la nouvelle version — un bandeau leur proposera alors
@@ -275,9 +295,16 @@ le nombre exact de variantes par esprit, le suivi des codes du lobby et son
 indépendance vis-à-vis des collections, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
+Le pseudo Epic a son propre harnais, 51 vérifications au vert : ouverture au premier
+lancement, silence total une fois le pseudo posé, refus du vide et des longueurs hors bornes,
+normalisation des espaces, relecture de l'ancien format, « Plus tard » qui n'écrit rien,
+effacement, et étanchéité vis-à-vis de *Tout effacer*.
+
 Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les
 deux modes de pointeur : débordement horizontal, cibles tactiles, texte tronqué, erreurs
-console. Aucun défaut mesuré.
+console. Aucun défaut mesuré. L'audit vérifie aussi que **la résolution source de chaque
+icône couvre sa taille d'affichage multipliée par la densité de l'écran** — c'est ce contrôle
+qui a fixé les fichiers à 192 px quand l'icône est passée à 64 px.
 
 L'image d'export a été rendue pour de vrai, hors navigateur, avec les vraies polices, dans
 les deux thèmes, et inspectée visuellement.
