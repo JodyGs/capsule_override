@@ -450,25 +450,41 @@ h1{
 .card{
   position:relative;background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);box-shadow:var(--shadow);
-  padding:16px 18px 14px 20px;display:flex;flex-direction:column;gap:12px;
+  padding:16px 18px 14px 20px;
+  /* L'image occupe une colonne entiere a gauche ; le nom, l'effet et la
+     source s'empilent a sa droite. Le tableau des variantes reprend toute
+     la largeur en dessous. */
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  grid-template-areas:
+    "icon top"
+    "icon effect"
+    "icon src"
+    "vt   vt";
+  align-content:start;
+  column-gap:18px;row-gap:11px;
   transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
   /* Sans ceci, le contenu minimum de la carte elargit la colonne de grille
      et fait deborder la page sur les ecrans etroits. */
   min-width:0;
 }
+.card > .sprite-icon{grid-area:icon;align-self:start}
+.card > .card-top{grid-area:top}
+.card > .effect{grid-area:effect}
+.card > .src{grid-area:src}
+.card > .vt{grid-area:vt}
 .card::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--rc,var(--ink-3))}
 .card:hover{box-shadow:var(--shadow-lift);transform:translateY(-1px)}
 .card.is-done{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
 
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.ident{display:flex;align-items:center;gap:12px;min-width:0}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
 
-/* L'icone de l'esprit, telle qu'elle apparait en jeu. Assez grande pour
-   etre reconnue d'un coup d'oeil : c'est par elle qu'on retrouve un esprit
-   dans la liste, pas par son nom. Les fichiers font 192 px, donc elle reste
-   nette jusqu'en ecran 3x. */
+/* L'icone de l'esprit, telle qu'elle apparait en jeu. Elle tient une
+   colonne a elle seule : c'est par elle qu'on retrouve un esprit, pas par
+   son nom. Les fichiers font 288 px, donc elle reste nette jusqu'en 96 px
+   sur un ecran 3x. */
 .sprite-icon{
-  width:64px;height:64px;flex:none;display:block;
+  width:96px;height:96px;flex:none;display:block;
   object-fit:contain;
   /* Un halo de la couleur de rarete decolle le sujet du fond : les esprits
      sombres se perdaient sur le theme sombre, les clairs sur le theme clair. */
@@ -479,11 +495,11 @@ h1{
 }
 /* Repli pour les esprits pas encore sortis : initiale sur fond de rarete. */
 .sprite-icon.is-empty{
-  display:grid;place-items:center;border-radius:15px;
+  display:grid;place-items:center;border-radius:20px;
   background:color-mix(in srgb, var(--rc, var(--ink-3)) 16%, transparent);
   border:1px dashed color-mix(in srgb, var(--rc, var(--ink-3)) 45%, transparent);
   color:var(--rc, var(--ink-3));
-  font-family:var(--f-display);font-weight:700;font-size:26px;
+  font-family:var(--f-display);font-weight:700;font-size:38px;
   filter:none;
 }
 .name{
@@ -533,9 +549,14 @@ h1{
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
 .tog.pulse{animation:pop .32s ease}
 
-.grid.is-list .card{display:grid;grid-template-columns:minmax(190px,1.1fr) minmax(0,2fr) auto;align-items:center;gap:16px;padding:11px 16px 11px 18px}
+.grid.is-list .card{
+  grid-template-columns:auto minmax(160px,1.1fr) minmax(0,2fr) auto;
+  grid-template-areas:"icon top effect vt";
+  align-items:center;align-content:center;
+  column-gap:16px;row-gap:0;padding:11px 16px 11px 18px;
+}
 .grid.is-list .card::before{top:8px;bottom:8px}
-.grid.is-list .card-top{flex-direction:column;align-items:flex-start;gap:4px}
+.grid.is-list .card-top{flex-direction:column;align-items:flex-start;gap:4px;justify-content:center}
 /* La vue liste sert a balayer vite : l'icone y gagne quatre pixels, pas
    davantage — au-dela, la ligne grandit et la densite se perd. */
 .grid.is-list .sprite-icon{width:40px;height:40px}
@@ -551,9 +572,17 @@ h1{
 .grid.is-list .vname{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;flex-direction:column;gap:3px}
 .grid.is-list .tog{width:30px;height:26px}
 @media (max-width:860px){
-  .grid.is-list .card{grid-template-columns:1fr;align-items:start}
-  .grid.is-list .effect{display:none}
+  /* Plus de place pour la phrase d'effet : elle passe a la ligne, sous le
+     nom, et le tableau des variantes suit. */
+  .grid.is-list .card{
+    grid-template-columns:auto minmax(0,1fr);
+    grid-template-areas:"icon top" "icon effect" "vt vt";
+    align-items:start;align-content:start;row-gap:6px;
+  }
+  .grid.is-list .card > .sprite-icon{align-self:center}
+  .grid.is-list .vt{padding-top:9px}
 }
+
 
 .empty{border:1px dashed var(--line-strong);border-radius:var(--radius);padding:44px 20px;text-align:center;color:var(--ink-3);font-family:var(--f-mono);font-size:12.5px}
 
@@ -715,7 +744,8 @@ body{
   /* Les deux coches sont l'interaction principale : ce sont elles qui
      doivent etre les cibles les plus confortables de la page. */
   .tog{min-height:44px;min-width:44px}
-  .vt-head,.vrow,
+  /* Seulement la vue liste ici : la vue cartes reprend ces deux colonnes
+     plus bas, en 46 px, et c'est elle qui gagnait de toute facon. */
   .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
   /* L'icone porte le sens ; le libelle reste dans title et aria-label. */
   .view-seg{flex:none;width:auto}
@@ -754,11 +784,10 @@ body{
   .count{padding:12px 0 9px;font-size:10px;letter-spacing:.1em}
 
   /* Cartes : plus d'air, cibles tactiles plus larges. */
-  .card{padding:15px 16px 13px 18px;gap:11px}
+  .card{padding:15px 16px 13px 18px;column-gap:14px;row-gap:10px}
   .name{font-size:18px}
-  .ident{gap:11px}
-  .sprite-icon{width:56px;height:56px}
-  .sprite-icon.is-empty{font-size:23px;border-radius:13px}
+  .sprite-icon{width:84px;height:84px}
+  .sprite-icon.is-empty{font-size:33px;border-radius:18px}
   .vt-head,.vrow{grid-template-columns:1fr 46px 46px;gap:10px}
   .tog{width:46px;height:38px}
   .tog svg{width:17px;height:17px}
@@ -766,14 +795,19 @@ body{
 
   /* Vue Liste sur telephone : on garde le strict necessaire pour cocher vite.
      Effet et source restent consultables en repassant sur Cartes. */
-  .grid.is-list .card{grid-template-columns:1fr;gap:9px;padding:12px 14px 11px 16px}
+  .grid.is-list .card{
+    grid-template-columns:auto minmax(0,1fr);
+    grid-template-areas:"icon top" "vt vt";
+    column-gap:11px;row-gap:9px;padding:12px 14px 11px 16px;
+  }
+  .grid.is-list .card > .sprite-icon{align-self:center}
   .grid.is-list .card-top{flex-direction:row;align-items:center;justify-content:space-between;gap:10px;min-width:0}
   .grid.is-list .tags{flex-direction:row;align-items:center;max-width:none}
   .grid.is-list .name{font-size:16px}
   .grid.is-list .name em{display:none}
   .grid.is-list .effect,
   .grid.is-list .src{display:none}
-  .grid.is-list .sprite-icon{width:38px;height:38px}
+  .grid.is-list .sprite-icon{width:44px;height:44px}
   .grid.is-list .vt{grid-auto-flow:row;gap:4px;border-top:1px solid var(--line);padding-top:8px}
   .grid.is-list .vt-head{display:grid}
   .grid.is-list .vrow{grid-template-columns:1fr 44px 44px}
@@ -807,7 +841,10 @@ body{
      sur trois rangees : l'icone et la pastille suffisent. */
   .filters-toggle > span:not(.filters-count){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .filters-toggle{flex:0 0 auto;gap:6px;padding:9px 14px}
-  .grid.is-list .sprite-icon{width:34px;height:34px}
+  .grid.is-list .sprite-icon{width:40px;height:40px}
+  .sprite-icon{width:72px;height:72px}
+  .sprite-icon.is-empty{font-size:28px;border-radius:15px}
+  .card{column-gap:12px}
   .btn-share{flex:1 1 auto}
   .vt-head,.vrow,.grid.is-list .vrow{grid-template-columns:1fr 42px 42px;gap:8px}
   .tog{width:42px;min-width:42px}

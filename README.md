@@ -263,10 +263,11 @@ scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprit
 
 Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand Storm Scout sort ou
 que les esprits communautaires arrivent. Puis `npm run sprite-icons` pour récupérer les
-icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 192 px,
+icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 288 px,
 les ramène à une palette de 256 couleurs et coche le champ `icon` des esprits trouvés.
-192 px couvre l'affichage à 64 px sur un écran 3×, et la palette divise le poids par quatre —
-36 icônes pèsent 241 Ko contre 396 Ko pour les anciennes, deux fois plus petites. Ceux qui n'existent pas encore gardent une
+288 px couvre l'affichage à 96 px sur un écran 3×, et la palette divise le poids par quatre —
+36 icônes pèsent 408 Ko alors qu'elles font trois fois la taille des premières, qui en
+pesaient 396. Ceux qui n'existent pas encore gardent une
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
@@ -308,6 +309,17 @@ qui a fixé les fichiers à 192 px quand l'icône est passée à 64 px.
 
 L'image d'export a été rendue pour de vrai, hors navigateur, avec les vraies polices, dans
 les deux thèmes, et inspectée visuellement.
+
+### La carte d'un esprit
+
+L'image de l'esprit occupe **une colonne entière à gauche** ; le nom, l'effet et la source
+s'empilent à sa droite, et le tableau des variantes reprend toute la largeur en dessous.
+C'est une grille nommée sur `.card`, pas une imbrication de conteneurs : l'icône, le bloc de
+titre, l'effet, la source et le tableau restent **enfants directs de la carte**, ce qui permet
+à la vue liste de les redisposer en une ligne (`"icon top effect vt"`) sans toucher au HTML.
+
+L'icône fait 96 px sur grand écran, 84 sur téléphone, 72 sous 380 px ; en vue liste elle reste
+petite (40 à 44 px), parce que cette vue sert à balayer et que la densité y prime.
 
 Non vérifié : le rendu de l'interface elle-même, l'installation sur un vrai téléphone, et le
 comportement de la feuille de partage, faute de navigateur dans l'environnement de

@@ -30,7 +30,7 @@ CATALOGUES = [
     os.path.join(ROOT, "public", "sprites-legacy.json"),
 ]
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
-SIZE = 192        # affiche jusqu'a 64 px, net sur les ecrans 3x
+SIZE = 288        # affiche jusqu'a 96 px, net sur les ecrans 3x
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
 

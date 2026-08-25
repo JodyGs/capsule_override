@@ -330,7 +330,7 @@ function spriteIconMarkup(sprite) {
   if (sprite.icon) {
     // width/height reserve la place avant le chargement : sans eux la carte
     // sursaute quand l'image arrive. La taille reelle vient du CSS.
-    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="64" height="64" loading="lazy" decoding="async">`;
+    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="96" height="96" loading="lazy" decoding="async">`;
   }
   return `<span class="sprite-icon is-empty" aria-hidden="true">${esc(sprite.name.trim()[0] || "?")}</span>`;
 }
@@ -357,12 +357,13 @@ function buildCards() {
                 aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} maitrise" title="Maitrise — extrait au niveau 5">${ICON_M}</button>
       </div>`).join("");
 
+    // L'icone est un enfant direct de la carte, pas un morceau du bloc de
+    // titre : c'est ce qui lui permet d'occuper une colonne a elle seule,
+    // a gauche du nom, de l'effet et de la source.
     card.innerHTML = `
+      ${spriteIconMarkup(sprite)}
       <div class="card-top">
-        <div class="ident">
-          ${spriteIconMarkup(sprite)}
-          <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
-        </div>
+        <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
         <div class="tags">${tags}</div>
       </div>
       <p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>
