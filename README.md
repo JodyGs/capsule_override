@@ -202,7 +202,7 @@ donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. L
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur huit sources le 25 août 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur huit sources le 27 août 2026
 (Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life, allthings.how, TheGamer,
 Insider Gaming). Trois codes portent une pastille dorée **nouveau** — ils sont apparus après
 le lancement de la saison :
@@ -271,7 +271,10 @@ pesaient 396. Ceux qui n'existent pas encore gardent une
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
-**État au 25 août 2026** : toujours **11 esprits jouables**. Storm Scout attend un Sprite Day,
+**État au 27 août 2026** : toujours **11 esprits jouables**, mais leurs 33 variantes sont
+désormais toutes obtenables — le New Sprite Day du 27 a livré les quatre derniers Cheat Master
+(Klombo, Shadow, Jackrabbit, Killswitch), à trouver en réussissant des codes de triche en
+partie. Storm Scout attend toujours un Sprite Day,
 les cinq esprits communautaires attendent une mise à jour de mi-saison. Six autres noms
 circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly,
 Overshield — sans effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
@@ -296,10 +299,19 @@ le nombre exact de variantes par esprit, le suivi des codes du lobby et son
 indépendance vis-à-vis des collections, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
-Le pseudo Epic a son propre harnais, 51 vérifications au vert : ouverture au premier
-lancement, silence total une fois le pseudo posé, refus du vide et des longueurs hors bornes,
-normalisation des espaces, relecture de l'ancien format, « Plus tard » qui n'écrit rien,
-effacement, et étanchéité vis-à-vis de *Tout effacer*.
+Le pseudo Epic et la structure de la carte ont leur propre harnais, 59 vérifications au vert :
+ouverture au premier lancement, silence total une fois le pseudo posé, refus du vide et des
+longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, « Plus tard »
+qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
+l'effet, la source et le tableau des variantes restent enfants directs de la carte.
+
+Les catalogues ont le leur, **102 vérifications** qui tournent sans navigateur : les comptes
+publiés (11 esprits jouables, 33 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
+récompenses), l'absence de code en double, la présence des trois variantes de la Couronne, les
+trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
+**chaque esprit marqué `icon` a bien son PNG, chaque PNG est précaché par le service worker, et
+aucun ne descend sous 288 px**. C'est ce dernier contrôle qui rattrape l'oubli classique :
+ajouter un esprit au JSON sans lancer le script d'icônes.
 
 Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les
 deux modes de pointeur : débordement horizontal, cibles tactiles, texte tronqué, erreurs

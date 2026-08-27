@@ -2,7 +2,7 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-08-27",
   "variants": [
     {
       "id": "base",
@@ -12,12 +12,12 @@
     {
       "id": "gold",
       "name": "Or",
-      "note": "XP d'elimination accrue. Golden Hours a partir du 22 aout."
+      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement ; les Golden Hours du 22 aout en ont augmente le taux d'apparition."
     },
     {
       "id": "cheat",
       "name": "Cheat Master",
-      "note": "Saisie automatique des codes de triche. Nouveaute de la saison."
+      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison, complete depuis le 27 aout."
     }
   ],
   "rarities": [

@@ -350,7 +350,7 @@ function buildCards() {
 
     const rows = variantsOf(sprite).map((v) => `
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}">
-        <span class="vname"><i></i>${esc(v.name)}</span>
+        <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}><i></i>${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
                 aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} debloque" title="Debloque">${ICON_U}</button>
         <button type="button" class="tog t-m" data-s="${sprite.id}" data-v="${v.id}" data-lvl="2"
