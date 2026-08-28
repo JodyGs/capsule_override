@@ -1251,8 +1251,9 @@ $("btn-export").addEventListener("click", async (e) => {
 /* ============================================================
    Sauvegarde JSON : transferer vers un autre telephone
    ============================================================ */
-$("btn-backup").addEventListener("click", async () => {
-  const text = JSON.stringify({
+/* Le contenu d'une sauvegarde, et le nom du fichier qui va avec. */
+function backupText() {
+  return JSON.stringify({
     app: "capsule-override",
     version: 4,
     season: state.catalogue.season,
@@ -1260,37 +1261,136 @@ $("btn-backup").addEventListener("click", async () => {
     exportedAt: new Date().toISOString(),
     entries: state.entries
   }, null, 2);
+}
 
+function backupName(extension) {
   const who = shareSlug() ? `-${shareSlug()}` : "";
   const suffix = state.which === "legacy" ? "-legacy" : "";
-  const filename = `capsule-override${who}${suffix}.json`;
-  const file = new File([text], filename, { type: "application/json" });
+  return `capsule-override${who}${suffix}.${extension}`;
+}
 
-  if (navigator.canShare?.({ files: [file] })) {
-    try {
-      const player = readPlayer();
-      await navigator.share({
-        files: [file],
-        title: player ? `Sauvegarde Capsule Override de ${player}` : "Sauvegarde Capsule Override",
-        text: (player ? `${player} — collection` : "Collection")
-          + ` ${collectionWord()} (${seasonText()}). `
-          + "A ouvrir depuis Reglages → Importer un fichier."
-      });
-      return;
-    } catch (err) {
-      if (err?.name === "AbortError") return;
-    }
-  }
+function backupMessage() {
+  const player = readPlayer();
+  return {
+    title: player ? `Sauvegarde Capsule Override de ${player}` : "Sauvegarde Capsule Override",
+    text: (player ? `${player} — collection` : "Collection")
+      + ` ${collectionWord()} (${seasonText()}). `
+      + "A ouvrir dans Capsule Override, Reglages → Importer un fichier."
+  };
+}
 
-  const blob = new Blob([text], { type: "application/json" });
+function downloadBackup() {
+  const blob = new Blob([backupText()], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = filename;
+  a.download = backupName("json");
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* Partager la sauvegarde. Quatre voies, de la plus directe a la plus
+   manuelle. La deuxieme existe parce qu'iOS refuse de partager beaucoup
+   d'extensions, dont .json : le meme contenu en .txt passe, et l'import
+   accepte les deux. */
+async function shareBackup() {
+  const text = backupText();
+  const message = backupMessage();
+
+  for (const [extension, type] of [["json", "application/json"], ["txt", "text/plain"]]) {
+    const file = new File([text], backupName(extension), { type });
+    if (!navigator.canShare?.({ files: [file] })) continue;
+    try {
+      await navigator.share({ files: [file], ...message });
+      return "shared";
+    } catch (err) {
+      if (err?.name === "AbortError") return "cancelled";
+      // Tout autre echec : on tente la voie suivante.
+    }
+  }
+
+  // Le contenu lui-meme, a coller dans une conversation. Le destinataire
+  // le remet dans « Coller une sauvegarde ».
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return "copied";
+    } catch { /* permission refusee */ }
+  }
+
+  downloadBackup();
+  return "downloaded";
+}
+
+$("btn-share-backup").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  try {
+    const outcome = await shareBackup();
+    // Partagee ou copiee, la suite se passe hors de l'app : on libere l'ecran.
+    if (outcome === "shared") $("account").close();
+    else if (outcome === "copied") {
+      $("account").close();
+      notify("Sauvegarde copiee — collez-la dans une conversation.");
+    } else if (outcome === "downloaded") {
+      notify("Fichier enregistre dans vos telechargements.");
+    }
+  } finally {
+    btn.disabled = false;
+  }
 });
+
+$("btn-backup").addEventListener("click", () => {
+  downloadBackup();
+  notify("Fichier enregistre dans vos telechargements.");
+});
+
+/* Une sauvegarde, d'ou qu'elle vienne : fichier, presse-papier, ou un
+   message colle. On ne garde que ce que le catalogue courant connait. */
+function parseBackup(raw) {
+  const parsed = JSON.parse(raw);
+  let incoming = parsed.entries || parsed.data || null;
+
+  // Sauvegarde d'une version a profils : on prend le premier.
+  if (!incoming && Array.isArray(parsed.profiles) && parsed.profiles.length) {
+    incoming = parsed.profiles[0].data;
+  }
+  if (!incoming || typeof incoming !== "object") throw new Error("format");
+
+  const known = new Set(state.catalogue.sprites.map((s) => s.id));
+  const variants = new Set(state.catalogue.variants.map((v) => v.id));
+  const entries = {};
+  for (const [spriteId, slots] of Object.entries(incoming)) {
+    if (!known.has(spriteId)) continue;
+    for (const [variant, value] of Object.entries(slots || {})) {
+      if (variants.has(variant) && (value === 1 || value === 2)) {
+        (entries[spriteId] ||= {})[variant] = value;
+      }
+    }
+  }
+  const count = Object.values(entries).reduce((n, x) => n + Object.keys(x).length, 0);
+  if (!count) throw new Error("vide");
+  return { entries, count, player: cleanPlayer(parsed.player), season: parsed.season || "" };
+}
+
+function applyBackup(backup) {
+  if (!confirm(`Remplacer votre collection ? ${backup.count} coche${
+    backup.count > 1 ? "s" : ""} seront restaurees.`)) return false;
+
+  // On n'ecrase jamais un pseudo deja pose sur cet appareil.
+  if (backup.player && !readPlayer() && !playerProblem(backup.player)) {
+    writePlayer(backup.player);
+    paintPlayer();
+  }
+  state.entries = backup.entries;
+  saveStore({ immediate: true });
+  $("account").close();
+  redraw();
+  return true;
+}
+
+const BAD_BACKUP = "Ce contenu n'est pas une sauvegarde Capsule Override valide.";
 
 $("btn-import").addEventListener("click", () => $("file").click());
 
@@ -1298,48 +1398,54 @@ $("file").addEventListener("change", async () => {
   const file = $("file").files?.[0];
   if (!file) return;
   try {
-    const parsed = JSON.parse(await file.text());
-    let incoming = parsed.entries || parsed.data || null;
-
-    // Sauvegarde d'une version a profils : on prend le premier.
-    if (!incoming && Array.isArray(parsed.profiles) && parsed.profiles.length) {
-      incoming = parsed.profiles[0].data;
-    }
-    if (!incoming || typeof incoming !== "object") throw new Error("format");
-
-    // On ne garde que ce que le catalogue connait.
-    const known = new Set(state.catalogue.sprites.map((s) => s.id));
-    const variants = new Set(state.catalogue.variants.map((v) => v.id));
-    const clean = {};
-    for (const [spriteId, slots] of Object.entries(incoming)) {
-      if (!known.has(spriteId)) continue;
-      for (const [variant, value] of Object.entries(slots || {})) {
-        if (variants.has(variant) && (value === 1 || value === 2)) {
-          (clean[spriteId] ||= {})[variant] = value;
-        }
-      }
-    }
-    const count = Object.values(clean).reduce((n, s) => n + Object.keys(s).length, 0);
-    if (!count) throw new Error("vide");
-
-    if (!confirm(`Remplacer votre collection par ce fichier ? ${count} coche${count > 1 ? "s" : ""} seront restaurees.`)) return;
-
-    // On n'ecrase jamais un pseudo deja pose sur cet appareil.
-    const incomingPlayer = cleanPlayer(parsed.player);
-    if (incomingPlayer && !readPlayer() && !playerProblem(incomingPlayer)) {
-      writePlayer(incomingPlayer);
-      paintPlayer();
-    }
-
-    state.entries = clean;
-    saveStore({ immediate: true });
-    $("account").close();
-    redraw();
+    applyBackup(parseBackup(await file.text()));
   } catch {
-    alert("Ce fichier n'est pas une sauvegarde Capsule Override valide.");
+    alert(BAD_BACKUP);
   } finally {
     $("file").value = "";
   }
+});
+
+/* ------------------------------------------------------------
+   Coller une sauvegarde
+   Quand le partage de fichier echoue — iOS refuse beaucoup d'extensions —
+   la sauvegarde voyage comme un simple message. Il faut donc pouvoir la
+   recevoir comme tel, et decider ensuite quoi en faire.
+   ------------------------------------------------------------ */
+const pasteDialog = $("paste");
+
+$("btn-paste").addEventListener("click", () => {
+  $("paste-input").value = "";
+  $("paste-error").hidden = true;
+  $("account").close();
+  pasteDialog.showModal();
+  setTimeout(() => { try { $("paste-input").focus(); } catch { /* champ absent */ } }, 60);
+});
+
+$("paste-close").addEventListener("click", () => pasteDialog.close());
+$("paste-input").addEventListener("input", () => { $("paste-error").hidden = true; });
+
+function readPasted() {
+  try {
+    return parseBackup($("paste-input").value.trim());
+  } catch {
+    $("paste-error").textContent = BAD_BACKUP;
+    $("paste-error").hidden = false;
+    return null;
+  }
+}
+
+$("btn-paste-import").addEventListener("click", () => {
+  const backup = readPasted();
+  if (backup && applyBackup(backup)) pasteDialog.close();
+});
+
+$("btn-paste-compare").addEventListener("click", () => {
+  const backup = readPasted();
+  if (!backup) return;
+  pasteDialog.close();
+  buildCompare(backup.entries, backup.player || "l'autre collection", backup.season);
+  compareDialog.showModal();
 });
 
 /* ============================================================
@@ -1602,19 +1708,12 @@ $("file-compare").addEventListener("change", async () => {
   const file = $("file-compare").files?.[0];
   if (!file) return;
   try {
-    const parsed = JSON.parse(await file.text());
-    let entries = parsed.entries || parsed.data || null;
-    if (!entries && Array.isArray(parsed.profiles) && parsed.profiles.length) {
-      entries = parsed.profiles[0].data;
-    }
-    if (!entries || typeof entries !== "object") throw new Error("format");
-
-    const name = cleanPlayer(parsed.player) || "l'autre collection";
+    const backup = parseBackup(await file.text());
     $("account").close();
-    buildCompare(entries, name, parsed.season || "");
+    buildCompare(backup.entries, backup.player || "l'autre collection", backup.season);
     compareDialog.showModal();
   } catch {
-    alert("Ce fichier n'est pas une sauvegarde Capsule Override valide.");
+    alert(BAD_BACKUP);
   } finally {
     $("file-compare").value = "";
   }

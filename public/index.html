@@ -308,11 +308,16 @@
     <section>
       <h3>Transferer vers un autre telephone</h3>
       <div class="row">
-        <button type="button" class="btn btn-ghost" id="btn-backup">Sauvegarde JSON</button>
-        <button type="button" class="btn btn-ghost" id="btn-import">Importer un fichier</button>
-        <input type="file" id="file" accept="application/json,.json" hidden>
+        <button type="button" class="btn btn-primary" id="btn-share-backup">Partager la sauvegarde</button>
+        <button type="button" class="btn btn-ghost" id="btn-backup">Enregistrer le fichier</button>
       </div>
-      <p class="form-note">Le bouton <strong>Exporter</strong> de la barre du haut produit une image, faite pour etre envoyee dans une conversation — mais elle ne se reimporte pas. Pour deplacer vos coches vers un autre appareil, passez par la sauvegarde JSON.</p>
+      <div class="row">
+        <button type="button" class="btn btn-ghost" id="btn-import">Importer un fichier</button>
+        <button type="button" class="btn btn-ghost" id="btn-paste">Coller une sauvegarde</button>
+        <input type="file" id="file" accept="application/json,text/plain,.json,.txt" hidden>
+      </div>
+      <p class="form-note"><strong>Partager</strong> ouvre la feuille de partage du telephone : WhatsApp, Messages, Mail, AirDrop. Si le systeme refuse le fichier — iOS est difficile sur les extensions — l'app envoie le meme contenu en <code>.txt</code>, et a defaut le copie pour que vous le colliez dans une conversation. En face, <strong>Coller une sauvegarde</strong> accepte ce message tel quel.</p>
+      <p class="form-note">Le bouton <strong>Exporter</strong> de la barre du haut produit une image, faite pour etre envoyee dans une conversation — mais elle ne se reimporte pas.</p>
     </section>
 
     <hr>
@@ -321,7 +326,7 @@
       <h3>Comparer avec quelqu'un</h3>
       <div class="row">
         <button type="button" class="btn btn-ghost" id="btn-compare">Ouvrir une sauvegarde</button>
-        <input type="file" id="file-compare" accept="application/json,.json" hidden>
+        <input type="file" id="file-compare" accept="application/json,text/plain,.json,.txt" hidden>
       </div>
       <p class="form-note">Demandez-lui sa <strong>sauvegarde JSON</strong> et ouvrez-la ici : l'app affiche ce qu'il a et que vous n'avez pas, et l'inverse. Rien n'est enregistre, votre collection n'est pas touchee.</p>
     </section>
@@ -334,6 +339,28 @@
       <p class="form-note">Decoche l'integralite de la collection sur cet appareil. Exportez d'abord si vous voulez la garder.</p>
     </section>
 
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Coller une sauvegarde recue en message
+     ============================================================ -->
+<dialog class="sheet" id="paste">
+  <div class="sheet-head">
+    <h2>Coller une sauvegarde</h2>
+    <button type="button" class="sheet-close" id="paste-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <p class="form-note">Collez ici le contenu recu par message. C'est un bloc de texte qui commence par <code>{</code>.</p>
+    <label class="field">
+      <span class="field-label">Contenu de la sauvegarde</span>
+      <textarea id="paste-input" rows="6" spellcheck="false" autocapitalize="off" placeholder='{ "app": "capsule-override", …'></textarea>
+    </label>
+    <p class="form-error" id="paste-error" role="alert" hidden></p>
+    <div class="row">
+      <button type="button" class="btn btn-primary" id="btn-paste-import">Remplacer ma collection</button>
+      <button type="button" class="btn btn-ghost" id="btn-paste-compare">Comparer</button>
+    </div>
   </div>
 </dialog>
 

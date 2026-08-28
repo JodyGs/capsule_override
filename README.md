@@ -224,6 +224,27 @@ et un test vérifie qu'aucun ne vise un esprit ou une variante qui n'existe pas.
 
 ---
 
+## Transférer, partager, coller
+
+*Réglages → **Transférer vers un autre téléphone*** propose quatre gestes, un par intention,
+plutôt qu'un seul bouton au comportement variable :
+
+- **Partager la sauvegarde** ouvre la feuille de partage du téléphone — WhatsApp, Messages,
+  Mail, AirDrop.
+- **Enregistrer le fichier** télécharge, sans détour.
+- **Importer un fichier** relit une sauvegarde.
+- **Coller une sauvegarde** accepte le contenu reçu comme un simple message, et propose ensuite
+  de remplacer sa collection **ou** de comparer.
+
+Le partage descend une chaîne de replis, parce qu'**iOS refuse de partager beaucoup
+d'extensions, dont `.json`** : le même contenu part alors en `.txt`, et si le système ne partage
+aucun fichier, la sauvegarde file au presse-papier avec un message qui invite à la coller dans
+une conversation. C'est pour cette dernière branche qu'existe *Coller une sauvegarde* : sans
+elle, le repli produirait un texte que personne ne pourrait relire. L'import accepte donc aussi
+bien `.json` que `.txt`, et valide sur le contenu, pas sur l'extension.
+
+---
+
 ## Comparer avec quelqu'un
 
 *Réglages → **Comparer avec quelqu'un*** ouvre la sauvegarde JSON d'un autre joueur et affiche,
@@ -380,6 +401,10 @@ qui a fixé les fichiers à 192 px quand l'icône est passée à 64 px.
 
 Les rendez-vous ont vingt vérifications sur des instants figés — dont les deux changements
 d'heure de l'automne 2026, qui tombent une semaine d'écart entre l'Europe et les États-Unis.
+
+Le transfert a vingt vérifications : un téléphone qui accepte le `.json`, un iOS qui ne veut
+que le `.txt`, un navigateur qui ne partage rien — et le retour par *Coller une sauvegarde*,
+y compris le cas d'un texte qui n'en est pas une, où l'app doit refuser sans rien écrire.
 
 L'encoche de l'iPhone a les siennes, vingt aussi : les retraits d'écran passent par des
 variables CSS, ce qui permet de leur donner la valeur d'un iPhone 15 Pro (59 px en haut) dans
