@@ -532,8 +532,11 @@ h1{
 .vt-glyph svg{width:100%;height:100%;display:block}
 .vt-key.t-u .vt-glyph{color:var(--accent)}
 .vt-key.t-m .vt-glyph{color:var(--gold)}
-.vname{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px;min-width:0}
+.vname{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:8px;min-width:0}
 .vname i{width:6px;height:6px;border-radius:50%;flex:none;background:var(--line-strong)}
+/* La vignette de la variante, quand la wiki en fournit une : on voit ce
+   qu'on cherche, pas seulement son nom. Les fichiers font 96 px. */
+.vicon{width:26px;height:26px;flex:none;display:block;object-fit:contain}
 .vrow.v-gold .vname i{background:var(--gold)}
 .vrow.v-cheat .vname i{background:var(--r-epic)}
 
@@ -570,6 +573,9 @@ h1{
 .grid.is-list .vt-head{display:none}
 .grid.is-list .vrow{grid-template-columns:auto 30px 30px;gap:5px}
 .grid.is-list .vname{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;flex-direction:column;gap:3px}
+/* La vue liste tient sur une ligne : la vignette y prendrait la place du
+   nom de la variante. La pastille de couleur reprend son role. */
+.grid.is-list .vicon{width:10px;height:10px}
 .grid.is-list .tog{width:30px;height:26px}
 @media (max-width:860px){
   /* Plus de place pour la phrase d'effet : elle passe a la ligne, sous le

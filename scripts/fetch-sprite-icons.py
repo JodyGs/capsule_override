@@ -30,7 +30,23 @@ CATALOGUES = [
     os.path.join(ROOT, "public", "sprites-legacy.json"),
 ]
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
+VARIANT_DIR = os.path.join(ROOT, "public", "icons", "variants")
 SIZE = 288        # affiche jusqu'a 96 px, net sur les ecrans 3x
+VARIANT_SIZE = 96  # vignette de ligne, affichee autour de 26 px
+
+# Chaque variante a sa propre illustration sur la wiki, sous un prefixe
+# a elle. Le mappage est explicite : mettre une majuscule a l'identifiant
+# marcherait pour six lignes sur huit, et casserait sur « Cheat Master ».
+VARIANT_PREFIX = {
+    "gold": "Gold",
+    "cheat": "Cheat_Master",
+    "gummy": "Gummy",
+    "galaxy": "Galaxy",
+    "gem": "Gem",
+    "holofoil": "Holofoil",
+    "cube": "Cube",
+    "quack": "Quack",
+}
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
 
@@ -79,6 +95,18 @@ def _context():
         return None
 
 
+def square(raw, size):
+    """Carre exact, sujet centre : les lignes de la liste restent alignees."""
+    image = Image.open(io.BytesIO(raw)).convert("RGBA")
+    image.thumbnail((size, size), Image.LANCZOS)
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    canvas.paste(image, ((size - image.width) // 2, (size - image.height) // 2), image)
+    # Palette de 256 couleurs : quatre fois plus leger a telecharger,
+    # sans difference visible sur ces aplats — verifie sur fond clair
+    # et sur fond sombre avant d'etre adopte.
+    return canvas.quantize(colors=256, method=Image.FASTOCTREE)
+
+
 def fetch(name):
     filename = f"{name}_Sprite_-_Item_-_Fortnite.png"
     url = BASE + urllib.parse.quote(filename)
@@ -103,14 +131,15 @@ def fetch(name):
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    total_found, total_missing = [], []
+    os.makedirs(VARIANT_DIR, exist_ok=True)
+    total_found, total_missing, total_variants = [], [], []
 
     for path in CATALOGUES:
         with io.open(path, encoding="utf-8") as handle:
             catalogue = json.load(handle)
 
         label = os.path.basename(path)
-        found, missing = [], []
+        found, missing, variant_found = [], [], []
         for sprite in catalogue["sprites"]:
             wiki = WIKI_NAME.get(sprite["id"])
             if not wiki:
@@ -119,39 +148,56 @@ def main():
                 continue
             try:
                 raw = fetch(wiki)
-                image = Image.open(io.BytesIO(raw)).convert("RGBA")
+                Image.open(io.BytesIO(raw)).convert("RGBA")   # fichier lisible ?
             except Exception as err:               # noqa: BLE001
                 reason = "pas encore sorti" if "404" in str(err) or "22" in str(err) else type(err).__name__
                 missing.append((sprite["id"], reason))
                 sprite.pop("icon", None)
+                sprite.pop("variantIcons", None)
                 continue
 
-            image.thumbnail((SIZE, SIZE), Image.LANCZOS)
-
-            # Carre exact, sujet centre : les lignes de la liste restent alignees.
-            canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-            canvas.paste(image, ((SIZE - image.width) // 2, (SIZE - image.height) // 2), image)
-
-            # Palette de 256 couleurs : quatre fois plus leger a telecharger,
-            # sans difference visible sur ces aplats — verifie sur fond clair
-            # et sur fond sombre avant d'etre adopte.
-            canvas = canvas.quantize(colors=256, method=Image.FASTOCTREE)
-            canvas.save(os.path.join(OUT_DIR, f"{sprite['id']}.png"), optimize=True)
+            square(raw, SIZE).save(os.path.join(OUT_DIR, f"{sprite['id']}.png"), optimize=True)
             sprite["icon"] = True
             found.append(sprite["id"])
+
+            # Les variantes ont chacune leur illustration : une statue doree
+            # pour Or, une silhouette verte criblee de code pour Cheat Master.
+            # On ne demande que celles que le catalogue declare : la wiki sert
+            # des fichiers pour des variantes qui n'existent pas en jeu.
+            owned = sprite.get("variants") or [v["id"] for v in catalogue["variants"]]
+            got = []
+            for variant in owned:
+                prefix = VARIANT_PREFIX.get(variant)
+                if not prefix:
+                    continue
+                try:
+                    art = fetch(f"{prefix}_{wiki}")
+                except Exception:                      # noqa: BLE001
+                    continue
+                square(art, VARIANT_SIZE).save(
+                    os.path.join(VARIANT_DIR, f"{sprite['id']}-{variant}.png"), optimize=True)
+                got.append(variant)
+            if got:
+                sprite["variantIcons"] = got
+            else:
+                sprite.pop("variantIcons", None)
+            variant_found += got
 
         with io.open(path, "w", encoding="utf-8") as handle:
             json.dump(catalogue, handle, indent=2, ensure_ascii=False)
             handle.write("\n")
 
-        print(f"{label} : {len(found)} icone(s) recuperee(s), {len(missing)} sans")
+        print(f"{label} : {len(found)} icone(s) de base, {len(variant_found)} de variante, {len(missing)} sans")
         for sprite_id, why in missing:
             print(f"   {sprite_id:<16} {why}")
         total_found += found
         total_missing += missing
+        total_variants += variant_found
 
-    size = sum(os.path.getsize(os.path.join(OUT_DIR, f"{i}.png")) for i in total_found)
-    print(f"\nTotal : {len(total_found)} icones, {size / 1024:.0f} Ko")
+    base = sum(os.path.getsize(os.path.join(OUT_DIR, f)) for f in os.listdir(OUT_DIR))
+    var = sum(os.path.getsize(os.path.join(VARIANT_DIR, f)) for f in os.listdir(VARIANT_DIR))
+    print(f"\nTotal : {len(total_found)} icones de base ({base / 1024:.0f} Ko), "
+          f"{len(total_variants)} de variante ({var / 1024:.0f} Ko)")
     return 0
 
 

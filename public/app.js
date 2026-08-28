@@ -323,6 +323,21 @@ const rarityLabel = (id) =>
   state.catalogue.rarities.find((r) => r.id === id)?.label || id;
 
 const iconUrl = (sprite) => `icons/sprites/${sprite.id}.png`;
+const variantIconUrl = (sprite, variant) => `icons/variants/${sprite.id}-${variant}.png`;
+
+/* Chaque variante a sa propre illustration : la statue doree pour Or, la
+   silhouette criblee de code pour Cheat Master. Quand elle manque — un
+   esprit pas encore sorti — on retombe sur la pastille de couleur. */
+function variantMarkAt(sprite, variant) {
+  // La ligne « Base » reprend l'illustration deja affichee en grand : le
+  // fichier est le meme, donc deja en cache, et les trois lignes se lisent
+  // de la meme facon.
+  const src = variant.id === "base"
+    ? (sprite.icon ? iconUrl(sprite) : null)
+    : (sprite.variantIcons?.includes(variant.id) ? variantIconUrl(sprite, variant.id) : null);
+  if (!src) return "<i></i>";
+  return `<img class="vicon" src="${src}" alt="" width="26" height="26" loading="lazy" decoding="async">`;
+}
 
 /* Les esprits pas encore sortis n'ont pas d'icone : on affiche une pastille
    portant leur initiale, teintee de leur rarete. */
@@ -350,7 +365,7 @@ function buildCards() {
 
     const rows = variantsOf(sprite).map((v) => `
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}">
-        <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}><i></i>${esc(v.name)}</span>
+        <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}>${variantMarkAt(sprite, v)}${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
                 aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} debloque" title="Debloque">${ICON_U}</button>
         <button type="button" class="tog t-m" data-s="${sprite.id}" data-v="${v.id}" data-lvl="2"

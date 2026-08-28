@@ -251,6 +251,7 @@ public/                  l'application, statique de bout en bout
   sprites.json           le catalogue de la saison
   cheat-codes.json       les codes du panneau d'administration du lobby
   icons/sprites/         l'icone de chaque esprit, telle qu'elle apparaît en jeu
+  icons/variants/        l'illustration de chaque variante (Or, Cheat Master, Gummy…)
   manifest.webmanifest   nom, icônes, mode plein écran
   sw.js                  service worker : fonctionnement hors connexion
   icons/
@@ -267,7 +268,13 @@ icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les i
 les ramène à une palette de 256 couleurs et coche le champ `icon` des esprits trouvés.
 288 px couvre l'affichage à 96 px sur un écran 3×, et la palette divise le poids par quatre —
 36 icônes pèsent 408 Ko alors qu'elles font trois fois la taille des premières, qui en
-pesaient 396. Ceux qui n'existent pas encore gardent une
+pesaient 396.
+
+Le même script récupère aussi **l'illustration de chaque variante** (`Gold_`, `Cheat_Master_`,
+`Gummy_`… sur la wiki) dans `public/icons/variants/`, en 96 px, et écrit la liste de celles
+qui existent dans `"variantIcons"`. Il ne demande **que les variantes que le catalogue
+déclare** : la wiki sert des fichiers pour des variantes qui n'existent pas en jeu, et c'est
+exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy. Ceux qui n'existent pas encore gardent une
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
@@ -305,13 +312,15 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **102 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **479 vérifications** qui tournent sans navigateur : les comptes
 publiés (11 esprits jouables, 33 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
 récompenses), l'absence de code en double, la présence des trois variantes de la Couronne, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
 **chaque esprit marqué `icon` a bien son PNG, chaque PNG est précaché par le service worker, et
 aucun ne descend sous 288 px**. C'est ce dernier contrôle qui rattrape l'oubli classique :
-ajouter un esprit au JSON sans lancer le script d'icônes.
+ajouter un esprit au JSON sans lancer le script d'icônes. Les vignettes de variantes passent
+au même crible, plus deux règles à elles : une vignette ne peut exister que pour une variante
+que l'esprit possède réellement, et aucun fichier ne doit traîner sans être déclaré.
 
 Le responsive est audité avec Playwright sur 10 formats (320 à 1440 px) × 2 thèmes × les
 deux modes de pointeur : débordement horizontal, cibles tactiles, texte tronqué, erreurs
@@ -332,6 +341,13 @@ titre, l'effet, la source et le tableau restent **enfants directs de la carte**,
 
 L'icône fait 96 px sur grand écran, 84 sur téléphone, 72 sous 380 px ; en vue liste elle reste
 petite (40 à 44 px), parce que cette vue sert à balayer et que la densité y prime.
+
+Chaque ligne du tableau des variantes porte **sa propre vignette** — la statue dorée pour Or,
+la silhouette criblée de code pour Cheat Master, les sept lignes de Legacy — pour qu'on voie
+ce qu'on cherche et pas seulement son nom. Quand la vignette manque (un esprit pas encore
+sorti), la pastille de couleur reprend sa place. Les 24 vignettes de la saison en cours sont
+préchargées ; les 92 de Legacy se mettent en cache à la première consultation, ce qui évite
+d'imposer 92 fichiers à l'installation pour une collection qu'on ouvre à l'occasion.
 
 Non vérifié : le rendu de l'interface elle-même, l'installation sur un vrai téléphone, et le
 comportement de la feuille de partage, faute de navigateur dans l'environnement de

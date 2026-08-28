@@ -51,7 +51,11 @@
       "released": true,
       "effect": "Recupere de la vie ou du bouclier peu apres avoir subi des degats.",
       "source": "Choix de depart · Coffres · Coffres a codes rares",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "bush",
@@ -61,7 +65,11 @@
       "released": true,
       "effect": "Fait apparaitre un buisson sur vous apres un delai. Au niveau max, buisson instantane apres une elimination.",
       "source": "Choix de depart · Coffres · Coffres a codes rares",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "adventure",
@@ -71,7 +79,11 @@
       "released": true,
       "effect": "Ameliore un objet aleatoire de votre inventaire a chaque montee de niveau.",
       "source": "Choix de depart · Coffres · Coffres a codes rares · Zones hautes",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "8bit",
@@ -81,7 +93,11 @@
       "released": true,
       "effect": "Garantit un fusil a pompe 8-Bit dans votre premier coffre, avec un multiplicateur de score dessus.",
       "source": "Coffres · Coffres a codes rares · Zones hautes et montagneuses",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "sonic",
@@ -91,7 +107,11 @@
       "released": true,
       "effect": "Sprint plus rapide a chaque niveau, et acces au Spin Dash.",
       "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "tails",
@@ -101,7 +121,11 @@
       "released": true,
       "effect": "Planez grace a Tails. La vitesse de vol stationnaire augmente a chaque niveau.",
       "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "shadow",
@@ -111,7 +135,11 @@
       "released": true,
       "effect": "Recharge automatiquement vos armes non equipees. Au niveau max, recharge aussi l'arme en main.",
       "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "killswitch",
@@ -121,7 +149,11 @@
       "released": true,
       "effect": "Entrez en Suspension avec une precision amelioree quand vous visez en l'air.",
       "source": "Sur l'ile de nuit uniquement · Coffres · Coffres a codes epiques",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "jackrabbit",
@@ -131,7 +163,11 @@
       "released": true,
       "effect": "Autorise un second saut en plein vol. Le temps de recharge entre deux sauts diminue a chaque niveau.",
       "source": "Coffres · Coffres a codes legendaires · Zones hautes et montagneuses",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "klombo",
@@ -141,7 +177,11 @@
       "released": true,
       "effect": "Offre des objets aleatoires a chaque niveau. Ne monte de niveau qu'en consommant des soins ou du bouclier.",
       "source": "Tous les types de coffres · Tous les coffres a codes",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "crown",
@@ -151,7 +191,11 @@
       "released": true,
       "effect": "Couronnes bonus apres une Victoire Royale. Ne monte de niveau qu'en gagnant des parties.",
       "source": "Victoires Royales · Maitrise des autres variantes Couronne",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "stormscout",
@@ -161,7 +205,11 @@
       "released": false,
       "effect": "Declenche Surregime apres des degats de tempete et revele les prochains cercles.",
       "source": "A venir lors d'un Sprite Day · Rarete a confirmer",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
     },
     {
       "id": "bullet",

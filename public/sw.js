@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v18";
+const VERSION = "capsule-v19";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -56,7 +56,36 @@ const SHELL = [
   "./icons/sprites/l-batman.png",
   "./icons/sprites/l-pollo.png",
   "./icons/sprites/l-ironmouse.png",
-  "./icons/sprites/l-johnwick.png"
+  "./icons/sprites/l-johnwick.png",
+
+  // Vignettes des variantes de la saison en cours. Celles des saisons
+  // passees ne sont pas prechargees : le gestionnaire fetch les met en
+  // cache a la premiere consultation, ce qui evite 92 fichiers a
+  // l'installation pour une collection qu'on ne consulte qu'a l'occasion.
+  "./icons/variants/jonesy-gold.png",
+  "./icons/variants/jonesy-cheat.png",
+  "./icons/variants/bush-gold.png",
+  "./icons/variants/bush-cheat.png",
+  "./icons/variants/adventure-gold.png",
+  "./icons/variants/adventure-cheat.png",
+  "./icons/variants/8bit-gold.png",
+  "./icons/variants/8bit-cheat.png",
+  "./icons/variants/sonic-gold.png",
+  "./icons/variants/sonic-cheat.png",
+  "./icons/variants/tails-gold.png",
+  "./icons/variants/tails-cheat.png",
+  "./icons/variants/shadow-gold.png",
+  "./icons/variants/shadow-cheat.png",
+  "./icons/variants/killswitch-gold.png",
+  "./icons/variants/killswitch-cheat.png",
+  "./icons/variants/jackrabbit-gold.png",
+  "./icons/variants/jackrabbit-cheat.png",
+  "./icons/variants/klombo-gold.png",
+  "./icons/variants/klombo-cheat.png",
+  "./icons/variants/crown-gold.png",
+  "./icons/variants/crown-cheat.png",
+  "./icons/variants/stormscout-gold.png",
+  "./icons/variants/stormscout-cheat.png"
 ];
 
 self.addEventListener("install", (event) => {
