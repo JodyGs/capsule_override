@@ -31,6 +31,14 @@
   --f-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
   --f-pixel:"Press Start 2P","Chakra Petch",monospace;
+
+  /* Retraits d'ecran : encoche, appareil photo, barre gestuelle. Passer par
+     des variables permet de tous les corriger d'un endroit — et de leur
+     donner une valeur dans un test, ce que env() ne permet pas. */
+  --safe-top:env(safe-area-inset-top, 0px);
+  --safe-bottom:env(safe-area-inset-bottom, 0px);
+  --safe-left:env(safe-area-inset-left, 0px);
+  --safe-right:env(safe-area-inset-right, 0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -84,7 +92,7 @@ body{
 }
 
 /* Repli affiche si le catalogue de la saison ne peut pas etre charge. */
-.gate{min-height:100vh;display:grid;place-items:center;padding:32px 20px}
+.gate{min-height:100vh;display:grid;place-items:center;padding:calc(32px + var(--safe-top)) 20px 32px}
 .gate-card{
   width:100%;max-width:430px;background:var(--surface);
   border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lift);overflow:hidden;
@@ -134,7 +142,7 @@ body{
 
 .appbar{
   display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
-  padding:18px 0 0;
+  padding:calc(18px + var(--safe-top)) 0 0;
 }
 .appbar-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .appbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -592,6 +600,89 @@ h1{
 
 .empty{border:1px dashed var(--line-strong);border-radius:var(--radius);padding:44px 20px;text-align:center;color:var(--ink-3);font-family:var(--f-mono);font-size:12.5px}
 
+/* ---------- agrandissement d'une illustration ---------- */
+dialog.zoom{
+  border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);
+  padding:22px 26px 20px;box-shadow:var(--shadow-lift);text-align:center;
+  max-width:min(340px,calc(100vw - 32px));
+}
+dialog.zoom::backdrop{background:rgba(10,7,18,.66);backdrop-filter:blur(4px)}
+/* 208 px : au-dela, les fichiers de variante (192 px) commenceraient a
+   s'etirer. L'illustration de base, elle, en a 288 sous le coude. */
+#zoom-img{width:min(64vw,208px);height:min(64vw,208px);object-fit:contain;display:block;margin:0 auto 14px}
+.zoom-name{margin:0;font-family:var(--f-display);font-size:19px;font-weight:700}
+.zoom-sub{margin:6px 0 0;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);line-height:1.55}
+.zoom-close{
+  position:absolute;top:8px;right:10px;background:none;border:0;color:var(--ink-3);
+  font-size:22px;line-height:1;cursor:pointer;padding:4px 8px;
+}
+.zoom-close:hover{color:var(--ink)}
+.sprite-icon[role="button"],.vicon[role="button"]{cursor:zoom-in}
+.sprite-icon:focus-visible,.vicon:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ---------- bandeau : le rendez-vous du moment, et quoi faire ---------- */
+.strip{margin-top:10px;display:flex;align-items:stretch;gap:10px}
+.agenda{
+  flex:1 1 auto;display:flex;align-items:baseline;gap:10px 16px;flex-wrap:wrap;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:11px 16px;min-width:0;
+}
+/* Volontairement sobre : c'est une porte d'entree, pas une action a pousser.
+   L'or est deja pris par Exporter, l'accent par les filtres actifs. */
+.todo-btn{
+  flex:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  background:var(--surface);color:var(--ink-2);
+  border:1px solid var(--line-strong);border-radius:var(--radius);padding:0 16px;
+  font-family:var(--f-mono);font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;
+}
+.todo-btn:hover{background:var(--surface-2);color:var(--ink);border-color:var(--ink-3)}
+.todo-btn svg{flex:none;color:var(--accent)}
+.todo-count{
+  font-family:var(--f-mono);font-size:10px;font-weight:700;line-height:1;
+  background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:3px 6px;
+}
+
+/* Les pieces listees dans le plan : la vignette d'abord, le nom ensuite. */
+.todo-pieces{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.todo-pieces li{
+  display:flex;align-items:center;gap:7px;min-width:0;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:999px;
+  padding:4px 12px 4px 5px;font-size:12px;color:var(--ink-2);
+}
+.todo-pieces .vicon{width:22px;height:22px}
+/* Une ligne par piece quand elle porte une consigne propre : la source d'un
+   esprit ne tient pas dans une pastille. */
+.todo-rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.todo-rows li{
+  display:grid;grid-template-columns:26px minmax(0,auto) minmax(0,1fr);
+  align-items:center;gap:10px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:6px 11px;
+}
+.todo-name{font-size:12.5px;color:var(--ink);font-weight:500;white-space:nowrap}
+.todo-note{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);line-height:1.4;min-width:0;overflow-wrap:anywhere}
+@media (max-width:620px){
+  .todo-rows li{grid-template-columns:26px minmax(0,1fr)}
+  .todo-note{grid-column:2}
+}
+.code-row.is-todo{grid-template-columns:auto auto minmax(0,1fr)}
+.agenda-when{display:flex;align-items:center;gap:9px;flex:none;min-width:0}
+.agenda-when b{font-family:var(--f-display);font-size:14.5px;font-weight:700;white-space:nowrap}
+.agenda-delay{
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);
+  white-space:nowrap;
+}
+.agenda-what{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5;flex:1 1 260px;min-width:0}
+/* La pastille bat pendant l'evenement, et seulement pendant. */
+.agenda-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--ink-3)}
+.agenda[data-live="true"]{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:var(--accent-soft)}
+.agenda[data-live="true"] .agenda-dot{background:var(--accent);animation:pulse 2s ease-in-out infinite}
+.agenda[data-live="true"] .agenda-delay{color:var(--accent)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){
+  .agenda[data-live="true"] .agenda-dot{animation:none}
+}
+
 /* ---------- panneau de compte ---------- */
 dialog.sheet{
   border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);
@@ -634,7 +725,7 @@ dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
    compacte, elle ne coute que deux rangees. */
 @media (max-width:620px){
   .controls{
-    top:calc(-1px + env(safe-area-inset-top));
+    top:calc(-1px + var(--safe-top));
     box-shadow:0 6px 16px -12px rgba(0,0,0,.5);
   }
 }
@@ -648,7 +739,7 @@ dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
 
 .toast{
   position:fixed;left:50%;transform:translateX(-50%);
-  bottom:calc(18px + env(safe-area-inset-bottom));
+  bottom:calc(18px + var(--safe-bottom));
   z-index:60;display:flex;align-items:center;gap:12px;
   background:var(--ink);color:var(--bg);
   border-radius:10px;padding:11px 12px 11px 16px;font-size:13.5px;
@@ -660,17 +751,22 @@ dialog.sheet::backdrop{background:rgba(10,7,18,.55);backdrop-filter:blur(3px)}
   font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
 }
 
-/* --- retrait pour l'encoche et la barre gestuelle --- */
+/* --- retrait pour l'encoche, l'appareil photo et la barre gestuelle ---
+   Les quatre retraits passent par des variables. D'abord parce qu'une seule
+   ligne les corrige tous, ensuite parce qu'un test peut leur donner une
+   valeur : env() ne se simule pas, une variable si. Elles sont declarees en
+   tete de feuille, avec les autres jetons.
+   Le retrait haut s'applique TOUJOURS, pas seulement en mode installe : une
+   regle telephone plus bas dans la feuille remettait un padding-top nu et
+   annulait le retrait, ce qui faisait passer la barre du haut sous l'ilot
+   dynamique de l'iPhone. */
 body{
-  padding-left:env(safe-area-inset-left);
-  padding-right:env(safe-area-inset-right);
+  padding-left:var(--safe-left);
+  padding-right:var(--safe-right);
 }
-.wrap{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+.wrap{padding-bottom:calc(72px + var(--safe-bottom))}
 
-/* En mode installe, la barre d'etat se superpose : on lui laisse la place. */
 @media (display-mode: standalone){
-  .appbar{padding-top:calc(18px + env(safe-area-inset-top))}
-  .gate{padding-top:calc(32px + env(safe-area-inset-top))}
   #btn-install{display:none !important}
 }
 
@@ -690,7 +786,7 @@ body{
   .wrap{padding-left:14px;padding-right:14px}
 
   /* La barre du haut passe sur deux lignes, l'identite d'abord. */
-  .appbar{padding-top:14px;align-items:center;gap:8px}
+  .appbar{padding-top:calc(14px + var(--safe-top));align-items:center;gap:8px}
   .appbar-right{gap:6px}
   .season{display:none}
 
@@ -707,6 +803,12 @@ body{
   .theme-btn,
   .legacy-btn{padding:8px 12px;min-width:44px;justify-content:center;gap:0}
   .player-chip{min-height:32px;max-width:60vw}
+  /* En colonne, le bouton passe sous le rendez-vous et prend la largeur :
+     une cible de 44 px de haut, comme les autres. */
+  .strip{flex-direction:column;gap:8px}
+  .agenda{padding:10px 13px;gap:7px 12px}
+  .agenda-what{font-size:12px;flex-basis:100%}
+  .todo-btn{justify-content:center;min-height:44px}
   .legacy-banner{padding:12px 14px}
   .legacy-banner p{font-size:12.5px}
 
@@ -827,15 +929,15 @@ body{
     bottom:0;left:0;top:auto;
     border-radius:16px 16px 0 0;border-bottom:0;
     max-height:88vh;overflow-y:auto;
-    padding-bottom:env(safe-area-inset-bottom);
+    padding-bottom:var(--safe-bottom);
   }
   .sheet-body{padding:18px 18px 26px}
 
   /* Ecran de connexion : plein cadre plutot qu'une carte flottante. */
   .gate{padding:0;align-items:stretch}
   .gate-card{max-width:none;border:0;border-radius:0;min-height:100vh;box-shadow:none;display:flex;flex-direction:column}
-  .gate-top{padding:calc(28px + env(safe-area-inset-top)) 22px 20px}
-  .gate form{padding:22px 22px calc(32px + env(safe-area-inset-bottom))}
+  .gate-top{padding:calc(28px + var(--safe-top)) 22px 20px}
+  .gate form{padding:22px 22px calc(32px + var(--safe-bottom))}
   .search input,
   .field input{font-size:16px}   /* 16px : evite le zoom automatique d'iOS */
   .btn{padding:14px 16px}

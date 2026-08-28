@@ -195,7 +195,10 @@
       "variantIcons": [
         "gold",
         "cheat"
-      ]
+      ],
+      "variantHow": {
+        "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs."
+      }
     },
     {
       "id": "stormscout",
@@ -261,5 +264,35 @@
       "effect": "Revele brievement les joueurs a travers les murs et les obstacles.",
       "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
     }
-  ]
+  ],
+  "events": {
+    "zone": "America/New_York",
+    "note": "Trois rendez-vous par semaine. Les horaires sont ceux annonces par Epic, en heure de New York ; l'app les convertit a l'heure de votre telephone.",
+    "list": [
+      {
+        "id": "cheatcode",
+        "name": "Cheat Code Monday",
+        "day": 1,
+        "start": "09:00",
+        "hours": 24,
+        "what": "Les esprits montent deux fois plus vite, la poussiere est doublee et les codes de triche frappent plus fort.",
+        "confirmed": true
+      },
+      {
+        "id": "newsprite",
+        "name": "New Sprite Day",
+        "day": 4,
+        "start": "09:00",
+        "what": "Un esprit ou une variante rejoint la collection. Le 27 aout a livre les quatre derniers Cheat Master.",
+        "confirmed": true
+      },
+      {
+        "id": "power",
+        "name": "Power Hours",
+        "day": 6,
+        "what": "Deux fenetres dans la journee qui relancent une famille de variantes. Epic annonce le theme et les horaires dans la semaine — ceux du 22 aout couraient de 14 h a 16 h et de 21 h a 23 h, heure de New York.",
+        "confirmed": false
+      }
+    ]
+  }
 }

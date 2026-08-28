@@ -30,7 +30,12 @@
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- « default » et non « black-translucent » : avec black-translucent iOS
+     glisse la page SOUS la barre d'etat, donc sous l'ilot dynamique et
+     l'appareil photo, et impose en plus un texte blanc illisible sur le
+     theme clair. En « default », iOS reserve lui-meme la bande du haut et
+     la teinte avec notre theme-color, qui suit deja le theme choisi. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Capsule">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
@@ -131,6 +136,24 @@
           <div class="by-rarity" id="by-rarity"></div>
         </details>
       </section>
+
+      <div class="strip" id="strip" hidden>
+        <div class="agenda" id="agenda" hidden>
+          <div class="agenda-when">
+            <span class="agenda-dot" aria-hidden="true"></span>
+            <b id="agenda-name"></b>
+            <span class="agenda-delay" id="agenda-delay"></span>
+          </div>
+          <p class="agenda-what" id="agenda-what"></p>
+        </div>
+        <button type="button" class="todo-btn" id="btn-todo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6.5h11M4 12h11M4 17.5h7"/><path d="M17.5 16.4 19.4 18.3 22.4 14.6"/>
+          </svg>
+          <span>Que faire maintenant</span>
+          <span class="todo-count" id="todo-count" hidden></span>
+        </button>
+      </div>
     </header>
 
     <div class="controls">
@@ -295,11 +318,63 @@
     <hr>
 
     <section>
+      <h3>Comparer avec quelqu'un</h3>
+      <div class="row">
+        <button type="button" class="btn btn-ghost" id="btn-compare">Ouvrir une sauvegarde</button>
+        <input type="file" id="file-compare" accept="application/json,.json" hidden>
+      </div>
+      <p class="form-note">Demandez-lui sa <strong>sauvegarde JSON</strong> et ouvrez-la ici : l'app affiche ce qu'il a et que vous n'avez pas, et l'inverse. Rien n'est enregistre, votre collection n'est pas touchee.</p>
+    </section>
+
+    <hr>
+
+    <section>
       <h3>Zone sensible</h3>
       <div class="row"><button type="button" class="btn btn-danger" id="btn-wipe">Tout effacer</button></div>
       <p class="form-note">Decoche l'integralite de la collection sur cet appareil. Exportez d'abord si vous voulez la garder.</p>
     </section>
 
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Comparaison avec une sauvegarde amie — lecture seule
+     ============================================================ -->
+<dialog class="sheet sheet-wide" id="compare">
+  <div class="sheet-head">
+    <h2 id="compare-title">Comparaison</h2>
+    <span class="codes-progress" id="compare-score"></span>
+    <button type="button" class="sheet-close" id="compare-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <p class="form-note" id="compare-warn" hidden></p>
+    <div id="compare-list"></div>
+    <p class="form-note">Comparaison en lecture seule : rien de ce fichier n'entre dans votre collection.</p>
+  </div>
+</dialog>
+
+<!-- ============================================================
+     Agrandissement : voir a quoi ressemble vraiment une variante
+     ============================================================ -->
+<dialog class="zoom" id="zoom">
+  <button type="button" class="zoom-close" id="zoom-close" aria-label="Fermer">&times;</button>
+  <img id="zoom-img" alt="">
+  <p class="zoom-name" id="zoom-name"></p>
+  <p class="zoom-sub" id="zoom-sub"></p>
+</dialog>
+
+<!-- ============================================================
+     Que faire maintenant : le pont entre la collection et les codes
+     ============================================================ -->
+<dialog class="sheet sheet-wide" id="todo">
+  <div class="sheet-head">
+    <h2>Que faire maintenant</h2>
+    <span class="codes-progress" id="todo-progress"></span>
+    <button type="button" class="sheet-close" id="todo-close" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="sheet-body">
+    <div id="todo-list"></div>
+    <p class="form-note" id="todo-note"></p>
   </div>
 </dialog>
 

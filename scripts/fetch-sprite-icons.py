@@ -32,7 +32,7 @@ CATALOGUES = [
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
 VARIANT_DIR = os.path.join(ROOT, "public", "icons", "variants")
 SIZE = 288        # affiche jusqu'a 96 px, net sur les ecrans 3x
-VARIANT_SIZE = 96  # vignette de ligne, affichee autour de 26 px
+VARIANT_SIZE = 192  # vignette de 26 px en ligne, agrandissement jusqu'a 208 px
 
 # Chaque variante a sa propre illustration sur la wiki, sous un prefixe
 # a elle. Le mappage est explicite : mettre une majuscule a l'identifiant

@@ -185,6 +185,55 @@ ne pas entrer en collision d'une saison à l'autre (`l-` pour Runners).
 
 ---
 
+## Le rendez-vous du moment
+
+Un bandeau sous les compteurs annonce le prochain rendez-vous de la semaine, ou celui qui
+court : **Cheat Code Monday** (lundi 9 h à mardi 9 h à New York — les esprits montent deux fois
+plus vite, la poussière est doublée), **New Sprite Day** (jeudi 9 h) et **Power Hours** (samedi).
+
+Les horaires vivent dans `public/sprites.json`, sous `events`, en heure de New York. L'app les
+convertit à l'heure du téléphone en passant par `Intl.DateTimeFormat` : le décalage est relu à
+chaque calcul, donc les deux changements d'heure — qui ne tombent pas le même jour des deux
+côtés de l'Atlantique — sont pris en compte au lieu d'être supposés. Un événement sans horaire
+confirmé, comme les Power Hours, affiche son jour et pas un compte à rebours : annoncer une
+heure qu'Epic n'a pas donnée serait pire que de se taire.
+
+Un événement ponctuel reste **la nouvelle du jour** jusqu'à minuit à New York, pas pendant
+24 heures glissantes — sinon un New Sprite Day du jeudi matin serait encore affiché le vendredi
+à l'aube.
+
+---
+
+## Que faire maintenant
+
+Le suivi sait ce qui manque, les codes savent ce qui s'obtient d'un mot tapé dans le lobby.
+Le bouton **Que faire maintenant** met les deux bout à bout, ce qu'il fallait jusque-là faire
+de tête. Le panneau range ce qui reste en quatre temps :
+
+1. **À taper dans le lobby** — les codes non utilisés qui donnent une pièce qui vous manque.
+   La pastille du bouton compte exactement ceux-là : c'est le seul chiffre sur lequel on peut
+   agir dans la minute.
+2. **À trouver en partie**, une rubrique par ligne de variante, avec la consigne générale et,
+   pour les bases, la source propre à chaque esprit.
+3. **À maîtriser** — ce qui est déjà là mais pas encore banqué.
+4. Le rappel des codes qui ne donnent pas d'esprit mais restent à réclamer.
+
+Le lien entre un code et une pièce est une donnée explicite (`"grants"` dans
+`public/cheat-codes.json`), pas une lecture du libellé de récompense : sept codes la portent,
+et un test vérifie qu'aucun ne vise un esprit ou une variante qui n'existe pas.
+
+---
+
+## Comparer avec quelqu'un
+
+*Réglages → **Comparer avec quelqu'un*** ouvre la sauvegarde JSON d'un autre joueur et affiche,
+côte à côte, ce qu'il a et que vous n'avez pas — et l'inverse. Strictement en lecture : rien
+n'est écrit, et un test vérifie que la collection locale est identique avant et après. Si le
+fichier vient d'une autre saison, un avertissement le dit et seules les pièces communes aux
+deux catalogues sont comparées.
+
+---
+
 ## Codes du lobby
 
 Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
@@ -306,13 +355,14 @@ le nombre exact de variantes par esprit, le suivi des codes du lobby et son
 indépendance vis-à-vis des collections, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
-Le pseudo Epic et la structure de la carte ont leur propre harnais, 59 vérifications au vert :
+Le pseudo Epic, la structure de la carte et le plan d'action ont leur propre harnais,
+78 vérifications au vert :
 ouverture au premier lancement, silence total une fois le pseudo posé, refus du vide et des
 longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, « Plus tard »
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **479 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **512 vérifications** qui tournent sans navigateur : les comptes
 publiés (11 esprits jouables, 33 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
 récompenses), l'absence de code en double, la présence des trois variantes de la Couronne, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
@@ -328,6 +378,15 @@ console. Aucun défaut mesuré. L'audit vérifie aussi que **la résolution sour
 icône couvre sa taille d'affichage multipliée par la densité de l'écran** — c'est ce contrôle
 qui a fixé les fichiers à 192 px quand l'icône est passée à 64 px.
 
+Les rendez-vous ont vingt vérifications sur des instants figés — dont les deux changements
+d'heure de l'automne 2026, qui tombent une semaine d'écart entre l'Europe et les États-Unis.
+
+L'encoche de l'iPhone a les siennes, vingt aussi : les retraits d'écran passent par des
+variables CSS, ce qui permet de leur donner la valeur d'un iPhone 15 Pro (59 px en haut) dans
+un navigateur de bureau et de vérifier que rien ne passe dessous, en cartes comme en liste,
+barre collante comprise. Un test lit aussi la feuille de style pour interdire toute règle
+`.appbar` qui poserait un `padding-top` sans le retrait : c'était exactement le défaut.
+
 L'image d'export a été rendue pour de vrai, hors navigateur, avec les vraies polices, dans
 les deux thèmes, et inspectée visuellement.
 
@@ -341,6 +400,10 @@ titre, l'effet, la source et le tableau restent **enfants directs de la carte**,
 
 L'icône fait 96 px sur grand écran, 84 sur téléphone, 72 sous 380 px ; en vue liste elle reste
 petite (40 à 44 px), parce que cette vue sert à balayer et que la densité y prime.
+
+Toucher une illustration l'ouvre en grand, avec le nom de la variante et ce qu'elle fait.
+Les fichiers de variante font 192 px et l'agrandissement plafonne à 208 px : au-delà ils
+commenceraient à s'étirer, et une image floue vaut moins qu'une image petite.
 
 Chaque ligne du tableau des variantes porte **sa propre vignette** — la statue dorée pour Or,
 la silhouette criblée de code pour Cheat Master, les sept lignes de Legacy — pour qu'on voie

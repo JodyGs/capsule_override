@@ -22,43 +22,71 @@
           "code": "GottaGoFast",
           "reward": "Esprit Sonic Cheat Master",
           "once": true,
-          "tag": "Sonic"
+          "tag": "Sonic",
+          "grants": {
+            "sprite": "sonic",
+            "variant": "cheat"
+          }
         },
         {
           "code": "IWannaFlyHigh",
           "reward": "Esprit Tails Cheat Master",
           "once": true,
-          "tag": "Sonic"
+          "tag": "Sonic",
+          "grants": {
+            "sprite": "tails",
+            "variant": "cheat"
+          }
         },
         {
           "code": "8BitBlast",
           "reward": "Esprit 8-Bit Cheat Master",
-          "once": true
+          "once": true,
+          "grants": {
+            "sprite": "8bit",
+            "variant": "cheat"
+          }
         },
         {
           "code": "Born2Play",
           "reward": "Esprit Aventure Cheat Master",
-          "once": true
+          "once": true,
+          "grants": {
+            "sprite": "adventure",
+            "variant": "cheat"
+          }
         },
         {
           "code": "Play4All",
           "reward": "Esprit Jonesy Cheat Master",
           "once": true,
-          "warn": "Quatre sources sur cinq annoncent l'esprit Jonesy Cheat Master ; Destructoid, lui, annonce 2 000 poussieres."
+          "warn": "Quatre sources sur cinq annoncent l'esprit Jonesy Cheat Master ; Destructoid, lui, annonce 2 000 poussieres.",
+          "grants": {
+            "sprite": "jonesy",
+            "variant": "cheat"
+          }
         },
         {
           "code": "GatherAndCraft",
           "reward": "Esprit Buisson Cheat Master",
           "once": true,
           "new": true,
-          "warn": "Demande d'avoir termine la quete d'histoire de Wrixel (Ziggy)."
+          "warn": "Demande d'avoir termine la quete d'histoire de Wrixel (Ziggy).",
+          "grants": {
+            "sprite": "bush",
+            "variant": "cheat"
+          }
         },
         {
           "code": "JonesyIsGolden",
           "reward": "Esprit Jonesy Or",
           "once": true,
           "new": true,
-          "note": "Premier code a offrir une variante Or. Actif depuis le 24 aout."
+          "note": "Premier code a offrir une variante Or. Actif depuis le 24 aout.",
+          "grants": {
+            "sprite": "jonesy",
+            "variant": "gold"
+          }
         }
       ],
       "hint": "Un code par esprit, et le raccourci le plus sur. Depuis le 27 aout, ces memes variantes Cheat Master se trouvent aussi en partie en reussissant des codes de triche, mais la recompense n'y est pas garantie. Si vous possedez deja la variante, Epic verse 10 000 poussieres d'esprit a la place."

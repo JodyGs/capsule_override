@@ -208,6 +208,156 @@ $("btn-player-edit").addEventListener("click", () => {
 });
 
 /* ============================================================
+   Rendez-vous de la semaine
+   Epic annonce ses horaires a New York. On les convertit a l'heure du
+   telephone, en tenant compte du changement d'heure — qui ne tombe pas
+   le meme jour des deux cotes de l'Atlantique.
+   ============================================================ */
+const WEEKDAY = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const zoneFormatters = new Map();
+
+function zoneParts(instant, zone) {
+  let dtf = zoneFormatters.get(zone);
+  if (!dtf) {
+    dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: zone, hour12: false, weekday: "short",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
+    });
+    zoneFormatters.set(zone, dtf);
+  }
+  const parts = {};
+  for (const part of dtf.formatToParts(instant)) parts[part.type] = part.value;
+  return parts;
+}
+
+/* Decalage entre l'heure murale de la zone et UTC, a cet instant precis. */
+function zoneOffset(instant, zone) {
+  const p = zoneParts(instant, zone);
+  // Certains moteurs rendent minuit comme « 24 » : on ramene a 0.
+  const hour = Number(p.hour) % 24;
+  const asUTC = Date.UTC(+p.year, +p.month - 1, +p.day, hour, +p.minute, +p.second);
+  return asUTC - Math.floor(instant.getTime() / 1000) * 1000;
+}
+
+/* Instant UTC correspondant a une heure murale dans la zone. Deux passes :
+   la premiere devine avec le decalage courant, la seconde corrige si la date
+   visee tombe de l'autre cote d'un changement d'heure. */
+function instantAt(zone, y, m, d, hh, mm) {
+  let guess = Date.UTC(y, m - 1, d, hh, mm);
+  for (let pass = 0; pass < 2; pass += 1) {
+    guess = Date.UTC(y, m - 1, d, hh, mm) - zoneOffset(new Date(guess), zone);
+  }
+  return guess;
+}
+
+/* Les occurrences encadrant l'instant donne : la veille suffit a rattraper
+   un evenement de 24 h commence hier. */
+function occurrences(event, zone, now) {
+  const [hh, mm] = String(event.start || "00:00").split(":").map(Number);
+  const p = zoneParts(new Date(now), zone);
+  const today = WEEKDAY[p.weekday];
+  const list = [];
+  for (let add = -7; add <= 7; add += 1) {
+    if ((((today + add) % 7) + 7) % 7 !== event.day) continue;
+    const d = new Date(Date.UTC(+p.year, +p.month - 1, +p.day + add));
+    const [y, mo, dd] = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()];
+    const start = instantAt(zone, y, mo, dd, hh, mm);
+    // Minuit suivant, a New York : c'est la que « aujourd'hui » s'arrete.
+    // Ajouter 24 h a l'heure de debut ferait deborder sur le lendemain.
+    const dayEnd = instantAt(zone, y, mo, dd + 1, 0, 0);
+    list.push({ start, dayEnd, end: event.hours ? start + event.hours * 3600000 : null });
+  }
+  return list.sort((a, b) => a.start - b.start);
+}
+
+/* Trois etats possibles : le bonus court en ce moment (« live »), la journee
+   est celle de l'evenement sans que ce soit un bonus continu (« today »), ou
+   il est encore devant. Un New Sprite Day de 9 h du matin reste la nouvelle
+   du jour a midi : le passer sous silence des 9 h 01 serait absurde. */
+function eventState(event, zone, now) {
+  const occ = occurrences(event, zone, now);
+  const live = occ.find((o) => o.end !== null && now >= o.start && now < o.end);
+  if (live) return { event, live: true, today: false, at: live.start, until: live.end };
+
+  if (!event.hours) {
+    const day = occ.find((o) => now >= o.start && now < o.dayEnd);
+    if (day) return { event, live: false, today: true, at: day.start, until: null };
+  }
+  const next = occ.find((o) => o.start > now);
+  return { event, live: false, today: false, at: next ? next.start : null, until: null };
+}
+
+/* Celui qui compte : un bonus en cours passe devant, puis l'evenement du
+   jour, puis le plus proche. */
+function nextEvent(events, now) {
+  const zone = events?.zone;
+  const list = events?.list;
+  if (!zone || !Array.isArray(list) || !list.length) return null;
+  const states = list.map((e) => eventState(e, zone, now)).filter((s) => s.at !== null);
+  if (!states.length) return null;
+  const live = states.filter((s) => s.live).sort((a, b) => a.until - b.until);
+  if (live.length) return live[0];
+  const today = states.filter((s) => s.today).sort((a, b) => b.at - a.at);
+  if (today.length) return today[0];
+  return states.sort((a, b) => a.at - b.at)[0];
+}
+
+/* « 2 j 3 h », « 3 h 20 », « 12 min ». Au-dela de deux jours l'heure ne sert
+   plus a rien, en dessous d'une heure les jours n'existent pas. */
+function humanDelay(ms) {
+  const total = Math.max(0, Math.round(ms / 60000));
+  const days = Math.floor(total / 1440);
+  const hours = Math.floor((total % 1440) / 60);
+  const minutes = total % 60;
+  if (days >= 2) return `${days} j`;
+  if (days === 1) return hours ? `1 j ${hours} h` : "1 j";
+  if (hours >= 1) return minutes ? `${hours} h ${String(minutes).padStart(2, "0")}` : `${hours} h`;
+  return `${minutes} min`;
+}
+
+const dayTime = new Intl.DateTimeFormat("fr-FR", { weekday: "long", hour: "2-digit", minute: "2-digit" });
+
+let agendaTimer = null;
+
+function paintAgenda() {
+  const box = $("agenda");
+  // Les saisons passees n'ont plus de rendez-vous : le bandeau n'a pas lieu d'etre.
+  const state_ = state.which === "legacy" ? null : nextEvent(state.catalogue?.events, now());
+  if (!state_) { box.hidden = true; return; }
+
+  const { event, live, today, at, until } = state_;
+  box.hidden = false;
+  box.dataset.live = String(live || today);
+  $("agenda-name").textContent = event.name;
+
+  if (live) {
+    $("agenda-delay").textContent = `en cours — encore ${humanDelay(until - now())}`;
+  } else if (today) {
+    $("agenda-delay").textContent = "aujourd'hui";
+  } else if (event.confirmed === false) {
+    // Sans horaire confirme, annoncer un compte a rebours serait mentir.
+    $("agenda-delay").textContent = dayTime.format(new Date(at)).split(" ")[0];
+  } else {
+    $("agenda-delay").textContent = `dans ${humanDelay(at - now())} · ${dayTime.format(new Date(at))}`;
+  }
+  $("agenda-what").textContent = event.what || "";
+}
+
+function startAgenda() {
+  clearInterval(agendaTimer);
+  paintAgenda();
+  // Une minute suffit : le compte a rebours ne descend jamais sous la minute.
+  agendaTimer = setInterval(paintAgenda, 60000);
+}
+
+// Un telephone qui dort ne fait pas tourner les minuteurs : au reveil, le
+// compte a rebours affiche serait celui d'hier soir.
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) paintAgenda();
+});
+
+/* ============================================================
    Stockage
    ============================================================ */
 function readStore() {
@@ -336,7 +486,8 @@ function variantMarkAt(sprite, variant) {
     ? (sprite.icon ? iconUrl(sprite) : null)
     : (sprite.variantIcons?.includes(variant.id) ? variantIconUrl(sprite, variant.id) : null);
   if (!src) return "<i></i>";
-  return `<img class="vicon" src="${src}" alt="" width="26" height="26" loading="lazy" decoding="async">`;
+  return `<img class="vicon" src="${src}" alt="" width="26" height="26" loading="lazy" decoding="async"`
+       + ` role="button" tabindex="0" title="Voir ${esc(sprite.name)} ${esc(variant.name)} en grand">`;
 }
 
 /* Les esprits pas encore sortis n'ont pas d'icone : on affiche une pastille
@@ -345,7 +496,8 @@ function spriteIconMarkup(sprite) {
   if (sprite.icon) {
     // width/height reserve la place avant le chargement : sans eux la carte
     // sursaute quand l'image arrive. La taille reelle vient du CSS.
-    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="96" height="96" loading="lazy" decoding="async">`;
+    return `<img class="sprite-icon" src="${iconUrl(sprite)}" alt="" width="96" height="96" loading="lazy" decoding="async"`
+         + ` role="button" tabindex="0" title="Voir ${esc(sprite.name)} en grand">`;
   }
   return `<span class="sprite-icon is-empty" aria-hidden="true">${esc(sprite.name.trim()[0] || "?")}</span>`;
 }
@@ -358,13 +510,14 @@ function buildCards() {
   for (const sprite of state.catalogue.sprites) {
     const card = document.createElement("article");
     card.className = "card";
+    card.dataset.sprite = sprite.id;
     card.style.setProperty("--rc", `var(${rarityToken(sprite.rarity)})`);
 
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
     if (!sprite.released) tags += '<span class="tag soon">A venir</span>';
 
     const rows = variantsOf(sprite).map((v) => `
-      <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}">
+      <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}" data-variant="${v.id}">
         <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}>${variantMarkAt(sprite, v)}${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
                 aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} debloque" title="Debloque">${ICON_U}</button>
@@ -1305,6 +1458,8 @@ function paintCodes() {
     btn.closest(".code-row").classList.toggle("is-used", on);
   }
   refreshCodesBadge();
+  // Un code coche disparait du plan : le compteur doit suivre.
+  if (state.catalogue) refreshTodoBadge();
 }
 
 $("codes-list").addEventListener("click", async (e) => {
@@ -1369,8 +1524,333 @@ async function primeCodes() {
     $("codes-where").textContent = codesData.where || "";
     $("codes-note").textContent = codesData.note || "";
     buildCodes();
+    refreshTodoBadge();
   } catch { /* hors ligne au premier lancement : la modale reessaiera */ }
 }
+
+/* ============================================================
+   Comparer avec quelqu'un
+   Le format de sauvegarde existe deja ; il suffisait de le lire sans
+   l'ecrire. Strictement en lecture : la collection locale n'est pas touchee.
+   ============================================================ */
+const compareDialog = $("compare");
+
+/* Les pieces d'une sauvegarde, ramenees a ce que le catalogue courant
+   connait — un fichier d'une autre saison ne doit pas inventer des lignes. */
+function piecesOf(entries) {
+  const set = new Set();
+  for (const sprite of state.live) {
+    for (const variant of variantsOf(sprite)) {
+      if ((entries?.[sprite.id]?.[variant.id] ?? 0) >= 1) set.add(`${sprite.id}|${variant.id}`);
+    }
+  }
+  return set;
+}
+
+function buildCompare(theirs, theirName, theirSeason) {
+  const mine = piecesOf(state.entries);
+  const yours = piecesOf(theirs);
+
+  const only = (a, b) => [...a].filter((k) => !b.has(k)).map((k) => {
+    const [sid, vid] = k.split("|");
+    const sprite = state.live.find((x) => x.id === sid);
+    const variant = state.catalogue.variants.find((v) => v.id === vid);
+    return { sprite, variant };
+  });
+
+  const me = readPlayer() || "Vous";
+  $("compare-title").textContent = `${me} et ${theirName}`;
+  $("compare-score").textContent = `${mine.size} contre ${yours.size} sur ${state.denom}`;
+
+  const warn = $("compare-warn");
+  const mismatch = theirSeason && theirSeason !== state.catalogue.season;
+  warn.hidden = !mismatch;
+  if (mismatch) {
+    warn.textContent = `Ce fichier vient de « ${theirSeason} », vous regardez « ${state.catalogue.season} ». `
+      + "Seules les pieces communes aux deux sont comparees.";
+  }
+
+  const box = $("compare-list");
+  box.innerHTML = "";
+
+  const section = (title, hint, pieces) => {
+    const el = document.createElement("section");
+    el.className = "codes-group";
+    el.innerHTML = `<h3>${esc(title)} — ${pieces.length}</h3>${hint ? `<p class="form-note">${esc(hint)}</p>` : ""}`;
+    if (pieces.length) {
+      const list = document.createElement("ul");
+      list.className = "todo-pieces";
+      for (const { sprite, variant } of pieces) {
+        if (!sprite || !variant) continue;
+        const li = document.createElement("li");
+        li.innerHTML = `<img class="vicon" src="${variant.id === "base" ? iconUrl(sprite) : variantIconUrl(sprite, variant.id)}"
+             alt="" width="22" height="22" loading="lazy" decoding="async"><span>${esc(pieceName(sprite, variant))}</span>`;
+        list.appendChild(li);
+      }
+      el.appendChild(list);
+    }
+    box.appendChild(el);
+  };
+
+  section(`Ce que ${theirName} a et pas vous`, "De quoi savoir quoi lui demander.", only(yours, mine));
+  section(`Ce que vous avez et pas ${theirName}`, "", only(mine, yours));
+}
+
+$("btn-compare").addEventListener("click", () => $("file-compare").click());
+
+$("file-compare").addEventListener("change", async () => {
+  const file = $("file-compare").files?.[0];
+  if (!file) return;
+  try {
+    const parsed = JSON.parse(await file.text());
+    let entries = parsed.entries || parsed.data || null;
+    if (!entries && Array.isArray(parsed.profiles) && parsed.profiles.length) {
+      entries = parsed.profiles[0].data;
+    }
+    if (!entries || typeof entries !== "object") throw new Error("format");
+
+    const name = cleanPlayer(parsed.player) || "l'autre collection";
+    $("account").close();
+    buildCompare(entries, name, parsed.season || "");
+    compareDialog.showModal();
+  } catch {
+    alert("Ce fichier n'est pas une sauvegarde Capsule Override valide.");
+  } finally {
+    $("file-compare").value = "";
+  }
+});
+
+$("compare-close").addEventListener("click", () => compareDialog.close());
+
+/* ============================================================
+   Agrandissement
+   Une vignette de 26 px dit qu'une variante existe ; elle ne dit pas a
+   quoi elle ressemble. Un appui l'ouvre en grand, sans quitter la page.
+   ============================================================ */
+const zoomDialog = $("zoom");
+
+function openZoom(src, name, sub) {
+  $("zoom-img").src = src;
+  $("zoom-img").alt = name;
+  $("zoom-name").textContent = name;
+  $("zoom-sub").textContent = sub || "";
+  $("zoom-sub").hidden = !sub;
+  zoomDialog.showModal();
+}
+
+$("zoom-close").addEventListener("click", () => zoomDialog.close());
+// Cliquer a cote ferme : c'est le geste attendu d'une visionneuse.
+zoomDialog.addEventListener("click", (e) => {
+  if (e.target === zoomDialog) zoomDialog.close();
+});
+
+// Annonce en bouton, donc activable au clavier : sans ceci, la tabulation
+// mene a une image qui ne repond ni a Entree ni a Espace.
+$("grid").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  if (!e.target.closest(".sprite-icon, .vicon")) return;
+  e.preventDefault();
+  e.target.click();
+});
+
+$("grid").addEventListener("click", (e) => {
+  const img = e.target.closest(".sprite-icon, .vicon");
+  if (!img) return;
+  const card = img.closest(".card");
+  const sprite = state.catalogue.sprites.find((x) => x.id === card?.dataset.sprite);
+  if (!sprite) return;
+
+  const row = img.closest(".vrow");
+  if (row) {
+    const variant = state.catalogue.variants.find((v) => v.id === row.dataset.variant);
+    openZoom(img.src, `${sprite.name} ${variant?.name || ""}`.trim(), variant?.note || "");
+  } else {
+    openZoom(img.src, sprite.name, sprite.sub || "");
+  }
+});
+
+/* ============================================================
+   Que faire maintenant
+   Le suivi sait ce qui manque, les codes savent ce qui s'obtient d'un mot
+   tape dans le lobby. Ce panneau met les deux bout a bout, parce que jusqu'ici
+   il fallait faire la jointure de tete.
+   ============================================================ */
+const todoDialog = $("todo");
+
+/* Le code du lobby qui offre cette piece, s'il existe et s'il n'a pas
+   deja ete consomme. */
+function codeFor(spriteId, variantId) {
+  return allCodes().find((c) => c.grants?.sprite === spriteId
+    && c.grants?.variant === variantId
+    && !codesUsed[c.code.toUpperCase()]);
+}
+
+/* La consigne generale d'une ligne de variante. */
+function howToLine(variant) {
+  if (variant.id === "cheat") return "En reussissant un code de triche en partie. La recompense n'est pas garantie.";
+  if (variant.id === "gold") return "En partie, comme la version de base. Les Power Hours en relancent le taux.";
+  if (variant.id === "base") return "Chaque esprit a ses coins de carte.";
+  return "En partie.";
+}
+
+/* Ce qui distingue cette piece-la des autres de sa ligne : la source propre
+   a l'esprit pour une base, ou une exception declaree au catalogue. */
+function howToPiece(sprite, variant) {
+  return sprite.variantHow?.[variant.id]
+    || (variant.id === "base" ? sprite.source || "" : "");
+}
+
+function todoPlan() {
+  const lobby = [];
+  // Une entree par ligne de variante, dans l'ordre du catalogue : grouper par
+  // consigne donnait une section par esprit, puisque chacun a sa source.
+  const field = new Map();
+  const toMaster = [];
+
+  for (const sprite of state.live) {
+    for (const variant of variantsOf(sprite)) {
+      const value = statusOf(sprite.id, variant.id);
+      if (value === 2) continue;
+      if (value === 1) { toMaster.push({ sprite, variant }); continue; }
+
+      const code = codeFor(sprite.id, variant.id);
+      if (code) { lobby.push({ sprite, variant, code }); continue; }
+      if (!field.has(variant.id)) field.set(variant.id, { variant, pieces: [] });
+      field.get(variant.id).pieces.push({ sprite, variant, note: howToPiece(sprite, variant) });
+    }
+  }
+
+  // Les codes qui ne donnent pas de piece : poussiere, XP, gizmos, ecrans.
+  const spare = onceCodes().filter((c) => !c.grants && !codesUsed[c.code.toUpperCase()]);
+  return { lobby, field: [...field.values()], toMaster, spare };
+}
+
+const pieceName = (sprite, variant) =>
+  variant.id === "base" ? sprite.name : `${sprite.name} ${variant.name}`;
+
+function buildTodo() {
+  const box = $("todo-list");
+  box.innerHTML = "";
+  const plan = todoPlan();
+  const total = plan.lobby.length + plan.field.reduce((n, g) => n + g.pieces.length, 0);
+
+  $("todo-progress").textContent = total
+    ? `${total} piece${total > 1 ? "s" : ""} a trouver`
+    : "collection complete";
+
+  const section = (title, hint, body) => {
+    const el = document.createElement("section");
+    el.className = "codes-group";
+    el.innerHTML = `<h3>${esc(title)}</h3>${hint ? `<p class="form-note">${esc(hint)}</p>` : ""}`;
+    el.appendChild(body);
+    box.appendChild(el);
+  };
+
+  /* 1. Ce qui s'obtient tout de suite, sans jouer. */
+  if (plan.lobby.length) {
+    const list = document.createElement("ul");
+    list.className = "codes-ul";
+    for (const { sprite, variant, code } of plan.lobby) {
+      const li = document.createElement("li");
+      li.className = "code-row is-todo";
+      li.innerHTML = `
+        <img class="vicon" src="${variant.id === "base" ? iconUrl(sprite) : variantIconUrl(sprite, variant.id)}"
+             alt="" width="26" height="26" loading="lazy" decoding="async">
+        <button type="button" class="code-text" data-copy="${esc(code.code)}"
+                title="Copier ${esc(code.code)}">${esc(code.code)}</button>
+        <span class="code-reward">${esc(pieceName(sprite, variant))}${
+          code.warn ? `<small class="code-warn">${esc(code.warn)}</small>` : ""}</span>`;
+      list.appendChild(li);
+    }
+    section("A taper dans le lobby", "Gratuit et immediat : un mot dans le panneau d'administration.", list);
+  }
+
+  /* 2. Ce qu'il faut aller chercher en partie, ligne de variante par ligne. */
+  for (const { variant, pieces } of plan.field) {
+    const list = document.createElement("ul");
+    list.className = "todo-rows";
+    for (const { sprite, note } of pieces) {
+      const li = document.createElement("li");
+      li.innerHTML = `<img class="vicon" src="${variant.id === "base" ? iconUrl(sprite) : variantIconUrl(sprite, variant.id)}"
+             alt="" width="26" height="26" loading="lazy" decoding="async">`
+        + `<span class="todo-name">${esc(pieceName(sprite, variant))}</span>`
+        + (note ? `<span class="todo-note">${esc(note)}</span>` : "");
+      list.appendChild(li);
+    }
+    section(`${variant.name} — ${pieces.length} a trouver`, howToLine(variant), list);
+  }
+
+  /* 3. Ce qui est deja la mais pas encore banque. */
+  if (plan.toMaster.length) {
+    const list = document.createElement("ul");
+    list.className = "todo-pieces";
+    for (const { sprite, variant } of plan.toMaster) {
+      const li = document.createElement("li");
+      li.innerHTML = `<img class="vicon" src="${variant.id === "base" ? iconUrl(sprite) : variantIconUrl(sprite, variant.id)}"
+             alt="" width="22" height="22" loading="lazy" decoding="async"><span>${esc(pieceName(sprite, variant))}</span>`;
+      list.appendChild(li);
+    }
+    section(`A maitriser — ${plan.toMaster.length}`,
+            "Niveau 5, puis banque a un site d'extraction ou Victoire Royale en le tenant.", list);
+  }
+
+  /* 4. Le reste des codes, qui ne donne pas d'esprit mais reste a prendre. */
+  if (plan.spare.length) {
+    const el = document.createElement("p");
+    el.className = "form-note";
+    el.textContent = `${plan.spare.length} autre${plan.spare.length > 1 ? "s" : ""} code${
+      plan.spare.length > 1 ? "s" : ""} du lobby ${plan.spare.length > 1 ? "restent" : "reste"
+      } a reclamer : poussiere, XP, gizmos et ecrans de chargement.`;
+    const row = document.createElement("div");
+    row.className = "row";
+    row.appendChild(el);
+    section("Recompenses a cote de la collection", "", row);
+  }
+
+  if (!box.children.length) {
+    const done = document.createElement("p");
+    done.className = "form-note";
+    done.textContent = "Plus rien a faire : les 33 pieces de la saison sont maitrisees.";
+    box.appendChild(done);
+  }
+
+  $("todo-note").textContent = state.catalogue?.events?.note || "";
+}
+
+function refreshTodoBadge() {
+  const strip = $("strip");
+  const legacy = state.which === "legacy";
+  strip.hidden = legacy;
+  if (legacy) return;
+  // Le compteur annonce ce qui s'obtient sans jouer : c'est le seul chiffre
+  // sur lequel on peut agir dans la minute.
+  const free = codesData ? todoPlan().lobby.length : 0;
+  const badge = $("todo-count");
+  badge.hidden = free === 0;
+  badge.textContent = free;
+  $("btn-todo").title = free
+    ? `${free} piece${free > 1 ? "s" : ""} vous attend${free > 1 ? "ent" : ""} derriere un code du lobby`
+    : "Ce qu'il reste a trouver, et comment";
+}
+
+$("btn-todo").addEventListener("click", () => {
+  if (!codesData) { notify("La liste des codes n'a pas encore ete chargee."); return; }
+  buildTodo();
+  todoDialog.showModal();
+});
+$("todo-close").addEventListener("click", () => todoDialog.close());
+
+// Copier un code depuis le plan, comme dans la liste des codes.
+$("todo-list").addEventListener("click", async (e) => {
+  const copy = e.target.closest(".code-text");
+  if (!copy) return;
+  try {
+    await navigator.clipboard.writeText(copy.dataset.copy);
+    notify(`« ${copy.dataset.copy} » copie.`);
+  } catch {
+    notify("Copie impossible ici — recopiez le code a la main.");
+  }
+});
 
 /* ============================================================
    Installation sur mobile
@@ -1438,9 +1918,15 @@ if ("serviceWorker" in navigator) {
         });
       });
 
+      // A la toute premiere visite, aucun worker ne controle encore la page :
+      // celui qui vient de s'installer prend la main et declenche
+      // controllerchange sans qu'il s'agisse d'une mise a jour. Recharger la
+      // page a ce moment-la ne fait que la faire clignoter au premier
+      // lancement. On ne recharge que si un ancien worker cede sa place.
+      const hadController = Boolean(navigator.serviceWorker.controller);
       let reloading = false;
       navigator.serviceWorker.addEventListener("controllerchange", () => {
-        if (reloading) return;
+        if (!hadController || reloading) return;
         reloading = true;
         window.location.reload();
       });
@@ -1457,6 +1943,7 @@ function redraw() {
   state.catalogue.sprites.forEach(paintCard);
   renderStats();
   applyFilters();
+  refreshTodoBadge();
 }
 
 async function fetchCatalogue(which) {
@@ -1500,6 +1987,7 @@ async function loadCollection(which, { remember = true } = {}) {
   buildCards();
   buildRarityPanel();
   buildFilters();
+  startAgenda();
   redraw();
 
   if (remember) {
