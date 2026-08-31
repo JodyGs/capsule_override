@@ -254,7 +254,11 @@ function instantAt(zone, y, m, d, hh, mm) {
 /* Les occurrences encadrant l'instant donne : la veille suffit a rattraper
    un evenement de 24 h commence hier. */
 function occurrences(event, zone, now) {
-  const [hh, mm] = String(event.start || "00:00").split(":").map(Number);
+  // Un rendez-vous peut ouvrir plusieurs fenetres dans la meme journee : les
+  // Power Hours du samedi tournent a 14 h puis a 21 h. Sans cela, le samedi
+  // a 17 h l'app annoncerait le samedi suivant plutot que la seance du soir.
+  const times = (Array.isArray(event.starts) ? event.starts : [event.start || "00:00"])
+    .map((t) => String(t).split(":").map(Number));
   const p = zoneParts(new Date(now), zone);
   const today = WEEKDAY[p.weekday];
   const list = [];
@@ -262,11 +266,13 @@ function occurrences(event, zone, now) {
     if ((((today + add) % 7) + 7) % 7 !== event.day) continue;
     const d = new Date(Date.UTC(+p.year, +p.month - 1, +p.day + add));
     const [y, mo, dd] = [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()];
-    const start = instantAt(zone, y, mo, dd, hh, mm);
     // Minuit suivant, a New York : c'est la que « aujourd'hui » s'arrete.
     // Ajouter 24 h a l'heure de debut ferait deborder sur le lendemain.
     const dayEnd = instantAt(zone, y, mo, dd + 1, 0, 0);
-    list.push({ start, dayEnd, end: event.hours ? start + event.hours * 3600000 : null });
+    for (const [hh, mm] of times) {
+      const start = instantAt(zone, y, mo, dd, hh, mm);
+      list.push({ start, dayEnd, end: event.hours ? start + event.hours * 3600000 : null });
+    }
   }
   return list.sort((a, b) => a.start - b.start);
 }

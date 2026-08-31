@@ -1,9 +1,10 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-08-27",
+  "updatedAt": "2026-08-31",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Aucun code n'a expire a ce jour. Epic en distribue de nouveaux au fil de l'ARG Override, sur le Discord officiel et via les comptes Fortnite regionaux. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Vingt-deux codes, aucun expire au 31 aout. Epic en distribue de nouveaux au fil de l'ARG Override, sur le Discord officiel et via les comptes Fortnite regionaux. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
+    "Vice",
     "Dexerto",
     "Beebom",
     "Destructoid",
@@ -193,10 +194,10 @@
         },
         {
           "code": "DontBlockMe",
-          "reward": "Remet votre avatar normal",
+          "reward": "Seconde transformation en bloc Tetris",
           "once": false,
           "tag": "Tetris",
-          "warn": "Trois sources y voient une seconde transformation ; Dexerto, le plus recent, dit que le code annule. Essayez-le apres LetsBlockAndRoll."
+          "warn": "Quatre sources sur cinq y voient une seconde transformation ; seul Dexerto dit que le code annule la precedente. Les deux sont reutilisables, l'essai ne coute rien."
         }
       ]
     }

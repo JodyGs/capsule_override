@@ -2,7 +2,7 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-08-27",
+  "updatedAt": "2026-08-31",
   "variants": [
     {
       "id": "base",
@@ -17,7 +17,7 @@
     {
       "id": "cheat",
       "name": "Cheat Master",
-      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison, complete depuis le 27 aout."
+      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; les douze esprits sortis en ont une."
     }
   ],
   "rarities": [
@@ -205,9 +205,9 @@
       "name": "Storm Scout",
       "sub": "Eclaireur de tempete",
       "rarity": "rare",
-      "released": false,
-      "effect": "Declenche Surregime apres des degats de tempete et revele les prochains cercles.",
-      "source": "A venir lors d'un Sprite Day · Rarete a confirmer",
+      "released": true,
+      "effect": "Apres 10 degats de tempete : Surregime et energie illimitee — course, saut et controle aerien ameliores. De 12 s au niveau 1 a 20 s au niveau 5, ou il revele en plus les prochains cercles.",
+      "source": "Coffres et consoles de code de triche · Reliefs et zones en hauteur",
       "icon": true,
       "variantIcons": [
         "gold",
@@ -283,15 +283,20 @@
         "name": "New Sprite Day",
         "day": 4,
         "start": "09:00",
-        "what": "Un esprit ou une variante rejoint la collection. Le 27 aout a livre les quatre derniers Cheat Master.",
+        "what": "Un esprit ou une variante rejoint la collection. Le 27 aout a livre les quatre derniers Cheat Master ; Storm Scout, lui, est arrive le samedi 29 pendant les Power Hours.",
         "confirmed": true
       },
       {
         "id": "power",
         "name": "Power Hours",
         "day": 6,
-        "what": "Deux fenetres dans la journee qui relancent une famille de variantes. Epic annonce le theme et les horaires dans la semaine — ceux du 22 aout couraient de 14 h a 16 h et de 21 h a 23 h, heure de New York.",
-        "confirmed": false
+        "what": "Deux fenetres de deux heures, 14 h et 21 h heure de New York. Epic annonce le theme dans la semaine : le 22 aout les variantes Or, le 29 aout Sonic et la sortie de Storm Scout.",
+        "confirmed": true,
+        "starts": [
+          "14:00",
+          "21:00"
+        ],
+        "hours": 2
       }
     ]
   }

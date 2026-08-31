@@ -189,14 +189,19 @@ ne pas entrer en collision d'une saison à l'autre (`l-` pour Runners).
 
 Un bandeau sous les compteurs annonce le prochain rendez-vous de la semaine, ou celui qui
 court : **Cheat Code Monday** (lundi 9 h à mardi 9 h à New York — les esprits montent deux fois
-plus vite, la poussière est doublée), **New Sprite Day** (jeudi 9 h) et **Power Hours** (samedi).
+plus vite, la poussière est doublée), **New Sprite Day** (jeudi 9 h) et **Power Hours** (samedi 14 h et 21 h, deux heures chacune).
 
 Les horaires vivent dans `public/sprites.json`, sous `events`, en heure de New York. L'app les
 convertit à l'heure du téléphone en passant par `Intl.DateTimeFormat` : le décalage est relu à
 chaque calcul, donc les deux changements d'heure — qui ne tombent pas le même jour des deux
 côtés de l'Atlantique — sont pris en compte au lieu d'être supposés. Un événement sans horaire
-confirmé, comme les Power Hours, affiche son jour et pas un compte à rebours : annoncer une
-heure qu'Epic n'a pas donnée serait pire que de se taire.
+confirmé affiche son jour et pas un compte à rebours : annoncer une heure qu'Epic n'a pas
+donnée serait pire que de se taire.
+
+Un rendez-vous peut ouvrir **plusieurs fenêtres dans la même journée** — les Power Hours
+tournent à 14 h puis à 21 h. Le champ `starts` prend alors la place de `start` et l'app génère
+une occurrence par horaire, sinon le samedi à 17 h elle annoncerait le samedi suivant au lieu
+de la séance du soir, quatre heures plus tard.
 
 Un événement ponctuel reste **la nouvelle du jour** jusqu'à minuit à New York, pas pendant
 24 heures glissantes — sinon un New Sprite Day du jeudi matin serait encore affiché le vendredi
@@ -272,8 +277,8 @@ donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. L
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur huit sources le 27 août 2026
-(Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life, allthings.how, TheGamer,
+La liste vient de `public/cheat-codes.json`, recoupée sur neuf sources le 31 août 2026
+(VICE, Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life, allthings.how, TheGamer,
 Insider Gaming). Trois codes portent une pastille dorée **nouveau** — ils sont apparus après
 le lancement de la saison :
 
@@ -348,11 +353,11 @@ exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
-**État au 27 août 2026** : toujours **11 esprits jouables**, mais leurs 33 variantes sont
-désormais toutes obtenables — le New Sprite Day du 27 a livré les quatre derniers Cheat Master
-(Klombo, Shadow, Jackrabbit, Killswitch), à trouver en réussissant des codes de triche en
-partie. Storm Scout attend toujours un Sprite Day,
-les cinq esprits communautaires attendent une mise à jour de mi-saison. Six autres noms
+**État au 31 août 2026** : **12 esprits jouables** et **36 variantes**, toutes obtenables.
+Le New Sprite Day du 27 a livré les quatre derniers Cheat Master (Klombo, Shadow, Jackrabbit,
+Killswitch), à trouver en réussissant des codes de triche en partie ; **Storm Scout** est sorti
+le samedi 29 pendant les Power Hours, hors du rendez-vous habituel du jeudi, avec ses trois
+variantes d'un coup. Les cinq esprits communautaires attendent une mise à jour de mi-saison. Six autres noms
 circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly,
 Overshield — sans effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
 l'app, pas ajoutés au catalogue** : un fichier servi n'est pas une sortie, la saison passée
@@ -383,8 +388,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **512 vérifications** qui tournent sans navigateur : les comptes
-publiés (11 esprits jouables, 33 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
+Les catalogues ont le leur, **545 vérifications** qui tournent sans navigateur : les comptes
+publiés (12 esprits jouables, 36 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
 récompenses), l'absence de code en double, la présence des trois variantes de la Couronne, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
 **chaque esprit marqué `icon` a bien son PNG, chaque PNG est précaché par le service worker, et
@@ -455,9 +460,9 @@ développement. À confirmer de votre côté.
 
 ---
 
-Données recoupées le 20 août 2026 sur Game Rant, Insider Gaming, Destructoid, Sprite
-Checklist, TechWiser et VICE. Storm Scout et les cinq esprits communautaires n'étaient pas
-encore sortis : leurs raretés et effets sont signalés comme non confirmés dans l'interface.
+Données recoupées le 31 août 2026 sur Game Rant, Insider Gaming, Destructoid, Sprite
+Checklist, TechWiser, Beebom et VICE. Les cinq esprits communautaires ne sont pas encore
+sortis : leurs raretés et effets sont signalés comme non confirmés dans l'interface.
 ## Crédits et droits
 
 Les icônes des esprits proviennent de la [Fortnite Wiki](https://fortnite.weirdgloop.org/).
