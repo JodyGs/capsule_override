@@ -295,36 +295,6 @@
       ]
     },
     {
-      "id": "dumpster",
-      "name": "Plongeon dans la benne",
-      "sub": "Dumpster Dive · par StinkyPrincessGoose",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Recuperez du butin en sautant dans les bennes a ordures.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
-    },
-    {
-      "id": "honey",
-      "name": "Miel",
-      "sub": "Honey Sprite · par Conejito_sam",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Une ruche surgit et lache un essaim d'abeilles sur l'ennemi qui vous blesse.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
-    },
-    {
-      "id": "pond",
-      "name": "Mare",
-      "sub": "Pond Sprite · par Pine & Kiri",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Vitesse accrue dans l'eau a chaque palier. Au niveau 5, saut plus haut et degats de chute reduits.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
-    },
-    {
       "id": "xray",
       "name": "Rayons X",
       "sub": "X-Ray Sprite · par Avila215",
@@ -393,6 +363,36 @@
         "base"
       ],
       "icon": true
+    },
+    {
+      "id": "dumpster",
+      "name": "Plongeon dans la benne",
+      "sub": "Dumpster Dive · par StinkyPrincessGoose",
+      "rarity": "unknown",
+      "released": false,
+      "unconfirmed": true,
+      "effect": "Recuperez du butin en sautant dans les bennes a ordures.",
+      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
+    },
+    {
+      "id": "honey",
+      "name": "Miel",
+      "sub": "Honey Sprite · par Conejito_sam",
+      "rarity": "unknown",
+      "released": false,
+      "unconfirmed": true,
+      "effect": "Une ruche surgit et lache un essaim d'abeilles sur l'ennemi qui vous blesse.",
+      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
+    },
+    {
+      "id": "pond",
+      "name": "Mare",
+      "sub": "Pond Sprite · par Pine & Kiri",
+      "rarity": "unknown",
+      "released": false,
+      "unconfirmed": true,
+      "effect": "Vitesse accrue dans l'eau a chaque palier. Au niveau 5, saut plus haut et degats de chute reduits.",
+      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
     }
   ],
   "events": {

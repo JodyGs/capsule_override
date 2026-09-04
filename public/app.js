@@ -2065,6 +2065,12 @@ async function fetchCatalogue(which) {
 async function loadCollection(which, { remember = true } = {}) {
   state.which = which;
   state.catalogue = await fetchCatalogue(which);
+  // Les esprits sortis d'abord. Eux seuls ont une illustration, une rarete
+  // et une source ; un « a venir » pose au milieu de la liste ressemble a un
+  // trou dans la grille. Le tri est stable, donc l'ordre choisi dans le
+  // catalogue survit a l'interieur de chaque groupe — et il ne depend plus
+  // de l'endroit ou une nouvelle fiche a ete collee dans le JSON.
+  state.catalogue.sprites.sort((a, b) => Number(!!b.released) - Number(!!a.released));
   state.live = state.catalogue.sprites.filter((x) => x.released);
   state.denom = countPieces();
   state.entries = readStore();

@@ -377,6 +377,12 @@ exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
+L'ordre du fichier n'a pas d'importance : l'app **remonte les esprits sortis en tête** au
+chargement, avec un tri stable qui conserve l'ordre choisi à l'intérieur de chaque groupe. Un
+esprit à venir n'a ni illustration, ni rareté, ni source — posé au milieu de la grille, il
+ressemble à un trou. Le fichier est rangé pareil, pour qu'il se lise comme l'écran, mais c'est
+le tri qui fait foi : coller une nouvelle fiche au mauvais endroit du JSON ne casse plus rien.
+
 **État au 4 septembre 2026** : **16 esprits jouables** et **47 pièces obtenables**. La v42.10
 du 3 septembre a livré **X-Ray** et **Onigiri** — les deux premiers lauréats du concours
 Design-a-Sprite — plus **Surbouclier** et **Mega Man**, après **Storm Scout** sorti le
@@ -426,7 +432,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **663 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **666 vérifications** qui tournent sans navigateur : les comptes
 publiés (16 esprits jouables, 47 pièces, 25 esprits et 117 pièces en Legacy, 27 codes dont 23
 récompenses), l'absence de code en double, le fait qu'aucun code n'offre une variante non
 obtenable, que Mega Man n'ait qu'une ligne et la Couronne quatre, les
