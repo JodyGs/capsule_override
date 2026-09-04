@@ -46,6 +46,7 @@ VARIANT_PREFIX = {
     "holofoil": "Holofoil",
     "cube": "Cube",
     "quack": "Quack",
+    "loot": "Loot_Hacker",
 }
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
@@ -64,11 +65,14 @@ WIKI_NAME = {
     "jackrabbit": "Jackrabbit",
     "klombo": "Klombo",
     "crown": "Crown",
-    "bullet": "Bullet",
     "dumpster": "Dumpster_Dive",
     "honey": "Honey",
     "pond": "Pond",
     "xray": "X-Ray",
+    # v42.10 : Epic a echange le Bullet d'Enorull contre son Onigiri.
+    "onigiri": "Onigiri",
+    "overshield": "Overshield",
+    "megaman": "Mega_Man",
 
     # Chapitre 7 Saison 3 — Runners. Le prefixe « l- » evite toute collision
     # d'identifiant avec la saison en cours.

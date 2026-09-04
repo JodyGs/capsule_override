@@ -209,6 +209,29 @@ Un événement ponctuel reste **la nouvelle du jour** jusqu'à minuit à New Yor
 
 ---
 
+## Quoi de neuf
+
+Quand Epic sort un esprit, le catalogue change mais l'app, elle, se ressemble : on peut jouer
+une semaine sans remarquer les quatre nouvelles cartes. Une fiche **Quoi de neuf** s'ouvre donc
+toute seule au premier lancement qui suit une mise à jour des données.
+
+Il n'y a **pas de serveur derrière** — donc pas de push web, qui réclamerait un backend, des
+clés VAPID et un abonnement par appareil. La nouvelle voyage dans le catalogue lui-même :
+`public/sprites.json` porte un bloc `news` avec une `version`, un titre et quelques lignes. Le
+service worker va chercher les JSON **en réseau d'abord**, si bien qu'au premier lancement
+connecté qui suit un déploiement l'app découvre une `version` qu'elle n'a jamais vue, ouvre la
+fiche, et enregistre cette version dans `capsule-override.news.v1`. Un tour, puis plus jamais.
+
+Deux cas sont traités à part :
+
+- **Toute première ouverture de l'app.** Rien n'est « neuf » quand tout l'est, et la fiche du
+  pseudo occupe déjà l'écran. La version est enregistrée en silence : l'annonce ne servira
+  qu'à partir de la mise à jour suivante.
+- **Relire l'annonce.** Un bouton dans Réglages la rouvre à la demande, même déjà vue.
+
+Pour annoncer une mise à jour, il suffit donc de changer `news.version` en même temps que
+`updatedAt` — un test vérifie que les deux ne divergent pas.
+
 ## Que faire maintenant
 
 Le suivi sait ce qui manque, les codes savent ce qui s'obtient d'un mot tapé dans le lobby.
@@ -266,21 +289,22 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**22 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**27 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
-Les deux codes Tetris (`LetsBlockAndRoll`, `DontBlockMe`) se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 20 récompenses** : ils ne
+Les quatre codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`,
+`BRB`) se cochent comme les autres, mais
+leur case est en pointillés et ils **ne comptent pas dans les 23 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur neuf sources le 31 août 2026
-(VICE, Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life, allthings.how, TheGamer,
-Insider Gaming). Trois codes portent une pastille dorée **nouveau** — ils sont apparus après
-le lancement de la saison :
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 4 septembre 2026
+(VICE, lobbyhack.com, allthings.how, Dexerto, Beebom, Destructoid, PCGamesN, Nintendo Life,
+TheGamer, Insider Gaming, Game Rant). Cinq codes portent une pastille dorée **nouveau** —
+ceux qu'a livrés la v42.10 du 3 septembre :
 
 - **`JonesyIsGolden`** — esprit Jonesy **Or**, actif depuis le 24 août. Le premier code à
   offrir une variante Or plutôt qu'une Cheat Master.
@@ -337,7 +361,7 @@ scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprit
 
 ### Mettre à jour la liste des esprits
 
-Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand Storm Scout sort ou
+Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand un esprit sort ou
 que les esprits communautaires arrivent. Puis `npm run sprite-icons` pour récupérer les
 icônes des nouveaux venus : le script interroge la Fortnite Wiki, réduit les images en 288 px,
 les ramène à une palette de 256 couleurs et coche le champ `icon` des esprits trouvés.
@@ -353,13 +377,27 @@ exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 pastille à initiale, teintée de leur rareté. Passer un esprit de `"released": false` à `true`
 le fait entrer dans le calcul des scores ; les coches déjà posées dessus se rallument seules.
 
-**État au 31 août 2026** : **12 esprits jouables** et **36 variantes**, toutes obtenables.
-Le New Sprite Day du 27 a livré les quatre derniers Cheat Master (Klombo, Shadow, Jackrabbit,
-Killswitch), à trouver en réussissant des codes de triche en partie ; **Storm Scout** est sorti
-le samedi 29 pendant les Power Hours, hors du rendez-vous habituel du jeudi, avec ses trois
-variantes d'un coup. Les cinq esprits communautaires attendent une mise à jour de mi-saison. Six autres noms
-circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly,
-Overshield — sans effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
+**État au 4 septembre 2026** : **16 esprits jouables** et **47 pièces obtenables**. La v42.10
+du 3 septembre a livré **X-Ray** et **Onigiri** — les deux premiers lauréats du concours
+Design-a-Sprite — plus **Surbouclier** et **Mega Man**, après **Storm Scout** sorti le
+samedi 29 août pendant les Power Hours.
+
+Deux exceptions à retenir, parce qu'elles cassent la règle « chaque esprit a toutes les
+variantes » et qu'un compteur naïf se trompe :
+
+- **Mega Man n'a aucune variante.** Ni Or, ni Cheat Master, ni Loot Hacker. C'est le seul.
+- **La ligne Loot Hacker n'est ouverte qu'à la Couronne**, au bout de sa chaîne de maîtrise
+  (Base, puis Cheat Master, puis Or, puis Loot Hacker). Les quatorze autres existent dans les
+  fichiers mais **n'entrent dans le butin que le jeudi 10 septembre** : elles ne sont pas
+  comptées. Trois sources annonçaient « quinze Loot Hacker livrées le 3 septembre » — elles
+  décrivaient le contenu du patch, pas ce qu'un joueur peut obtenir. C'est exactement la
+  distinction qui avait fait compter 120 pièces au lieu de 117 en Legacy.
+
+Le **Bullet** d'Enorull a quitté le catalogue : Epic l'a échangé contre l'**Onigiri** du même
+créateur, et Bullet ne sortira pas cette saison. Il reste trois esprits communautaires
+(Plongeon dans la benne, Miel, Mare). Cinq autres noms
+circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly — sans
+effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
 l'app, pas ajoutés au catalogue** : un fichier servi n'est pas une sortie, la saison passée
 l'a déjà prouvé (voir plus haut). S'ils sortent, ils entrent dans `sprites.json` comme les
 autres.
@@ -388,9 +426,10 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **545 vérifications** qui tournent sans navigateur : les comptes
-publiés (12 esprits jouables, 36 pièces, 25 esprits et 117 pièces en Legacy, 22 codes dont 20
-récompenses), l'absence de code en double, la présence des trois variantes de la Couronne, les
+Les catalogues ont le leur, **663 vérifications** qui tournent sans navigateur : les comptes
+publiés (16 esprits jouables, 47 pièces, 25 esprits et 117 pièces en Legacy, 27 codes dont 23
+récompenses), l'absence de code en double, le fait qu'aucun code n'offre une variante non
+obtenable, que Mega Man n'ait qu'une ligne et la Couronne quatre, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
 **chaque esprit marqué `icon` a bien son PNG, chaque PNG est précaché par le service worker, et
 aucun ne descend sous 288 px**. C'est ce dernier contrôle qui rattrape l'oubli classique :
@@ -460,9 +499,11 @@ développement. À confirmer de votre côté.
 
 ---
 
-Données recoupées le 31 août 2026 sur Game Rant, Insider Gaming, Destructoid, Sprite
-Checklist, TechWiser, Beebom et VICE. Les cinq esprits communautaires ne sont pas encore
-sortis : leurs raretés et effets sont signalés comme non confirmés dans l'interface.
+Données recoupées le 4 septembre 2026 sur les notes officielles v42.10 d'Epic, Game Rant,
+Insider Gaming, Destructoid, Sprite Checklist, TechWiser, Beebom, lobbyhack.com et VICE. Les
+raretés de X-Ray, Surbouclier et Mega Man n'ont été annoncées par aucune source fiable : elles
+sont marquées « à confirmer » dans l'interface plutôt que devinées. Les trois esprits
+communautaires restants ne sont pas encore sortis.
 ## Crédits et droits
 
 Les icônes des esprits proviennent de la [Fortnite Wiki](https://fortnite.weirdgloop.org/).

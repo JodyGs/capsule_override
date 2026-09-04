@@ -2,7 +2,19 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-08-31",
+  "updatedAt": "2026-09-04",
+  "news": {
+    "version": "2026-09-04",
+    "title": "Mise a jour v42.10",
+    "date": "3 septembre 2026",
+    "lines": [
+      "Quatre esprits de plus : X-Ray et Onigiri, les deux premiers laureats du concours Design-a-Sprite, plus Surbouclier et Mega Man. La saison passe a 16 esprits.",
+      "Une quatrieme ligne de variantes, Loot Hacker, qui augmente les chances de faire apparaitre des objets depuis vos Loot Hacks. Seule celle de la Couronne s'obtient pour l'instant ; les quatorze autres arrivent le jeudi 10 septembre.",
+      "Mega Man fait exception : il n'a ni Or, ni Cheat Master, ni Loot Hacker. Le total a collectionner passe donc de 33 a 47.",
+      "Cinq nouveaux codes de triche, dont un qui reclame d'avoir termine la quete cachee de Geno.",
+      "Epic a echange le Bullet d'Enorull contre son Onigiri : Bullet ne sortira pas cette saison, il a quitte la liste."
+    ]
+  },
   "variants": [
     {
       "id": "base",
@@ -17,7 +29,12 @@
     {
       "id": "cheat",
       "name": "Cheat Master",
-      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; les douze esprits sortis en ont une."
+      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; tous les esprits sortis en ont une, sauf Mega Man."
+    },
+    {
+      "id": "loot",
+      "name": "Loot Hacker",
+      "note": "Augmente les chances de faire apparaitre des objets depuis vos Loot Hacks. Ajoutee le 3 septembre : seule celle de la Couronne s'obtient pour l'instant, les quatorze autres entrent dans les coffres et les codes de triche le jeudi 10 septembre a 9 h a New York."
     }
   ],
   "rarities": [
@@ -55,6 +72,11 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
     },
     {
@@ -67,6 +89,11 @@
       "source": "Choix de depart · Coffres · Coffres a codes rares",
       "icon": true,
       "variantIcons": [
+        "gold",
+        "cheat"
+      ],
+      "variants": [
+        "base",
         "gold",
         "cheat"
       ]
@@ -83,6 +110,11 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
     },
     {
@@ -95,6 +127,11 @@
       "source": "Coffres · Coffres a codes rares · Zones hautes et montagneuses",
       "icon": true,
       "variantIcons": [
+        "gold",
+        "cheat"
+      ],
+      "variants": [
+        "base",
         "gold",
         "cheat"
       ]
@@ -111,6 +148,11 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
     },
     {
@@ -123,6 +165,11 @@
       "source": "Greenhill · Coffres · Coffres a codes epiques",
       "icon": true,
       "variantIcons": [
+        "gold",
+        "cheat"
+      ],
+      "variants": [
+        "base",
         "gold",
         "cheat"
       ]
@@ -139,6 +186,11 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
     },
     {
@@ -151,6 +203,11 @@
       "source": "Sur l'ile de nuit uniquement · Coffres · Coffres a codes epiques",
       "icon": true,
       "variantIcons": [
+        "gold",
+        "cheat"
+      ],
+      "variants": [
+        "base",
         "gold",
         "cheat"
       ]
@@ -167,6 +224,11 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
     },
     {
@@ -179,6 +241,11 @@
       "source": "Tous les types de coffres · Tous les coffres a codes",
       "icon": true,
       "variantIcons": [
+        "gold",
+        "cheat"
+      ],
+      "variants": [
+        "base",
         "gold",
         "cheat"
       ]
@@ -194,11 +261,19 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variantHow": {
-        "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs."
-      }
+        "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs.",
+        "loot": "En maitrisant la Couronne Or : il faut remporter une partie avec chaque variante, dans l'ordre Base, Cheat Master, Or, puis Loot Hacker."
+      },
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot"
+      ]
     },
     {
       "id": "stormscout",
@@ -212,17 +287,12 @@
       "variantIcons": [
         "gold",
         "cheat"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
       ]
-    },
-    {
-      "id": "bullet",
-      "name": "Balle",
-      "sub": "Bullet Sprite · par Enorull",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Les boites de munitions rapportent un peu plus de munitions.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
     },
     {
       "id": "dumpster",
@@ -259,10 +329,70 @@
       "name": "Rayons X",
       "sub": "X-Ray Sprite · par Avila215",
       "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Revele brievement les joueurs a travers les murs et les obstacles.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
+      "released": true,
+      "effect": "Marque periodiquement les ennemis autour de vous. La cadence et le rayon du marquage augmentent a chaque niveau.",
+      "source": "Coffres et codes de triche",
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
+    },
+    {
+      "id": "onigiri",
+      "name": "Onigiri",
+      "sub": "Onigiri Sprite · par Enorull",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Declenche Surregime apres avoir mange ou bu un consommable. L'effet dure plus longtemps a chaque niveau.",
+      "source": "Coffres et codes de triche · Meilleures chances avec un code bleu",
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
+    },
+    {
+      "id": "overshield",
+      "name": "Surbouclier",
+      "sub": "Overshield Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Accorde du Surbouclier, dont la quantite augmente a chaque niveau.",
+      "source": "Coffres et codes de triche · Rarete non annoncee",
+      "variants": [
+        "base",
+        "gold",
+        "cheat"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat"
+      ]
+    },
+    {
+      "id": "megaman",
+      "name": "Mega Man",
+      "sub": "Mega Man Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Friction reduite pendant les glissades : vous glissez plus loin a chaque niveau.",
+      "source": "Coffres et codes de triche · Rarete non annoncee",
+      "variants": [
+        "base"
+      ],
+      "icon": true
     }
   ],
   "events": {

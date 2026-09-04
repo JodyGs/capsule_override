@@ -2110,6 +2110,55 @@ $("btn-legacy").addEventListener("click", () => {
   });
 });
 
+/* ============================================================
+   QUOI DE NEUF
+   Pas de serveur, donc pas de push web : la nouvelle voyage dans le
+   catalogue lui-meme. Le service worker va chercher les JSON en
+   reseau d'abord, si bien qu'au premier lancement apres une mise a
+   jour l'app decouvre un « news.version » qu'elle n'a jamais vu et
+   ouvre la fiche. Un tour, puis plus jamais.
+   ============================================================ */
+const K_NEWS = "capsule-override.news.v1";
+const newsDialog = $("news");
+
+function seenNews() {
+  try { return localStorage.getItem(K_NEWS); } catch { return null; }
+}
+function markNewsSeen(version) {
+  try { localStorage.setItem(K_NEWS, version); } catch { /* navigation privee */ }
+}
+
+function buildNews(news) {
+  $("news-title").textContent = news.title || "Quoi de neuf";
+  $("news-date").textContent = news.date || "";
+  $("news-date").hidden = !news.date;
+  $("news-list").innerHTML = (news.lines || []).map((line) => `<li>${esc(line)}</li>`).join("");
+}
+
+function openNews() {
+  const news = state.catalogue?.news;
+  if (!news) return;
+  buildNews(news);
+  newsDialog.showModal();
+  if (news.version) markNewsSeen(news.version);
+}
+
+/* Au tout premier lancement il n'y a rien de neuf : l'app entiere est
+   neuve, et la fiche du pseudo occupe deja l'ecran. On enregistre la
+   version en silence pour n'annoncer que les mises a jour suivantes. */
+function announceNews() {
+  const news = state.catalogue?.news;
+  if (!news?.version) return;
+  const seen = seenNews();
+  if (seen === news.version) return;
+  if (seen === null && !readPlayer()) { markNewsSeen(news.version); return; }
+  openNews();
+}
+
+$("news-close").addEventListener("click", () => newsDialog.close());
+$("news-ok").addEventListener("click", () => newsDialog.close());
+$("btn-news").addEventListener("click", () => { $("account").close(); openNews(); });
+
 async function boot() {
   try { theme = localStorage.getItem(K_THEME) || "auto"; } catch { /* navigation privee */ }
   applyTheme(theme, { persist: false });
@@ -2137,6 +2186,8 @@ async function boot() {
   // Premiere utilisation, ou pseudo efface : on le demande. Une fois
   // enregistre, cette fiche ne se rouvre que si on la demande.
   if (!readPlayer()) openPlayer({ first: true });
+
+  announceNews();
 
   const persisted = await requestPersistence();
   storageLabel = persisted ? "Garde sur cet appareil" : "Sur cet appareil";
