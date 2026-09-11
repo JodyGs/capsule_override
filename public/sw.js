@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v24";
+const VERSION = "capsule-v25";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -96,7 +96,21 @@ const SHELL = [
   "./icons/variants/onigiri-gold.png",
   "./icons/variants/onigiri-cheat.png",
   "./icons/variants/overshield-gold.png",
-  "./icons/variants/overshield-cheat.png"
+  "./icons/variants/overshield-cheat.png",
+  "./icons/variants/jonesy-loot.png",
+  "./icons/variants/bush-loot.png",
+  "./icons/variants/adventure-loot.png",
+  "./icons/variants/8bit-loot.png",
+  "./icons/variants/sonic-loot.png",
+  "./icons/variants/tails-loot.png",
+  "./icons/variants/shadow-loot.png",
+  "./icons/variants/killswitch-loot.png",
+  "./icons/variants/jackrabbit-loot.png",
+  "./icons/variants/klombo-loot.png",
+  "./icons/variants/stormscout-loot.png",
+  "./icons/variants/xray-loot.png",
+  "./icons/variants/onigiri-loot.png",
+  "./icons/variants/overshield-loot.png"
 ];
 
 self.addEventListener("install", (event) => {

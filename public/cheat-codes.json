@@ -1,8 +1,8 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-09-04",
+  "updatedAt": "2026-09-11",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Vingt-sept codes, aucun expire au 4 septembre. La mise a jour v42.10 du 3 septembre en a ajoute cinq. Epic en distribue au fil de l'ARG Override, sur le Discord officiel et via les comptes Fortnite regionaux. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Vingt-huit codes, aucun expire au 11 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
     "lobbyhack.com",
     "VICE",
@@ -126,8 +126,13 @@
           "code": "YourThoughtsAreMine",
           "reward": "5 000 poussieres d'esprit + style Geno Void Master",
           "once": true,
-          "new": true,
           "warn": "Refuse tant que la quete cachee de Geno n'est pas terminee : trouvez Geno sur la carte et tirez-lui dessus, il vous zappe et la quete demarre."
+        },
+        {
+          "code": "DustInTheWind",
+          "reward": "5 000 poussieres d'esprit",
+          "once": true,
+          "new": true
         }
       ]
     },
@@ -166,14 +171,19 @@
         {
           "code": "InvalidCheat",
           "reward": "2 localisateurs de code",
-          "once": true,
-          "new": true
+          "once": true
         },
         {
           "code": "ChatWhereDoYouFindTheKey",
           "reward": "2 accelerateurs d'extraction",
+          "once": true
+        },
+        {
+          "code": "NoProLlama",
+          "reward": "Lama de ravitaillement",
           "once": true,
-          "new": true
+          "new": true,
+          "warn": "Fenetre limitee : actif du 7 au 14 septembre."
         }
       ]
     },
@@ -220,15 +230,8 @@
           "code": "InsertCoinToContinue",
           "reward": "Transforme le lobby en bornes d'arcade",
           "once": false,
-          "new": true,
-          "tag": "Arcade"
-        },
-        {
-          "code": "BRB",
-          "reward": "Vous transforme en toilettes",
-          "once": false,
-          "new": true,
-          "warn": "Rapporte par VICE et GamesRadar ; absent des listes de Nintendo Life, Destructoid et lobbyhack. A essayer, sans garantie."
+          "tag": "Arcade",
+          "new": true
         }
       ]
     }

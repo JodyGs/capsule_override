@@ -2,17 +2,17 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-09-04",
+  "updatedAt": "2026-09-11",
   "news": {
-    "version": "2026-09-04",
-    "title": "Mise a jour v42.10",
-    "date": "3 septembre 2026",
+    "version": "2026-09-11",
+    "title": "Les Loot Hacker sont la",
+    "date": "10 septembre 2026",
     "lines": [
-      "Quatre esprits de plus : X-Ray et Onigiri, les deux premiers laureats du concours Design-a-Sprite, plus Surbouclier et Mega Man. La saison passe a 16 esprits.",
-      "Une quatrieme ligne de variantes, Loot Hacker, qui augmente les chances de faire apparaitre des objets depuis vos Loot Hacks. Seule celle de la Couronne s'obtient pour l'instant ; les quatorze autres arrivent le jeudi 10 septembre.",
-      "Mega Man fait exception : il n'a ni Or, ni Cheat Master, ni Loot Hacker. Le total a collectionner passe donc de 33 a 47.",
-      "Cinq nouveaux codes de triche, dont un qui reclame d'avoir termine la quete cachee de Geno.",
-      "Epic a echange le Bullet d'Enorull contre son Onigiri : Bullet ne sortira pas cette saison, il a quitte la liste."
+      "Les quatorze variantes Loot Hacker qui manquaient sont entrees dans le butin le 10 septembre. Les quinze esprits concernes en ont une ; le total a collectionner passe de 47 a 61.",
+      "Une Loot Hacker equipee augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre.",
+      "Les raretes de X-Ray, Surbouclier et Mega Man sont enfin annoncees : Legendaire pour X-Ray, Rare pour les deux autres.",
+      "Deux codes de plus, DustInTheWind et NoProLlama, qui versent 5 000 poussieres et un lama de ravitaillement.",
+      "Les esprits qu'Epic n'a pas encore sortis ne figurent plus dans la liste : elle ne montre que ce qui s'obtient vraiment."
     ]
   },
   "variants": [
@@ -34,7 +34,7 @@
     {
       "id": "loot",
       "name": "Loot Hacker",
-      "note": "Augmente les chances de faire apparaitre des objets depuis vos Loot Hacks. Ajoutee le 3 septembre : seule celle de la Couronne s'obtient pour l'instant, les quatorze autres entrent dans les coffres et les codes de triche le jeudi 10 septembre a 9 h a New York."
+      "note": "Augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre. Quatrieme ligne de la saison : la Couronne l'a eue le 3 septembre, les quatorze autres sont entrees dans le butin le 10."
     }
   ],
   "rarities": [
@@ -71,12 +71,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -90,12 +92,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -109,12 +113,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -128,12 +134,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -147,12 +155,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -166,12 +176,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -185,12 +197,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -204,12 +218,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -223,12 +239,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -242,12 +260,14 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -286,31 +306,35 @@
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
       "id": "xray",
       "name": "Rayons X",
       "sub": "X-Ray Sprite · par Avila215",
-      "rarity": "unknown",
+      "rarity": "legendary",
       "released": true,
       "effect": "Marque periodiquement les ennemis autour de vous. La cadence et le rayon du marquage augmentent a chaque niveau.",
       "source": "Coffres et codes de triche",
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
@@ -324,75 +348,49 @@
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
       "id": "overshield",
       "name": "Surbouclier",
       "sub": "Overshield Sprite",
-      "rarity": "unknown",
+      "rarity": "rare",
       "released": true,
       "effect": "Accorde du Surbouclier, dont la quantite augmente a chaque niveau.",
-      "source": "Coffres et codes de triche · Rarete non annoncee",
+      "source": "Coffres et codes de triche",
       "variants": [
         "base",
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
-        "cheat"
+        "cheat",
+        "loot"
       ]
     },
     {
       "id": "megaman",
       "name": "Mega Man",
       "sub": "Mega Man Sprite",
-      "rarity": "unknown",
+      "rarity": "rare",
       "released": true,
       "effect": "Friction reduite pendant les glissades : vous glissez plus loin a chaque niveau.",
-      "source": "Coffres et codes de triche · Rarete non annoncee",
+      "source": "Coffres et codes de triche",
       "variants": [
         "base"
       ],
       "icon": true
-    },
-    {
-      "id": "dumpster",
-      "name": "Plongeon dans la benne",
-      "sub": "Dumpster Dive · par StinkyPrincessGoose",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Recuperez du butin en sautant dans les bennes a ordures.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
-    },
-    {
-      "id": "honey",
-      "name": "Miel",
-      "sub": "Honey Sprite · par Conejito_sam",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Une ruche surgit et lache un essaim d'abeilles sur l'ennemi qui vous blesse.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
-    },
-    {
-      "id": "pond",
-      "name": "Mare",
-      "sub": "Pond Sprite · par Pine & Kiri",
-      "rarity": "unknown",
-      "released": false,
-      "unconfirmed": true,
-      "effect": "Vitesse accrue dans l'eau a chaque palier. Au niveau 5, saut plus haut et degats de chute reduits.",
-      "source": "Mise a jour de mi-saison · Rarete et source non annoncees"
     }
   ],
   "events": {
