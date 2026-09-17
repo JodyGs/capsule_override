@@ -73,6 +73,9 @@ WIKI_NAME = {
     "onigiri": "Onigiri",
     "overshield": "Overshield",
     "megaman": "Mega_Man",
+    # v42.20
+    "crash": "Crash_Bandicoot",
+    "blinky": "Blinky",
 
     # Chapitre 7 Saison 3 — Runners. Le prefixe « l- » evite toute collision
     # d'identifiant avec la saison en cours.

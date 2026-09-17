@@ -289,19 +289,19 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**28 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**34 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
 Les trois codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 25 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 31 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 11 septembre 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 17 septembre 2026
 (VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
 GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
 
@@ -309,7 +309,13 @@ Un code n'entre que s'il est **confirmé par plusieurs sources**. Une vague de f
 circule depuis le début de la saison, et les listes publiées ne se recoupent pas : selon le
 site, le total annoncé va de 22 à 43. `BRB` en est l'exemple — quatre sites le donnaient actif,
 mais lobbyhack.com, le tracker le plus précis, l'exclut et signale la contrefaçon. Il a été
-retiré. Les totaux des trois sources sérieuses convergent alors tous sur 28.
+retiré, comme `PlayToLevelUp` qu'une seule source donne.
+
+**Un code expiré sort de la liste.** `NoProLlama` n'était valable que du 7 au 14 septembre :
+il a disparu le 17. Une case qu'on ne peut plus cocher n'aide personne, et la garder ferait
+croire à une récompense encore disponible. Deux codes gardent volontairement une casse
+inhabituelle — `NOCTURNEOP55N1` et `SAYH12WR1X3L` — parce qu'en casse mixte les `O`/`0` et
+`1`/`l` deviennent ambigus à recopier ; le suivi, lui, ignore la casse.
 
 - **`JonesyIsGolden`** — esprit Jonesy **Or**, actif depuis le 24 août. Le premier code à
   offrir une variante Or plutôt qu'une Cheat Master.
@@ -390,25 +396,32 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
-**État au 11 septembre 2026** : **16 esprits jouables** et **61 pièces obtenables**, toutes
-disponibles. Les quatorze variantes **Loot Hacker** qui manquaient sont entrées dans le butin
-le **jeudi 10 septembre à 9 h ET**. Elles étaient dans les fichiers depuis la v42.10 du
-3 septembre, et trois sources les annonçaient alors comme livrées — elles décrivaient le
-contenu du patch, pas ce qu'un joueur pouvait obtenir. Le catalogue a attendu la vraie sortie :
-c'est la même distinction qui avait fait compter 120 pièces au lieu de 117 en Legacy.
+**État au 17 septembre 2026** : **19 esprits jouables** et **73 pièces obtenables**, toutes
+disponibles. La v42.20 a ajouté **Crash Bandicoot** (Légendaire), **Blinky** de Pac-Man et
+**Mare**, le troisième lauréat du Design-a-Sprite, chacun avec ses quatre variantes. Les
+quatorze **Loot Hacker** qui manquaient étaient entrées dans le butin le 10 septembre.
 
 Une seule exception casse la règle « chaque esprit a toutes les variantes », et un compteur
 naïf s'y trompe : **Mega Man n'a aucune variante**. Ni Or, ni Cheat Master, ni Loot Hacker.
-D'où 61 et non 64. La **Couronne** garde son cas à part : sa Loot Hacker ne se trouve pas,
+D'où 73 et non 76. La **Couronne** garde son cas à part : sa Loot Hacker ne se trouve pas,
 elle se mérite au bout de la chaîne Base → Cheat Master → Or → Loot Hacker, une victoire avec
 chacune.
 
-Les raretés de **X-Ray** (Légendaire), **Surbouclier** et **Mega Man** (Rares) ont enfin été
-publiées : plus aucun esprit n'est marqué « à confirmer ».
+Trois choses annoncées restent **hors du catalogue**, et chacune pour une raison précise :
 
-Le **Bullet** d'Enorull a quitté le catalogue : Epic l'a échangé contre l'**Onigiri** du même
-créateur, et Bullet ne sortira pas cette saison. Trois esprits communautaires restent annoncés
-(Plongeon dans la benne, Miel, Mare) sans date ni rareté, et ne sont donc pas listés. Cinq autres noms
+- Les variantes **Bounty Hunter** (24 septembre). Celle de la Couronne se débloque déjà en
+  prolongeant sa chaîne — mais Epic la **masque de la collection** jusqu'à cette date. Une
+  pièce qu'on possède sans pouvoir la voir n'est pas une case à cocher.
+- L'esprit **Anniversaire** (26 septembre) et **Morgana**, de Persona 5. Morgana est dans les
+  fichiers et la presse l'attend « la semaine prochaine » ; Epic n'a rien annoncé.
+- Deux esprits communautaires, **Plongeon dans la benne** et **Miel**, sans date ni rareté.
+
+La rareté de **Blinky** n'est donnée que par une source : elle reste marquée « à confirmer »
+plutôt que devinée. Celle de **Mare** est **Rare** — un site secondaire la dit Épique, les
+notes officielles d'Epic tranchent.
+
+Le **Bullet** d'Enorull ne sortira jamais : Epic l'a échangé contre l'**Onigiri** du même
+créateur. Cinq autres noms
 circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly — sans
 effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
 l'app, pas ajoutés au catalogue** : un fichier servi n'est pas une sortie, la saison passée
@@ -439,8 +452,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **707 vérifications** qui tournent sans navigateur : les comptes
-publiés (16 esprits jouables, 61 pièces, 25 esprits et 117 pièces en Legacy, 28 codes dont 25
+Les catalogues ont le leur, **781 vérifications** qui tournent sans navigateur : les comptes
+publiés (19 esprits jouables, 73 pièces, 25 esprits et 117 pièces en Legacy, 34 codes dont 31
 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
@@ -513,10 +526,10 @@ développement. À confirmer de votre côté.
 
 ---
 
-Données recoupées le 11 septembre 2026 sur les notes officielles d'Epic, Game Rant, Sprite
-Checklist, AccountShark, Beebom, The Click, lobbyhack.com et VICE. Toutes les raretés sont
-désormais publiées. Les trois esprits communautaires restants n'ont ni date ni rareté : ils
-sont cités dans les notes, pas listés dans le catalogue.
+Données recoupées le 17 septembre 2026 sur les notes officielles v42.20 d'Epic, Game Rant,
+Sprite Checklist, AccountShark, Beebom, The Click, lobbyhack.com, MySprites et VICE. Seule la
+rareté de Blinky reste non recoupée. Ce qui est annoncé mais pas encore obtenable est cité
+dans les notes de l'app, pas listé dans le catalogue.
 ## Crédits et droits
 
 Les icônes des esprits proviennent de la [Fortnite Wiki](https://fortnite.weirdgloop.org/).

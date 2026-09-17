@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v25";
+const VERSION = "capsule-v26";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -37,6 +37,9 @@ const SHELL = [
   "./icons/sprites/onigiri.png",
   "./icons/sprites/overshield.png",
   "./icons/sprites/megaman.png",
+  "./icons/sprites/crash.png",
+  "./icons/sprites/blinky.png",
+  "./icons/sprites/pond.png",
   "./icons/sprites/l-earth.png",
   "./icons/sprites/l-fire.png",
   "./icons/sprites/l-water.png",
@@ -109,6 +112,15 @@ const SHELL = [
   "./icons/variants/klombo-loot.png",
   "./icons/variants/stormscout-loot.png",
   "./icons/variants/xray-loot.png",
+  "./icons/variants/crash-gold.png",
+  "./icons/variants/crash-cheat.png",
+  "./icons/variants/crash-loot.png",
+  "./icons/variants/blinky-gold.png",
+  "./icons/variants/blinky-cheat.png",
+  "./icons/variants/blinky-loot.png",
+  "./icons/variants/pond-gold.png",
+  "./icons/variants/pond-cheat.png",
+  "./icons/variants/pond-loot.png",
   "./icons/variants/onigiri-loot.png",
   "./icons/variants/overshield-loot.png"
 ];

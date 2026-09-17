@@ -1,11 +1,12 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-09-17",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Vingt-huit codes, aucun expire au 11 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Trente-quatre codes actifs au 17 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Un code a duree limitee disparait de la liste a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
     "lobbyhack.com",
     "VICE",
+    "The Click",
     "Dexerto",
     "Beebom",
     "Destructoid",
@@ -131,8 +132,20 @@
         {
           "code": "DustInTheWind",
           "reward": "5 000 poussieres d'esprit",
+          "once": true
+        },
+        {
+          "code": "WhereIsTheDustyTree",
+          "reward": "5 000 poussieres d'esprit",
           "once": true,
           "new": true
+        },
+        {
+          "code": "BLINKYINKYPINKYCLYDE",
+          "reward": "5 000 poussieres d'esprit",
+          "once": true,
+          "new": true,
+          "tag": "Pac-Man"
         }
       ]
     },
@@ -179,11 +192,23 @@
           "once": true
         },
         {
-          "code": "NoProLlama",
-          "reward": "Lama de ravitaillement",
+          "code": "NOCTURNEOP55N1",
+          "reward": "2 accelerateurs d'extraction",
           "once": true,
           "new": true,
-          "warn": "Fenetre limitee : actif du 7 au 14 septembre."
+          "tag": "Persona 5"
+        },
+        {
+          "code": "ChatFindMeAnotherCode",
+          "reward": "2 localisateurs de code",
+          "once": true,
+          "new": true
+        },
+        {
+          "code": "DestinyAwaits",
+          "reward": "2 lamas de ravitaillement",
+          "once": true,
+          "new": true
         }
       ]
     },
@@ -205,6 +230,19 @@
           "code": "ReachYourImpossible",
           "reward": "Ecran de chargement « Block Party »",
           "once": true
+        },
+        {
+          "code": "SAYH12WR1X3L",
+          "reward": "Tag « Hero Portrait » de Wrixel",
+          "once": true,
+          "new": true
+        },
+        {
+          "code": "MagicIsReal",
+          "reward": "Recompense liee a la quete de Bastian",
+          "once": true,
+          "new": true,
+          "warn": "Code confirme par deux sources, mais aucune ne detaille encore la recompense. Il semble lie a la quete d'histoire de Bastian."
         }
       ]
     },
@@ -230,8 +268,7 @@
           "code": "InsertCoinToContinue",
           "reward": "Transforme le lobby en bornes d'arcade",
           "once": false,
-          "tag": "Arcade",
-          "new": true
+          "tag": "Arcade"
         }
       ]
     }

@@ -2,17 +2,17 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-09-11",
+  "updatedAt": "2026-09-17",
   "news": {
-    "version": "2026-09-11",
-    "title": "Les Loot Hacker sont la",
-    "date": "10 septembre 2026",
+    "version": "2026-09-17",
+    "title": "Mise a jour v42.20",
+    "date": "17 septembre 2026",
     "lines": [
-      "Les quatorze variantes Loot Hacker qui manquaient sont entrees dans le butin le 10 septembre. Les quinze esprits concernes en ont une ; le total a collectionner passe de 47 a 61.",
-      "Une Loot Hacker equipee augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre.",
-      "Les raretes de X-Ray, Surbouclier et Mega Man sont enfin annoncees : Legendaire pour X-Ray, Rare pour les deux autres.",
-      "Deux codes de plus, DustInTheWind et NoProLlama, qui versent 5 000 poussieres et un lama de ravitaillement.",
-      "Les esprits qu'Epic n'a pas encore sortis ne figurent plus dans la liste : elle ne montre que ce qui s'obtient vraiment."
+      "Trois esprits de plus : Crash Bandicoot, Blinky de Pac-Man, et Mare, le troisieme laureat du concours Design-a-Sprite. Chacun arrive avec ses quatre variantes ; la saison passe a 19 esprits et 73 pieces.",
+      "Les codes de triche en jeu changent de regle : les violets donnent beaucoup plus de variantes, les orange en garantissent une, et le jeu favorise desormais celles qui vous manquent.",
+      "Maitriser un esprit divise par deux la poussiere necessaire pour l'invoquer.",
+      "Six codes du lobby de plus. NoProLlama a expire le 14 septembre et quitte la liste.",
+      "A venir, pas encore dans la liste : les variantes Bounty Hunter le 24 septembre, l'esprit Anniversaire le 26."
     ]
   },
   "variants": [
@@ -391,6 +391,69 @@
         "base"
       ],
       "icon": true
+    },
+    {
+      "id": "crash",
+      "name": "Crash Bandicoot",
+      "sub": "Crash Bandicoot Sprite",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Sautez en l'air pour declencher une toupie qui blesse et repousse les ennemis autour de vous.",
+      "source": "Codes de triche violets et coffres · Zones hautes et montagneuses",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot"
+      ]
+    },
+    {
+      "id": "blinky",
+      "name": "Blinky",
+      "sub": "Blinky Sprite · Pac-Man",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Encaisser des degats vous camoufle un court instant. Le camouflage dure plus longtemps a chaque niveau.",
+      "source": "Coffres et codes de triche · Rarete non recoupee",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot"
+      ]
+    },
+    {
+      "id": "pond",
+      "name": "Mare",
+      "sub": "Pond Sprite · par Pine & Kiri",
+      "rarity": "rare",
+      "released": true,
+      "effect": "Sautez juste apres avoir atterri pour declencher un super saut, plus haut et plus souvent a chaque niveau.",
+      "source": "Coffres et codes de triche",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot"
+      ]
     }
   ],
   "events": {
