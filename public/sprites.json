@@ -2,17 +2,17 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-09-17",
+  "updatedAt": "2026-09-24",
   "news": {
-    "version": "2026-09-17",
-    "title": "Mise a jour v42.20",
-    "date": "17 septembre 2026",
+    "version": "2026-09-24",
+    "title": "Les Bounty Hunter sont la",
+    "date": "24 septembre 2026",
     "lines": [
-      "Trois esprits de plus : Crash Bandicoot, Blinky de Pac-Man, et Mare, le troisieme laureat du concours Design-a-Sprite. Chacun arrive avec ses quatre variantes ; la saison passe a 19 esprits et 73 pieces.",
-      "Les codes de triche en jeu changent de regle : les violets donnent beaucoup plus de variantes, les orange en garantissent une, et le jeu favorise desormais celles qui vous manquent.",
-      "Maitriser un esprit divise par deux la poussiere necessaire pour l'invoquer.",
-      "Six codes du lobby de plus. NoProLlama a expire le 14 septembre et quitte la liste.",
-      "A venir, pas encore dans la liste : les variantes Bounty Hunter le 24 septembre, l'esprit Anniversaire le 26."
+      "Cinquieme ligne de variantes : Bounty Hunter. Les dix-sept qui manquaient sont entrees dans le jeu ce matin ; celle de la Couronne, deja debloquable, n'est plus masquee. Le total passe de 73 a 91.",
+      "Une Bounty Hunter peut faire apparaitre un esprit de plus quand vous eliminez un adversaire, et ne monte de niveau qu'aux eliminations.",
+      "La rarete de Blinky est confirmee : Legendaire.",
+      "Trois codes de plus, dont 9YEARS pour l'anniversaire de Fortnite.",
+      "Les filtres sont corriges : « Manquants » ne montrait pas que les manquants, et le tableau d'un esprit affiche desormais seulement les variantes que vous cherchez."
     ]
   },
   "variants": [
@@ -35,6 +35,11 @@
       "id": "loot",
       "name": "Loot Hacker",
       "note": "Augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre. Quatrieme ligne de la saison : la Couronne l'a eue le 3 septembre, les quatorze autres sont entrees dans le butin le 10."
+    },
+    {
+      "id": "bounty",
+      "name": "Bounty Hunter",
+      "note": "Peut faire apparaitre un esprit supplementaire quand vous eliminez un adversaire. Ne monte de niveau qu'aux eliminations. Cinquieme ligne de la saison, sortie le 24 septembre ; celle de la Couronne se merite au bout de sa chaine de maitrise."
     }
   ],
   "rarities": [
@@ -72,13 +77,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -93,13 +100,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -114,13 +123,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -135,13 +146,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -156,13 +169,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -177,13 +192,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -198,13 +215,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -219,13 +238,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -240,13 +261,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -261,13 +284,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -282,17 +307,20 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variantHow": {
         "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs.",
-        "loot": "En maitrisant la Couronne Or : il faut remporter une partie avec chaque variante, dans l'ordre Base, Cheat Master, Or, puis Loot Hacker."
+        "loot": "En maitrisant la Couronne Or : il faut remporter une partie avec chaque variante, dans l'ordre Base, Cheat Master, Or, puis Loot Hacker.",
+        "bounty": "En maitrisant la Loot Hacker Couronne : la chaine complete est Base, Cheat Master, Or, Loot Hacker, puis Bounty Hunter — une victoire avec chacune."
       },
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -307,13 +335,15 @@
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -328,13 +358,15 @@
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -349,13 +381,15 @@
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -370,13 +404,15 @@
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -404,34 +440,38 @@
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
       "id": "blinky",
       "name": "Blinky",
       "sub": "Blinky Sprite · Pac-Man",
-      "rarity": "unknown",
+      "rarity": "legendary",
       "released": true,
       "effect": "Encaisser des degats vous camoufle un court instant. Le camouflage dure plus longtemps a chaque niveau.",
-      "source": "Coffres et codes de triche · Rarete non recoupee",
+      "source": "Coffres et codes de triche",
       "variants": [
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     },
     {
@@ -446,13 +486,15 @@
         "base",
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
-        "loot"
+        "loot",
+        "bounty"
       ]
     }
   ],

@@ -47,6 +47,7 @@ VARIANT_PREFIX = {
     "cube": "Cube",
     "quack": "Quack",
     "loot": "Loot_Hacker",
+    "bounty": "Bounty_Hunter",
 }
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
@@ -158,6 +159,13 @@ def main():
                 Image.open(io.BytesIO(raw)).convert("RGBA")   # fichier lisible ?
             except Exception as err:               # noqa: BLE001
                 reason = "pas encore sorti" if "404" in str(err) or "22" in str(err) else type(err).__name__
+                # Une coupure reseau ne doit pas effacer un catalogue juste.
+                # Tant que le PNG est sur le disque, l'entree reste vraie : on
+                # signale et on passe. Sans ce garde-fou, un timeout suffisait
+                # a retirer un esprit de la collection de tout le monde.
+                if os.path.exists(os.path.join(OUT_DIR, f"{sprite['id']}.png")):
+                    missing.append((sprite["id"], f"{reason} — entree conservee, image deja presente"))
+                    continue
                 missing.append((sprite["id"], reason))
                 sprite.pop("icon", None)
                 sprite.pop("variantIcons", None)
@@ -180,6 +188,10 @@ def main():
                 try:
                     art = fetch(f"{prefix}_{wiki}")
                 except Exception:                      # noqa: BLE001
+                    # Meme garde-fou pour les variantes : si le fichier est
+                    # deja la, l'echec vient du reseau, pas de la wiki.
+                    if os.path.exists(os.path.join(VARIANT_DIR, f"{sprite['id']}-{variant}.png")):
+                        got.append(variant)
                     continue
                 square(art, VARIANT_SIZE).save(
                     os.path.join(VARIANT_DIR, f"{sprite['id']}-{variant}.png"), optimize=True)

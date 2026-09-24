@@ -283,25 +283,55 @@ deux catalogues sont comparées.
 
 ---
 
+## Les filtres
+
+Trois filtres de statut, et chacun cherche **un état de pièce précis** — une pièce vaut 0
+(pas obtenue), 1 (débloquée) ou 2 (maîtrisée) :
+
+| Filtre | Ce qu'il cherche | À quoi il sert |
+|---|---|---|
+| **Manquants** | une pièce à `0` | la liste de chasse |
+| **À maîtriser** | une pièce à `1` | la liste des niveaux 5 à finir |
+| **Maîtrisés** | *toutes* les pièces à `2` | ce qui est bouclé |
+
+Une carte s'affiche si elle contient au moins une pièce recherchée, et **son tableau ne montre
+que ces pièces-là**. Demander « les manquants » et recevoir une carte où six lignes sur sept
+sont déjà maîtrisées, c'est ne pas avoir répondu à la question.
+
+Deux bugs vivaient là. *Manquants* testait « pas encore maîtrisée » (`< 2`), ce qui confond
+*je ne l'ai pas* et *je l'ai sans l'avoir montée au niveau 5* : un esprit entièrement débloqué
+apparaissait comme manquant, et avec 91 pièces presque tout passait le filtre. *Débloqués*
+testait « au moins une pièce obtenue » (`>= 1`), ce qui englobait tout ce que *Maîtrisés*
+montrait déjà — deux filtres pour un seul résultat. Le second est devenu **À maîtriser**, dont
+le nom dit ce qu'il fait.
+
+Les puces de rareté avaient leur propre trou : « À confirmer » était exclue en dur, si bien
+qu'un esprit dont Epic n'a pas annoncé la rareté devenait **introuvable** dès qu'on touchait
+ce filtre. Une rareté a désormais sa puce dès qu'un esprit la porte, et aucune autrement.
+
+Cocher une pièce pendant qu'un filtre est actif la retire de la vue : c'est voulu, la liste se
+vide à mesure. Le parcours naturel est donc *Manquants* pour trouver, puis *À maîtriser* pour
+finir.
+
 ## Codes du lobby
 
 Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**34 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**37 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
 Les trois codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 31 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 34 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 17 septembre 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 24 septembre 2026
 (VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
 GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
 
@@ -382,8 +412,11 @@ pesaient 396.
 
 Le même script récupère aussi **l'illustration de chaque variante** (`Gold_`, `Cheat_Master_`,
 `Gummy_`… sur la wiki) dans `public/icons/variants/`, en 96 px, et écrit la liste de celles
-qui existent dans `"variantIcons"`. Il ne demande **que les variantes que le catalogue
-déclare** : la wiki sert des fichiers pour des variantes qui n'existent pas en jeu, et c'est
+qui existent dans `"variantIcons"`. Une coupure réseau **n'efface jamais une entrée juste** :
+tant que le PNG est sur le disque, le script signale l'échec et passe. Sans ce garde-fou, un
+timeout suffisait à retirer un esprit de la collection de tout le monde — c'est arrivé à
+l'esprit Poisson de Legacy, rattrapé avant publication. Il ne demande **que les variantes que
+le catalogue déclare** : la wiki sert des fichiers pour des variantes qui n'existent pas en jeu, et c'est
 exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 
 **Le catalogue ne contient que des esprits sortis.** Un esprit annoncé mais pas livré n'a ni
@@ -396,29 +429,26 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
-**État au 17 septembre 2026** : **19 esprits jouables** et **73 pièces obtenables**, toutes
-disponibles. La v42.20 a ajouté **Crash Bandicoot** (Légendaire), **Blinky** de Pac-Man et
-**Mare**, le troisième lauréat du Design-a-Sprite, chacun avec ses quatre variantes. Les
-quatorze **Loot Hacker** qui manquaient étaient entrées dans le butin le 10 septembre.
+**État au 24 septembre 2026** : **19 esprits jouables** et **91 pièces obtenables**, toutes
+disponibles. Les variantes **Bounty Hunter** — cinquième et dernière ligne annoncée — sont
+entrées dans le jeu le 24 septembre. Elles peuvent apparaître quand on élimine un adversaire,
+et ne montent de niveau **qu'aux éliminations** : c'est la seule ligne qu'on ne peut pas
+faire progresser en fouillant.
 
 Une seule exception casse la règle « chaque esprit a toutes les variantes », et un compteur
-naïf s'y trompe : **Mega Man n'a aucune variante**. Ni Or, ni Cheat Master, ni Loot Hacker.
-D'où 73 et non 76. La **Couronne** garde son cas à part : sa Loot Hacker ne se trouve pas,
-elle se mérite au bout de la chaîne Base → Cheat Master → Or → Loot Hacker, une victoire avec
-chacune.
+naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 91 et non 95. La **Couronne** garde
+son cas à part : ses deux dernières variantes ne se trouvent pas, elles se méritent au bout de
+la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
 
-Trois choses annoncées restent **hors du catalogue**, et chacune pour une raison précise :
+Deux choses annoncées restent **hors du catalogue** :
 
-- Les variantes **Bounty Hunter** (24 septembre). Celle de la Couronne se débloque déjà en
-  prolongeant sa chaîne — mais Epic la **masque de la collection** jusqu'à cette date. Une
-  pièce qu'on possède sans pouvoir la voir n'est pas une case à cocher.
-- L'esprit **Anniversaire** (26 septembre) et **Morgana**, de Persona 5. Morgana est dans les
-  fichiers et la presse l'attend « la semaine prochaine » ; Epic n'a rien annoncé.
+- L'esprit **Anniversaire** (26 septembre) et **Morgana**, de Persona 5, dans les fichiers
+  avec ses cinq variantes mais sans date annoncée par Epic.
 - Deux esprits communautaires, **Plongeon dans la benne** et **Miel**, sans date ni rareté.
 
-La rareté de **Blinky** n'est donnée que par une source : elle reste marquée « à confirmer »
-plutôt que devinée. Celle de **Mare** est **Rare** — un site secondaire la dit Épique, les
-notes officielles d'Epic tranchent.
+La rareté de **Blinky** est confirmée **Légendaire** par une deuxième source. Celle de
+**Mare** est **Rare** — un site secondaire la dit Épique, les notes officielles d'Epic
+tranchent.
 
 Le **Bullet** d'Enorull ne sortira jamais : Epic l'a échangé contre l'**Onigiri** du même
 créateur. Cinq autres noms
@@ -452,8 +482,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **781 vérifications** qui tournent sans navigateur : les comptes
-publiés (19 esprits jouables, 73 pièces, 25 esprits et 117 pièces en Legacy, 34 codes dont 31
+Les catalogues ont le leur, **859 vérifications** qui tournent sans navigateur : les comptes
+publiés (19 esprits jouables, 91 pièces, 25 esprits et 117 pièces en Legacy, 37 codes dont 34
 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
@@ -526,7 +556,7 @@ développement. À confirmer de votre côté.
 
 ---
 
-Données recoupées le 17 septembre 2026 sur les notes officielles v42.20 d'Epic, Game Rant,
+Données recoupées le 24 septembre 2026 sur les notes officielles v42.20 d'Epic, Game Rant,
 Sprite Checklist, AccountShark, Beebom, The Click, lobbyhack.com, MySprites et VICE. Seule la
 rareté de Blinky reste non recoupée. Ce qui est annoncé mais pas encore obtenable est cité
 dans les notes de l'app, pas listé dans le catalogue.

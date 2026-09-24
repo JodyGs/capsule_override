@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v26";
+const VERSION = "capsule-v27";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -121,6 +121,24 @@ const SHELL = [
   "./icons/variants/pond-gold.png",
   "./icons/variants/pond-cheat.png",
   "./icons/variants/pond-loot.png",
+  "./icons/variants/jonesy-bounty.png",
+  "./icons/variants/bush-bounty.png",
+  "./icons/variants/adventure-bounty.png",
+  "./icons/variants/8bit-bounty.png",
+  "./icons/variants/sonic-bounty.png",
+  "./icons/variants/tails-bounty.png",
+  "./icons/variants/shadow-bounty.png",
+  "./icons/variants/killswitch-bounty.png",
+  "./icons/variants/jackrabbit-bounty.png",
+  "./icons/variants/klombo-bounty.png",
+  "./icons/variants/crown-bounty.png",
+  "./icons/variants/stormscout-bounty.png",
+  "./icons/variants/xray-bounty.png",
+  "./icons/variants/onigiri-bounty.png",
+  "./icons/variants/overshield-bounty.png",
+  "./icons/variants/crash-bounty.png",
+  "./icons/variants/blinky-bounty.png",
+  "./icons/variants/pond-bounty.png",
   "./icons/variants/onigiri-loot.png",
   "./icons/variants/overshield-loot.png"
 ];

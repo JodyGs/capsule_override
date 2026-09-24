@@ -686,13 +686,23 @@ function buildRarityPanel() {
 /* ============================================================
    Filtres
    ============================================================ */
+/* Une piece a trois etats : 0 pas obtenue, 1 debloquee, 2 maitrisee. Chaque
+   filtre dit quelles pieces il cherche ; la carte s'affiche si elle en a au
+   moins une, et seules ces pieces-la restent visibles dans son tableau.
+   Filtrer « Manquants » sur « pas encore maitrisee » melangeait ce qu'on n'a
+   pas et ce qu'on a sans l'avoir monte au niveau 5 : presque tout passait. */
 const STATUS = [
   { id: "all", label: "Tout" },
-  { id: "missing", label: "Manquants" },
-  { id: "unlocked", label: "Debloques" },
-  { id: "mastered", label: "Maitrises" },
-  { id: "soon", label: "A venir" }
+  { id: "missing", label: "Manquants", wants: (v) => v === 0,
+    hint: "Les esprits dont il reste au moins une variante a trouver." },
+  { id: "unlocked", label: "A maitriser", wants: (v) => v === 1,
+    hint: "Les variantes que vous avez, mais qui ne sont pas encore maitrisees." },
+  { id: "mastered", label: "Maitrises", every: (v) => v === 2,
+    hint: "Les esprits dont toutes les variantes sont maitrisees." },
+  { id: "soon", label: "A venir",
+    hint: "Les esprits annonces par Epic mais pas encore sortis." }
 ];
+const statusRule = (id) => STATUS.find((s) => s.id === id);
 
 function buildFilters() {
   const seg = $("status-seg");
@@ -704,14 +714,19 @@ function buildFilters() {
     b.type = "button";
     b.textContent = st.label;
     b.dataset.status = st.id;
+    if (st.hint) b.title = st.hint;
     b.setAttribute("aria-pressed", String(st.id === "all"));
     seg.appendChild(b);
   }
 
   const chips = $("rarity-chips");
   chips.innerHTML = "";
+  // Une rarete ne merite sa puce que si un esprit la porte. « A confirmer »
+  // etait exclue d'office : l'esprit dont la rarete n'est pas annoncee
+  // devenait alors introuvable des qu'on touchait a ce filtre.
+  const used = new Set(state.catalogue.sprites.map((s) => s.rarity));
   const options = [{ id: "all", label: "Toutes" },
-    ...state.catalogue.rarities.filter((r) => r.id !== "unknown")];
+    ...state.catalogue.rarities.filter((r) => used.has(r.id))];
   for (const r of options) {
     const b = document.createElement("button");
     b.type = "button";
@@ -792,12 +807,12 @@ function refreshFilterBadge() {
 function matches(sprite) {
   const f = state.filters;
   if (f.rarity !== "all" && sprite.rarity !== f.rarity) return false;
-
-  const values = variantsOf(sprite).map((v) => statusOf(sprite.id, v.id));
-  if (f.status === "missing" && !values.some((v) => v < 2)) return false;
-  if (f.status === "unlocked" && !values.some((v) => v >= 1)) return false;
-  if (f.status === "mastered" && !values.every((v) => v === 2)) return false;
   if (f.status === "soon" && sprite.released) return false;
+
+  const rule = statusRule(f.status);
+  const values = variantsOf(sprite).map((v) => statusOf(sprite.id, v.id));
+  if (rule?.wants && !values.some(rule.wants)) return false;
+  if (rule?.every && !values.every(rule.every)) return false;
 
   if (f.q) {
     const hay = `${sprite.name} ${sprite.sub} ${sprite.effect} ${sprite.source} ${rarityLabel(sprite.rarity)}`.toLowerCase();
@@ -807,19 +822,40 @@ function matches(sprite) {
 }
 
 function applyFilters() {
+  // Montrer la carte ne suffit pas : demander « les manquants » et recevoir
+  // une carte ou six lignes sur sept sont deja maitrisees, c'est la question
+  // a laquelle on n'a pas repondu. Les lignes hors sujet se retirent aussi.
+  const rule = statusRule(state.filters.status);
   let shown = 0;
+  let pieces = 0;
+
   for (const sprite of state.catalogue.sprites) {
+    const card = cards.get(sprite.id);
     const ok = matches(sprite);
-    cards.get(sprite.id).style.display = ok ? "" : "none";
-    if (ok) shown += 1;
+    card.style.display = ok ? "" : "none";
+    if (!ok) continue;
+    shown += 1;
+
+    for (const row of card.querySelectorAll(".vrow")) {
+      const keep = !rule?.wants || rule.wants(statusOf(sprite.id, row.dataset.variant));
+      row.hidden = !keep;
+      if (keep) pieces += 1;
+    }
   }
+
   $("empty").hidden = shown > 0;
   refreshFilterBadge();
 
   const total = state.catalogue.sprites.length;
-  $("count").textContent = shown === total
-    ? `${total} esprits cette saison`
-    : `${shown} sur ${total} esprits`;
+  const noun = shown > 1 ? "esprits" : "esprit";
+  if (shown === total && !rule?.wants) {
+    $("count").textContent = `${total} esprits cette saison`;
+  } else if (rule?.wants) {
+    // Avec un filtre de piece, c'est le nombre de pieces qui renseigne.
+    $("count").textContent = `${pieces} variante${pieces > 1 ? "s" : ""} sur ${shown} ${noun}`;
+  } else {
+    $("count").textContent = `${shown} sur ${total} esprits`;
+  }
 }
 
 /* ============================================================
