@@ -461,22 +461,25 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
-**État au 24 septembre 2026** : **19 esprits jouables** et **91 pièces obtenables**, toutes
+**État au 24 septembre 2026** : **20 esprits jouables** et **96 pièces obtenables**, toutes
 disponibles. Les variantes **Bounty Hunter** — cinquième et dernière ligne annoncée — sont
-entrées dans le jeu le 24 septembre. Elles peuvent apparaître quand on élimine un adversaire,
+entrées dans le jeu le 24 septembre, et **Morgana** (Persona 5, Épique) est arrivée le même
+jour par un correctif, avec ses cinq variantes d'un coup, un jour avant la date annoncée. Elles peuvent apparaître quand on élimine un adversaire,
 et ne montent de niveau **qu'aux éliminations** : c'est la seule ligne qu'on ne peut pas
 faire progresser en fouillant.
 
 Une seule exception casse la règle « chaque esprit a toutes les variantes », et un compteur
-naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 91 et non 95. La **Couronne** garde
+naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 96 et non 100. La **Couronne** garde
 son cas à part : ses deux dernières variantes ne se trouvent pas, elles se méritent au bout de
 la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
 
 Deux choses annoncées restent **hors du catalogue** :
 
-- L'esprit **Anniversaire** (26 septembre) et **Morgana**, de Persona 5, dans les fichiers
-  avec ses cinq variantes mais sans date annoncée par Epic.
+- L'esprit **Anniversaire**, attendu le 26 septembre avec la Power Hour d'anniversaire.
 - Deux esprits communautaires, **Plongeon dans la benne** et **Miel**, sans date ni rareté.
+
+La **Bounty Hunter Morgana** est signalée buguée à sa sortie par une source : la note de la
+pièce le dit, plutôt que de laisser croire à un manque de chance.
 
 La rareté de **Blinky** est confirmée **Légendaire** par une deuxième source. Celle de
 **Mare** est **Rare** — un site secondaire la dit Épique, les notes officielles d'Epic
@@ -514,8 +517,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **859 vérifications** qui tournent sans navigateur : les comptes
-publiés (19 esprits jouables, 91 pièces, 25 esprits et 117 pièces en Legacy, 37 codes dont 34
+Les catalogues ont le leur, **887 vérifications** qui tournent sans navigateur : les comptes
+publiés (20 esprits jouables, 96 pièces, 25 esprits et 117 pièces en Legacy, 37 codes dont 34
 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
