@@ -451,9 +451,11 @@ l'esprit Poisson de Legacy, rattrapé avant publication. Il ne demande **que les
 le catalogue déclare** : la wiki sert des fichiers pour des variantes qui n'existent pas en jeu, et c'est
 exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 
-**Le catalogue ne contient que des esprits sortis.** Un esprit annoncé mais pas livré n'a ni
-illustration, ni rareté, ni source : c'est une case qu'on ne peut pas cocher, et posée au
-milieu de la grille elle ressemble à un trou. Ces esprits vivent dans les notes de l'app —
+**Le catalogue ne compte que des esprits sortis.** Un esprit entre dans la liste dès qu'Epic
+a annoncé **une date** — sa carte l'affiche alors en clair, « À venir — 26 septembre » — mais
+il reste hors du total tant qu'il n'est pas obtenable. Sans date, il ne figure pas du tout : ni
+rareté, ni source, ni date, c'est une case qu'on ne peut pas cocher et qui ressemble à un trou
+au milieu de la grille. Ces esprits vivent dans les notes de l'app —
 nommés, datés quand Epic donne une date — et entrent dans `sprites.json` le jour de leur
 sortie. Le champ `"released"` reste lu et le filtre « À venir » réapparaît tout seul s'il
 revient un esprit non sorti ; l'app **remonte alors les sortis en tête** au chargement, avec
@@ -473,10 +475,14 @@ naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 96 et non 100. La **C
 son cas à part : ses deux dernières variantes ne se trouvent pas, elles se méritent au bout de
 la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
 
-Deux choses annoncées restent **hors du catalogue** :
+L'esprit **Anniversaire** figure dans la liste **avec sa date de sortie** — samedi
+26 septembre, les neuf ans du jeu — et sa carte porte « À venir — 26 septembre ». Il n'entre
+pas dans les 96 pièces : une case qu'on ne peut pas encore cocher ne se compte pas. Le filtre
+*À venir* réapparaît tout seul pour le retrouver d'un geste.
 
-- L'esprit **Anniversaire**, attendu le 26 septembre avec la Power Hour d'anniversaire.
-- Deux esprits communautaires, **Plongeon dans la benne** et **Miel**, sans date ni rareté.
+La date vient des notes officielles d'Epic, pas d'une fuite ; c'est ce qui la distingue des
+deux esprits communautaires restants, **Plongeon dans la benne** et **Miel**, qui n'ont ni
+date ni rareté et restent donc **hors du catalogue**. Une fiche entre quand Epic a dit quand.
 
 La **Bounty Hunter Morgana** est signalée buguée à sa sortie par une source : la note de la
 pièce le dit, plutôt que de laisser croire à un manque de chance.
@@ -517,9 +523,9 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **887 vérifications** qui tournent sans navigateur : les comptes
-publiés (20 esprits jouables, 96 pièces, 25 esprits et 117 pièces en Legacy, 37 codes dont 34
-récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+Les catalogues ont le leur, **917 vérifications** qui tournent sans navigateur : les comptes
+publiés (20 esprits jouables, 96 pièces, un esprit daté mais non compté, 25 esprits et
+117 pièces en Legacy, 37 codes dont 34 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —

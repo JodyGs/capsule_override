@@ -78,6 +78,7 @@ WIKI_NAME = {
     "crash": "Crash_Bandicoot",
     "blinky": "Blinky",
     "morgana": "Morgana",
+    "birthday": "Birthday",
 
     # Chapitre 7 Saison 3 — Runners. Le prefixe « l- » evite toute collision
     # d'identifiant avec la saison en cours.

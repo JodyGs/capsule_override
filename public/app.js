@@ -508,6 +508,19 @@ function spriteIconMarkup(sprite) {
   return `<span class="sprite-icon is-empty" aria-hidden="true">${esc(sprite.name.trim()[0] || "?")}</span>`;
 }
 
+const dayMonth = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
+
+/* « A venir » tout seul laisse croire a une attente indefinie. Quand Epic a
+   donne une date, autant la lire sur la carte. Le format ISO est traite en
+   UTC de bout en bout : sans cela, un telephone a l'ouest afficherait la
+   veille. */
+function soonLabel(sprite) {
+  const iso = sprite.releasesOn;
+  if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "A venir";
+  const [y, m, d] = iso.split("-").map(Number);
+  return `A venir — ${dayMonth.format(new Date(Date.UTC(y, m - 1, d)))}`;
+}
+
 function buildCards() {
   const grid = $("grid");
   grid.innerHTML = "";
@@ -520,7 +533,7 @@ function buildCards() {
     card.style.setProperty("--rc", `var(${rarityToken(sprite.rarity)})`);
 
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
-    if (!sprite.released) tags += '<span class="tag soon">A venir</span>';
+    if (!sprite.released) tags += `<span class="tag soon">${esc(soonLabel(sprite))}</span>`;
 
     const rows = variantsOf(sprite).map((v) => `
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}" data-variant="${v.id}">
@@ -1159,7 +1172,11 @@ async function renderCollectionImage() {
   const host = location.hostname && !/^(localhost|127\.|\[?::1)/.test(location.hostname)
     ? location.hostname : "";
   const notes = [];
-  if (upcoming > 0) notes.push(`${upcoming} esprits pas encore sortis, non comptes`);
+  if (upcoming > 0) {
+    notes.push(upcoming > 1
+      ? `${upcoming} esprits pas encore sortis, non comptes`
+      : "1 esprit pas encore sorti, non compte");
+  }
   if (host) notes.push(host);
   if (notes.length) ctx.fillText(notes.join("  ·  "), PAD, footY + 32);
 

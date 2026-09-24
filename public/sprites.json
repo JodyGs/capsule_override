@@ -4,14 +4,13 @@
   "seasonStart": "2026-08-20",
   "updatedAt": "2026-09-24",
   "news": {
-    "version": "2026-09-24-morgana",
-    "title": "Morgana rejoint la collection",
+    "version": "2026-09-24-anniversaire",
+    "title": "L'esprit Anniversaire, date",
     "date": "24 septembre 2026",
     "lines": [
-      "Morgana, de Persona 5, est arrivee par un correctif dans la journee — un jour plus tot que la date annoncee. Epique, avec ses cinq variantes d'un coup : le total passe de 91 a 96.",
-      "Elle augmente l'efficacite de vos soins, de 15 pour cent au niveau 1 jusqu'au double au niveau 5.",
-      "On la trouve surtout dans les coffres des chambres fortes et les codes de triche epiques, du cote de Golden Grove et Cluster Coast.",
-      "Sa variante Bounty Hunter est signalee comme buguee par une source : si elle ne tombe pas, ce n'est pas vous."
+      "L'esprit Anniversaire entre dans la liste avec sa date de sortie : samedi 26 septembre, pour les neuf ans de Fortnite. Sa carte porte « A venir — 26 septembre ».",
+      "Il n'est pas compte dans les 96 pieces : il ne le sera que le jour ou il s'obtient vraiment. Le filtre « A venir » reapparait pour le retrouver d'un geste.",
+      "Ouvrir un coffre aura une chance de faire apparaitre une part de gateau, qui rend vie et bouclier ; au niveau maximum, les eliminations aussi."
     ]
   },
   "variants": [
@@ -520,6 +519,30 @@
       "variantHow": {
         "bounty": "Sur un adversaire elimine, comme les autres Bounty Hunter. Une source la signale buguee a sa sortie : si elle ne tombe jamais, ce n'est pas vous."
       },
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
+    },
+    {
+      "id": "birthday",
+      "name": "Anniversaire",
+      "sub": "Birthday Sprite · 9 ans de Fortnite",
+      "rarity": "rare",
+      "released": false,
+      "releasesOn": "2026-09-26",
+      "effect": "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier. Au niveau maximum, les eliminations aussi.",
+      "source": "Annonce pour le samedi 26 septembre, avec la Power Hour des neuf ans de Fortnite.",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
       "icon": true,
       "variantIcons": [
         "gold",
