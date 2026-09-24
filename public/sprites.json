@@ -4,42 +4,46 @@
   "seasonStart": "2026-08-20",
   "updatedAt": "2026-09-24",
   "news": {
-    "version": "2026-09-24",
-    "title": "Les Bounty Hunter sont la",
+    "version": "2026-09-24-plan",
+    "title": "Le plan suit le calendrier",
     "date": "24 septembre 2026",
     "lines": [
-      "Cinquieme ligne de variantes : Bounty Hunter. Les dix-sept qui manquaient sont entrees dans le jeu ce matin ; celle de la Couronne, deja debloquable, n'est plus masquee. Le total passe de 73 a 91.",
-      "Une Bounty Hunter peut faire apparaitre un esprit de plus quand vous eliminez un adversaire, et ne monte de niveau qu'aux eliminations.",
-      "La rarete de Blinky est confirmee : Legendaire.",
-      "Trois codes de plus, dont 9YEARS pour l'anniversaire de Fortnite.",
-      "Les filtres sont corriges : « Manquants » ne montrait pas que les manquants, et le tableau d'un esprit affiche desormais seulement les variantes que vous cherchez."
+      "« Que faire maintenant » s'ouvre desormais sur le conseil du moment : pendant le Cheat Code Monday il vous pousse a monter au niveau 5, pendant les Power Hours a chasser les variantes manquantes, et le reste du temps il annonce le prochain rendez-vous.",
+      "Les variantes Bounty Hunter ont leur propre section : elles ne se trouvent que sur les adversaires elimines, et ne montent de niveau qu'aux eliminations. Fouiller un coffre ne les fait pas progresser.",
+      "Chaque ligne de variantes dit maintenant ou on la trouve, au lieu d'un « en partie » passe-partout."
     ]
   },
   "variants": [
     {
       "id": "base",
       "name": "Base",
-      "note": "L'esprit dans sa forme d'origine."
+      "note": "L'esprit dans sa forme d'origine.",
+      "find": "Chaque esprit a ses coins de carte."
     },
     {
       "id": "gold",
       "name": "Or",
-      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement ; les Golden Hours du 22 aout en ont augmente le taux d'apparition."
+      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement ; les Golden Hours du 22 aout en ont augmente le taux d'apparition.",
+      "find": "En partie, comme la version de base. Les Power Hours en relancent le taux."
     },
     {
       "id": "cheat",
       "name": "Cheat Master",
-      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; tous les esprits sortis en ont une, sauf Mega Man."
+      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; tous les esprits sortis en ont une, sauf Mega Man.",
+      "find": "En reussissant un code de triche en partie. La recompense n'est pas garantie."
     },
     {
       "id": "loot",
       "name": "Loot Hacker",
-      "note": "Augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre. Quatrieme ligne de la saison : la Couronne l'a eue le 3 septembre, les quatorze autres sont entrees dans le butin le 10."
+      "note": "Augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre. Quatrieme ligne de la saison : la Couronne l'a eue le 3 septembre, les quatorze autres sont entrees dans le butin le 10.",
+      "find": "Dans les coffres et les codes de triche, comme la version de base."
     },
     {
       "id": "bounty",
       "name": "Bounty Hunter",
-      "note": "Peut faire apparaitre un esprit supplementaire quand vous eliminez un adversaire. Ne monte de niveau qu'aux eliminations. Cinquieme ligne de la saison, sortie le 24 septembre ; celle de la Couronne se merite au bout de sa chaine de maitrise."
+      "note": "Peut faire apparaitre un esprit supplementaire quand vous eliminez un adversaire. Ne monte de niveau qu'aux eliminations. Cinquieme ligne de la saison, sortie le 24 septembre ; celle de la Couronne se merite au bout de sa chaine de maitrise.",
+      "find": "Sur les adversaires que vous eliminez, et nulle part ailleurs.",
+      "levelUp": "Ne gagne de l'XP qu'aux eliminations : fouiller un coffre ou extraire n'y change rien. Une fois au niveau 5, elle se banque comme les autres."
     }
   ],
   "rarities": [
@@ -509,7 +513,9 @@
         "start": "09:00",
         "hours": 24,
         "what": "Les esprits montent deux fois plus vite, la poussiere est doublee et les codes de triche frappent plus fort.",
-        "confirmed": true
+        "confirmed": true,
+        "focus": "master",
+        "advice": "Les esprits montent deux fois plus vite : poussez au niveau 5 ce que vous avez deja."
       },
       {
         "id": "newsprite",
@@ -517,7 +523,9 @@
         "day": 4,
         "start": "09:00",
         "what": "Un esprit ou une variante rejoint la collection. Le 27 aout a livre les quatre derniers Cheat Master ; Storm Scout, lui, est arrive le samedi 29 pendant les Power Hours.",
-        "confirmed": true
+        "confirmed": true,
+        "focus": "new",
+        "advice": "Un esprit ou une variante rejoint la collection : regardez ce qui vient d'apparaitre."
       },
       {
         "id": "power",
@@ -529,7 +537,9 @@
           "14:00",
           "21:00"
         ],
-        "hours": 2
+        "hours": 2,
+        "focus": "find",
+        "advice": "Le taux des variantes remonte pendant deux heures : c'est le meilleur moment pour celles qui vous manquent."
       }
     ]
   }

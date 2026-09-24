@@ -236,15 +236,47 @@ Pour annoncer une mise à jour, il suffit donc de changer `news.version` en mêm
 
 Le suivi sait ce qui manque, les codes savent ce qui s'obtient d'un mot tapé dans le lobby.
 Le bouton **Que faire maintenant** met les deux bout à bout, ce qu'il fallait jusque-là faire
-de tête. Le panneau range ce qui reste en quatre temps :
+de tête. Le panneau range ce qui reste en cinq temps :
 
-1. **À taper dans le lobby** — les codes non utilisés qui donnent une pièce qui vous manque.
+1. **Le conseil du moment** — voir plus bas.
+2. **À taper dans le lobby** — les codes non utilisés qui donnent une pièce qui vous manque.
    La pastille du bouton compte exactement ceux-là : c'est le seul chiffre sur lequel on peut
    agir dans la minute.
-2. **À trouver en partie**, une rubrique par ligne de variante, avec la consigne générale et,
+3. **À trouver en partie**, une rubrique par ligne de variante, avec la consigne générale et,
    pour les bases, la source propre à chaque esprit.
-3. **À maîtriser** — ce qui est déjà là mais pas encore banqué.
-4. Le rappel des codes qui ne donnent pas d'esprit mais restent à réclamer.
+4. **À maîtriser** — ce qui est déjà là mais pas encore banqué.
+5. Le rappel des codes qui ne donnent pas d'esprit mais restent à réclamer.
+
+### Le conseil du moment
+
+Le plan savait ce qui manque, l'agenda savait ce que le jeu récompense en ce moment ; les deux
+s'ignoraient. Le panneau s'ouvre maintenant sur le croisement des deux.
+
+Chaque rendez-vous déclare dans `sprites.json` ce qu'il favorise (`"focus"`) et la phrase à
+dire (`"advice"`). Un lundi de **Cheat Code Monday**, monter au niveau 5 rapporte double :
+« poussez au niveau 5 ce que vous avez déjà — vous en avez 5 qui attendent ». Pendant les
+**Power Hours** du samedi, le taux des variantes remonte : « il vous en manque 58 ». Le reste
+du temps, le bandeau reste neutre et annonce le prochain créneau.
+
+Deux règles de chiffres, parce qu'un nombre mal choisi décourage plus qu'il n'aide :
+
+- **Le compte n'apparaît que si le bonus court.** « Gardez vos 58 manquantes » affiché cinq
+  jours à l'avance n'apprend rien et fait un mur.
+- **Les Bounty Hunter sortent du compte des Power Hours.** Elles ne tombent pas des coffres,
+  donc un boost de taux d'apparition ne les concerne pas.
+
+### Les lignes qui ne se jouent pas pareil
+
+Jusqu'à la sortie des Bounty Hunter, toutes les variantes se ramassaient de la même façon et
+une consigne « en partie » suffisait. Ce n'est plus vrai : une **Bounty Hunter** n'apparaît que
+sur un adversaire éliminé, et ne gagne d'XP qu'aux éliminations — fouiller un coffre ne la fait
+pas monter d'un cran.
+
+Chaque ligne déclare donc où on la trouve (`"find"`), et celles qui montent autrement le disent
+(`"levelUp"`). Le plan s'en sert pour sortir ces pièces de la section *À maîtriser* et leur
+donner la leur, **« Bounty Hunter — 2 à monter aux éliminations »** : afficher « niveau 5 puis
+banque à un site d'extraction » aurait été faux sur la moitié du trajet. La note précise quand
+même qu'une fois le niveau 5 atteint, elle se banque comme les autres.
 
 Le lien entre un code et une pièce est une donnée explicite (`"grants"` dans
 `public/cheat-codes.json`), pas une lecture du libellé de récompense : sept codes la portent,

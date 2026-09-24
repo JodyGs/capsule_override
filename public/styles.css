@@ -1006,3 +1006,26 @@ body{
   width:7px;height:7px;border-radius:50%;background:var(--accent);
 }
 #news .row{margin-top:18px}
+
+/* ------------------------------------------------------------------
+   Le conseil du moment, en tete du plan d'action. Il se teinte d'accent
+   quand le bonus court vraiment : le reste du temps c'est une simple
+   annonce, et une couleur vive mentirait sur l'urgence.
+   ------------------------------------------------------------------ */
+.todo-moment{
+  border:1px solid var(--line);border-radius:12px;
+  background:var(--surface-2);padding:12px 14px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.todo-moment[data-hot="true"]{
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+  background:color-mix(in srgb, var(--accent) 8%, var(--surface-2));
+}
+.todo-moment-head{
+  margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;
+  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.11em;
+}
+.todo-moment-head strong{color:var(--ink);font-weight:600}
+.todo-moment-head span{color:var(--ink-3)}
+.todo-moment[data-hot="true"] .todo-moment-head span{color:var(--accent)}
+.todo-moment-line{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}

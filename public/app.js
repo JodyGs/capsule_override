@@ -1826,13 +1826,10 @@ function codeFor(spriteId, variantId) {
     && !codesUsed[c.code.toUpperCase()]);
 }
 
-/* La consigne generale d'une ligne de variante. */
-function howToLine(variant) {
-  if (variant.id === "cheat") return "En reussissant un code de triche en partie. La recompense n'est pas garantie.";
-  if (variant.id === "gold") return "En partie, comme la version de base. Les Power Hours en relancent le taux.";
-  if (variant.id === "base") return "Chaque esprit a ses coins de carte.";
-  return "En partie.";
-}
+/* La consigne generale d'une ligne de variante. Elle vit dans le catalogue :
+   « en partie » convenait tant que toutes les lignes se ramassaient pareil,
+   mais une Bounty Hunter ne sort que d'un adversaire elimine. */
+const howToLine = (variant) => variant.find || "En partie.";
 
 /* Ce qui distingue cette piece-la des autres de sa ligne : la source propre
    a l'esprit pour une base, ou une exception declaree au catalogue. */
@@ -1847,12 +1844,24 @@ function todoPlan() {
   // consigne donnait une section par esprit, puisque chacun a sa source.
   const field = new Map();
   const toMaster = [];
+  // Les lignes qui ne montent pas comme les autres meritent leur liste : dire
+  // « niveau 5 puis banque » d'une Bounty Hunter serait faux, elle ne gagne
+  // d'XP qu'aux eliminations.
+  const toGrind = new Map();
 
   for (const sprite of state.live) {
     for (const variant of variantsOf(sprite)) {
       const value = statusOf(sprite.id, variant.id);
       if (value === 2) continue;
-      if (value === 1) { toMaster.push({ sprite, variant }); continue; }
+      if (value === 1) {
+        if (variant.levelUp) {
+          if (!toGrind.has(variant.id)) toGrind.set(variant.id, { variant, pieces: [] });
+          toGrind.get(variant.id).pieces.push({ sprite, variant });
+        } else {
+          toMaster.push({ sprite, variant });
+        }
+        continue;
+      }
 
       const code = codeFor(sprite.id, variant.id);
       if (code) { lobby.push({ sprite, variant, code }); continue; }
@@ -1863,7 +1872,41 @@ function todoPlan() {
 
   // Les codes qui ne donnent pas de piece : poussiere, XP, gizmos, ecrans.
   const spare = onceCodes().filter((c) => !c.grants && !codesUsed[c.code.toUpperCase()]);
-  return { lobby, field: [...field.values()], toMaster, spare };
+  return { lobby, field: [...field.values()], toMaster, toGrind: [...toGrind.values()], spare };
+}
+
+/* Le conseil du moment. Le plan connait deja ce qui reste a faire ; l'agenda
+   sait ce que le jeu recompense en ce moment. Les croiser evite le conseil
+   generique : un lundi de Cheat Code Monday, monter au niveau 5 rapporte
+   double, et c'est la seule chose a dire. */
+function todoMoment(plan) {
+  const state_ = nextEvent(state.catalogue?.events, now());
+  if (!state_) return null;
+
+  const { event, live, today, at, until } = state_;
+  const counts = {
+    master: plan.toMaster.length + plan.toGrind.reduce((n, g) => n + g.pieces.length, 0),
+    // Les Power Hours relancent le taux d'apparition : une Bounty Hunter, qui
+    // ne sort que d'un adversaire elimine, n'en profite pas et n'a rien a
+    // faire dans ce compte.
+    find: plan.field.reduce((n, g) => n + (g.variant.levelUp ? 0 : g.pieces.length), 0),
+    new: 0
+  };
+  const n = counts[event.focus] ?? 0;
+
+  let when;
+  if (live) when = `en cours — encore ${humanDelay(until - now())}`;
+  else if (today) when = "aujourd'hui";
+  else when = `dans ${humanDelay(at - now())}`;
+
+  // Un chiffre ne vaut que si on peut agir dessus maintenant : annoncer
+  // « 58 manquantes » cinq jours a l'avance decourage sans rien apprendre.
+  let line = event.advice || event.what || "";
+  if ((live || today) && n) {
+    if (event.focus === "master") line += ` Vous en avez ${n} qui attend${n > 1 ? "ent" : ""}.`;
+    if (event.focus === "find") line += ` Il vous en manque ${n}.`;
+  }
+  return { name: event.name, when, line, hot: Boolean(live || today) };
 }
 
 const pieceName = (sprite, variant) =>
@@ -1886,6 +1929,18 @@ function buildTodo() {
     el.appendChild(body);
     box.appendChild(el);
   };
+
+  /* 0. Ce que le jeu recompense en ce moment, avant toute liste. */
+  const moment = todoMoment(plan);
+  if (moment) {
+    const el = document.createElement("div");
+    el.className = "todo-moment";
+    el.dataset.hot = String(moment.hot);
+    el.innerHTML = `<p class="todo-moment-head"><strong>${esc(moment.name)}</strong>`
+      + `<span>${esc(moment.when)}</span></p>`
+      + `<p class="todo-moment-line">${esc(moment.line)}</p>`;
+    box.appendChild(el);
+  }
 
   /* 1. Ce qui s'obtient tout de suite, sans jouer. */
   if (plan.lobby.length) {
@@ -1935,6 +1990,20 @@ function buildTodo() {
             "Niveau 5, puis banque a un site d'extraction ou Victoire Royale en le tenant.", list);
   }
 
+  /* 3 bis. Celles qui ne montent qu'a l'elimination : meme geste final, mais
+     tout le trajet jusqu'au niveau 5 se joue autrement. */
+  for (const { variant, pieces } of plan.toGrind) {
+    const list = document.createElement("ul");
+    list.className = "todo-pieces";
+    for (const { sprite } of pieces) {
+      const li = document.createElement("li");
+      li.innerHTML = `<img class="vicon" src="${variantIconUrl(sprite, variant.id)}"
+             alt="" width="22" height="22" loading="lazy" decoding="async"><span>${esc(pieceName(sprite, variant))}</span>`;
+      list.appendChild(li);
+    }
+    section(`${variant.name} — ${pieces.length} a monter aux eliminations`, variant.levelUp, list);
+  }
+
   /* 4. Le reste des codes, qui ne donne pas d'esprit mais reste a prendre. */
   if (plan.spare.length) {
     const el = document.createElement("p");
@@ -1951,7 +2020,7 @@ function buildTodo() {
   if (!box.children.length) {
     const done = document.createElement("p");
     done.className = "form-note";
-    done.textContent = "Plus rien a faire : les 33 pieces de la saison sont maitrisees.";
+    done.textContent = `Plus rien a faire : les ${state.denom} pieces de la saison sont maitrisees.`;
     box.appendChild(done);
   }
 
