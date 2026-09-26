@@ -4,13 +4,13 @@
   "seasonStart": "2026-08-20",
   "updatedAt": "2026-09-26",
   "news": {
-    "version": "2026-09-26-goat",
-    "title": "Un invite surprise",
+    "version": "2026-09-26-goat2",
+    "title": "Le GOAT prend forme",
     "date": "26 septembre 2026",
     "lines": [
-      "Un esprit maison rejoint la grille : Le GOAT, Mythique, avec ses cinq variantes. Il ne vient pas du jeu — c'est une fiche ajoutee a la main.",
-      "Il est marque « maison » dans le catalogue : le script qui va chercher les illustrations sur la wiki le laisse tranquille au lieu de lui retirer son image a chaque passage.",
-      "Il compte dans le total comme les autres : la saison passe a 106 pieces affichees, dont 101 viennent vraiment d'Epic. Pour qu'il ne compte plus, il suffit de passer son champ « released » a faux dans public/sprites.json."
+      "L'esprit maison a son vrai portrait : un personnage dessine, detoure, qui tient sa place a cote de Klombo et de la Couronne.",
+      "Ses quatre variantes reprennent les teintes du jeu — or, vert code, bleu et violet.",
+      "Il reste une fiche maison : elle ne vient pas de Fortnite et le catalogue le dit."
     ]
   },
   "variants": [
