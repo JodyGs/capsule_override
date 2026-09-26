@@ -351,14 +351,14 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**38 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**41 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
 Les trois codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 35 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 38 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
@@ -476,8 +476,9 @@ son cas à part : ses deux dernières variantes ne se trouvent pas, elles se mé
 la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
 
 Deux esprits communautaires restent annoncés sans date ni rareté — **Plongeon dans la benne**
-et **Miel**. Ils n'entreront dans la liste que le jour où Epic dira quand : une fiche entre
-avec une date, pas avec une rumeur.
+et **Miel**. La **v42.30 du 1er octobre** est bien datée par Epic, et les fuites y placent
+Plongeon dans la benne ; mais Epic n'a pas dit lequel arrive quand, et une date de patch n'est
+pas une date de sortie pour un esprit donné. Une fiche entre avec une date, pas avec une rumeur.
 
 Le mécanisme reste en place et testé. Un esprit daté mais pas encore sorti s'affiche avec sa
 date en clair (« À venir — 1er octobre »), se range en fin de grille et **ne compte pas** dans
@@ -523,9 +524,9 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **916 vérifications** qui tournent sans navigateur : les comptes
-publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 38 codes dont
-35 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+Les catalogues ont le leur, **922 vérifications** qui tournent sans navigateur : les comptes
+publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
+38 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
