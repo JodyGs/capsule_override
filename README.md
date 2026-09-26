@@ -445,6 +445,21 @@ scripts/make-icons.py         régénère les icônes de l'app (npm run icons)
 scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprite-icons)
 ```
 
+### Ajouter un esprit maison
+
+Rien n'empêche d'ajouter une fiche qui ne vient pas du jeu — un esprit pour rire, à son nom.
+Il suffit d'une entrée dans `public/sprites.json` avec `"custom": true`, d'un PNG carré de
+288 px dans `public/icons/sprites/` et, si on veut les cinq lignes, de quatre vignettes de
+192 px dans `public/icons/variants/`.
+
+Le champ `custom` n'est pas décoratif : **`npm run sprite-icons` saute ces fiches**. Sans lui,
+le script chercherait le nom sur la wiki, ne le trouverait pas, et retirerait l'icône à chaque
+passage — l'esprit retomberait sur sa pastille à initiale sans qu'on comprenne pourquoi.
+
+Une fiche maison **compte dans le total** comme les autres, puisque ses cases se cochent. Pour
+qu'elle reste décorative, il suffit de la passer à `"released": false` : elle s'affiche alors
+en fin de grille sans entrer dans le score.
+
 ### Mettre à jour la liste des esprits
 
 Éditez **`public/sprites.json`** — c'est le seul fichier à toucher quand un esprit sort ou
@@ -537,9 +552,9 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **937 vérifications** qui tournent sans navigateur : les comptes
-publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
-38 récompenses), l'absence de date périmée dans les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+Les catalogues ont le leur, **967 vérifications** qui tournent sans navigateur : les comptes
+publiés (21 esprits jouables, 101 pièces d'Epic plus une fiche maison, 25 esprits et 117 pièces
+en Legacy, 41 codes dont 38 récompenses), l'absence de date périmée dans les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —

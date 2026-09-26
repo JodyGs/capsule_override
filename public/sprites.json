@@ -4,13 +4,13 @@
   "seasonStart": "2026-08-20",
   "updatedAt": "2026-09-26",
   "news": {
-    "version": "2026-09-26-agenda",
-    "title": "Le bandeau des rendez-vous",
+    "version": "2026-09-26-goat",
+    "title": "Un invite surprise",
     "date": "26 septembre 2026",
     "lines": [
-      "Le bandeau des Power Hours citait encore les seances du 22 et du 29 aout en exemple. Il decrit maintenant la regle — deux fenetres de deux heures, 14 h et 21 h a New York, theme annonce dans la semaine — au lieu de dates qui vieillissent.",
-      "Meme correction pour le New Sprite Day : Epic ne tient pas toujours le jeudi, et le texte le dit desormais plutot que de lister les exceptions passees.",
-      "Les trois codes du direct FNCS d'hier soir sont dans la liste : WeAreTheWorldChampionsToday, WhoCrackedTheCode et DustySprites."
+      "Un esprit maison rejoint la grille : Le GOAT, Mythique, avec ses cinq variantes. Il ne vient pas du jeu — c'est une fiche ajoutee a la main.",
+      "Il est marque « maison » dans le catalogue : le script qui va chercher les illustrations sur la wiki le laisse tranquille au lieu de lui retirer son image a chaque passage.",
+      "Il compte dans le total comme les autres : la saison passe a 106 pieces affichees, dont 101 viennent vraiment d'Epic. Pour qu'il ne compte plus, il suffit de passer son champ « released » a faux dans public/sprites.json."
     ]
   },
   "variants": [
@@ -535,6 +535,30 @@
       "released": true,
       "effect": "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier. Au niveau maximum, les eliminations aussi.",
       "source": "Coffres et codes de triche · Taux double pendant la Birthday Power Hour du 26 septembre",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
+    },
+    {
+      "id": "jody",
+      "name": "Le GOAT",
+      "sub": "Meilleur joueur du monde · auto-proclame",
+      "rarity": "mythic",
+      "released": true,
+      "custom": true,
+      "effect": "Remporte la Victoire Royale des l'atterrissage. Les adversaires deposent les armes d'eux-memes.",
+      "source": "Se debloque lorsqu'on lui laisse ouvrir les coffres TRANQUILLEMENT.",
       "variants": [
         "base",
         "gold",

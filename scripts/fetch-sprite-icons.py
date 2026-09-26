@@ -151,6 +151,11 @@ def main():
         label = os.path.basename(path)
         found, missing, variant_found = [], [], []
         for sprite in catalogue["sprites"]:
+            # Un esprit maison n'existe pas sur la wiki : sans ce garde-fou,
+            # chaque passage du script lui retirerait son icone et le ferait
+            # retomber sur la pastille a initiale.
+            if sprite.get("custom"):
+                continue
             wiki = WIKI_NAME.get(sprite["id"])
             if not wiki:
                 missing.append((sprite["id"], "nom wiki inconnu"))
