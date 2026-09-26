@@ -6,3 +6,4 @@ node_modules/
 
 # Photo d'identite source : seules les vignettes recadrees vont dans public/
 photo_identite_haute_resolution.png
+ChatGPT Image*.png
