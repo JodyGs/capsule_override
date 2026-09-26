@@ -518,7 +518,9 @@ function soonLabel(sprite) {
   const iso = sprite.releasesOn;
   if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "A venir";
   const [y, m, d] = iso.split("-").map(Number);
-  return `A venir — ${dayMonth.format(new Date(Date.UTC(y, m - 1, d)))}`;
+  // « 1 octobre » n'existe pas en francais : le premier du mois est ordinal.
+  const jour = dayMonth.format(new Date(Date.UTC(y, m - 1, d))).replace(/^1 /, "1er ");
+  return `A venir — ${jour}`;
 }
 
 function buildCards() {

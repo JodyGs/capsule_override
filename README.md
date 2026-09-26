@@ -351,19 +351,19 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**37 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**38 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
 Les trois codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 34 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 35 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 24 septembre 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 26 septembre 2026
 (VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
 GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
 
@@ -463,26 +463,26 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
-**État au 24 septembre 2026** : **20 esprits jouables** et **96 pièces obtenables**, toutes
-disponibles. Les variantes **Bounty Hunter** — cinquième et dernière ligne annoncée — sont
-entrées dans le jeu le 24 septembre, et **Morgana** (Persona 5, Épique) est arrivée le même
-jour par un correctif, avec ses cinq variantes d'un coup, un jour avant la date annoncée. Elles peuvent apparaître quand on élimine un adversaire,
+**État au 26 septembre 2026** : **21 esprits jouables** et **101 pièces obtenables**, toutes
+disponibles — et, pour la première fois de la saison, **plus rien en attente**. L'esprit
+**Anniversaire** est sorti le 26 pour les neuf ans du jeu, deux jours après les variantes
+**Bounty Hunter** et **Morgana** (Persona 5, Épique). Elles peuvent apparaître quand on élimine un adversaire,
 et ne montent de niveau **qu'aux éliminations** : c'est la seule ligne qu'on ne peut pas
 faire progresser en fouillant.
 
 Une seule exception casse la règle « chaque esprit a toutes les variantes », et un compteur
-naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 96 et non 100. La **Couronne** garde
+naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 101 et non 105. La **Couronne** garde
 son cas à part : ses deux dernières variantes ne se trouvent pas, elles se méritent au bout de
 la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
 
-L'esprit **Anniversaire** figure dans la liste **avec sa date de sortie** — samedi
-26 septembre, les neuf ans du jeu — et sa carte porte « À venir — 26 septembre ». Il n'entre
-pas dans les 96 pièces : une case qu'on ne peut pas encore cocher ne se compte pas. Le filtre
-*À venir* réapparaît tout seul pour le retrouver d'un geste.
+Deux esprits communautaires restent annoncés sans date ni rareté — **Plongeon dans la benne**
+et **Miel**. Ils n'entreront dans la liste que le jour où Epic dira quand : une fiche entre
+avec une date, pas avec une rumeur.
 
-La date vient des notes officielles d'Epic, pas d'une fuite ; c'est ce qui la distingue des
-deux esprits communautaires restants, **Plongeon dans la benne** et **Miel**, qui n'ont ni
-date ni rareté et restent donc **hors du catalogue**. Une fiche entre quand Epic a dit quand.
+Le mécanisme reste en place et testé. Un esprit daté mais pas encore sorti s'affiche avec sa
+date en clair (« À venir — 1er octobre »), se range en fin de grille et **ne compte pas** dans
+le total ; sans date annoncée, la pastille reste « À venir » tout court. La date est lue en UTC
+de bout en bout, sinon un téléphone à l'ouest afficherait la veille.
 
 La **Bounty Hunter Morgana** est signalée buguée à sa sortie par une source : la note de la
 pièce le dit, plutôt que de laisser croire à un manque de chance.
@@ -523,9 +523,9 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **917 vérifications** qui tournent sans navigateur : les comptes
-publiés (20 esprits jouables, 96 pièces, un esprit daté mais non compté, 25 esprits et
-117 pièces en Legacy, 37 codes dont 34 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+Les catalogues ont le leur, **916 vérifications** qui tournent sans navigateur : les comptes
+publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 38 codes dont
+35 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —

@@ -2,15 +2,16 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-09-24",
+  "updatedAt": "2026-09-26",
   "news": {
-    "version": "2026-09-24-anniversaire",
-    "title": "L'esprit Anniversaire, date",
-    "date": "24 septembre 2026",
+    "version": "2026-09-26",
+    "title": "L'esprit Anniversaire est sorti",
+    "date": "26 septembre 2026",
     "lines": [
-      "L'esprit Anniversaire entre dans la liste avec sa date de sortie : samedi 26 septembre, pour les neuf ans de Fortnite. Sa carte porte « A venir — 26 septembre ».",
-      "Il n'est pas compte dans les 96 pieces : il ne le sera que le jour ou il s'obtient vraiment. Le filtre « A venir » reapparait pour le retrouver d'un geste.",
-      "Ouvrir un coffre aura une chance de faire apparaitre une part de gateau, qui rend vie et bouclier ; au niveau maximum, les eliminations aussi."
+      "Ses cinq variantes sont arrivees a 20 h, heure francaise, pour les neuf ans de Fortnite. Le total passe de 96 a 101, et tous les esprits de la saison sont desormais sortis.",
+      "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier ; au niveau maximum, les eliminations aussi.",
+      "La Birthday Power Hour double leur taux d'apparition aujourd'hui, de 20 h a 23 h puis de 3 h a 6 h. C'est le meilleur moment pour les cinq d'un coup.",
+      "Un code oublie rejoint la liste : BeamMeUp, deux accelerateurs d'extraction. Trente-huit codes en tout."
     ]
   },
   "variants": [
@@ -532,10 +533,9 @@
       "name": "Anniversaire",
       "sub": "Birthday Sprite · 9 ans de Fortnite",
       "rarity": "rare",
-      "released": false,
-      "releasesOn": "2026-09-26",
+      "released": true,
       "effect": "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier. Au niveau maximum, les eliminations aussi.",
-      "source": "Annonce pour le samedi 26 septembre, avec la Power Hour des neuf ans de Fortnite.",
+      "source": "Coffres et codes de triche · Taux double pendant la Birthday Power Hour du 26 septembre",
       "variants": [
         "base",
         "gold",

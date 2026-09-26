@@ -1,8 +1,8 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-09-24",
+  "updatedAt": "2026-09-26",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Trente-sept codes actifs au 24 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison, et les listes publiees vont de 37 a 45 selon le site. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Trente-huit codes actifs au 26 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison, et les listes publiees vont de 37 a 45 selon le site. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
     "lobbyhack.com",
     "VICE",
@@ -153,8 +153,7 @@
         {
           "code": "PlayToLevelUp",
           "reward": "2 000 poussieres d'esprit",
-          "once": true,
-          "new": true
+          "once": true
         }
       ]
     },
@@ -219,6 +218,11 @@
         {
           "code": "AlmostScaringSeason",
           "reward": "2 localisateurs de code",
+          "once": true
+        },
+        {
+          "code": "BeamMeUp",
+          "reward": "2 accelerateurs d'extraction",
           "once": true,
           "new": true
         }
@@ -252,7 +256,6 @@
           "code": "9YEARS",
           "reward": "Objet d'anniversaire des 9 ans de Fortnite",
           "once": true,
-          "new": true,
           "warn": "Les sources divergent sur la nature de l'objet : un tag pour l'une, une emote pour l'autre."
         }
       ]
