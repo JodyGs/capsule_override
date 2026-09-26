@@ -4,13 +4,13 @@
   "seasonStart": "2026-08-20",
   "updatedAt": "2026-09-26",
   "news": {
-    "version": "2026-09-26-fncs",
-    "title": "Trois codes du direct FNCS",
+    "version": "2026-09-26-agenda",
+    "title": "Le bandeau des rendez-vous",
     "date": "26 septembre 2026",
     "lines": [
-      "Epic a lache trois codes pendant la finale de la FNCS : WeAreTheWorldChampionsToday pour l'accessoire de dos Sentinelle FNCS, WhoCrackedTheCode pour 40 000 XP, et DustySprites pour 5 000 poussieres. Quarante et un codes en tout.",
-      "Aucun nouvel esprit : les vingt et un de la saison sont sortis et leurs 101 pieces sont toutes obtenables.",
-      "La v42.30 arrive le 1er octobre, date confirmee par Epic. Les esprits qu'elle apporte ne sont pour l'instant qu'une fuite : Plongeon dans la benne et Miel restent hors de la liste tant qu'Epic n'aura pas dit quand."
+      "Le bandeau des Power Hours citait encore les seances du 22 et du 29 aout en exemple. Il decrit maintenant la regle — deux fenetres de deux heures, 14 h et 21 h a New York, theme annonce dans la semaine — au lieu de dates qui vieillissent.",
+      "Meme correction pour le New Sprite Day : Epic ne tient pas toujours le jeudi, et le texte le dit desormais plutot que de lister les exceptions passees.",
+      "Les trois codes du direct FNCS d'hier soir sont dans la liste : WeAreTheWorldChampionsToday, WhoCrackedTheCode et DustySprites."
     ]
   },
   "variants": [
@@ -23,7 +23,7 @@
     {
       "id": "gold",
       "name": "Or",
-      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement ; les Golden Hours du 22 aout en ont augmente le taux d'apparition.",
+      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement de la saison ; les Power Hours en relancent regulierement le taux d'apparition.",
       "find": "En partie, comme la version de base. Les Power Hours en relancent le taux."
     },
     {
@@ -561,7 +561,7 @@
         "day": 1,
         "start": "09:00",
         "hours": 24,
-        "what": "Les esprits montent deux fois plus vite, la poussiere est doublee et les codes de triche frappent plus fort.",
+        "what": "Vingt-quatre heures durant lesquelles les esprits montent deux fois plus vite, la poussiere est doublee et les codes de triche frappent plus fort.",
         "confirmed": true,
         "focus": "master",
         "advice": "Les esprits montent deux fois plus vite : poussez au niveau 5 ce que vous avez deja."
@@ -571,7 +571,7 @@
         "name": "New Sprite Day",
         "day": 4,
         "start": "09:00",
-        "what": "Un esprit ou une variante rejoint la collection. Le 27 aout a livre les quatre derniers Cheat Master ; Storm Scout, lui, est arrive le samedi 29 pendant les Power Hours.",
+        "what": "Un esprit ou une variante rejoint la collection, en general a 9 h a New York. Epic ne s'y tient pas toujours : certaines sorties tombent un samedi, ou arrivent par un correctif en milieu de semaine.",
         "confirmed": true,
         "focus": "new",
         "advice": "Un esprit ou une variante rejoint la collection : regardez ce qui vient d'apparaitre."
@@ -580,7 +580,7 @@
         "id": "power",
         "name": "Power Hours",
         "day": 6,
-        "what": "Deux fenetres de deux heures, 14 h et 21 h heure de New York. Epic annonce le theme dans la semaine : le 22 aout les variantes Or, le 29 aout Sonic et la sortie de Storm Scout.",
+        "what": "Deux fenetres de deux heures, 14 h et 21 h a New York. Epic annonce dans la semaine ce qu'elles relancent : une famille de variantes, la sortie d'un esprit, parfois les deux. Les editions speciales durent plus longtemps.",
         "confirmed": true,
         "starts": [
           "14:00",

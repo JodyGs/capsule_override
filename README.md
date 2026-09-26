@@ -207,6 +207,19 @@ Un événement ponctuel reste **la nouvelle du jour** jusqu'à minuit à New Yor
 24 heures glissantes — sinon un New Sprite Day du jeudi matin serait encore affiché le vendredi
 à l'aube.
 
+### Un bandeau permanent ne cite pas de date
+
+Le texte des Power Hours a vécu un mois en annonçant « celles du 29 août ont sorti Storm
+Scout ». Vrai à l'écriture, faux la semaine suivante, et invisible : un bandeau qu'on lit tous
+les jours finit par ne plus se lire. Même chose pour la ligne Or, qui renvoyait encore aux
+Golden Hours du 22 août.
+
+Ces trois textes décrivent maintenant **la règle** — deux fenêtres de deux heures, thème annoncé
+dans la semaine, séances rallongées pour une occasion — et un test refuse toute date dans le
+nom, le texte ou le conseil d'un rendez-vous. Les notes de variantes gardent le droit de dater
+une **sortie** (« sortie le 24 septembre » restera vrai) mais pas de renvoyer à l'édition
+passée d'un rendez-vous qui revient ; le test fait la différence sur le verbe.
+
 ---
 
 ## Quoi de neuf
@@ -524,9 +537,9 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **922 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **937 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
-38 récompenses), la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+38 récompenses), l'absence de date périmée dans les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
