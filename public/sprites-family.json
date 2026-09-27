@@ -39,47 +39,50 @@
   "sprites": [
     {
       "id": "angelo",
-      "name": "Angelo",
-      "sub": "Esprit du Miskine",
-      "rarity": "rare",
+      "name": "Esprit du Miskine",
+      "sub": "Angelo",
+      "rarity": "mythic",
       "released": true,
       "icon": true,
       "variants": [
         "base"
       ],
       "effect": "Attire la pitie de toute l'equipe. A chaque chute, un « miskine » collectif part tout seul dans le micro : ca ne rend ni vie ni bouclier, mais ca fait du bien.",
-      "source": "Ne se cherche pas, il vous trouve — en general trois secondes apres votre elimination. De l'arabe miskin, « pauvre », qui a aussi donne « mesquin » en passant par l'italien. Meme ancetre, deux carrieres tres differentes."
+      "source": "Ne se cherche pas, il vous trouve — en general trois secondes apres votre elimination.",
+      "tint": "orange"
     },
     {
       "id": "marion",
-      "name": "Marion",
-      "sub": "Esprit de l'Obstruction",
-      "rarity": "epic",
+      "name": "Esprit de l'Obstruction",
+      "sub": "Marion",
+      "rarity": "mythic",
       "released": true,
       "icon": true,
       "variants": [
         "base"
       ],
       "effect": "Se place devant un coequipier qui tire. Sans le vouloir, jamais deux fois au meme endroit, toujours au bon moment.",
-      "source": "Apparait des qu'un allie met en joue. Inutile de viser : elle sera deja dans la ligne de tir."
+      "source": "Apparait des qu'un allie met en joue. Inutile de viser : elle sera deja dans la ligne de tir.",
+      "tint": "orange"
     },
     {
       "id": "gaby",
-      "name": "Gaby",
-      "sub": "Esprit du Ragequit",
-      "rarity": "legendary",
+      "name": "Esprit du Ragequit",
+      "sub": "Gaby",
+      "rarity": "mythic",
       "released": true,
       "icon": true,
       "variants": [
         "base"
       ],
       "effect": "Quitte la partie des que ca tourne mal et emporte le butin dans son depart : les coffres ouverts etaient les siens, les esprits ramasses aussi. On le lui a vole.",
-      "source": "Se declenche seul apres la deuxieme mort d'affilee. Ne peut pas etre invoque, puisqu'il est deja parti."
+      "source": "Se declenche seul apres la deuxieme mort d'affilee. Ne peut pas etre invoque, puisqu'il est deja parti.",
+      "tint": "rose"
     },
     {
       "id": "nelson",
-      "name": "Nelson",
-      "sub": "Dealer d'esprits",
+      "name": "Esprit du Dealer",
+      "sub": "Nelson",
       "rarity": "mythic",
       "released": true,
       "icon": true,
@@ -87,12 +90,13 @@
         "base"
       ],
       "effect": "Toujours dans les bons coups. Connait un gars qui connait un coffre, et le coffre est toujours de l'autre cote de la carte.",
-      "source": "Ne se trouve pas : c'est lui qui vous trouve, avec une affaire a ne pas rater. Le prix se discute apres."
+      "source": "Ne se trouve pas : c'est lui qui vous trouve, avec une affaire a ne pas rater. Le prix se discute apres.",
+      "tint": "rose"
     },
     {
       "id": "emilie",
-      "name": "Emilie",
-      "sub": "Esprit de l'Administratif",
+      "name": "Esprit de l'Administratif",
+      "sub": "Emilie",
       "rarity": "mythic",
       "released": true,
       "icon": true,
@@ -100,12 +104,13 @@
         "base"
       ],
       "effect": "Tient la liste, coche les cases et connait l'avancement de chacun mieux que l'interesse. Sans elle, personne ne saurait ou il en est.",
-      "source": "Deja la. La ligne etait prevue dans le tableau avant meme qu'on pense a la demander."
+      "source": "Deja la. La ligne etait prevue dans le tableau avant meme qu'on pense a la demander.",
+      "tint": "rouge"
     },
     {
       "id": "cyber",
-      "name": "Cyber",
-      "sub": "Esprit du Developpeur",
+      "name": "Esprit du Developpeur",
+      "sub": "Cyber",
       "rarity": "mythic",
       "released": true,
       "icon": true,
@@ -113,7 +118,9 @@
         "base"
       ],
       "effect": "Ne ramasse rien : il construit. C'est lui qui tient cette app, ajoute chaque esprit le jour de sa sortie et refait les comptes quand Epic change les regles en pleine saison.",
-      "source": "Ne se trouve pas en partie : il est deja dans le code. Se deploie tout seul a la mise a jour suivante, pendant que les autres fouillent des coffres."
+      "source": "Ne se trouve pas en partie : il est deja dans le code. Se deploie tout seul a la mise a jour suivante, pendant que les autres fouillent des coffres.",
+      "tint": "rouge"
     }
-  ]
+  ],
+  "tintNote": "Une galerie n'a pas de paliers a gravir : tout le monde y est mythique. La couleur ne classe donc rien, elle identifie — elle remplace la teinte de rarete sur la carte."
 }

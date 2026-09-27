@@ -556,6 +556,11 @@ const rarityToken = (id) => ({
   mythic: "--r-mythic", unknown: "--ink-3"
 })[id] || "--ink-3";
 
+/* Une fiche peut imposer sa couleur. Dans la galerie, tout le monde est
+   mythique : la teinte n'y classe plus rien, elle identifie. */
+const TINTS = { rose: "--f-rose", orange: "--f-orange", rouge: "--f-rouge" };
+const cardToken = (sprite) => TINTS[sprite.tint] || rarityToken(sprite.rarity);
+
 const rarityLabel = (id) =>
   state.catalogue.rarities.find((r) => r.id === id)?.label || id;
 
@@ -615,7 +620,7 @@ function buildCards() {
     const card = document.createElement("article");
     card.className = "card";
     card.dataset.sprite = sprite.id;
-    card.style.setProperty("--rc", `var(${rarityToken(sprite.rarity)})`);
+    card.style.setProperty("--rc", `var(${cardToken(sprite)})`);
 
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
     if (!sprite.released) tags += `<span class="tag soon">${esc(soonLabel(sprite))}</span>`;

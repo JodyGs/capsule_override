@@ -160,6 +160,16 @@ Les illustrations vivent dans `public/icons/family/`, pas dans `icons/sprites/` 
 est déclaré par collection, ce qui évite qu'une fiche maison et un esprit du jeu se disputent
 un nom de fichier.
 
+Chaque fiche porte **le nom de son esprit** — *Esprit du Miskine*, *du Ragequit*, *de
+l'Administratif* — et le prénom passe en sous-titre, comme le nom anglais chez les vrais.
+
+Toutes sont **mythiques**. Une galerie n'a pas de paliers à gravir, alors la couleur n'y classe
+plus rien : elle identifie. Un champ `tint` par fiche remplace la teinte de rareté sur la carte
+— rose, orange ou rouge. Ces trois couleurs sont des tokens comme les autres, définies dans les
+**trois** palettes du thème (clair, sombre par défaut, sombre choisi à la main) ; un test compte
+les définitions, parce qu'une couleur oubliée dans un seul bloc ne se voit qu'en changeant de
+thème.
+
 ---
 
 ## Legacy : les saisons passées
@@ -618,7 +628,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **990 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **996 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

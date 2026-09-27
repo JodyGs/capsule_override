@@ -24,6 +24,12 @@
   --r-epic:#7527CE;
   --r-legendary:#AE4A05;
   --r-mythic:#7E6000;
+  /* Teintes de la galerie Family : elles remplacent la couleur de rarete sur
+     la carte. Ici tout le monde est mythique, la couleur identifie au lieu
+     de classer. */
+  --f-rose:#BE1C74;
+  --f-orange:#A8530A;
+  --f-rouge:#AE2318;
   --shadow:0 1px 2px rgba(21,17,30,.05), 0 8px 24px -14px rgba(21,17,30,.28);
   --shadow-lift:0 2px 4px rgba(21,17,30,.06), 0 18px 40px -18px rgba(21,17,30,.35);
   --radius:10px;
@@ -50,6 +56,7 @@
     --gold:#FFC93C; --gold-ink:#2A1E00; --gold-soft:rgba(255,201,60,.13);
     --warn:#FF9A6E; --warn-soft:rgba(255,154,110,.13);
     --r-rare:#5AA2FF; --r-epic:#B478FF; --r-legendary:#FFA33F; --r-mythic:#FFE05C;
+    --f-rose:#FF7EC0; --f-orange:#FFA65C; --f-rouge:#FF7A6B;
     --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -18px rgba(0,0,0,.9);
     --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 22px 46px -20px rgba(0,0,0,1);
   }
@@ -63,6 +70,7 @@
   --gold:#FFC93C; --gold-ink:#2A1E00; --gold-soft:rgba(255,201,60,.13);
   --warn:#FF9A6E; --warn-soft:rgba(255,154,110,.13);
   --r-rare:#5AA2FF; --r-epic:#B478FF; --r-legendary:#FFA33F; --r-mythic:#FFE05C;
+  --f-rose:#FF7EC0; --f-orange:#FFA65C; --f-rouge:#FF7A6B;
   --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -18px rgba(0,0,0,.9);
   --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 22px 46px -20px rgba(0,0,0,1);
 }
