@@ -2,15 +2,21 @@
   "season": "Chapitre 7 Saison 4 — Override",
   "code": "OVERRIDE",
   "seasonStart": "2026-08-20",
-  "updatedAt": "2026-09-26",
+  "seasonEnd": {
+    "date": "2026-11-01",
+    "time": "02:00",
+    "timeConfirmed": false,
+    "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : le compte a rebours se termine donc au plus tot. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
+  },
+  "updatedAt": "2026-09-27",
   "news": {
-    "version": "2026-09-26-goat2",
-    "title": "Le GOAT prend forme",
-    "date": "26 septembre 2026",
+    "version": "2026-09-27",
+    "title": "Combien de temps il reste",
+    "date": "27 septembre 2026",
     "lines": [
-      "L'esprit maison a son vrai portrait : un personnage dessine, detoure, qui tient sa place a cote de Klombo et de la Couronne.",
-      "Ses quatre variantes reprennent les teintes du jeu — or, vert code, bleu et violet.",
-      "Il reste une fiche maison : elle ne vient pas de Fortnite et le catalogue le dit."
+      "Un compte a rebours sous la barre de progression annonce la fin du passe de combat : le 1er novembre, d'apres la date qu'Epic affiche en jeu.",
+      "L'heure, elle, n'est jamais annoncee a l'avance. Le rebours vise l'horaire de bascule habituel d'Epic, donc il se termine au plus tot : mieux vaut croire qu'il reste moins de temps que trop.",
+      "L'esprit maison Le GOAT a quitte la liste : le total revient a 101 pieces, toutes venant du jeu."
     ]
   },
   "variants": [
@@ -535,30 +541,6 @@
       "released": true,
       "effect": "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier. Au niveau maximum, les eliminations aussi.",
       "source": "Coffres et codes de triche · Taux double pendant la Birthday Power Hour du 26 septembre",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty"
-      ]
-    },
-    {
-      "id": "jody",
-      "name": "Le GOAT",
-      "sub": "Meilleur joueur du monde · auto-proclame",
-      "rarity": "mythic",
-      "released": true,
-      "custom": true,
-      "effect": "Remporte la Victoire Royale des l'atterrissage. Les adversaires deposent les armes d'eux-memes.",
-      "source": "Se debloque lorsqu'on lui laisse ouvrir les coffres TRANQUILLEMENT.",
       "variants": [
         "base",
         "gold",

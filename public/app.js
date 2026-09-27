@@ -350,17 +350,74 @@ function paintAgenda() {
   $("agenda-what").textContent = event.what || "";
 }
 
+/* ------------------------------------------------------------
+   Fin du passe de combat
+   Epic publie le jour, jamais l'heure a l'avance. On vise donc son horaire
+   de bascule habituel : le rebours se termine au plus tot, et se tromper
+   dans ce sens-la est le seul sens acceptable — annoncer du temps qui
+   n'existe plus ferait rater des paliers.
+   ------------------------------------------------------------ */
+function seasonEndAt() {
+  const fin = state.catalogue?.seasonEnd;
+  const zone = state.catalogue?.events?.zone;
+  if (!fin?.date || !zone) return null;
+  const [y, m, d] = fin.date.split("-").map(Number);
+  const [hh, mm] = String(fin.time || "00:00").split(":").map(Number);
+  return { at: instantAt(zone, y, m, d, hh, mm), exact: fin.timeConfirmed === true, note: fin.note || "" };
+}
+
+/* « 12 j », « 2 j 7 h », « 5 h 40 », « 12 min » : la precision monte a mesure
+   que l'echeance approche. Douze jours affiches a la minute ne servent a rien,
+   et la derniere heure comptee en jours non plus. */
+function humanLeft(ms) {
+  const total = Math.max(0, Math.round(ms / 60000));
+  const jours = Math.floor(total / 1440);
+  const heures = Math.floor((total % 1440) / 60);
+  const minutes = total % 60;
+  if (jours >= 7) return `${jours} j`;
+  if (jours >= 1) return heures ? `${jours} j ${heures} h` : `${jours} j`;
+  if (heures >= 1) return `${heures} h ${String(minutes).padStart(2, "0")}`;
+  return `${minutes} min`;
+}
+
+const finDate = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+
+function paintDeadline() {
+  const box = $("deadline");
+  const fin = state.which === "legacy" ? null : seasonEndAt();
+  if (!fin) { box.hidden = true; return; }
+
+  const reste = fin.at - now();
+  box.hidden = false;
+  box.dataset.over = String(reste <= 0);
+  // Sous trois jours, la carte devient un rappel : la teinte change.
+  box.dataset.soon = String(reste > 0 && reste <= 3 * 86400000);
+
+  if (reste <= 0) {
+    $("deadline-v").textContent = "terminee";
+    $("deadline-sub").textContent = "Les paliers non debloques sont perdus.";
+    return;
+  }
+  $("deadline-v").textContent = humanLeft(reste);
+  const jour = ordinal(finDate.format(new Date(fin.at)));
+  $("deadline-sub").textContent = fin.exact
+    ? jour
+    : `${jour} · heure estimee, Epic l'annonce la veille`;
+  $("deadline").title = fin.note;
+}
+
 function startAgenda() {
   clearInterval(agendaTimer);
   paintAgenda();
+  paintDeadline();
   // Une minute suffit : le compte a rebours ne descend jamais sous la minute.
-  agendaTimer = setInterval(paintAgenda, 60000);
+  agendaTimer = setInterval(() => { paintAgenda(); paintDeadline(); }, 60000);
 }
 
 // Un telephone qui dort ne fait pas tourner les minuteurs : au reveil, le
 // compte a rebours affiche serait celui d'hier soir.
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) paintAgenda();
+  if (!document.hidden) { paintAgenda(); paintDeadline(); }
 });
 
 /* ============================================================
@@ -514,13 +571,15 @@ const dayMonth = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long
    donne une date, autant la lire sur la carte. Le format ISO est traite en
    UTC de bout en bout : sans cela, un telephone a l'ouest afficherait la
    veille. */
+/* « 1 octobre » n'existe pas en francais : le premier du mois est ordinal.
+   Le jour est le seul nombre de ces formats, la substitution est sans risque. */
+const ordinal = (texte) => texte.replace(/\b1 (?=\p{L})/u, "1er ");
+
 function soonLabel(sprite) {
   const iso = sprite.releasesOn;
   if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return "A venir";
   const [y, m, d] = iso.split("-").map(Number);
-  // « 1 octobre » n'existe pas en francais : le premier du mois est ordinal.
-  const jour = dayMonth.format(new Date(Date.UTC(y, m - 1, d))).replace(/^1 /, "1er ");
-  return `A venir — ${jour}`;
+  return `A venir — ${ordinal(dayMonth.format(new Date(Date.UTC(y, m - 1, d))))}`;
 }
 
 function buildCards() {

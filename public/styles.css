@@ -1029,3 +1029,27 @@ body{
 .todo-moment-head span{color:var(--ink-3)}
 .todo-moment[data-hot="true"] .todo-moment-head span{color:var(--accent)}
 .todo-moment-line{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+
+/* ------------------------------------------------------------------
+   Fin du passe. Collee sous la barre de progression, dans le meme bloc
+   que les compteurs : « ou j'en suis » et « combien de temps il reste »
+   se lisent ensemble ou ne se lisent pas.
+   ------------------------------------------------------------------ */
+.deadline{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 10px;
+  padding:9px 14px;border-top:1px solid var(--line);background:var(--surface-2);
+}
+.deadline-k{
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.deadline-v{font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.deadline-sub{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);min-width:0}
+/* Trois jours ou moins : la teinte d'alerte, sans crier. */
+.deadline[data-soon="true"]{background:var(--warn-soft)}
+.deadline[data-soon="true"] .deadline-v{color:var(--warn)}
+.deadline[data-over="true"] .deadline-v{color:var(--ink-3);font-weight:500}
+@media (max-width:620px){
+  .deadline{padding:8px 12px;gap:4px 8px}
+  .deadline-sub{flex-basis:100%}
+}

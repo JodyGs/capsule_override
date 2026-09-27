@@ -445,6 +445,26 @@ scripts/make-icons.py         régénère les icônes de l'app (npm run icons)
 scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprite-icons)
 ```
 
+### La fin du passe
+
+Un bandeau sous la barre de progression annonce ce qu'il reste avant la fin du passe de
+combat. Les deux se lisent ensemble : *où j'en suis* et *combien de temps il me reste*.
+
+La précision monte à mesure que l'échéance approche — « 34 j », puis « 3 j 15 h », puis
+« 35 min ». Douze jours comptés à la minute n'aident personne, la dernière heure comptée en
+jours non plus. Sous trois jours, le bandeau passe en teinte d'alerte. Passé l'heure, il
+affiche *terminée* et rappelle que les paliers non débloqués sont perdus : jamais de durée
+négative.
+
+**L'échéance est délibérément pessimiste.** Epic publie le jour — le 1er novembre — mais
+jamais l'heure à l'avance ; elle est annoncée la veille sur `@FortniteStatus`, et le minuteur
+en jeu fait foi. Le compte à rebours vise donc l'horaire de bascule habituel d'Epic, c'est-à-dire
+**le plus tôt des instants plausibles**. Se tromper dans ce sens fait rater une soirée ;
+se tromper dans l'autre fait rater des paliers. Le sous-titre dit que l'heure est estimée.
+
+Tout vit dans `sprites.json`, sous `seasonEnd` : `date`, `time` et `timeConfirmed`. Le jour où
+Epic annonce l'heure, passer `timeConfirmed` à `true` suffit — le sous-titre perd sa réserve.
+
 ### Ajouter un esprit maison
 
 Rien n'empêche d'ajouter une fiche qui ne vient pas du jeu — un esprit pour rire, à son nom.
@@ -552,9 +572,10 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **967 vérifications** qui tournent sans navigateur : les comptes
-publiés (21 esprits jouables, 101 pièces d'Epic plus une fiche maison, 25 esprits et 117 pièces
-en Legacy, 41 codes dont 38 récompenses), l'absence de date périmée dans les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
+Les catalogues ont le leur, **950 vérifications** qui tournent sans navigateur : les comptes
+publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
+38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
+les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les
 trois variantes retirées de Legacy, et surtout le lien entre les données et les fichiers —
