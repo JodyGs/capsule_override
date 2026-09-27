@@ -105,6 +105,19 @@
       </div>
 
       <section class="console" aria-label="Progression">
+        <!-- Avant les compteurs : c'est la premiere chose a savoir en ouvrant
+             l'app, et la seule qui change toute seule. -->
+        <div class="deadline" id="deadline" hidden>
+          <div class="deadline-head">
+            <span class="deadline-k">Fin du passe</span>
+            <span class="deadline-sub" id="deadline-sub"></span>
+          </div>
+          <b class="deadline-v" id="deadline-v"></b>
+          <div class="deadline-track" aria-hidden="true">
+            <span id="deadline-fill"></span>
+          </div>
+          <p class="deadline-note" id="deadline-note"></p>
+        </div>
         <div class="scores">
           <div class="score is-unlocked">
             <span class="score-k">Debloques</span>
@@ -130,13 +143,6 @@
         <div class="bar" aria-hidden="true">
           <span class="seg-m" id="bar-m" style="width:0%"></span>
           <span class="seg-u" id="bar-u" style="width:0%"></span>
-        </div>
-        <!-- Le temps qu'il reste pour finir le passe. Juste sous la barre de
-             progression : les deux repondent a la meme question. -->
-        <div class="deadline" id="deadline" hidden>
-          <span class="deadline-k">Fin du passe</span>
-          <b class="deadline-v" id="deadline-v"></b>
-          <span class="deadline-sub" id="deadline-sub"></span>
         </div>
         <details class="rarity-fold" id="rarity-fold">
           <summary>Detail par rarete</summary>

@@ -1031,25 +1031,44 @@ body{
 .todo-moment-line{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
 
 /* ------------------------------------------------------------------
-   Fin du passe. Collee sous la barre de progression, dans le meme bloc
-   que les compteurs : « ou j'en suis » et « combien de temps il reste »
-   se lisent ensemble ou ne se lisent pas.
+   Fin du passe. En tete de la console, avant les compteurs : c'est la
+   premiere chose a savoir en ouvrant l'app, et la seule qui bouge toute
+   seule. La jauge montre la saison consommee — un nombre qui descend ne
+   dit pas s'il reste beaucoup, une barre qui se remplit le montre.
    ------------------------------------------------------------------ */
 .deadline{
-  display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 10px;
-  padding:9px 14px;border-top:1px solid var(--line);background:var(--surface-2);
+  display:flex;flex-direction:column;gap:7px;
+  padding:13px 16px 14px;border-bottom:1px solid var(--line);
+  background:var(--surface-2);
 }
+.deadline-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
 .deadline-k{
-  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.11em;
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink-3);
 }
-.deadline-v{font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-.deadline-sub{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);min-width:0}
-/* Trois jours ou moins : la teinte d'alerte, sans crier. */
-.deadline[data-soon="true"]{background:var(--warn-soft)}
+.deadline-sub{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2)}
+.deadline-v{
+  font-size:26px;line-height:1;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.deadline-track{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden}
+.deadline-track span{
+  display:block;height:100%;background:var(--accent);
+  transition:width .5s ease, background-color .3s ease;
+}
+.deadline-note{margin:0;font-family:var(--f-mono);font-size:10px;color:var(--ink-3);line-height:1.5}
+
+/* Trois jours ou moins : l'encadre bascule en alerte, sans clignoter. */
+.deadline[data-soon="true"]{
+  background:var(--warn-soft);
+  border-bottom-color:color-mix(in srgb, var(--warn) 40%, var(--line));
+}
 .deadline[data-soon="true"] .deadline-v{color:var(--warn)}
-.deadline[data-over="true"] .deadline-v{color:var(--ink-3);font-weight:500}
+.deadline[data-soon="true"] .deadline-track span{background:var(--warn)}
+/* Passe l'echeance, plus rien a courir : l'encadre s'eteint. */
+.deadline[data-over="true"] .deadline-v{font-size:18px;color:var(--ink-3);font-weight:500}
+.deadline[data-over="true"] .deadline-track span{background:var(--ink-3)}
 @media (max-width:620px){
-  .deadline{padding:8px 12px;gap:4px 8px}
-  .deadline-sub{flex-basis:100%}
+  .deadline{padding:11px 13px 12px}
+  .deadline-v{font-size:23px}
 }

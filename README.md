@@ -447,14 +447,18 @@ scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprit
 
 ### La fin du passe
 
-Un bandeau sous la barre de progression annonce ce qu'il reste avant la fin du passe de
-combat. Les deux se lisent ensemble : *où j'en suis* et *combien de temps il me reste*.
+Un encadré **au-dessus des compteurs** annonce ce qu'il reste avant la fin du passe de combat.
+C'est la première chose à savoir en ouvrant l'app, et la seule qui change toute seule.
+
+Une **jauge** y montre la saison consommée. Un nombre qui descend ne dit pas s'il reste
+beaucoup ou peu — « 34 j » ne veut rien dire sans savoir que la saison en fait 73 ; une barre
+qui se remplit le montre d'un coup d'œil.
 
 La précision monte à mesure que l'échéance approche — « 34 j », puis « 3 j 15 h », puis
 « 35 min ». Douze jours comptés à la minute n'aident personne, la dernière heure comptée en
-jours non plus. Sous trois jours, le bandeau passe en teinte d'alerte. Passé l'heure, il
-affiche *terminée* et rappelle que les paliers non débloqués sont perdus : jamais de durée
-négative.
+jours non plus. Sous trois jours, l'encadré passe en teinte d'alerte. Passé l'heure, il
+s'éteint — *Saison terminée*, en plus petit, et le rappel que les paliers non débloqués sont
+perdus. Jamais de durée négative, jamais de jauge au-delà de 100 %.
 
 **L'échéance est délibérément pessimiste.** Epic publie le jour — le 1er novembre — mais
 jamais l'heure à l'avance ; elle est annoncée la veille sur `@FortniteStatus`, et le minuteur
@@ -498,6 +502,17 @@ timeout suffisait à retirer un esprit de la collection de tout le monde — c'e
 l'esprit Poisson de Legacy, rattrapé avant publication. Il ne demande **que les variantes que
 le catalogue déclare** : la wiki sert des fichiers pour des variantes qui n'existent pas en jeu, et c'est
 exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
+
+### L'ordre de la grille
+
+Les esprits sont rangés **par rareté croissante** — les Rares, puis les Épiques, les
+Légendaires et les Mythiques — comme le jeu regroupe sa collection. L'ordre vient du tableau
+`rarities` du catalogue : le ranger autrement range la grille autrement, sans toucher au code.
+
+Une réserve honnête : **aucune source ne documente l'ordre exact de l'écran de Fortnite**. Le
+regroupement par rareté est celui que donnent les relevés qui détaillent la liste, et c'est la
+meilleure approximation défendable. Le tri est stable, donc à rareté égale l'ordre de sortie
+est conservé.
 
 **Le catalogue ne compte que des esprits sortis.** Un esprit entre dans la liste dès qu'Epic
 a annoncé **une date** — sa carte l'affiche alors en clair, « À venir — 26 septembre » — mais

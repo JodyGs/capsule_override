@@ -387,23 +387,36 @@ function paintDeadline() {
   const fin = state.which === "legacy" ? null : seasonEndAt();
   if (!fin) { box.hidden = true; return; }
 
-  const reste = fin.at - now();
+  const t = now();
+  const reste = fin.at - t;
   box.hidden = false;
   box.dataset.over = String(reste <= 0);
-  // Sous trois jours, la carte devient un rappel : la teinte change.
+  // Sous trois jours, l'encadre passe en teinte d'alerte.
   box.dataset.soon = String(reste > 0 && reste <= 3 * 86400000);
 
+  // La jauge montre la saison consommee : un chiffre qui descend ne dit pas
+  // s'il reste beaucoup ou peu, une barre qui se remplit le montre.
+  const debut = state.catalogue?.seasonStart;
+  let part = 1;
+  if (debut && reste > 0) {
+    const [y, m, d] = debut.split("-").map(Number);
+    const zone = state.catalogue.events.zone;
+    const depart = instantAt(zone, y, m, d, 0, 0);
+    part = Math.min(1, Math.max(0, (t - depart) / (fin.at - depart)));
+  }
+  $("deadline-fill").style.width = `${Math.round(part * 100)}%`;
+
   if (reste <= 0) {
-    $("deadline-v").textContent = "terminee";
-    $("deadline-sub").textContent = "Les paliers non debloques sont perdus.";
+    $("deadline-v").textContent = "Saison terminee";
+    $("deadline-sub").textContent = "";
+    $("deadline-note").textContent = "Les paliers non debloques sont perdus.";
     return;
   }
   $("deadline-v").textContent = humanLeft(reste);
-  const jour = ordinal(finDate.format(new Date(fin.at)));
-  $("deadline-sub").textContent = fin.exact
-    ? jour
-    : `${jour} · heure estimee, Epic l'annonce la veille`;
-  $("deadline").title = fin.note;
+  $("deadline-sub").textContent = ordinal(finDate.format(new Date(fin.at)));
+  $("deadline-note").textContent = fin.exact
+    ? "Horaire confirme par Epic."
+    : "Heure estimee : Epic publie le jour, pas l'heure. Le minuteur en jeu fait foi.";
 }
 
 function startAgenda() {
@@ -2253,7 +2266,14 @@ async function loadCollection(which, { remember = true } = {}) {
   // trou dans la grille. Le tri est stable, donc l'ordre choisi dans le
   // catalogue survit a l'interieur de chaque groupe — et il ne depend plus
   // de l'endroit ou une nouvelle fiche a ete collee dans le JSON.
-  state.catalogue.sprites.sort((a, b) => Number(!!b.released) - Number(!!a.released));
+  // Puis par rarete croissante, comme le jeu regroupe sa collection. Personne
+  // ne documente l'ordre exact de l'ecran de Fortnite ; le regroupement par
+  // rarete est celui que donnent les releves qui detaillent la liste, et le
+  // tri est stable, donc l'ordre de sortie survit a l'interieur d'un palier.
+  const rang = new Map(state.catalogue.rarities.map((r, i) => [r.id, i]));
+  const paliers = (s) => (rang.has(s.rarity) ? rang.get(s.rarity) : rang.size);
+  state.catalogue.sprites.sort((a, b) =>
+    Number(!!b.released) - Number(!!a.released) || paliers(a) - paliers(b));
   state.live = state.catalogue.sprites.filter((x) => x.released);
   state.denom = countPieces();
   state.entries = readStore();
