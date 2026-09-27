@@ -10,13 +10,14 @@
   },
   "updatedAt": "2026-09-27",
   "news": {
-    "version": "2026-09-27-family4",
+    "version": "2026-09-27-family5",
     "title": "Une troisieme liste",
     "date": "27 septembre 2026",
     "lines": [
       "Le bouton en haut a droite tourne maintenant sur trois collections : la saison en cours, Legacy, et Family.",
       "Family est une galerie, pas une collection : six esprits maison qu'on regarde sans les cocher. Ni compteurs, ni filtres, ni stockage — rien n'y est enregistre et rien n'en sort.",
-      "Chaque fiche porte le nom de son esprit — Esprit du Miskine, du Ragequit, de l'Administratif — et le prenom passe en sous-titre. Toutes sont mythiques : la couleur n'y classe plus rien, elle identifie."
+      "Chaque fiche porte le nom de son esprit — Esprit du Miskine, du Ragequit, de l'Administratif — et le prenom passe en sous-titre. Toutes sont mythiques : la couleur n'y classe plus rien, elle identifie.",
+      "La galerie s'exporte comme les autres : le bouton Exporter produit une image des six fiches, sans compteurs ni cases puisqu'il n'y en a pas."
     ]
   },
   "variants": [

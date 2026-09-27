@@ -149,8 +149,14 @@ n'a **pas de clé de stockage du tout**. `readStore` rend un objet vide, `setSta
 reprise d'anciennes sauvegardes irait piocher dans celles de la saison en cours.
 
 Ce qui disparaît avec elle : les cases à cocher et le tableau des variantes, les compteurs, la
-barre de progression, le compte à rebours, les filtres, le bandeau des rendez-vous et l'état
-de sauvegarde. Aucun de ces éléments n'aurait de prise sur une galerie. Il reste les fiches.
+barre de progression, le compte à rebours, la recherche, les filtres, la bascule cartes/liste,
+le bandeau des rendez-vous et l'état de sauvegarde. Aucun n'aurait de prise sur une galerie.
+
+**Le bouton Exporter reste**, lui. L'image se construit sans score, sans barre, sans colonnes
+de variantes et sans la légende des coches — il n'y a rien à légender —, garde le liseré teinté
+de chaque fiche et termine sur *« Galerie : ces esprits n'existent pas dans Fortnite. »*
+L'en-tête est plus courte d'autant, et le nom du fichier porte la collection
+(`capsule-override-jodygs-family-2026-09-27.png`).
 
 Le bouton en haut à droite **tourne** sur les trois collections au lieu de basculer entre deux,
 et affiche toujours le nom de la suivante. `CYCLE` est simplement l'ordre des clés de
@@ -628,7 +634,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **996 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1001 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

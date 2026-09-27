@@ -1014,6 +1014,12 @@ function palette() {
       legendary: read("--r-legendary", "#FFA33F"),
       mythic: read("--r-mythic", "#FFE05C"),
       unknown: read("--ink-3", "#7C7398")
+    },
+    // Les teintes de la galerie : une fiche peut imposer sa couleur.
+    tint: {
+      rose: read("--f-rose", "#FF7EC0"),
+      orange: read("--f-orange", "#FFA65C"),
+      rouge: read("--f-rouge", "#FF7A6B")
     }
   };
 }
@@ -1057,19 +1063,25 @@ async function renderCollectionImage() {
   const pathStar = new Path2D(GLYPH_STAR);
 
   const c = palette();
+  const galerie = readOnly();
   const rows = state.live;
   // Seules les lignes de variantes reellement presentes dans la collection.
+  // Une galerie n'en a aucune a montrer : rien n'y est coche.
   const used = new Set(rows.flatMap((sprite) => variantsOf(sprite).map((v) => v.id)));
-  const variants = state.catalogue.variants.filter((v) => used.has(v.id));
+  const variants = galerie ? [] : state.catalogue.variants.filter((v) => used.has(v.id));
   const icons = await loadSpriteIcons(rows);
 
   const PAD = 40;
   const COL = 66;
   // L'image s'elargit avec le nombre de colonnes plutot que de les comprimer.
   const W = Math.max(900, 420 + variants.length * COL + PAD * 2);
-  const HEAD = 292;
+  // Sans score ni barre de progression, l'entete d'une galerie est plus courte.
+  const HEAD = galerie ? 172 : 292;
   const ROW = 64;
-  const FOOT = 92;
+  // La note sur les cases vides passe a la ligne : depuis la cinquieme ligne
+  // de variantes, elle debordait du cadre et se retrouvait coupee.
+  const NOTE_LIGNE = variants.length > 1;
+  const FOOT = NOTE_LIGNE ? 116 : 92;
   const H = HEAD + rows.length * ROW + FOOT;
 
   // Deux fois la taille : l'image reste nette une fois reduite par la messagerie.
@@ -1121,6 +1133,7 @@ async function renderCollectionImage() {
 
   /* --- score --- */
   const { unlocked, mastered, denom, pct } = tally();
+  if (!galerie) {
 
   // Deux chiffres de meme rang : ce qui est acquis, et ce qui est maitrise.
   const masteredText = `${mastered}/${denom}`;
@@ -1164,6 +1177,7 @@ async function renderCollectionImage() {
     roundRect(ctx, PAD + (barW * mastered) / denom, barY, (barW * (unlocked - mastered)) / denom, barH, 4);
     ctx.fill();
   }
+  }
 
   /* --- colonnes --- */
   const colX = variants.map((_, i) => W - PAD - 33 - (variants.length - 1 - i) * COL);
@@ -1185,8 +1199,9 @@ async function renderCollectionImage() {
     roundRect(ctx, PAD, y + 5, W - PAD * 2, ROW - 10, 8);
     ctx.fill();
 
-    // Liseré de rareté
-    ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+    // Lisere : la teinte de la fiche si elle en impose une, sinon sa rarete.
+    const teinte = c.tint[sprite.tint] || c.rarity[sprite.rarity] || c.ink3;
+    ctx.fillStyle = teinte;
     roundRect(ctx, PAD, y + 13, 3, ROW - 26, 2);
     ctx.fill();
 
@@ -1197,12 +1212,12 @@ async function renderCollectionImage() {
     if (icon) {
       ctx.drawImage(icon, iconX, iconY, iconSize, iconSize);
     } else {
-      ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+      ctx.fillStyle = teinte;
       ctx.globalAlpha = 0.16;
       roundRect(ctx, iconX, iconY, iconSize, iconSize, 10);
       ctx.fill();
       ctx.globalAlpha = 1;
-      ctx.fillStyle = c.rarity[sprite.rarity] || c.ink3;
+      ctx.fillStyle = teinte;
       ctx.font = display(23, 700);
       ctx.textAlign = "center";
       ctx.fillText(sprite.name.trim()[0] || "?", iconX + iconSize / 2, iconY + iconSize / 2 + 8);
@@ -1217,7 +1232,8 @@ async function renderCollectionImage() {
     ctx.fillStyle = c.ink3;
     ctx.font = mono(11);
     const rarity = (state.catalogue.rarities.find((r) => r.id === sprite.rarity)?.label || "").toUpperCase();
-    ctx.fillText(complete ? `${rarity} · COMPLET` : rarity, textX, y + 50);
+    const sousTitre = galerie ? String(sprite.sub || "").toUpperCase() : rarity;
+    ctx.fillText(complete ? `${rarity} · COMPLET` : sousTitre, textX, y + 50);
 
     const own = new Set(variantsOf(sprite).map((v) => v.id));
     variants.forEach((v, k) => {
@@ -1239,13 +1255,19 @@ async function renderCollectionImage() {
   ctx.fillStyle = c.line;
   ctx.fillRect(PAD, footY - 18, W - PAD * 2, 1);
 
-  glyph(ctx, pathCheck, PAD, footY - 6, 18, { stroke: c.accent, width: 3 });
-  ctx.fillStyle = c.ink2;
-  ctx.font = mono(12);
-  ctx.fillText("debloque", PAD + 24, footY + 8);
+  if (galerie) {
+    ctx.fillStyle = c.ink2;
+    ctx.font = mono(12);
+    ctx.fillText("Galerie : ces esprits n'existent pas dans Fortnite.", PAD, footY + 8);
+  } else {
+    glyph(ctx, pathCheck, PAD, footY - 6, 18, { stroke: c.accent, width: 3 });
+    ctx.fillStyle = c.ink2;
+    ctx.font = mono(12);
+    ctx.fillText("debloque", PAD + 24, footY + 8);
 
-  glyph(ctx, pathStar, PAD + 110, footY - 6, 18, { fill: c.gold });
-  ctx.fillText("maitrise (extrait au niveau 5)", PAD + 134, footY + 8);
+    glyph(ctx, pathStar, PAD + 110, footY - 6, 18, { fill: c.gold });
+    ctx.fillText("maitrise (extrait au niveau 5)", PAD + 134, footY + 8);
+  }
 
   if (variants.length > 1) {
     ctx.fillStyle = c.line;
@@ -1254,7 +1276,7 @@ async function renderCollectionImage() {
     ctx.fillStyle = c.ink2;
     ctx.fillText("pas encore obtenu", PAD + 424, footY + 8);
     ctx.fillStyle = c.ink3;
-    ctx.fillText("case vide = cette variante n'existe pas pour cet esprit", PAD + 590, footY + 8);
+    ctx.fillText("case vide = cette variante n'existe pas pour cet esprit", PAD, footY + 30);
   }
 
   ctx.fillStyle = c.ink3;
@@ -1313,6 +1335,7 @@ function shareTitle() {
 /* Le message pre-rempli dans WhatsApp, Messages, Discord… Volontairement
    court : les chiffres sont deja sur l'image, les repeter ici ferait doublon. */
 function shareText() {
+  if (readOnly()) return "La galerie Family — des esprits qui n'existent pas dans Fortnite.";
   const player = readPlayer();
   return player
     ? `${player} — ma collection d'esprits ${collectionWord()}.`
@@ -1380,7 +1403,7 @@ $("btn-export").addEventListener("click", async (e) => {
     const blob = await renderCollectionImage();
     const stamp = new Date().toISOString().slice(0, 10);
     const who = shareSlug() ? `-${shareSlug()}` : "";
-    const suffix = state.which === "legacy" ? "-legacy" : "";
+    const suffix = state.which === "current" ? "" : `-${state.which}`;
     const outcome = await shareImage(blob, `capsule-override${who}${suffix}-${stamp}.png`);
 
     if (outcome === "shared") $("account").close();
@@ -2308,8 +2331,17 @@ async function loadCollection(which, { remember = true } = {}) {
   // Rien a compter dans une galerie : les compteurs, la barre de progression
   // et les filtres n'auraient aucune prise, et l'etat de sauvegarde non plus.
   $("console").hidden = galerie;
-  $("controls").hidden = galerie;
   $("sync").hidden = galerie;
+  // La barre reste, mais videe de ce qui n'a plus de prise : chercher parmi
+  // six fiches, les filtrer par statut ou basculer en vue compacte n'apporte
+  // rien. Le bouton Exporter, lui, sert toujours.
+  $("search-box").hidden = galerie;
+  $("view-seg").hidden = galerie;
+  $("btn-filters").hidden = galerie;
+  $("filter-panel").hidden = galerie || $("btn-filters").getAttribute("aria-expanded") !== "true";
+  $("btn-export").title = galerie
+    ? "Generer une image de la galerie et la partager"
+    : "Generer une image de ma liste et la partager";
 
   // Le bouton tourne sur les trois collections et annonce la suivante.
   const suivante = CYCLE[(CYCLE.indexOf(which) + 1) % CYCLE.length];

@@ -1,5 +1,5 @@
 {
-  "season": "Family",
+  "season": "Les esprits de la famille",
   "code": "FAMILY",
   "readOnly": true,
   "updatedAt": "2026-09-27",
@@ -34,7 +34,7 @@
     "gaby",
     "nelson",
     "emilie",
-    "cyber"
+    "jody"
   ],
   "sprites": [
     {
@@ -108,16 +108,16 @@
       "tint": "rouge"
     },
     {
-      "id": "cyber",
+      "id": "jody",
       "name": "Esprit du Developpeur",
-      "sub": "Cyber",
+      "sub": "Jody",
       "rarity": "mythic",
       "released": true,
       "icon": true,
       "variants": [
         "base"
       ],
-      "effect": "Ne ramasse rien : il construit. C'est lui qui tient cette app, ajoute chaque esprit le jour de sa sortie et refait les comptes quand Epic change les regles en pleine saison.",
+      "effect": "Ne ramasse rien : il construit. C'est lui qui tient cette app, ajoute chaque esprit le jour de sa sortie et refait les comptes quand Epic change les regles en pleine saison. Jamais bien loin non plus quand il s'agit d'embeter ses coequipiers.",
       "source": "Ne se trouve pas en partie : il est deja dans le code. Se deploie tout seul a la mise a jour suivante, pendant que les autres fouillent des coffres.",
       "tint": "rouge"
     }
