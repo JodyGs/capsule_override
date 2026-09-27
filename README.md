@@ -505,14 +505,21 @@ exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 
 ### L'ordre de la grille
 
-Les esprits sont rangés **par rareté croissante** — les Rares, puis les Épiques, les
-Légendaires et les Mythiques — comme le jeu regroupe sa collection. L'ordre vient du tableau
-`rarities` du catalogue : le ranger autrement range la grille autrement, sans toucher au code.
+Les esprits sont rangés dans **l'ordre de l'écran de collection du jeu**, relevé à la main dans
+Fortnite et recopié tel quel dans le tableau `order` de `sprites.json` : Jonesy, Aventure,
+Broussaille, Sonic… jusqu'à Morgana.
 
-Une réserve honnête : **aucune source ne documente l'ordre exact de l'écran de Fortnite**. Le
-regroupement par rareté est celui que donnent les relevés qui détaillent la liste, et c'est la
-meilleure approximation défendable. Le tri est stable, donc à rareté égale l'ordre de sortie
-est conservé.
+Ce n'est ni la rareté, ni l'ordre de sortie, ni l'alphabétique — c'est un ordre qu'Epic ne
+publie nulle part et qu'aucune règle ne reconstitue. J'avais d'abord groupé par rareté faute de
+mieux ; la liste dictée depuis le jeu a remplacé l'approximation. **Une liste recopiée vaut
+mieux qu'une règle devinée.**
+
+Un esprit absent de `order` — une sortie du jour, une fiche maison — se range **à la fin** sans
+déranger le reste, et le tri reste stable. Quatre tests gardent la liste honnête : pas de
+doublon, pas de nom inconnu, aucun esprit oublié, et la grille rendue identique à la liste.
+
+Deux noms viennent aussi du jeu plutôt que de ma traduction : **Broussaille** (et non Buisson)
+et **Étang** (et non Mare).
 
 **Le catalogue ne compte que des esprits sortis.** Un esprit entre dans la liste dès qu'Epic
 a annoncé **une date** — sa carte l'affiche alors en clair, « À venir — 26 septembre » — mais

@@ -2266,14 +2266,14 @@ async function loadCollection(which, { remember = true } = {}) {
   // trou dans la grille. Le tri est stable, donc l'ordre choisi dans le
   // catalogue survit a l'interieur de chaque groupe — et il ne depend plus
   // de l'endroit ou une nouvelle fiche a ete collee dans le JSON.
-  // Puis par rarete croissante, comme le jeu regroupe sa collection. Personne
-  // ne documente l'ordre exact de l'ecran de Fortnite ; le regroupement par
-  // rarete est celui que donnent les releves qui detaillent la liste, et le
-  // tri est stable, donc l'ordre de sortie survit a l'interieur d'un palier.
-  const rang = new Map(state.catalogue.rarities.map((r, i) => [r.id, i]));
-  const paliers = (s) => (rang.has(s.rarity) ? rang.get(s.rarity) : rang.size);
+  // Puis dans l'ordre de l'ecran de collection du jeu. Aucune source publique
+  // ne le documente : il est recopie tel quel dans « order » plutot que
+  // devine. Un esprit absent de la liste — une sortie du jour, une fiche
+  // maison — se range a la fin sans casser le reste, et le tri reste stable.
+  const rang = new Map((state.catalogue.order || []).map((id, i) => [id, i]));
+  const place = (s) => (rang.has(s.id) ? rang.get(s.id) : rang.size);
   state.catalogue.sprites.sort((a, b) =>
-    Number(!!b.released) - Number(!!a.released) || paliers(a) - paliers(b));
+    Number(!!b.released) - Number(!!a.released) || place(a) - place(b));
   state.live = state.catalogue.sprites.filter((x) => x.released);
   state.denom = countPieces();
   state.entries = readStore();

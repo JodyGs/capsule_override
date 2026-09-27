@@ -10,13 +10,13 @@
   },
   "updatedAt": "2026-09-27",
   "news": {
-    "version": "2026-09-27-b",
-    "title": "Le temps restant, en tete",
+    "version": "2026-09-27-c",
+    "title": "L'ordre du jeu",
     "date": "27 septembre 2026",
     "lines": [
-      "Le compte a rebours de fin de passe passe au-dessus des compteurs, dans un encadre a lui. Une jauge y montre la saison consommee : un nombre qui descend ne dit pas s'il reste beaucoup, une barre qui se remplit le montre.",
-      "Sous trois jours il bascule en teinte d'alerte, et une fois la saison finie il s'eteint au lieu de compter dans le vide.",
-      "Les esprits sont desormais ranges par rarete croissante, comme le jeu regroupe sa collection : les Rares, puis les Epiques, les Legendaires et les Mythiques."
+      "La grille suit maintenant l'ordre exact de votre ecran de collection en jeu, releve a la main : Jonesy, Aventure, Broussaille, Sonic, et ainsi de suite jusqu'a Morgana. Aucune source publique ne le documente, il est donc recopie plutot que devine.",
+      "Deux esprits changent de nom pour coller au jeu : Buisson devient Broussaille, et Mare devient Etang.",
+      "Un esprit qui ne figure pas encore dans cette liste — une sortie du jour — se range a la fin sans deranger le reste."
     ]
   },
   "variants": [
@@ -74,6 +74,29 @@
       "label": "A confirmer"
     }
   ],
+  "order": [
+    "jonesy",
+    "adventure",
+    "bush",
+    "sonic",
+    "tails",
+    "shadow",
+    "8bit",
+    "jackrabbit",
+    "crown",
+    "killswitch",
+    "klombo",
+    "megaman",
+    "overshield",
+    "pond",
+    "xray",
+    "onigiri",
+    "stormscout",
+    "blinky",
+    "birthday",
+    "crash",
+    "morgana"
+  ],
   "sprites": [
     {
       "id": "jonesy",
@@ -100,7 +123,7 @@
     },
     {
       "id": "bush",
-      "name": "Buisson",
+      "name": "Broussaille",
       "sub": "Bush Sprite",
       "rarity": "rare",
       "released": true,
@@ -486,7 +509,7 @@
     },
     {
       "id": "pond",
-      "name": "Mare",
+      "name": "Etang",
       "sub": "Pond Sprite · par Pine & Kiri",
       "rarity": "rare",
       "released": true,
@@ -597,5 +620,6 @@
         "advice": "Le taux des variantes remonte pendant deux heures : c'est le meilleur moment pour celles qui vous manquent."
       }
     ]
-  }
+  },
+  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est donc recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin."
 }
