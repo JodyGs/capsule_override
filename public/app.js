@@ -6,12 +6,17 @@
 
 const $ = (id) => document.getElementById(id);
 
-/* Deux collections, chacune avec son catalogue et son propre stockage.
-   Rien n'est partage entre elles : ni les coches, ni les compteurs, ni l'export. */
+/* Trois collections, chacune avec son catalogue. Rien n'est partage entre
+   elles : ni les coches, ni les compteurs, ni l'export. « Family » n'a pas
+   de stockage du tout : c'est une galerie, on n'y coche rien. L'ordre du
+   tableau est celui du bouton, qui tourne. */
 const COLLECTIONS = {
-  current: { file: "sprites.json",        store: "capsule-override.store.v4",   label: "Saison en cours" },
-  legacy:  { file: "sprites-legacy.json", store: "capsule-override.legacy.v1",  label: "Saisons passees" }
+  current: { file: "sprites.json",        store: "capsule-override.store.v4",  label: "Saison en cours", icons: "sprites" },
+  legacy:  { file: "sprites-legacy.json", store: "capsule-override.legacy.v1", label: "Legacy",          icons: "sprites" },
+  family:  { file: "sprites-family.json", store: null,                         label: "Family",          icons: "family" }
 };
+const CYCLE = Object.keys(COLLECTIONS);
+const readOnly = () => COLLECTIONS[state.which].store === null;
 
 const K_COLLECTION = "capsule-override.collection";
 const K_THEME = "capsule-override.theme";
@@ -34,7 +39,7 @@ const state = {
 };
 
 const catalogueCache = new Map();
-const storeKey = () => COLLECTIONS[state.which].store;
+const storeKey = () => COLLECTIONS[state.which].store;   // null pour une galerie
 
 const cards = new Map();
 const now = () => Date.now();
@@ -437,6 +442,10 @@ document.addEventListener("visibilitychange", () => {
    Stockage
    ============================================================ */
 function readStore() {
+  // Une galerie n'a pas de coches : ni a lire, ni a reprendre d'une
+  // ancienne sauvegarde. Sans ce retour, storeKey() vaudrait null et la
+  // reprise irait piocher dans les sauvegardes de la saison en cours.
+  if (readOnly()) return {};
   try {
     const raw = localStorage.getItem(storeKey());
     if (raw) {
@@ -470,6 +479,7 @@ function readStore() {
 
 let saveTimer = null;
 function saveStore({ immediate = false } = {}) {
+  if (readOnly()) return;
   const write = () => {
     try {
       localStorage.setItem(storeKey(), JSON.stringify({ v: 4, updatedAt: now(), entries: state.entries }));
@@ -500,6 +510,7 @@ function countPieces() {
 }
 
 function setStatus(spriteId, variant, value) {
+  if (readOnly()) return;
   const slot = (state.entries[spriteId] ||= {});
   if (value) slot[variant] = value;
   else delete slot[variant];
@@ -548,7 +559,7 @@ const rarityToken = (id) => ({
 const rarityLabel = (id) =>
   state.catalogue.rarities.find((r) => r.id === id)?.label || id;
 
-const iconUrl = (sprite) => `icons/sprites/${sprite.id}.png`;
+const iconUrl = (sprite) => `icons/${COLLECTIONS[state.which].icons}/${sprite.id}.png`;
 const variantIconUrl = (sprite, variant) => `icons/variants/${sprite.id}-${variant}.png`;
 
 /* Chaque variante a sa propre illustration : la statue doree pour Or, la
@@ -609,7 +620,8 @@ function buildCards() {
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
     if (!sprite.released) tags += `<span class="tag soon">${esc(soonLabel(sprite))}</span>`;
 
-    const rows = variantsOf(sprite).map((v) => `
+    // Dans une galerie, la carte s'arrete a la fiche : pas de cases.
+    const rows = readOnly() ? "" : variantsOf(sprite).map((v) => `
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}" data-variant="${v.id}">
         <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}>${variantMarkAt(sprite, v)}${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
@@ -629,14 +641,14 @@ function buildCards() {
       </div>
       <p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>
       <div class="src"><b>Source</b><span>${esc(sprite.source)}</span></div>
-      <div class="vt">
+      ${rows ? `<div class="vt">
         <div class="vt-head">
           <span>Variante</span>
           <span class="vt-key t-u" title="Debloque"><span class="vt-glyph">${ICON_U}</span><em>Deb.</em></span>
           <span class="vt-key t-m" title="Maitrise au niveau 5"><span class="vt-glyph">${ICON_M}</span><em>Mai.</em></span>
         </div>
         ${rows}
-      </div>`;
+      </div>` : ""}`;
 
     cards.set(sprite.id, card);
     grid.appendChild(card);
@@ -2120,9 +2132,10 @@ function buildTodo() {
 
 function refreshTodoBadge() {
   const strip = $("strip");
-  const legacy = state.which === "legacy";
-  strip.hidden = legacy;
-  if (legacy) return;
+  // Les rendez-vous et le plan ne valent que pour la saison en cours.
+  const hors = state.which !== "current";
+  strip.hidden = hors;
+  if (hors) return;
   // Le compteur annonce ce qui s'obtient sans jouer : c'est le seul chiffre
   // sur lequel on peut agir dans la minute.
   const free = codesData ? todoPlan().lobby.length : 0;
@@ -2279,12 +2292,25 @@ async function loadCollection(which, { remember = true } = {}) {
   state.entries = readStore();
 
   const legacy = which === "legacy";
+  const galerie = readOnly();
   document.body.classList.toggle("is-legacy", legacy);
-  $("legacy-banner").hidden = !legacy;
+  document.body.classList.toggle("is-gallery", galerie);
+  $("legacy-banner").hidden = !legacy && !galerie;
   $("legacy-note").textContent = state.catalogue.variantsNote || "";
-  $("btn-legacy").setAttribute("aria-pressed", String(legacy));
-  const swap = legacy ? "Revenir a la saison en cours" : "Voir les esprits des saisons passees";
-  $("btn-legacy-label").textContent = legacy ? "Saison en cours" : "Legacy";
+  $("gallery-note").hidden = !galerie;
+  $("gallery-note").textContent = galerie ? state.catalogue.note || "" : "";
+  $("legacy-text").hidden = galerie;
+  // Rien a compter dans une galerie : les compteurs, la barre de progression
+  // et les filtres n'auraient aucune prise, et l'etat de sauvegarde non plus.
+  $("console").hidden = galerie;
+  $("controls").hidden = galerie;
+  $("sync").hidden = galerie;
+
+  // Le bouton tourne sur les trois collections et annonce la suivante.
+  const suivante = CYCLE[(CYCLE.indexOf(which) + 1) % CYCLE.length];
+  $("btn-legacy").setAttribute("aria-pressed", String(which !== "current"));
+  $("btn-legacy-label").textContent = COLLECTIONS[suivante].label;
+  const swap = `Voir : ${COLLECTIONS[suivante].label}`;
   $("btn-legacy").title = swap;
   $("btn-legacy").setAttribute("aria-label", swap);
   $("season-label").textContent = `Fortnite · ${state.catalogue.season}`;
@@ -2314,8 +2340,9 @@ async function loadCollection(which, { remember = true } = {}) {
 }
 
 $("btn-legacy").addEventListener("click", () => {
-  loadCollection(state.which === "legacy" ? "current" : "legacy").catch(() => {
-    notify("Le catalogue des saisons passees n'a pas pu etre charge.");
+  const suivante = CYCLE[(CYCLE.indexOf(state.which) + 1) % CYCLE.length];
+  loadCollection(suivante).catch(() => {
+    notify(`Le catalogue « ${COLLECTIONS[suivante].label} » n'a pas pu etre charge.`);
   });
 });
 
@@ -2373,7 +2400,10 @@ async function boot() {
   applyTheme(theme, { persist: false });
 
   let start = "current";
-  try { start = localStorage.getItem(K_COLLECTION) === "legacy" ? "legacy" : "current"; } catch { /* ignore */ }
+  try {
+    const garde = localStorage.getItem(K_COLLECTION);
+    if (garde && Object.hasOwn(COLLECTIONS, garde)) start = garde;
+  } catch { /* ignore */ }
 
   try {
     await loadCollection(start, { remember: false });

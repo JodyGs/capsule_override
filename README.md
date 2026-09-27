@@ -138,6 +138,30 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 
 ---
 
+## Family : une galerie, pas une collection
+
+Une troisième liste, en plus de la saison en cours et de Legacy. Six esprits maison — Angelo,
+Marion, Gaby, Nelson, Émilie et Cyber — qui n'existent nulle part dans Fortnite.
+
+Elle est **en lecture seule**, et ce n'est pas qu'une question d'affichage : `COLLECTIONS.family`
+n'a **pas de clé de stockage du tout**. `readStore` rend un objet vide, `setStatus` et
+`saveStore` sortent immédiatement. Sans ce garde-fou, `storeKey()` vaudrait `null` et la
+reprise d'anciennes sauvegardes irait piocher dans celles de la saison en cours.
+
+Ce qui disparaît avec elle : les cases à cocher et le tableau des variantes, les compteurs, la
+barre de progression, le compte à rebours, les filtres, le bandeau des rendez-vous et l'état
+de sauvegarde. Aucun de ces éléments n'aurait de prise sur une galerie. Il reste les fiches.
+
+Le bouton en haut à droite **tourne** sur les trois collections au lieu de basculer entre deux,
+et affiche toujours le nom de la suivante. `CYCLE` est simplement l'ordre des clés de
+`COLLECTIONS`.
+
+Les illustrations vivent dans `public/icons/family/`, pas dans `icons/sprites/` : le dossier
+est déclaré par collection, ce qui évite qu'une fiche maison et un esprit du jeu se disputent
+un nom de fichier.
+
+---
+
 ## Legacy : les saisons passées
 
 Le bouton **Legacy**, à côté de Réglages, bascule sur le catalogue des saisons terminées —
@@ -594,7 +618,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **950 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **990 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

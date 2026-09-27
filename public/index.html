@@ -97,14 +97,17 @@
       <p class="lede"><b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5. <span class="lede-more">Variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</span></p>
 
       <div class="legacy-banner" id="legacy-banner" hidden>
-        <p><strong>Saison passee.</strong> Ces esprits ne se ramassent plus en partie : ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits. Cette collection est <strong>totalement independante</strong> de la saison en cours — coches, compteurs et export separes.</p>
-        <details class="legacy-why">
-          <summary>Pourquoi 25 esprits et pas 117 ?</summary>
-          <p class="form-note" id="legacy-note"></p>
-        </details>
+        <div id="legacy-text">
+          <p><strong>Saison passee.</strong> Ces esprits ne se ramassent plus en partie : ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits. Cette collection est <strong>totalement independante</strong> de la saison en cours — coches, compteurs et export separes.</p>
+          <details class="legacy-why">
+            <summary>Pourquoi 25 esprits et pas 117 ?</summary>
+            <p class="form-note" id="legacy-note"></p>
+          </details>
+        </div>
+        <p id="gallery-note" hidden></p>
       </div>
 
-      <section class="console" aria-label="Progression">
+      <section class="console" id="console" aria-label="Progression">
         <!-- Avant les compteurs : c'est la premiere chose a savoir en ouvrant
              l'app, et la seule qui change toute seule. -->
         <div class="deadline" id="deadline" hidden>
@@ -169,7 +172,7 @@
       </div>
     </header>
 
-    <div class="controls">
+    <div class="controls" id="controls">
       <div class="controls-bar">
         <label class="search">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
