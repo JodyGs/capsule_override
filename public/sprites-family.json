@@ -47,8 +47,8 @@
       "variants": [
         "base"
       ],
-      "effect": "Attire la pitie de toute l'equipe. A chaque chute, un « miskine » collectif part tout seul dans le micro : ca ne rend ni vie ni bouclier, mais ca fait du bien.",
-      "source": "Ne se cherche pas, il vous trouve — en general trois secondes apres votre elimination.",
+      "effect": "Distribue des « miskine » a la ronde : a l'allie qui vient de tomber, a l'adversaire qu'il vient d'eliminer, et a lui-meme quand il se rate — « miskin moi ». Personne n'y echappe.",
+      "source": "Ne se ramasse pas : il commente. Le premier coup dur de la partie suffit a le faire apparaitre, le sien ou celui d'un autre.",
       "tint": "orange"
     },
     {
