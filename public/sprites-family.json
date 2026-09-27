@@ -89,8 +89,8 @@
       "variants": [
         "base"
       ],
-      "effect": "Toujours dans les bons coups. Connait un gars qui connait un coffre, et le coffre est toujours de l'autre cote de la carte.",
-      "source": "Ne se trouve pas : c'est lui qui vous trouve, avec une affaire a ne pas rater. Le prix se discute apres.",
+      "effect": "Ne fouille jamais un coffre : il connait du monde. Les meilleures variantes arrivent par son reseau, sorties d'on ne sait ou et toujours disponibles « pour toi, exceptionnellement ».",
+      "source": "Ne se ramasse pas : c'est lui qui vous contacte quand il a ce qu'il faut. Rendez-vous fixe par lui, tarif annonce a l'arrivee, et il connait deja un gars pour la fois d'apres.",
       "tint": "rose"
     },
     {
