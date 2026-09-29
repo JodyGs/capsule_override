@@ -30,9 +30,12 @@
   ],
   "order": [
     "angelo",
+    "paola",
     "marion",
+    "oliver",
     "gaby",
     "nelson",
+    "lenny",
     "emilie",
     "jody"
   ],
@@ -120,6 +123,48 @@
       "effect": "Ne ramasse rien : il construit. C'est lui qui tient cette app, ajoute chaque esprit le jour de sa sortie et refait les comptes quand Epic change les regles en pleine saison. Jamais bien loin non plus quand il s'agit d'embeter ses coequipiers.",
       "source": "Ne se trouve pas en partie : il est deja dans le code. Se deploie tout seul a la mise a jour suivante, pendant que les autres fouillent des coffres.",
       "tint": "rouge"
+    },
+    {
+      "id": "paola",
+      "name": "Esprit de la Souplesse",
+      "sub": "Paola",
+      "rarity": "mythic",
+      "tint": "vert",
+      "released": true,
+      "icon": true,
+      "variants": [
+        "base"
+      ],
+      "effect": "Retombe toujours sur ses pieds, quelle que soit la hauteur, et enchaine des figures que personne n'a demandees. Supporte mal qu'on la fixe trop longtemps, et encore moins qu'on la bouscule au passage.",
+      "source": "Apparait la ou une reception parfaite est impossible. Regardez ailleurs pendant qu'elle passe, ca vaut mieux pour tout le monde."
+    },
+    {
+      "id": "oliver",
+      "name": "Esprit du Pique",
+      "sub": "Oliver",
+      "rarity": "mythic",
+      "tint": "vert",
+      "released": true,
+      "icon": true,
+      "variants": [
+        "base"
+      ],
+      "effect": "Tombe du ciel sur sa cible et la touche a la tete avant meme d'avoir atterri. Au sniper il ne rate pas ; les rares fois ou ca arrive, ce n'est jamais sa faute et toute l'equipe l'apprend dans la seconde.",
+      "source": "Se declenche des qu'un adversaire passe sous un toit. Inutile de l'invoquer : quand vous y pensez, il est deja en l'air."
+    },
+    {
+      "id": "lenny",
+      "name": "Esprit de la Vantardise",
+      "sub": "Lenny",
+      "rarity": "mythic",
+      "tint": "vert",
+      "released": true,
+      "icon": true,
+      "variants": [
+        "base"
+      ],
+      "effect": "Annonce chacun de ses exploits avant, pendant et apres. Le vocabulaire s'enrichit d'un mot en particulier, toujours le meme, des que la partie resiste. Les chiffres de fin de partie, eux, restent d'une grande discretion.",
+      "source": "Se manifeste au premier kill de la soiree et le raconte jusqu'au lendemain. Pour le reste du palmares, il faudra le croire sur parole."
     }
   ],
   "tintNote": "Une galerie n'a pas de paliers a gravir : tout le monde y est mythique. La couleur ne classe donc rien, elle identifie — elle remplace la teinte de rarete sur la carte."

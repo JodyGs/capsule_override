@@ -140,8 +140,9 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 
 ## Family : une galerie, pas une collection
 
-Une troisième liste, en plus de la saison en cours et de Legacy. Six esprits maison — Angelo,
-Marion, Gaby, Nelson, Émilie et Cyber — qui n'existent nulle part dans Fortnite.
+Une troisième liste, en plus de la saison en cours et de Legacy. Neuf esprits maison qui
+n'existent nulle part dans Fortnite : l'Esprit du Miskine, de la Souplesse, de l'Obstruction,
+du Piqué, du Ragequit, du Dealer, de la Vantardise, de l'Administratif et du Développeur.
 
 Elle est **en lecture seule**, et ce n'est pas qu'une question d'affichage : `COLLECTIONS.family`
 n'a **pas de clé de stockage du tout**. `readStore` rend un objet vide, `setStatus` et
@@ -171,7 +172,7 @@ l'Administratif* — et le prénom passe en sous-titre, comme le nom anglais che
 
 Toutes sont **mythiques**. Une galerie n'a pas de paliers à gravir, alors la couleur n'y classe
 plus rien : elle identifie. Un champ `tint` par fiche remplace la teinte de rareté sur la carte
-— rose, orange ou rouge. Ces trois couleurs sont des tokens comme les autres, définies dans les
+— rose, orange, rouge ou vert. Ces trois couleurs sont des tokens comme les autres, définies dans les
 **trois** palettes du thème (clair, sombre par défaut, sombre choisi à la main) ; un test compte
 les définitions, parce qu'une couleur oubliée dans un seul bloc ne se voit qu'en changeant de
 thème.
@@ -634,7 +635,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1001 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1017 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

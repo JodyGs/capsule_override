@@ -558,7 +558,7 @@ const rarityToken = (id) => ({
 
 /* Une fiche peut imposer sa couleur. Dans la galerie, tout le monde est
    mythique : la teinte n'y classe plus rien, elle identifie. */
-const TINTS = { rose: "--f-rose", orange: "--f-orange", rouge: "--f-rouge" };
+const TINTS = { rose: "--f-rose", orange: "--f-orange", rouge: "--f-rouge", vert: "--f-vert" };
 const cardToken = (sprite) => TINTS[sprite.tint] || rarityToken(sprite.rarity);
 
 const rarityLabel = (id) =>
@@ -1019,7 +1019,8 @@ function palette() {
     tint: {
       rose: read("--f-rose", "#FF7EC0"),
       orange: read("--f-orange", "#FFA65C"),
-      rouge: read("--f-rouge", "#FF7A6B")
+      rouge: read("--f-rouge", "#FF7A6B"),
+      vert: read("--f-vert", "#4FDD9B")
     }
   };
 }

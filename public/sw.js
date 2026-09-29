@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v49";
+const VERSION = "capsule-v50";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -42,6 +42,9 @@ const SHELL = [
   "./icons/sprites/blinky.png",
   "./icons/sprites/morgana.png",
   "./icons/family/angelo.png",
+  "./icons/family/paola.png",
+  "./icons/family/oliver.png",
+  "./icons/family/lenny.png",
   "./icons/family/marion.png",
   "./icons/family/gaby.png",
   "./icons/family/nelson.png",

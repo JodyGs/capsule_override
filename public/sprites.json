@@ -10,14 +10,13 @@
   },
   "updatedAt": "2026-09-27",
   "news": {
-    "version": "2026-09-27-family5",
-    "title": "Une troisieme liste",
-    "date": "27 septembre 2026",
+    "version": "2026-09-29-family",
+    "title": "Trois de plus dans Family",
+    "date": "29 septembre 2026",
     "lines": [
-      "Le bouton en haut a droite tourne maintenant sur trois collections : la saison en cours, Legacy, et Family.",
-      "Family est une galerie, pas une collection : six esprits maison qu'on regarde sans les cocher. Ni compteurs, ni filtres, ni stockage — rien n'y est enregistre et rien n'en sort.",
-      "Chaque fiche porte le nom de son esprit — Esprit du Miskine, du Ragequit, de l'Administratif — et le prenom passe en sous-titre. Toutes sont mythiques : la couleur n'y classe plus rien, elle identifie.",
-      "La galerie s'exporte comme les autres : le bouton Exporter produit une image des six fiches, sans compteurs ni cases puisqu'il n'y en a pas."
+      "Paola, Oliver et Lenny rejoignent la galerie : l'Esprit de la Souplesse, celui du Pique et celui de la Vantardise.",
+      "Ils ne sont pas relegues a la fin — ils sont glisses entre les autres, et portent une quatrieme teinte, le vert.",
+      "La galerie compte neuf fiches. Elle se regarde toujours sans se cocher, et s'exporte en image comme les deux autres listes."
     ]
   },
   "variants": [
