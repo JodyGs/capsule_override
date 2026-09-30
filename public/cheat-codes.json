@@ -1,8 +1,8 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-09-30",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Quarante et un codes actifs au 26 septembre, dont trois annonces pendant le direct de la FNCS. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison, et les listes publiees vont de 37 a 45 selon le site. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Quarante-trois codes actifs au 30 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison, et les listes publiees vont de 41 a 44 selon le site. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
     "lobbyhack.com",
     "VICE",
@@ -158,8 +158,7 @@
         {
           "code": "DustySprites",
           "reward": "5 000 poussieres d'esprit",
-          "once": true,
-          "new": true
+          "once": true
         }
       ]
     },
@@ -230,6 +229,13 @@
           "code": "BeamMeUp",
           "reward": "2 accelerateurs d'extraction",
           "once": true
+        },
+        {
+          "code": "Bonerattler",
+          "reward": "4 tacos epices",
+          "once": true,
+          "new": true,
+          "tag": "Fortnitemares"
         }
       ]
     },
@@ -266,14 +272,12 @@
         {
           "code": "WhoCrackedTheCode",
           "reward": "40 000 XP",
-          "once": true,
-          "new": true
+          "once": true
         },
         {
           "code": "WeAreTheWorldChampionsToday",
           "reward": "Accessoire de dos « Sentinelle FNCS »",
           "once": true,
-          "new": true,
           "tag": "FNCS"
         }
       ]
@@ -301,6 +305,14 @@
           "reward": "Transforme le lobby en bornes d'arcade",
           "once": false,
           "tag": "Arcade"
+        },
+        {
+          "code": "PowerOut",
+          "reward": "Ecran noir et frayeur facon Five Nights at Freddy's",
+          "once": false,
+          "new": true,
+          "tag": "FNAF",
+          "warn": "Le tracker le plus precis le donne reutilisable ; Beebom annonce l'inverse. Comme les autres effets de lobby, il est range ici — sans garantie."
         }
       ]
     }

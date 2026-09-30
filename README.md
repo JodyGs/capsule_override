@@ -405,19 +405,20 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**41 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**43 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
-Les trois codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`)
+Les quatre codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`,
+`InsertCoinToContinue`, `PowerOut`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 38 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 39 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 26 septembre 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 30 septembre 2026
 (VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
 GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
 
@@ -635,7 +636,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1017 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1063 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
