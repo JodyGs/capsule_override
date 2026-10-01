@@ -405,20 +405,20 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**43 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**49 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
-Les quatre codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`,
-`InsertCoinToContinue`, `PowerOut`)
+Les sept codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`,
+`PowerOut`, `CrowsAreAfraid`, `PumpkinSpiceLife`, `s7h-50p-r03`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 39 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 42 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 30 septembre 2026
+La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 1er octobre 2026
 (VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
 GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
 
@@ -575,42 +575,25 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
-**État au 26 septembre 2026** : **21 esprits jouables** et **101 pièces obtenables**, toutes
-disponibles — et, pour la première fois de la saison, **plus rien en attente**. L'esprit
-**Anniversaire** est sorti le 26 pour les neuf ans du jeu, deux jours après les variantes
-**Bounty Hunter** et **Morgana** (Persona 5, Épique). Elles peuvent apparaître quand on élimine un adversaire,
-et ne montent de niveau **qu'aux éliminations** : c'est la seule ligne qu'on ne peut pas
-faire progresser en fouillant.
+**État au 1er octobre 2026** : **25 esprits jouables** et **122 pièces obtenables**.
+Fortnitemares en a livré quatre — **Spooky Dash**, **Vampire**, **Le Cerf** et **Plongeon dans
+la benne**, le lauréat du concours — avec une sixième ligne de variantes, **Trick or Treat**.
 
-Une seule exception casse la règle « chaque esprit a toutes les variantes », et un compteur
-naïf s'y trompe : **Mega Man n'a aucune variante**. D'où 101 et non 105. La **Couronne** garde
-son cas à part : ses deux dernières variantes ne se trouvent pas, elles se méritent au bout de
-la chaîne Base → Cheat Master → Or → Loot Hacker → Bounty Hunter, une victoire avec chacune.
+Trois exceptions font qu'un compteur naïf se trompe :
 
-Deux esprits communautaires restent annoncés sans date ni rareté — **Plongeon dans la benne**
-et **Miel**. La **v42.30 du 1er octobre** est bien datée par Epic, et les fuites y placent
-Plongeon dans la benne ; mais Epic n'a pas dit lequel arrive quand, et une date de patch n'est
-pas une date de sortie pour un esprit donné. Une fiche entre avec une date, pas avec une rumeur.
+- **Mega Man n'a aucune variante.** Toujours le seul.
+- **La ligne Trick or Treat n'est ouverte qu'à la Couronne**, au bout d'une chaîne qui compte
+  maintenant six crans. Les autres sont dans les fichiers et les fuites les annoncent pour le
+  8 octobre ; Epic n'a rien dit, elles ne sont pas comptées.
+- **Miel et Obsession** sont datés du 15 octobre par Epic : ils figurent dans la liste avec
+  leur date, hors du total.
 
-Le mécanisme reste en place et testé. Un esprit daté mais pas encore sorti s'affiche avec sa
-date en clair (« À venir — 1er octobre »), se range en fin de grille et **ne compte pas** dans
-le total ; sans date annoncée, la pastille reste « À venir » tout court. La date est lue en UTC
-de bout en bout, sinon un téléphone à l'ouest afficherait la veille.
+Quatre raretés restent **à confirmer**. Celles du Cerf (Légendaire) et de Plongeon dans la
+benne (Épique) sont données par deux sources ; celles de Spooky Dash et du Vampire par une
+seule, et un tracker les contredit — leur fiche dit pourquoi.
 
-La **Bounty Hunter Morgana** est signalée buguée à sa sortie par une source : la note de la
-pièce le dit, plutôt que de laisser croire à un manque de chance.
-
-La rareté de **Blinky** est confirmée **Légendaire** par une deuxième source. Celle de
-**Mare** est **Rare** — un site secondaire la dit Épique, les notes officielles d'Epic
-tranchent.
-
-Le **Bullet** d'Enorull ne sortira jamais : Epic l'a échangé contre l'**Onigiri** du même
-créateur. Cinq autres noms
-circulent depuis les fichiers du jeu — Meowscles, BodySlam, Cube, Headshot, Squibbly — sans
-effet connu ni moyen de les obtenir. Ils sont **cités dans les notes de
-l'app, pas ajoutés au catalogue** : un fichier servi n'est pas une sortie, la saison passée
-l'a déjà prouvé (voir plus haut). S'ils sortent, ils entrent dans `sprites.json` comme les
-autres.
+Les illustrations des quatre nouveaux ne sont pas encore sur la wiki : leurs cartes portent la
+pastille à initiale, teintée de leur rareté, jusqu'au prochain `npm run sprite-icons`. Cinq autres noms
 
 Pensez à incrémenter `VERSION` dans `public/sw.js` après une modification, pour que les
 téléphones déjà installés récupèrent la nouvelle version — un bandeau leur proposera alors
@@ -636,7 +619,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1063 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1105 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

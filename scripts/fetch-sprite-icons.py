@@ -48,6 +48,7 @@ VARIANT_PREFIX = {
     "quack": "Quack",
     "loot": "Loot_Hacker",
     "bounty": "Bounty_Hunter",
+    "trick": "Trick_or_Treat",
 }
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
@@ -79,6 +80,11 @@ WIKI_NAME = {
     "blinky": "Blinky",
     "morgana": "Morgana",
     "birthday": "Birthday",
+    # v42.30 — Fortnitemares
+    "spookydash": "Spooky_Dash",
+    "vampire": "Vampire",
+    "deer": "The_Deer",
+    "obsession": "Obsession",
 
     # Chapitre 7 Saison 3 — Runners. Le prefixe « l- » evite toute collision
     # d'identifiant avec la saison en cours.

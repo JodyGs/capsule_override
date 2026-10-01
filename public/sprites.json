@@ -8,15 +8,16 @@
     "timeConfirmed": false,
     "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : le compte a rebours se termine donc au plus tot. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-01",
   "news": {
-    "version": "2026-09-30",
-    "title": "Releve du 30 septembre",
-    "date": "30 septembre 2026",
+    "version": "2026-10-01",
+    "title": "Fortnitemares",
+    "date": "1er octobre 2026",
     "lines": [
-      "Deux codes de plus, tous deux aux couleurs de Fortnitemares : Bonerattler pour quatre tacos epices, et PowerOut qui eteint l'ecran et vous fait la frayeur de Five Nights at Freddy's. Quarante-trois en tout.",
-      "Aucun nouvel esprit depuis le 24 septembre : les vingt et un de la saison sont sortis et leurs 101 pieces restent obtenables.",
-      "Fortnitemares arrive demain avec la v42.30. Des esprits d'Halloween sont teases — citrouille, vampire — mais Epic n'a encore rien nomme : ils n'entreront dans la liste qu'a leur sortie."
+      "Quatre esprits d'Halloween : Spooky Dash traverse les obstacles, Vampire rend de la vie quand vous blessez, Le Cerf cogne plus fort au corps a corps, et Plongeon dans la benne — le laureat du concours — trouve a manger dans les cachettes.",
+      "Une sixieme ligne de variantes, Trick or Treat : des bonbons tombent des coffres. Seule celle de la Couronne s'obtient aujourd'hui, au bout d'une chaine de six crans. Le total passe de 101 a 122 pieces.",
+      "Six codes de plus, dont trois effets de lobby : epouvantails, citrouilles, et un glitch signe Geno. Deux autres versent 5 000 poussieres mais reclament d'avoir fini les quetes de Geno ou de Wrixel.",
+      "Miel et Obsession sont dates du 15 octobre : ils figurent dans la liste sans y etre comptes. Les illustrations des nouveaux manquent encore sur le wiki, leurs cartes portent une pastille en attendant."
     ]
   },
   "variants": [
@@ -50,6 +51,12 @@
       "note": "Peut faire apparaitre un esprit supplementaire quand vous eliminez un adversaire. Ne monte de niveau qu'aux eliminations. Cinquieme ligne de la saison, sortie le 24 septembre ; celle de la Couronne se merite au bout de sa chaine de maitrise.",
       "find": "Sur les adversaires que vous eliminez, et nulle part ailleurs.",
       "levelUp": "Ne gagne de l'XP qu'aux eliminations : fouiller un coffre ou extraire n'y change rien. Une fois au niveau 5, elle se banque comme les autres."
+    },
+    {
+      "id": "trick",
+      "name": "Trick or Treat",
+      "note": "Des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, arrivee avec Fortnitemares. Seule celle de la Couronne s'obtient pour l'instant, au bout de sa chaine de maitrise ; les autres sont dans les fichiers et les fuites les annoncent pour le 8 octobre, sans confirmation d'Epic.",
+      "find": "Dans les coffres citrouille et les codes de triche, comme la version de base — pour celles qui sont sorties."
     }
   ],
   "rarities": [
@@ -95,7 +102,13 @@
     "blinky",
     "birthday",
     "crash",
-    "morgana"
+    "morgana",
+    "spookydash",
+    "vampire",
+    "deer",
+    "dumpster",
+    "honey",
+    "obsession"
   ],
   "sprites": [
     {
@@ -346,14 +359,16 @@
       "variantHow": {
         "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs.",
         "loot": "En maitrisant la Couronne Or : il faut remporter une partie avec chaque variante, dans l'ordre Base, Cheat Master, Or, puis Loot Hacker.",
-        "bounty": "En maitrisant la Loot Hacker Couronne : la chaine complete est Base, Cheat Master, Or, Loot Hacker, puis Bounty Hunter — une victoire avec chacune."
+        "bounty": "En maitrisant la Loot Hacker Couronne : la chaine complete est Base, Cheat Master, Or, Loot Hacker, puis Bounty Hunter — une victoire avec chacune.",
+        "trick": "En maitrisant la Bounty Hunter Couronne. La chaine complete compte six crans : Base, Cheat Master, Or, Loot Hacker, Bounty Hunter, puis Trick or Treat — une victoire avec chacune."
       },
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -578,6 +593,104 @@
         "loot",
         "bounty"
       ]
+    },
+    {
+      "id": "spookydash",
+      "name": "Spooky Dash",
+      "sub": "Spooky Dash Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
+      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast · Rarete contestee"
+    },
+    {
+      "id": "vampire",
+      "name": "Vampire",
+      "sub": "Vampire Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "Rend de la vie a chaque fois que vous blessez un adversaire. La part regagnee monte a chaque niveau.",
+      "source": "Coffres, citrouilles a casser et boss de Fortnitemares · Rarete contestee"
+    },
+    {
+      "id": "deer",
+      "name": "Le Cerf",
+      "sub": "The Deer Sprite · 99 Nights in the Forest",
+      "rarity": "legendary",
+      "released": true,
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "Les attaques de melee frappent plus fort, pioche comprise : de 22 a 30 de degats selon le niveau.",
+      "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances"
+    },
+    {
+      "id": "dumpster",
+      "name": "Plongeon dans la benne",
+      "sub": "Dumpster Dive Sprite · par StinkyPrincessGoose",
+      "rarity": "epic",
+      "released": true,
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
+      "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots"
+    },
+    {
+      "id": "honey",
+      "name": "Miel",
+      "sub": "Honey Sprite · par Conejito_sam",
+      "rarity": "unknown",
+      "released": false,
+      "releasesOn": "2026-10-15",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "Envoie un essaim d'abeilles sur l'adversaire qui vous blesse.",
+      "source": "Annonce pour le 15 octobre. Rarete non communiquee."
+    },
+    {
+      "id": "obsession",
+      "name": "Obsession",
+      "sub": "Obsession Sprite · One Wish Willow",
+      "rarity": "unknown",
+      "released": false,
+      "releasesOn": "2026-10-15",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ],
+      "effect": "One Wish Willow vous aide a ramasser les autres esprits.",
+      "source": "Annonce pour le 15 octobre. Rarete non communiquee."
     }
   ],
   "events": {
@@ -621,5 +734,5 @@
       }
     ]
   },
-  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est donc recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin."
+  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est donc recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin. Les esprits arrives apres le relevé ferment la liste tant que leur place en jeu n'a pas ete revue."
 }

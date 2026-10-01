@@ -1,8 +1,8 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-01",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Quarante-trois codes actifs au 30 septembre. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison, et les listes publiees vont de 41 a 44 selon le site. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Quarante-neuf codes actifs au 1er octobre, dont six livres avec Fortnitemares. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
     "lobbyhack.com",
     "VICE",
@@ -159,6 +159,20 @@
           "code": "DustySprites",
           "reward": "5 000 poussieres d'esprit",
           "once": true
+        },
+        {
+          "code": "runSystemOverride",
+          "reward": "5 000 poussieres d'esprit",
+          "once": true,
+          "new": true,
+          "warn": "Refuse tant que les quetes d'histoire de Geno ne sont pas terminees."
+        },
+        {
+          "code": "ImTheRealEdgelord",
+          "reward": "5 000 poussieres d'esprit",
+          "once": true,
+          "new": true,
+          "warn": "Refuse tant que les quetes d'histoire de Wrixel ne sont pas terminees."
         }
       ]
     },
@@ -234,8 +248,13 @@
           "code": "Bonerattler",
           "reward": "4 tacos epices",
           "once": true,
-          "new": true,
           "tag": "Fortnitemares"
+        },
+        {
+          "code": "IThinkTheKeyFoundMeChat",
+          "reward": "Accelerateur d'extraction",
+          "once": true,
+          "new": true
         }
       ]
     },
@@ -310,9 +329,30 @@
           "code": "PowerOut",
           "reward": "Ecran noir et frayeur facon Five Nights at Freddy's",
           "once": false,
-          "new": true,
           "tag": "FNAF",
           "warn": "Le tracker le plus precis le donne reutilisable ; Beebom annonce l'inverse. Comme les autres effets de lobby, il est range ici — sans garantie."
+        },
+        {
+          "code": "CrowsAreAfraid",
+          "reward": "Transforme le lobby en epouvantails",
+          "once": false,
+          "new": true,
+          "tag": "Fortnitemares"
+        },
+        {
+          "code": "PumpkinSpiceLife",
+          "reward": "Transforme le lobby en citrouilles",
+          "once": false,
+          "new": true,
+          "tag": "Fortnitemares"
+        },
+        {
+          "code": "s7h-50p-r03",
+          "reward": "Geno fait glitcher votre lobby",
+          "once": false,
+          "new": true,
+          "tag": "Geno",
+          "warn": "Demande l'etape 4 de la quete de l'Espoir. Range avec les effets de lobby par analogie : aucune source ne dit s'il se rejoue."
         }
       ]
     }
