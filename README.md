@@ -548,8 +548,9 @@ exactement l'erreur qui avait fait compter 120 pièces au lieu de 117 en Legacy.
 ### L'ordre de la grille
 
 Les esprits sont rangés dans **l'ordre de l'écran de collection du jeu**, relevé à la main dans
-Fortnite et recopié tel quel dans le tableau `order` de `sprites.json` : Jonesy, Aventure,
-Broussaille, Sonic… jusqu'à Morgana.
+Fortnite et recopié tel quel dans le tableau `order` de `sprites.json` : Plongeon dans la
+benne ouvre, puis Jonesy, Aventure, Broussaille… et les trois esprits de Fortnitemares se
+rangent après Morgana.
 
 Ce n'est ni la rareté, ni l'ordre de sortie, ni l'alphabétique — c'est un ordre qu'Epic ne
 publie nulle part et qu'aucune règle ne reconstitue. J'avais d'abord groupé par rareté faute de
@@ -621,7 +622,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1183 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1185 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code

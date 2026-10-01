@@ -10,14 +10,13 @@
   },
   "updatedAt": "2026-10-01",
   "news": {
-    "version": "2026-10-01",
-    "title": "Fortnitemares",
-    "date": "1er octobre 2026",
+    "version": "2026-10-02-ordre",
+    "title": "L'ordre remis a jour",
+    "date": "2 octobre 2026",
     "lines": [
-      "Quatre esprits d'Halloween : Spooky Dash traverse les obstacles, Vampire rend de la vie quand vous blessez, Le Cerf cogne plus fort au corps a corps, et Plongeon dans la benne — le laureat du concours — trouve a manger dans les cachettes.",
-      "Une sixieme ligne de variantes, Trick or Treat : des bonbons tombent des coffres. Seule celle de la Couronne s'obtient aujourd'hui, au bout d'une chaine de six crans. Le total passe de 101 a 122 pieces.",
-      "Six codes de plus, dont trois effets de lobby : epouvantails, citrouilles, et un glitch signe Geno. Deux autres versent 5 000 poussieres mais reclament d'avoir fini les quetes de Geno ou de Wrixel.",
-      "Les illustrations des quatre nouveaux sont la : la wiki ecrit « The Deer » sans le mot « Sprite » dans son nom de fichier, ce qui faisait echouer le telechargement. Seuls Miel et Obsession, pas encore sortis, gardent une pastille."
+      "Plongeon dans la benne ouvre desormais la grille, et les trois esprits de Fortnitemares se rangent apres Morgana : Spooky Dash, Le Cerf, puis Vampire.",
+      "L'ordre suit toujours votre ecran de collection en jeu, recopie a la main — aucune regle ne le reconstitue.",
+      "Miel et Obsession ferment la liste avec leur date du 15 octobre, sans etre comptes."
     ]
   },
   "variants": [
@@ -82,6 +81,7 @@
     }
   ],
   "order": [
+    "dumpster",
     "jonesy",
     "adventure",
     "bush",
@@ -104,9 +104,8 @@
     "crash",
     "morgana",
     "spookydash",
-    "vampire",
     "deer",
-    "dumpster",
+    "vampire",
     "honey",
     "obsession"
   ],
@@ -750,5 +749,5 @@
       }
     ]
   },
-  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est donc recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin. Les esprits arrives apres le relevé ferment la liste tant que leur place en jeu n'a pas ete revue."
+  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin."
 }
