@@ -123,8 +123,7 @@ def square(raw, size):
     return canvas.quantize(colors=256, method=Image.FASTOCTREE)
 
 
-def fetch(name):
-    filename = f"{name}_Sprite_-_Item_-_Fortnite.png"
+def _telecharger(filename):
     url = BASE + urllib.parse.quote(filename)
 
     context = _context()
@@ -143,6 +142,20 @@ def fetch(name):
     if result.returncode != 0 or not result.stdout:
         raise RuntimeError(f"curl a echoue ({result.returncode})")
     return result.stdout
+
+
+def fetch(name):
+    """La wiki n'ecrit pas toujours « Sprite » dans le nom du fichier : « The
+       Deer » s'y trouve sous « The_Deer_-_Item_-_Fortnite.png ». On essaie
+       donc les deux formes avant de declarer l'image absente."""
+    erreurs = []
+    for filename in (f"{name}_Sprite_-_Item_-_Fortnite.png",
+                     f"{name}_-_Item_-_Fortnite.png"):
+        try:
+            return _telecharger(filename)
+        except Exception as err:                    # noqa: BLE001
+            erreurs.append(f"{filename} : {err}")
+    raise RuntimeError(" | ".join(erreurs))
 
 
 def main():

@@ -17,7 +17,7 @@
       "Quatre esprits d'Halloween : Spooky Dash traverse les obstacles, Vampire rend de la vie quand vous blessez, Le Cerf cogne plus fort au corps a corps, et Plongeon dans la benne — le laureat du concours — trouve a manger dans les cachettes.",
       "Une sixieme ligne de variantes, Trick or Treat : des bonbons tombent des coffres. Seule celle de la Couronne s'obtient aujourd'hui, au bout d'une chaine de six crans. Le total passe de 101 a 122 pieces.",
       "Six codes de plus, dont trois effets de lobby : epouvantails, citrouilles, et un glitch signe Geno. Deux autres versent 5 000 poussieres mais reclament d'avoir fini les quetes de Geno ou de Wrixel.",
-      "Miel et Obsession sont dates du 15 octobre : ils figurent dans la liste sans y etre comptes. Les illustrations des nouveaux manquent encore sur le wiki, leurs cartes portent une pastille en attendant."
+      "Les illustrations des quatre nouveaux sont la : la wiki ecrit « The Deer » sans le mot « Sprite » dans son nom de fichier, ce qui faisait echouer le telechargement. Seuls Miel et Obsession, pas encore sortis, gardent une pastille."
     ]
   },
   "variants": [
@@ -608,7 +608,14 @@
         "bounty"
       ],
       "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
-      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast · Rarete contestee"
+      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast · Rarete contestee",
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
     },
     {
       "id": "vampire",
@@ -624,7 +631,14 @@
         "bounty"
       ],
       "effect": "Rend de la vie a chaque fois que vous blessez un adversaire. La part regagnee monte a chaque niveau.",
-      "source": "Coffres, citrouilles a casser et boss de Fortnitemares · Rarete contestee"
+      "source": "Coffres, citrouilles a casser et boss de Fortnitemares · Rarete contestee",
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
     },
     {
       "id": "deer",
@@ -640,7 +654,8 @@
         "bounty"
       ],
       "effect": "Les attaques de melee frappent plus fort, pioche comprise : de 22 a 30 de degats selon le niveau.",
-      "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances"
+      "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances",
+      "icon": true
     },
     {
       "id": "dumpster",
@@ -656,7 +671,8 @@
         "bounty"
       ],
       "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
-      "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots"
+      "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots",
+      "icon": true
     },
     {
       "id": "honey",

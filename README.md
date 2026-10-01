@@ -592,8 +592,10 @@ Quatre raretés restent **à confirmer**. Celles du Cerf (Légendaire) et de Plo
 benne (Épique) sont données par deux sources ; celles de Spooky Dash et du Vampire par une
 seule, et un tracker les contredit — leur fiche dit pourquoi.
 
-Les illustrations des quatre nouveaux ne sont pas encore sur la wiki : leurs cartes portent la
-pastille à initiale, teintée de leur rareté, jusqu'au prochain `npm run sprite-icons`. Cinq autres noms
+Les illustrations des quatre nouveaux sont en place. Celle du Cerf avait d'abord échoué : la
+wiki l'enregistre sous `The_Deer_-_Item_-_Fortnite.png`, **sans le mot « Sprite »** que le
+script collait systématiquement. Il essaie désormais les deux formes avant de déclarer une
+image absente. Seuls Miel et Obsession, pas encore sortis, gardent leur pastille à initiale. Cinq autres noms
 
 Pensez à incrémenter `VERSION` dans `public/sw.js` après une modification, pour que les
 téléphones déjà installés récupèrent la nouvelle version — un bandeau leur proposera alors
@@ -619,7 +621,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1105 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1183 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
