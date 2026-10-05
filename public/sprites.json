@@ -8,15 +8,15 @@
     "timeConfirmed": false,
     "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : le compte a rebours se termine donc au plus tot. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-05",
   "news": {
-    "version": "2026-10-02-ordre",
-    "title": "L'ordre remis a jour",
-    "date": "2 octobre 2026",
+    "version": "2026-10-05",
+    "title": "Releve du 5 octobre",
+    "date": "5 octobre 2026",
     "lines": [
-      "Plongeon dans la benne ouvre desormais la grille, et les trois esprits de Fortnitemares se rangent apres Morgana : Spooky Dash, Le Cerf, puis Vampire.",
-      "L'ordre suit toujours votre ecran de collection en jeu, recopie a la main — aucune regle ne le reconstitue.",
-      "Miel et Obsession ferment la liste avec leur date du 15 octobre, sans etre comptes."
+      "Deux raretes se confirment : Spooky Dash est Mythique, Vampire est Legendaire. Une deuxieme source les recoupe, elles ne sont plus marquees « a confirmer ».",
+      "Les illustrations manquantes sont arrivees : les variantes du Cerf et de Plongeon dans la benne, et la Trick or Treat de la Couronne. Seuls Miel et Obsession, pas encore sortis, gardent une pastille.",
+      "Aucun nouvel esprit ni nouveau code depuis le 1er octobre. Les vingt-cinq esprits et leurs 122 pieces sont inchanges."
     ]
   },
   "variants": [
@@ -353,7 +353,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variantHow": {
         "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs.",
@@ -597,7 +598,7 @@
       "id": "spookydash",
       "name": "Spooky Dash",
       "sub": "Spooky Dash Sprite",
-      "rarity": "unknown",
+      "rarity": "mythic",
       "released": true,
       "variants": [
         "base",
@@ -607,7 +608,7 @@
         "bounty"
       ],
       "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
-      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast · Rarete contestee",
+      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast",
       "icon": true,
       "variantIcons": [
         "gold",
@@ -620,7 +621,7 @@
       "id": "vampire",
       "name": "Vampire",
       "sub": "Vampire Sprite",
-      "rarity": "unknown",
+      "rarity": "legendary",
       "released": true,
       "variants": [
         "base",
@@ -630,7 +631,7 @@
         "bounty"
       ],
       "effect": "Rend de la vie a chaque fois que vous blessez un adversaire. La part regagnee monte a chaque niveau.",
-      "source": "Coffres, citrouilles a casser et boss de Fortnitemares · Rarete contestee",
+      "source": "Coffres, citrouilles a casser et boss de Fortnitemares",
       "icon": true,
       "variantIcons": [
         "gold",
@@ -654,7 +655,13 @@
       ],
       "effect": "Les attaques de melee frappent plus fort, pioche comprise : de 22 a 30 de degats selon le niveau.",
       "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
     },
     {
       "id": "dumpster",
@@ -671,7 +678,13 @@
       ],
       "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
       "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots",
-      "icon": true
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty"
+      ]
     },
     {
       "id": "honey",

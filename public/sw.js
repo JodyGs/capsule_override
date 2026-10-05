@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v54";
+const VERSION = "capsule-v55";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -171,6 +171,15 @@ const SHELL = [
   "./icons/variants/vampire-cheat.png",
   "./icons/variants/vampire-loot.png",
   "./icons/variants/vampire-bounty.png",
+  "./icons/variants/crown-trick.png",
+  "./icons/variants/deer-gold.png",
+  "./icons/variants/deer-cheat.png",
+  "./icons/variants/deer-loot.png",
+  "./icons/variants/deer-bounty.png",
+  "./icons/variants/dumpster-gold.png",
+  "./icons/variants/dumpster-cheat.png",
+  "./icons/variants/dumpster-loot.png",
+  "./icons/variants/dumpster-bounty.png",
   "./icons/variants/onigiri-loot.png",
   "./icons/variants/overshield-loot.png"
 ];

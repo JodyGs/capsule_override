@@ -589,11 +589,13 @@ Trois exceptions font qu'un compteur naïf se trompe :
 - **Miel et Obsession** sont datés du 15 octobre par Epic : ils figurent dans la liste avec
   leur date, hors du total.
 
-Quatre raretés restent **à confirmer**. Celles du Cerf (Légendaire) et de Plongeon dans la
-benne (Épique) sont données par deux sources ; celles de Spooky Dash et du Vampire par une
-seule, et un tracker les contredit — leur fiche dit pourquoi.
+Toutes les raretés des esprits sortis sont publiées : Spooky Dash est **Mythique**, Vampire et
+Le Cerf **Légendaires**, Plongeon dans la benne **Épique**. Les deux premières ont attendu
+d'être recoupées par une seconde source — un tracker donnait les quatre nouveaux « Rares », y
+compris Le Cerf que deux autres sources disaient Légendaire. Seuls Miel et Obsession, pas
+encore sortis, restent sans rareté.
 
-Les illustrations des quatre nouveaux sont en place. Celle du Cerf avait d'abord échoué : la
+Toutes les illustrations sont en place, y compris la Trick or Treat de la Couronne. Celle du Cerf avait d'abord échoué : la
 wiki l'enregistre sous `The_Deer_-_Item_-_Fortnite.png`, **sans le mot « Sprite »** que le
 script collait systématiquement. Il essaie désormais les deux formes avant de déclarer une
 image absente. Seuls Miel et Obsession, pas encore sortis, gardent leur pastille à initiale. Cinq autres noms
@@ -622,7 +624,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1185 vérifications** qui tournent sans navigateur : les comptes
+Les catalogues ont le leur, **1236 vérifications** qui tournent sans navigateur : les comptes
 publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
 38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
