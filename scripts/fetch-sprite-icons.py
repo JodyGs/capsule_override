@@ -50,6 +50,12 @@ VARIANT_PREFIX = {
     "bounty": "Bounty_Hunter",
     "trick": "Trick_or_Treat",
 }
+# La wiki n'est pas toujours coherente d'une variante a l'autre : le Buisson
+# s'y trouve sous « Bush » pour cinq de ses six formes, et sous « Bushranger »
+# pour la Trick or Treat. On essaie donc les noms de rechange avant d'abandonner.
+WIKI_ALIAS = {
+    "bush": ["Bushranger"],
+}
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"
 
@@ -144,17 +150,20 @@ def _telecharger(filename):
     return result.stdout
 
 
-def fetch(name):
+def fetch(name, prefix=""):
     """La wiki n'ecrit pas toujours « Sprite » dans le nom du fichier : « The
-       Deer » s'y trouve sous « The_Deer_-_Item_-_Fortnite.png ». On essaie
-       donc les deux formes avant de declarer l'image absente."""
+       Deer » s'y trouve sous « The_Deer_-_Item_-_Fortnite.png ». Et elle change
+       parfois de nom d'une variante a l'autre. On essaie donc chaque nom connu
+       sous les deux formes avant de declarer l'image absente."""
     erreurs = []
-    for filename in (f"{name}_Sprite_-_Item_-_Fortnite.png",
-                     f"{name}_-_Item_-_Fortnite.png"):
-        try:
-            return _telecharger(filename)
-        except Exception as err:                    # noqa: BLE001
-            erreurs.append(f"{filename} : {err}")
+    for racine in name if isinstance(name, list) else [name]:
+        tete = f"{prefix}_{racine}" if prefix else racine
+        for filename in (f"{tete}_Sprite_-_Item_-_Fortnite.png",
+                         f"{tete}_-_Item_-_Fortnite.png"):
+            try:
+                return _telecharger(filename)
+            except Exception as err:                # noqa: BLE001
+                erreurs.append(f"{filename} : {err}")
     raise RuntimeError(" | ".join(erreurs))
 
 
@@ -176,12 +185,13 @@ def main():
             if sprite.get("custom"):
                 continue
             wiki = WIKI_NAME.get(sprite["id"])
+            noms = [wiki, *WIKI_ALIAS.get(sprite["id"], [])] if wiki else None
             if not wiki:
                 missing.append((sprite["id"], "nom wiki inconnu"))
                 sprite.pop("icon", None)
                 continue
             try:
-                raw = fetch(wiki)
+                raw = fetch(noms)
                 Image.open(io.BytesIO(raw)).convert("RGBA")   # fichier lisible ?
             except Exception as err:               # noqa: BLE001
                 reason = "pas encore sorti" if "404" in str(err) or "22" in str(err) else type(err).__name__
@@ -212,7 +222,7 @@ def main():
                 if not prefix:
                     continue
                 try:
-                    art = fetch(f"{prefix}_{wiki}")
+                    art = fetch(noms, prefix)
                 except Exception:                      # noqa: BLE001
                     # Meme garde-fou pour les variantes : si le fichier est
                     # deja la, l'echec vient du reseau, pas de la wiki.

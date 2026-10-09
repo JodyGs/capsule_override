@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v55";
+const VERSION = "capsule-v56";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -172,6 +172,29 @@ const SHELL = [
   "./icons/variants/vampire-loot.png",
   "./icons/variants/vampire-bounty.png",
   "./icons/variants/crown-trick.png",
+  "./icons/variants/jonesy-trick.png",
+  "./icons/variants/bush-trick.png",
+  "./icons/variants/adventure-trick.png",
+  "./icons/variants/8bit-trick.png",
+  "./icons/variants/sonic-trick.png",
+  "./icons/variants/tails-trick.png",
+  "./icons/variants/shadow-trick.png",
+  "./icons/variants/killswitch-trick.png",
+  "./icons/variants/jackrabbit-trick.png",
+  "./icons/variants/klombo-trick.png",
+  "./icons/variants/stormscout-trick.png",
+  "./icons/variants/xray-trick.png",
+  "./icons/variants/onigiri-trick.png",
+  "./icons/variants/overshield-trick.png",
+  "./icons/variants/crash-trick.png",
+  "./icons/variants/blinky-trick.png",
+  "./icons/variants/pond-trick.png",
+  "./icons/variants/morgana-trick.png",
+  "./icons/variants/birthday-trick.png",
+  "./icons/variants/spookydash-trick.png",
+  "./icons/variants/vampire-trick.png",
+  "./icons/variants/deer-trick.png",
+  "./icons/variants/dumpster-trick.png",
   "./icons/variants/deer-gold.png",
   "./icons/variants/deer-cheat.png",
   "./icons/variants/deer-loot.png",

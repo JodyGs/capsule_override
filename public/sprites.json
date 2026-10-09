@@ -8,15 +8,16 @@
     "timeConfirmed": false,
     "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : le compte a rebours se termine donc au plus tot. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-09",
   "news": {
-    "version": "2026-10-05",
-    "title": "Releve du 5 octobre",
-    "date": "5 octobre 2026",
+    "version": "2026-10-09",
+    "title": "Les Trick or Treat sont la",
+    "date": "9 octobre 2026",
     "lines": [
-      "Deux raretes se confirment : Spooky Dash est Mythique, Vampire est Legendaire. Une deuxieme source les recoupe, elles ne sont plus marquees « a confirmer ».",
-      "Les illustrations manquantes sont arrivees : les variantes du Cerf et de Plongeon dans la benne, et la Trick or Treat de la Couronne. Seuls Miel et Obsession, pas encore sortis, gardent une pastille.",
-      "Aucun nouvel esprit ni nouveau code depuis le 1er octobre. Les vingt-cinq esprits et leurs 122 pieces sont inchanges."
+      "Les vingt-trois variantes Trick or Treat qui manquaient sont entrees dans le butin le 8 octobre. Vingt-quatre esprits en ont une — tous sauf Mega Man — et le total passe de 122 a 145 pieces.",
+      "Elles sont liees a Fortnitemares : elles ne resteront pas apres l'evenement.",
+      "Un code de plus, VeryScaryPumpkin, qui verse trois Snack-O'-Lantern. Cinquante en tout.",
+      "Miel et Obsession sortent toujours le 15 octobre."
     ]
   },
   "variants": [
@@ -54,8 +55,8 @@
     {
       "id": "trick",
       "name": "Trick or Treat",
-      "note": "Des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, arrivee avec Fortnitemares. Seule celle de la Couronne s'obtient pour l'instant, au bout de sa chaine de maitrise ; les autres sont dans les fichiers et les fuites les annoncent pour le 8 octobre, sans confirmation d'Epic.",
-      "find": "Dans les coffres citrouille et les codes de triche, comme la version de base — pour celles qui sont sorties."
+      "note": "Des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, arrivee avec Fortnitemares : la Couronne le 1er octobre au bout de sa chaine de maitrise, les vingt-trois autres le 8. Elles sont liees a l'evenement et ne resteront pas apres.",
+      "find": "Dans les coffres et les codes de triche ramasses sur la carte."
     }
   ],
   "rarities": [
@@ -123,14 +124,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -146,14 +149,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -169,14 +174,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -192,14 +199,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -215,14 +224,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -238,14 +249,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -261,14 +274,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -284,14 +299,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -307,14 +324,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -330,14 +349,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -384,14 +405,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variants": [
         "base",
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -407,14 +430,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -430,14 +455,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -453,14 +480,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -489,14 +518,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -512,14 +543,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -535,14 +568,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -558,7 +593,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "variantHow": {
         "bounty": "Sur un adversaire elimine, comme les autres Bounty Hunter. Une source la signale buguee a sa sortie : si elle ne tombe jamais, ce n'est pas vous."
@@ -568,7 +604,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -584,14 +621,16 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "icon": true,
       "variantIcons": [
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -605,7 +644,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
       "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast",
@@ -614,7 +654,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -628,7 +669,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "effect": "Rend de la vie a chaque fois que vous blessez un adversaire. La part regagnee monte a chaque niveau.",
       "source": "Coffres, citrouilles a casser et boss de Fortnitemares",
@@ -637,7 +679,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -651,7 +694,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "effect": "Les attaques de melee frappent plus fort, pioche comprise : de 22 a 30 de degats selon le niveau.",
       "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances",
@@ -660,7 +704,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
@@ -674,7 +719,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ],
       "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
       "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots",
@@ -683,7 +729,8 @@
         "gold",
         "cheat",
         "loot",
-        "bounty"
+        "bounty",
+        "trick"
       ]
     },
     {
