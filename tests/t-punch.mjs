@@ -30,16 +30,10 @@ const season = lire("sprites.json");
 
   // Pas d'illustration — un esprit pas encore sorti — le mot reprend la place.
   // Jamais une case vide : on ne saurait plus de quelle ligne il s'agit.
-  let repli = 0;
   for (const c of document.querySelectorAll("#grid .pcell")) {
     const img = c.querySelector("img.pvicon"), mot = c.querySelector(".pword");
     ok(!!img !== !!mot, `${c.dataset.s}/${c.dataset.v} : une vignette ou un mot, pas les deux`);
-    if (mot) {
-      repli += 1;
-      eq(mot.textContent, mot.textContent.split(" ")[0], "le repli est un seul mot");
-    }
   }
-  ok(repli > 0, "les esprits sans illustration retombent bien sur le mot");
   for (const c of cells) {
     eq(c.dataset.val, "0", `${c.dataset.v} part a vide`);
     ok(c.getAttribute("aria-label").includes("pas obtenue"),
@@ -51,6 +45,32 @@ const season = lire("sprites.json");
   if (seul) {
     const b = document.querySelector(`.card[data-sprite="${seul.id}"] .punch`);
     eq(b.querySelectorAll(".pcell").length, 1, `${seul.id} n'expose que sa ligne`);
+  }
+}
+
+/* Pas d'illustration — un esprit annonce dont l'image n'existe pas encore —
+   le mot reprend la place. Jamais une case vide : on ne saurait plus de
+   quelle ligne il s'agit. Aucun esprit du catalogue n'est dans ce cas
+   aujourd'hui, d'ou le catalogue retouche : le repli doit marcher le jour ou
+   Epic annonce un esprit avant d'en publier l'image. */
+{
+  const { document } = await boot({
+    mutate: (cat) => {
+      const s = cat.sprites.find((x) => x.released);
+      delete s.icon;
+      delete s.variantIcons;
+      s.id = "sans-image";
+      cat.order = cat.order.map((id) => id);
+      cat.order.unshift("sans-image");
+    },
+  });
+  const cells = [...document.querySelectorAll('.card[data-sprite="sans-image"] .pcell')];
+  ok(cells.length > 0, "la fiche sans image a bien sa bande");
+  for (const c of cells) {
+    ok(!c.querySelector("img.pvicon"), `${c.dataset.v} : pas d'image a montrer`);
+    const mot = c.querySelector(".pword");
+    ok(mot && mot.textContent.trim().length > 0, `${c.dataset.v} : le mot sert de repli`);
+    eq(mot.textContent.includes(" "), false, "le repli tient en un mot");
   }
 }
 

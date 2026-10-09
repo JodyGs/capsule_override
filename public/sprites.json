@@ -16,8 +16,7 @@
     "lines": [
       "Les vingt-trois variantes Trick or Treat qui manquaient sont entrees dans le butin le 8 octobre. Vingt-quatre esprits en ont une — tous sauf Mega Man — et le total passe de 122 a 145 pieces.",
       "Elles sont liees a Fortnitemares : elles ne resteront pas apres l'evenement.",
-      "Un code de plus, VeryScaryPumpkin, qui verse trois Snack-O'-Lantern. Cinquante en tout.",
-      "Miel et Obsession sortent toujours le 15 octobre."
+      "Un code de plus, VeryScaryPumpkin, qui verse trois Snack-O'-Lantern. Cinquante en tout."
     ]
   },
   "variants": [
@@ -106,9 +105,7 @@
     "morgana",
     "spookydash",
     "deer",
-    "vampire",
-    "honey",
-    "obsession"
+    "vampire"
   ],
   "sprites": [
     {
@@ -732,40 +729,6 @@
         "bounty",
         "trick"
       ]
-    },
-    {
-      "id": "honey",
-      "name": "Miel",
-      "sub": "Honey Sprite · par Conejito_sam",
-      "rarity": "unknown",
-      "released": false,
-      "releasesOn": "2026-10-15",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty"
-      ],
-      "effect": "Envoie un essaim d'abeilles sur l'adversaire qui vous blesse.",
-      "source": "Annonce pour le 15 octobre. Rarete non communiquee."
-    },
-    {
-      "id": "obsession",
-      "name": "Obsession",
-      "sub": "Obsession Sprite · One Wish Willow",
-      "rarity": "unknown",
-      "released": false,
-      "releasesOn": "2026-10-15",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty"
-      ],
-      "effect": "One Wish Willow vous aide a ramasser les autres esprits.",
-      "source": "Annonce pour le 15 octobre. Rarete non communiquee."
     }
   ],
   "events": {

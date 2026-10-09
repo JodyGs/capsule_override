@@ -19,7 +19,7 @@ const sortis = sprites.sprites.filter((s) => s.released);
 eq(sprites.updatedAt, "2026-10-09", "date de releve sprites");
 eq(codes.updatedAt, "2026-10-09", "date de releve codes");
 ok(html.includes("9 octobre 2026"), "date du pied de page");
-eq(sprites.sprites.length, 27, "esprits catalogues");
+eq(sprites.sprites.length, 25, "esprits catalogues");
 eq(sprites.variants.length, 6, "lignes de variantes");
 eq(sortis.length, 25, "esprits sortis");
 eq(sortis.reduce((n, s) => n + own(s).length, 0), 145, "pieces obtenables");
@@ -61,7 +61,14 @@ eq(tally.rare, 10, "esprits Rares");
 eq(tally.epic, 6, "esprits Epiques");
 eq(tally.legendary, 6, "esprits Legendaires");
 eq(tally.mythic, 3, "esprits Mythiques");
-eq(tally.unknown, 2, "raretes restant a confirmer");
+/* « A confirmer » reste une rarete valable du catalogue : Epic annonce des
+   esprits sans la communiquer. La regle n'est pas qu'il y en ait zero, c'est
+   qu'un esprit sorti ne puisse pas rester sans rarete — une fois en jeu, deux
+   sources suffisent toujours a la recouper. */
+eq(tally.unknown || 0, 0, "aucune rarete en attente pour l'instant");
+for (const s of sortis) ok(s.rarity !== "unknown", `${s.id} est sorti : sa rarete est connue`);
+ok(sprites.rarities.some((r) => r.id === "unknown"),
+   "le libelle « A confirmer » reste disponible");
 /* Une rarete n'est publiee qu'une fois recoupee ; sinon la fiche dit pourquoi,
    et il ne peut s'agir que d'un esprit pas encore sorti. */
 for (const s of sprites.sprites.filter((x) => x.rarity === "unknown")) {
