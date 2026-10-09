@@ -1,96 +1,142 @@
 #!/usr/bin/env python3
-"""Genere les icones de l'app a partir d'une grille 16x16 en pixel art."""
-from PIL import Image, ImageDraw
+"""Genere les icones de l'app.
 
-BG_TOP   = (26, 20, 40)
-BG_BOT   = (13, 10, 22)
-CYAN     = (43, 227, 232)
-CYAN_DIM = (17, 138, 143)
-GRID     = 16
+Le signe est la capsule : les deux anneaux du cadran de l'accueil. Dehors en
+cyan les pieces debloquees, dedans en or celles maitrisees, et au centre un
+pixel carre — le seul angle droit de la composition, qui rattache la marque
+au jeu dont elle parle. Une coche aurait dit « liste a cocher » ; deux arcs
+imbriques disent « collection en cours », ce qu'est reellement l'app, et se
+lisent encore a trente-deux pixels la ou une coche en pixel art bavait.
 
-def check_cells():
-    """Coche epaisse tracee sur la grille, blocs de 2x2."""
-    cells = set()
-    def stroke(x0, y0, x1, y1):
-        steps = max(abs(x1 - x0), abs(y1 - y0))
-        for i in range(steps + 1):
-            x = x0 + (x1 - x0) * i // steps
-            y = y0 + (y1 - y0) * i // steps
-            for dx in (0, 1):
-                for dy in (0, 1):
-                    cells.add((x + dx, y + dy))
-    stroke(3, 7, 6, 10)    # branche courte
-    stroke(6, 10, 13, 3)   # branche longue
+Les arcs ne font pas un tour complet et n'ont pas la meme longueur : un
+anneau ferme serait un logo de chargement, et deux arcs egaux une mire. Leur
+asymetrie est ce qui en fait une marque.
+"""
+from math import cos, radians, sin
 
-    # recentrage : la coche doit tomber au milieu du cadre, pas en bas
-    xs = [c[0] for c in cells]
-    ys = [c[1] for c in cells]
-    dx = round((GRID - 1 - max(xs) - min(xs)) / 2)
-    dy = round((GRID - 1 - max(ys) - min(ys)) / 2)
-    return {(x + dx, y + dy) for (x, y) in cells}
+from PIL import Image, ImageDraw, ImageFilter
 
-CELLS = check_cells()
+# Les memes jetons que la feuille de style, a la virgule pres : l'icone et
+# l'ecran doivent etre du meme bleu.
+BG_TOP = (26, 20, 40)
+BG_BOT = (12, 9, 20)
+CYAN   = (43, 227, 232)
+GOLD   = (255, 201, 60)
+# La piste des anneaux : le meme violet neutre que --surface-3 dans la feuille
+# de style. Teinter la piste de la couleur de son arc virait au brun sale au
+# centre de l'icone, et l'app ne le fait pas non plus.
+TRACK  = (42, 34, 62)
 
-def render(size, inset=0.0, square=True):
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+SS = 4            # suranalyse : on dessine en grand, on reduit, les bords lissent
+TOUR = 0.72       # part de tour de l'anneau exterieur
+TOUR_IN = 0.44    # part de tour de l'anneau interieur
+
+
+def degrade(size):
+    """Le fond de l'app : un degrade vertical, du violet tres sombre au noir."""
+    img = Image.new("RGB", (size, size))
     d = ImageDraw.Draw(img)
-
-    # fond : degrade vertical
     for y in range(size):
         t = y / max(size - 1, 1)
-        d.line([(0, y), (size, y)], fill=tuple(
-            round(BG_TOP[c] + (BG_BOT[c] - BG_TOP[c]) * t) for c in range(3)
-        ) + (255,))
+        d.line([(0, y), (size, y)],
+               fill=tuple(round(BG_TOP[c] + (BG_BOT[c] - BG_TOP[c]) * t) for c in range(3)))
+    return img
 
-    # la coche, ramenee dans la zone sure si demande
-    scale = 1.0 - inset
-    cell = size * scale / GRID
-    origin = size * inset / 2
-    for (cx, cy) in CELLS:
-        x0 = origin + cx * cell
-        y0 = origin + cy * cell
-        d.rectangle([x0, y0, x0 + cell, y0 + cell], fill=CYAN + (255,))
 
-    # ombre portee d'un pixel, pour du relief a petite taille
-    shadow = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    ds = ImageDraw.Draw(shadow)
-    off = max(cell * 0.16, 1)
-    for (cx, cy) in CELLS:
-        x0 = origin + cx * cell + off
-        y0 = origin + cy * cell + off
-        ds.rectangle([x0, y0, x0 + cell, y0 + cell], fill=CYAN_DIM + (110,))
-    base = Image.alpha_composite(img, shadow)
+def lueur(couche, rayon, force):
+    """Le halo de l'app : non pas un disque colore pose derriere le signe —
+    il laverait le centre d'une teinte sale — mais le signe lui-meme, floute
+    et affaibli. La lumiere suit alors exactement ce qui la produit."""
+    flou = couche.filter(ImageFilter.GaussianBlur(rayon))
+    a = flou.split()[3].point(lambda v: round(v * force))
+    flou.putalpha(a)
+    return flou
 
-    top = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    dt = ImageDraw.Draw(top)
-    for (cx, cy) in CELLS:
-        x0 = origin + cx * cell
-        y0 = origin + cy * cell
-        dt.rectangle([x0, y0, x0 + cell, y0 + cell], fill=CYAN + (255,))
-    out = Image.alpha_composite(base, top)
 
-    if not square:  # coins arrondis pour le favicon
-        mask = Image.new("L", (size, size), 0)
-        ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 5, fill=255)
-        out.putalpha(mask)
+def arc(img, centre, rayon, trait, part, couleur, alpha=255):
+    """Un arc a bouts ronds, `rayon` etant celui de sa ligne mediane.
+
+    PIL epaissit un arc vers l'interieur de la boite : sans compensation, le
+    trait et ses bouts ne tombent pas sur le meme cercle et l'icone louche.
+    On elargit donc la boite d'une demi-epaisseur."""
+    d = ImageDraw.Draw(img)
+    debut, fin = -90.0, -90.0 + 360.0 * part
+    r = rayon + trait / 2
+    d.arc([centre - r, centre - r, centre + r, centre + r],
+          debut, fin, fill=couleur + (alpha,), width=round(trait))
+    for angle in ((debut, fin) if part < 1 else ()):
+        x = centre + rayon * cos(radians(angle))
+        y = centre + rayon * sin(radians(angle))
+        b = trait / 2
+        d.ellipse([x - b, y - b, x + b, y + b], fill=couleur + (alpha,))
+
+
+def marque(size, inset):
+    """La capsule seule, sur fond transparent. `inset` ramene le signe dans la
+    zone sure : une icone masquable peut se faire rogner d'un cinquieme."""
+    n = size * SS
+    img = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    c = n / 2
+    echelle = 1.0 - inset
+
+    r_ext = n * 0.330 * echelle
+    r_int = n * 0.212 * echelle
+    trait = n * 0.068 * echelle
+
+    # Les arcs pleins, mis de cote : ils serviront deux fois, une fois flous
+    # pour la lumiere, une fois nets par-dessus.
+    signe = Image.new("RGBA", (n, n), (0, 0, 0, 0))
+    arc(signe, c, r_ext, trait, TOUR, CYAN)
+    arc(signe, c, r_int, trait, TOUR_IN, GOLD)
+
+    img = Image.alpha_composite(img, lueur(signe, trait * 1.1, 0.5))
+
+    # Les pistes ensuite, a peine visibles. Elles sont ce qui distingue une
+    # jauge d'un logo de chargement : sans elles, un arc interrompu n'a pas
+    # de longueur de reference et ne dit plus qu'il manque quelque chose.
+    arc(img, c, r_ext, trait, 1.0, TRACK)
+    arc(img, c, r_int, trait, 1.0, TRACK)
+    img = Image.alpha_composite(img, signe)
+
+    # Le coeur : un carre, pas un disque. C'est le seul angle droit du signe,
+    # et il suffit a rappeler le pixel art sans que rien ne bave en petit.
+    cote = n * 0.090 * echelle
+    coin = cote * 0.22
+    ImageDraw.Draw(img).rounded_rectangle(
+        [c - cote / 2, c - cote / 2, c + cote / 2, c + cote / 2],
+        radius=coin, fill=CYAN + (255,))
+
+    return img.resize((size, size), Image.LANCZOS)
+
+
+def rendre(size, inset=0.0, arrondi=False):
+    fond = degrade(size).convert("RGBA")
+    out = Image.alpha_composite(fond, marque(size, inset))
+    if arrondi:   # le favicon porte ses propres coins : il n'est jamais masque
+        masque = Image.new("L", (size, size), 0)
+        ImageDraw.Draw(masque).rounded_rectangle(
+            [0, 0, size - 1, size - 1], radius=size // 5, fill=255)
+        out.putalpha(masque)
     return out
 
-targets = [
-    ("public/icons/icon-192.png",           192, 0.10, True),
-    ("public/icons/icon-512.png",           512, 0.10, True),
-    ("public/icons/icon-maskable-192.png",  192, 0.34, True),
-    ("public/icons/icon-maskable-512.png",  512, 0.34, True),
-    ("public/icons/apple-touch-icon.png",   180, 0.12, True),
-    ("public/icons/favicon-32.png",          32, 0.06, False),
-    ("public/icons/favicon-180.png",        180, 0.06, False),
+
+cibles = [
+    ("public/icons/icon-192.png",          192, 0.00, False),
+    ("public/icons/icon-512.png",          512, 0.00, False),
+    # Android peut rogner jusqu'au cercle inscrit : le signe recule d'autant.
+    ("public/icons/icon-maskable-192.png", 192, 0.30, False),
+    ("public/icons/icon-maskable-512.png", 512, 0.30, False),
+    ("public/icons/apple-touch-icon.png",  180, 0.06, False),
+    ("public/icons/favicon-32.png",         32, 0.00, True),
+    ("public/icons/favicon-180.png",       180, 0.00, True),
 ]
 
-for path, size, inset, square in targets:
-    img = render(size, inset, square)
-    if path.endswith("apple-touch-icon.png"):
-        flat = Image.new("RGB", (size, size), BG_BOT)   # iOS refuse la transparence
-        flat.paste(img, mask=img.split()[3])
-        flat.save(path)
+for chemin, size, inset, arrondi in cibles:
+    img = rendre(size, inset, arrondi)
+    if chemin.endswith("apple-touch-icon.png"):
+        plat = Image.new("RGB", (size, size), BG_BOT)   # iOS refuse la transparence
+        plat.paste(img, mask=img.split()[3])
+        plat.save(chemin)
     else:
-        img.save(path)
-    print(f"  {path}  {size}x{size}")
+        img.save(chemin)
+    print(f"  {chemin}  {size}x{size}")
