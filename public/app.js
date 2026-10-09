@@ -696,13 +696,38 @@ function buildCards() {
     // L'icone est un enfant direct de la carte, pas un morceau du bloc de
     // titre : c'est ce qui lui permet d'occuper une colonne a elle seule,
     // a gauche du nom, de l'effet et de la source.
+    const effet = `<p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>`;
+
+    // Dans une galerie, la fiche se replie. Neuf portraits tiennent alors
+    // dans un ecran : on choisit qui lire au lieu de defiler devant tout le
+    // monde. Il n'y a ici rien a cocher ni a comparer — c'est une galerie de
+    // personnes, pas un tableau de progression — donc rien ne justifie
+    // d'etaler les neuf textes en permanence.
+    if (readOnly()) {
+      card.innerHTML = `
+      ${spriteIconMarkup(sprite)}
+      <div class="card-top" role="button" tabindex="0" aria-expanded="false" aria-controls="fold-${sprite.id}">
+        <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
+        <div class="tags">${tags}<span class="fold-mark" aria-hidden="true"></span></div>
+      </div>
+      <div class="fold" id="fold-${sprite.id}">
+        <div class="fold-in">
+          ${effet}
+          <div class="src"><b>Comment l'obtenir</b><span>${esc(sprite.source)}</span></div>
+        </div>
+      </div>`;
+      cards.set(sprite.id, card);
+      grid.appendChild(card);
+      continue;
+    }
+
     card.innerHTML = `
       ${spriteIconMarkup(sprite)}
       <div class="card-top">
         <h2 class="name">${esc(sprite.name)}<em>${esc(sprite.sub)}</em></h2>
         <div class="tags">${tags}</div>
       </div>
-      <p class="effect">${esc(sprite.effect)}${sprite.unconfirmed ? ' <span class="unconf">(effet non confirme)</span>' : ""}</p>
+      ${effet}
       <div class="src"><b>Source</b><span>${esc(sprite.source)}</span></div>
       ${rows ? `<div class="vt">
         <div class="vt-head">
@@ -756,6 +781,38 @@ function paintCard(sprite) {
     doneTag.remove();
   }
 }
+
+/* ------------------------------------------------------------
+   Pliage des fiches de galerie
+   Une seule ouverte a la fois : deux textes ouverts cote a cote, et la
+   grille se remet a ressembler a ce qu'elle etait avant le pliage.
+   ------------------------------------------------------------ */
+function toggleFold(card) {
+  const ouvrir = !card.classList.contains("is-open");
+  for (const autre of cards.values()) {
+    autre.classList.toggle("is-open", autre === card && ouvrir);
+    autre.querySelector(".card-top[role='button']")
+      ?.setAttribute("aria-expanded", String(autre === card && ouvrir));
+  }
+}
+
+$("grid").addEventListener("click", (e) => {
+  if (!readOnly()) return;
+  // La photo garde son role : elle ouvre la visionneuse. Tout le reste de la
+  // fiche plie — la zone est large, on n'a pas a viser.
+  if (e.target.closest(".sprite-icon, .vicon")) return;
+  const card = e.target.closest(".card");
+  if (card) toggleFold(card);
+});
+
+// L'en-tete est annonce en bouton : il doit repondre au clavier comme tel.
+$("grid").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const tete = e.target.closest(".card-top[role='button']");
+  if (!tete) return;
+  e.preventDefault();
+  toggleFold(tete.closest(".card"));
+});
 
 /* ------------------------------------------------------------
    Coches
@@ -1049,7 +1106,11 @@ function applyFilters() {
 
   const total = state.catalogue.sprites.length;
   const noun = shown > 1 ? "esprits" : "esprit";
-  if (shown === total && !rule?.wants) {
+  if (readOnly()) {
+    // Une galerie n'a pas de saison, et rien n'y est filtre : le compte dit
+    // ce qu'il y a a lire, pas ce qu'il reste a faire.
+    $("count").textContent = `${total} fiche${total > 1 ? "s" : ""}`;
+  } else if (shown === total && !rule?.wants) {
     $("count").textContent = `${total} esprits cette saison`;
   } else if (rule?.wants) {
     // Avec un filtre de piece, c'est le nombre de pieces qui renseigne.
@@ -2436,7 +2497,10 @@ async function loadCollection(which, { remember = true } = {}) {
   $("search-box").hidden = galerie;
   $("view-seg").hidden = galerie;
   $("btn-filters").hidden = galerie;
-  $("filter-panel").hidden = galerie || $("btn-filters").getAttribute("aria-expanded") !== "true";
+  // Seulement la galerie. Le repliage sur telephone passe par la classe
+  // is-open : poser `hidden` ici le faisait disparaitre partout ailleurs, y
+  // compris sur grand ecran ou le panneau n'a pas de bouton pour revenir.
+  $("filter-panel").hidden = galerie;
   $("btn-export").title = galerie
     ? "Generer une image de la galerie et la partager"
     : "Generer une image de ma liste et la partager";
@@ -2448,7 +2512,9 @@ async function loadCollection(which, { remember = true } = {}) {
   const swap = `Voir : ${COLLECTIONS[suivante].label}`;
   $("btn-legacy").title = swap;
   $("btn-legacy").setAttribute("aria-label", swap);
-  $("season-label").textContent = `Fortnite · ${state.catalogue.season}`;
+  // Le badge porte deja le nom de code — OVERRIDE, RUNNERS. Le repeter dans
+  // la ligne qui le suit allongeait la barre sans rien ajouter.
+  $("season-label").textContent = `Fortnite · ${state.catalogue.season.replace(/\s*—.*$/, "")}`;
   $("season-mark").textContent = state.catalogue.code || "OVERRIDE";
 
   $("s-unlocked-sub").textContent = state.catalogue.variants.length > 1
