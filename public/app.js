@@ -598,13 +598,17 @@ const variantIconUrl = (sprite, variant) => `icons/variants/${sprite.id}-${varia
 /* Chaque variante a sa propre illustration : la statue doree pour Or, la
    silhouette criblee de code pour Cheat Master. Quand elle manque — un
    esprit pas encore sorti — on retombe sur la pastille de couleur. */
+/* La ligne « Base » reprend l'illustration deja affichee en grand : le
+   fichier est le meme, donc deja en cache, et les lignes se lisent toutes de
+   la meme facon. Null quand la wiki n'a rien : un esprit pas encore sorti,
+   une variante dont l'image n'existe pas. */
+function variantIconSrc(sprite, variant) {
+  if (variant.id === "base") return sprite.icon ? iconUrl(sprite) : null;
+  return sprite.variantIcons?.includes(variant.id) ? variantIconUrl(sprite, variant.id) : null;
+}
+
 function variantMarkAt(sprite, variant) {
-  // La ligne « Base » reprend l'illustration deja affichee en grand : le
-  // fichier est le meme, donc deja en cache, et les trois lignes se lisent
-  // de la meme facon.
-  const src = variant.id === "base"
-    ? (sprite.icon ? iconUrl(sprite) : null)
-    : (sprite.variantIcons?.includes(variant.id) ? variantIconUrl(sprite, variant.id) : null);
+  const src = variantIconSrc(sprite, variant);
   if (!src) return "<i></i>";
   return `<img class="vicon" src="${src}" alt="" width="26" height="26" loading="lazy" decoding="async"`
        + ` role="button" tabindex="0" title="Voir ${esc(sprite.name)} ${esc(variant.name)} en grand">`;
@@ -639,6 +643,12 @@ function soonLabel(sprite) {
   return `A venir — ${ordinal(dayMonth.format(new Date(Date.UTC(y, m - 1, d))))}`;
 }
 
+/* « Trick or Treat » ne tient pas dans une case de quarante pixels, « Trick »
+   si. Le premier mot suffit a distinguer les six lignes et se derive du nom
+   du catalogue : une colonne de plus a tenir a jour serait une colonne de
+   plus a oublier. Le nom entier reste dans title et dans aria-label. */
+const shortVariant = (variant) => variant.name.split(" ")[0];
+
 function buildCards() {
   const grid = $("grid");
   grid.innerHTML = "";
@@ -652,6 +662,26 @@ function buildCards() {
 
     let tags = `<span class="tag rarity">${rarityLabel(sprite.rarity)}</span>`;
     if (!sprite.released) tags += `<span class="tag soon">${esc(soonLabel(sprite))}</span>`;
+
+    // La bande perforee de la vue Liste. Une case par ligne de variante, dans
+    // l'ordre du catalogue : vide, debloquee, maitrisee. Elle n'a pas de
+    // vignette et ne peut donc pas remplacer le tableau — les deux coexistent
+    // et c'est le selecteur Cartes / Liste qui choisit. Balayer vite ou voir
+    // de quoi il s'agit sont deux besoins differents.
+    const strip = readOnly() ? "" : `<div class="punch">${variantsOf(sprite).map((v) => {
+      // L'illustration au centre de la case plutot que son nom abrege : on
+      // reconnait une Trick or Treat a sa citrouille bien plus vite qu'au
+      // mot « Trick », et les vignettes ne disparaissent plus en vue Liste.
+      // Pas d'image — un esprit pas encore sorti — on retombe sur le mot.
+      const src = variantIconSrc(sprite, v);
+      const dedans = src
+        ? `<img class="pvicon" src="${src}" alt="" width="26" height="26" loading="lazy" decoding="async">`
+        : `<span class="pword">${esc(shortVariant(v))}</span>`;
+      return `
+        <button type="button" class="pcell" data-s="${sprite.id}" data-v="${v.id}"
+                data-n="${esc(v.name)}" data-val="0" title="${esc(v.name)}">${dedans}</button>`;
+    }).join("")}
+      </div>`;
 
     // Dans une galerie, la carte s'arrete a la fiche : pas de cases.
     const rows = readOnly() ? "" : variantsOf(sprite).map((v) => `
@@ -680,6 +710,7 @@ function buildCards() {
           <span class="vt-key t-u" title="Debloque"><span class="vt-glyph">${ICON_U}</span><em>Deb.</em></span>
           <span class="vt-key t-m" title="Maitrise au niveau 5"><span class="vt-glyph">${ICON_M}</span><em>Mai.</em></span>
         </div>
+        ${strip}
         ${rows}
       </div>` : ""}`;
 
@@ -688,6 +719,8 @@ function buildCards() {
   }
 }
 
+const ETATS = ["pas obtenue", "debloquee", "maitrisee"];
+
 function paintCard(sprite) {
   const card = cards.get(sprite.id);
   let mastered = 0;
@@ -695,6 +728,14 @@ function paintCard(sprite) {
   for (const btn of card.querySelectorAll(".tog")) {
     const level = Number(btn.dataset.lvl);
     btn.setAttribute("aria-pressed", statusOf(btn.dataset.s, btn.dataset.v) >= level ? "true" : "false");
+  }
+  // La bande n'a pas de colonne par niveau : son etat tient dans un attribut,
+  // et l'etiquette vocale doit le dire — une case jaune ne s'entend pas.
+  for (const cell of card.querySelectorAll(".pcell")) {
+    const value = statusOf(cell.dataset.s, cell.dataset.v);
+    cell.dataset.val = String(value);
+    cell.setAttribute("aria-label",
+      `${sprite.name} ${cell.dataset.n} : ${ETATS[value]}, changer`);
   }
   const own = variantsOf(sprite);
   for (const v of own) {
@@ -720,14 +761,18 @@ function paintCard(sprite) {
    Coches
    ------------------------------------------------------------ */
 $("grid").addEventListener("click", (e) => {
-  const btn = e.target.closest(".tog");
+  const btn = e.target.closest(".tog, .pcell");
   if (!btn) return;
 
   const { s: spriteId, v: variant } = btn.dataset;
-  const level = Number(btn.dataset.lvl);
   const current = statusOf(spriteId, variant);
-  // Debloque : bascule. Maitrise : implique debloque, et le retirer laisse debloque.
-  const next = level === 1 ? (current >= 1 ? 0 : 1) : (current === 2 ? 1 : 2);
+  // Deux commandes pour la meme valeur. Le tableau a une colonne par niveau :
+  // chacune bascule la sienne, et maitrise implique debloque. La bande n'a
+  // qu'une case par ligne : elle tourne. Aller de rien a maitrise y coute
+  // deux appuis, c'est le prix d'une case au lieu de deux.
+  const next = btn.classList.contains("pcell")
+    ? (current + 1) % 3
+    : (Number(btn.dataset.lvl) === 1 ? (current >= 1 ? 0 : 1) : (current === 2 ? 1 : 2));
 
   setStatus(spriteId, variant, next);
   paintCard(state.catalogue.sprites.find((x) => x.id === spriteId));
@@ -989,6 +1034,13 @@ function applyFilters() {
       const keep = !rule?.wants || rule.wants(statusOf(sprite.id, row.dataset.variant));
       row.hidden = !keep;
       if (keep) pieces += 1;
+    }
+    // La bande se lit par ses positions : six cases, toujours aux memes
+    // places. Retirer celles qui sortent du filtre la ferait se reduire et
+    // on ne saurait plus laquelle manque. Elles s'effacent au lieu de partir.
+    for (const cell of card.querySelectorAll(".pcell")) {
+      cell.classList.toggle("is-off",
+        !!rule?.wants && !rule.wants(statusOf(sprite.id, cell.dataset.v)));
     }
   }
 
