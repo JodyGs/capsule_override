@@ -10,6 +10,10 @@
   "scripts": {
     "start": "node serve.js",
     "icons": "python3 scripts/make-icons.py",
-    "sprite-icons": "python3 scripts/fetch-sprite-icons.py"
+    "sprite-icons": "python3 scripts/fetch-sprite-icons.py",
+    "test": "node tests/run.mjs"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.0"
   }
 }

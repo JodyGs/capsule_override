@@ -12,3 +12,4 @@ node_modules/
 /*.jpg
 /*.jpeg
 /*.webp
+package-lock.json
