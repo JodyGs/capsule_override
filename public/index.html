@@ -108,44 +108,61 @@
       </div>
 
       <section class="console" id="console" aria-label="Progression">
-        <!-- Avant les compteurs : c'est la premiere chose a savoir en ouvrant
-             l'app, et la seule qui change toute seule. -->
-        <div class="deadline" id="deadline" hidden>
-          <div class="deadline-head">
-            <span class="deadline-k">Fin du passe</span>
-            <span class="deadline-sub" id="deadline-sub"></span>
+        <!-- La capsule. Un seul bloc en tete de page, et dedans un seul
+             cadran : l'anneau exterieur compte les pieces debloquees, celui
+             de l'interieur les maitrisees, et le centre affiche la seule
+             chose qui bouge sans qu'on y touche — le temps qui reste. Les
+             trois compteurs tiennent a cote, en petit : ils expliquent le
+             cadran, ils ne le concurrencent pas. -->
+        <div class="capsule" id="capsule">
+          <div class="capsule-dial">
+            <svg class="dial" viewBox="0 0 160 160" aria-hidden="true">
+              <circle class="dial-track" cx="80" cy="80" r="70"></circle>
+              <circle class="dial-arc is-u" id="dial-u" cx="80" cy="80" r="70"></circle>
+              <circle class="dial-track" cx="80" cy="80" r="56"></circle>
+              <circle class="dial-arc is-m" id="dial-m" cx="80" cy="80" r="56"></circle>
+            </svg>
+            <div class="capsule-core">
+              <span class="capsule-k" id="capsule-k">Fin du passe</span>
+              <b class="capsule-v" id="deadline-v">&mdash;</b>
+              <span class="capsule-sub" id="deadline-sub"></span>
+            </div>
           </div>
-          <b class="deadline-v" id="deadline-v"></b>
-          <div class="deadline-track" aria-hidden="true">
-            <span id="deadline-fill"></span>
+          <div class="capsule-side">
+            <p class="capsule-pct">
+              <b id="s-pct">0<small>%</small></b>
+              <span>maitrise</span>
+            </p>
+            <div class="scores">
+              <div class="score is-unlocked">
+                <span class="score-k">Debloques</span>
+                <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/145</small></span>
+                <span class="score-sub" id="s-unlocked-sub">entrees collectees</span>
+              </div>
+              <div class="score is-mastered">
+                <span class="score-k">Maitrises</span>
+                <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/145</small></span>
+                <span class="score-sub">extraits au niveau 5</span>
+              </div>
+              <div class="score">
+                <span class="score-k">Esprits complets</span>
+                <span class="score-v" id="s-full">0<small id="s-full-d">/11</small></span>
+                <span class="score-sub" id="s-full-sub">3 variantes maitrisees</span>
+              </div>
+            </div>
+            <!-- La saison consommee. Un nombre qui descend ne dit pas s'il
+                 reste beaucoup : une regle avec le depart, le jour present
+                 et l'echeance le montre d'un coup d'oeil. -->
+            <div class="pass" id="pass" hidden>
+              <div class="pass-track" aria-hidden="true"><span id="deadline-fill"></span></div>
+              <div class="pass-marks">
+                <span id="pass-a"></span>
+                <b id="pass-b"></b>
+                <span id="pass-c"></span>
+              </div>
+            </div>
+            <p class="deadline-note" id="deadline-note"></p>
           </div>
-          <p class="deadline-note" id="deadline-note"></p>
-        </div>
-        <div class="scores">
-          <div class="score is-unlocked">
-            <span class="score-k">Debloques</span>
-            <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/145</small></span>
-            <span class="score-sub" id="s-unlocked-sub">entrees collectees</span>
-          </div>
-          <div class="score is-mastered">
-            <span class="score-k">Maitrises</span>
-            <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/145</small></span>
-            <span class="score-sub">extraits au niveau 5</span>
-          </div>
-          <div class="score">
-            <span class="score-k">Completion</span>
-            <span class="score-v" id="s-pct">0<small>%</small></span>
-            <span class="score-sub">du contenu disponible</span>
-          </div>
-          <div class="score">
-            <span class="score-k">Esprits complets</span>
-            <span class="score-v" id="s-full">0<small id="s-full-d">/11</small></span>
-            <span class="score-sub" id="s-full-sub">3 variantes maitrisees</span>
-          </div>
-        </div>
-        <div class="bar" aria-hidden="true">
-          <span class="seg-m" id="bar-m" style="width:0%"></span>
-          <span class="seg-u" id="bar-u" style="width:0%"></span>
         </div>
         <details class="rarity-fold" id="rarity-fold">
           <summary>Detail par rarete</summary>

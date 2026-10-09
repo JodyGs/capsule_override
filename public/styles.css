@@ -3,7 +3,6 @@
    ============================================================ */
 :root{
   --bg:#F1EFF6;
-  --bg-veil:rgba(0,125,140,.05);
   --surface:#FFFFFF;
   --surface-2:#F7F5FB;
   --surface-3:#ECE8F4;
@@ -31,6 +30,15 @@
   --f-orange:#A8530A;
   --f-rouge:#AE2318;
   --f-vert:#0F7048;
+  /* Ambiances. Une teinte par collection : elle habille le fond, le badge et
+     le bandeau, de sorte qu'on reconnaisse la liste du coin de l'oeil. Elle
+     ne remplace pas --accent dans la saison en cours ni dans Legacy, ou le
+     cyan et l'or portent une information — debloque, maitrise. Dans Family
+     il n'y a rien a cocher : la teinte peut y prendre toute la place. */
+  --mood:var(--accent);
+  --mood-veil:rgba(0,125,140,.05);
+  --patina:#8A6411; --patina-veil:rgba(138,100,17,.055);
+  --bloom:#B5277A; --bloom-ink:#FFFFFF; --bloom-veil:rgba(181,39,122,.05);
   --shadow:0 1px 2px rgba(21,17,30,.05), 0 8px 24px -14px rgba(21,17,30,.28);
   --shadow-lift:0 2px 4px rgba(21,17,30,.06), 0 18px 40px -18px rgba(21,17,30,.35);
   --radius:10px;
@@ -49,7 +57,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0F0C16; --bg-veil:rgba(43,227,232,.055);
+    --bg:#0F0C16;
     --surface:#181322; --surface-2:#1F1930; --surface-3:#271F3A;
     --line:#2D2542; --line-strong:#453A63;
     --ink:#EFEBF7; --ink-2:#A9A1C0; --ink-3:#7C7398;
@@ -58,12 +66,15 @@
     --warn:#FF9A6E; --warn-soft:rgba(255,154,110,.13);
     --r-rare:#5AA2FF; --r-epic:#B478FF; --r-legendary:#FFA33F; --r-mythic:#FFE05C;
     --f-rose:#FF7EC0; --f-orange:#FFA65C; --f-rouge:#FF7A6B; --f-vert:#4FDD9B;
+    --mood-veil:rgba(43,227,232,.055);
+    --patina:#D6AA5A; --patina-veil:rgba(214,170,90,.06);
+    --bloom:#FF7EC0; --bloom-ink:#2A0A1B; --bloom-veil:rgba(255,126,192,.055);
     --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -18px rgba(0,0,0,.9);
     --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 22px 46px -20px rgba(0,0,0,1);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0F0C16; --bg-veil:rgba(43,227,232,.055);
+  --bg:#0F0C16;
   --surface:#181322; --surface-2:#1F1930; --surface-3:#271F3A;
   --line:#2D2542; --line-strong:#453A63;
   --ink:#EFEBF7; --ink-2:#A9A1C0; --ink-3:#7C7398;
@@ -72,6 +83,9 @@
   --warn:#FF9A6E; --warn-soft:rgba(255,154,110,.13);
   --r-rare:#5AA2FF; --r-epic:#B478FF; --r-legendary:#FFA33F; --r-mythic:#FFE05C;
   --f-rose:#FF7EC0; --f-orange:#FFA65C; --f-rouge:#FF7A6B; --f-vert:#4FDD9B;
+  --mood-veil:rgba(43,227,232,.055);
+  --patina:#D6AA5A; --patina-veil:rgba(214,170,90,.06);
+  --bloom:#FF7EC0; --bloom-ink:#2A0A1B; --bloom-veil:rgba(255,126,192,.055);
   --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 30px -18px rgba(0,0,0,.9);
   --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 22px 46px -20px rgba(0,0,0,1);
 }
@@ -83,7 +97,7 @@ body{
   min-height:100vh;
   background:var(--bg);
   background-image:
-    linear-gradient(var(--bg-veil),var(--bg-veil)),
+    linear-gradient(var(--mood-veil),var(--mood-veil)),
     repeating-linear-gradient(0deg, rgba(128,128,128,.035) 0 1px, transparent 1px 3px);
   color:var(--ink);
   font-family:var(--f-body);
@@ -309,8 +323,32 @@ body{
 }
 .legacy-why[open] > summary::after{transform:rotate(-135deg) translate(-1px,-1px)}
 
-/* Dans le passe, le liseret de l'app rappelle la couleur legendaire. */
-body.is-legacy .mark{background:var(--r-legendary);color:var(--bg)}
+/* ------------------------------------------------------------------
+   Trois collections, trois ambiances. Meme typographie, meme grille,
+   meme densite : seuls changent le voile du fond, le badge et le
+   bandeau. Assez pour reconnaitre la liste sans lire son nom, pas
+   assez pour avoir l'impression d'avoir change d'application.
+   ------------------------------------------------------------------ */
+body.is-legacy{--mood:var(--patina); --mood-veil:var(--patina-veil)}
+body.is-legacy .mark{background:var(--mood);color:var(--bg)}
+body.is-legacy .legacy-banner{
+  background:color-mix(in srgb, var(--mood) 9%, var(--surface));
+  border-color:color-mix(in srgb, var(--mood) 38%, transparent);
+}
+body.is-legacy .legacy-why > summary{color:var(--mood)}
+
+/* Family ne compte rien et ne coche rien : aucune case, aucun compteur,
+   aucune barre. Le rose peut donc y prendre la place de l'accent sans
+   effacer une information au passage. */
+body.is-gallery{
+  --mood:var(--bloom); --mood-veil:var(--bloom-veil);
+  --accent:var(--bloom); --accent-ink:var(--bloom-ink);
+}
+body.is-gallery .mark{background:var(--mood);color:var(--accent-ink)}
+body.is-gallery .legacy-banner{
+  background:color-mix(in srgb, var(--mood) 9%, var(--surface));
+  border-color:color-mix(in srgb, var(--mood) 38%, transparent);
+}
 
 /* Bouton de theme : icone + libelle du mode courant */
 .theme-btn{gap:8px}
@@ -339,20 +377,91 @@ h1{
   margin-top:14px;background:var(--surface);border:1px solid var(--line);
   border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
 }
-.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.score{padding:18px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+/* ------------------------------------------------------------------
+   La capsule. Un cadran a deux anneaux — dehors les pieces debloquees,
+   dedans celles maitrisees — avec au centre la seule valeur qui change
+   sans qu'on y touche. Deux anneaux concentriques plutot que deux barres
+   empilees : les maitrises sont un sous-ensemble des debloques, et un
+   anneau inscrit dans un autre dit cette inclusion sans legende.
+   ------------------------------------------------------------------ */
+.capsule{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:22px;align-items:center;padding:20px 22px;
+}
+.capsule-dial{position:relative;width:160px;height:160px;flex:none}
+.dial{width:100%;height:100%;display:block;overflow:visible}
+.dial circle{
+  fill:none;stroke-width:9;
+  transform:rotate(-90deg);transform-origin:50% 50%;
+}
+.dial-track{stroke:var(--surface-3)}
+.dial-arc{
+  stroke-linecap:round;
+  transition:stroke-dasharray .5s cubic-bezier(.22,1,.36,1), stroke .3s ease;
+}
+.dial-arc.is-u{stroke:var(--accent)}
+.dial-arc.is-m{stroke:var(--gold)}
+
+/* Le centre du cadran. Place au chausse-pied : il doit tenir dans le
+   disque interieur, d'ou les tailles contraintes et le texte centre. */
+.capsule-core{
+  position:absolute;inset:26px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;text-align:center;
+}
+.capsule-k{
+  font-family:var(--f-mono);font-size:8px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);line-height:1.2;
+}
+.capsule-v{
+  font-family:var(--f-display);font-size:30px;line-height:1;font-weight:700;
+  color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.capsule-sub{
+  font-family:var(--f-mono);font-size:9.5px;color:var(--ink-2);
+  line-height:1.25;max-width:94px;
+}
+
+.capsule-side{display:flex;flex-direction:column;gap:13px;min-width:0}
+.capsule-pct{
+  margin:0;display:flex;align-items:baseline;gap:8px;
+}
+.capsule-pct b{
+  font-family:var(--f-display);font-size:34px;line-height:1;font-weight:700;
+  color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.capsule-pct b small{font-size:17px;font-weight:600}
+.capsule-pct span{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+
+.scores{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  border:1px solid var(--line);border-radius:8px;background:var(--surface-2);
+}
+.score{padding:11px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:1px;min-width:0}
 .score:last-child{border-right:0}
-.score-k{font-family:var(--f-mono);font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3)}
-.score-v{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.score-v small{font-size:15px;font-weight:600;color:var(--ink-3)}
+.score-k{font-family:var(--f-mono);font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-3)}
+.score-v{font-family:var(--f-display);font-weight:700;font-size:23px;line-height:1.15;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.score-v small{font-size:13px;font-weight:600;color:var(--ink-3)}
 .score.is-unlocked .score-v{color:var(--accent)}
 .score.is-mastered .score-v{color:var(--gold)}
-.score-sub{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.score-sub{font-family:var(--f-mono);font-size:10px;color:var(--ink-3)}
 
-.bar{display:flex;height:8px;background:var(--surface-3);border-top:1px solid var(--line)}
-.bar span{display:block;transition:width .35s ease}
-.bar .seg-m{background:var(--gold)}
-.bar .seg-u{background:var(--accent)}
+/* La regle de la saison : depart a gauche, echeance a droite, et le jour
+   present marque dessous a sa vraie place. */
+.pass{display:flex;flex-direction:column;gap:5px}
+.pass-track{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden}
+.pass-track span{
+  display:block;height:100%;background:var(--accent);
+  transition:width .5s ease, background-color .3s ease;
+}
+.pass-marks{
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.pass-marks b{font-weight:600;color:var(--ink-2)}
 
 .rarity-fold{border-top:1px solid var(--line);background:var(--surface-2)}
 .rarity-fold > summary{
@@ -472,8 +581,18 @@ h1{
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .grid.is-list{grid-template-columns:1fr;gap:8px}
 
+/* La rarete n'est plus seulement un liseret de trois pixels sur le bord :
+   elle teinte le haut de la plaque et eclaire l'illustration par-derriere.
+   On la lit avant meme le nom. Le liseret reste — il ancre la carte dans sa
+   colonne et survit aux themes clairs, ou un degrade de 7 % ne se voit pas. */
 .card{
-  position:relative;background:var(--surface);border:1px solid var(--line);
+  position:relative;
+  background:
+    linear-gradient(176deg,
+      color-mix(in srgb, var(--rc, var(--ink-3)) 7%, transparent) 0%,
+      transparent 58%),
+    var(--surface);
+  border:1px solid color-mix(in srgb, var(--rc, var(--ink-3)) 16%, var(--line));
   border-radius:var(--radius);box-shadow:var(--shadow);
   padding:16px 18px 14px 20px;
   /* L'image occupe une colonne entiere a gauche ; le nom, l'effet et la
@@ -513,9 +632,10 @@ h1{
   object-fit:contain;
   /* Un halo de la couleur de rarete decolle le sujet du fond : les esprits
      sombres se perdaient sur le theme sombre, les clairs sur le theme clair. */
-  background:radial-gradient(circle at 50% 56%,
-    color-mix(in srgb, var(--rc, var(--ink-3)) 24%, transparent) 0%,
-    transparent 70%);
+  background:radial-gradient(circle at 50% 54%,
+    color-mix(in srgb, var(--rc, var(--ink-3)) 34%, transparent) 0%,
+    color-mix(in srgb, var(--rc, var(--ink-3)) 8%, transparent) 54%,
+    transparent 72%);
   filter:drop-shadow(0 3px 6px rgba(0,0,0,.3));
 }
 /* Repli pour les esprits pas encore sortis : initiale sur fond de rarete. */
@@ -565,17 +685,43 @@ h1{
 .vrow.v-gold .vname i{background:var(--gold)}
 .vrow.v-cheat .vname i{background:var(--r-epic)}
 
+/* La carte perforee. Une case non prise est un trou — trait pointille, fond
+   vide, glyphe efface — et une case prise est pleine. Six lignes de variantes
+   se lisent alors d'un regard : combien de trous, combien d'or. Avec un fond
+   gris et un cadre plein, les deux etats avaient le meme poids a l'oeil et
+   il fallait chercher la coche. */
 .tog{
+  position:relative;
   width:34px;height:30px;display:grid;place-items:center;cursor:pointer;
-  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:7px;
-  color:var(--ink-3);transition:background .14s,color .14s,border-color .14s;padding:0;
+  background:transparent;border:1px dashed var(--line-strong);border-radius:7px;
+  color:color-mix(in srgb, var(--ink-3) 55%, transparent);
+  transition:background .14s,color .14s,border-color .14s;padding:0;
 }
-.tog:hover{border-color:var(--ink-3);color:var(--ink-2)}
+.tog:hover{border-color:var(--ink-3);color:var(--ink-2);background:var(--surface-2)}
+.tog[aria-pressed="true"]{border-style:solid}
 .tog svg{width:15px;height:15px;display:block}
 .tog[aria-pressed="true"].t-u{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .tog[aria-pressed="true"].t-m{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
-@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
-.tog.pulse{animation:pop .32s ease}
+/* Le tampon. C'est le geste qu'on repete cent fois : il merite un recul,
+   un flash de la teinte, et rien d'autre. La case s'enfonce d'abord, puis
+   depasse legerement en revenant — un tampon qu'on presse, pas un bouton
+   qui grossit — et un halo de sa propre couleur part en s'effacant. */
+@keyframes pop{
+  0%{transform:scale(1)}
+  24%{transform:scale(.84)}
+  56%{transform:scale(1.09)}
+  100%{transform:scale(1)}
+}
+@keyframes stamp{
+  0%{box-shadow:0 0 0 0 currentColor;opacity:.5}
+  100%{box-shadow:0 0 0 9px currentColor;opacity:0}
+}
+.tog.pulse{animation:pop .34s cubic-bezier(.22,1,.36,1)}
+.tog.pulse::after{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;
+  pointer-events:none;animation:stamp .42s ease-out forwards;
+}
+@media (prefers-reduced-motion:reduce){.tog.pulse::after{animation:none;content:none}}
 
 .grid.is-list .card{
   grid-template-columns:auto minmax(160px,1.1fr) minmax(0,2fr) auto;
@@ -1040,44 +1186,37 @@ body{
 .todo-moment-line{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
 
 /* ------------------------------------------------------------------
-   Fin du passe. En tete de la console, avant les compteurs : c'est la
-   premiere chose a savoir en ouvrant l'app, et la seule qui bouge toute
-   seule. La jauge montre la saison consommee — un nombre qui descend ne
-   dit pas s'il reste beaucoup, une barre qui se remplit le montre.
+   Etats de la capsule. Trois jours ou moins : tout ce qui touche au
+   temps bascule en teinte d'alerte — le centre du cadran, la regle de
+   la saison. Les anneaux de collection, eux, gardent leur couleur :
+   l'urgence porte sur l'echeance, pas sur ce qui est deja acquis.
    ------------------------------------------------------------------ */
-.deadline{
-  display:flex;flex-direction:column;gap:7px;
-  padding:13px 16px 14px;border-bottom:1px solid var(--line);
-  background:var(--surface-2);
-}
-.deadline-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-.deadline-k{
-  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--ink-3);
-}
-.deadline-sub{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2)}
-.deadline-v{
-  font-size:26px;line-height:1;font-weight:600;color:var(--ink);
-  font-variant-numeric:tabular-nums;letter-spacing:-.01em;
-}
-.deadline-track{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden}
-.deadline-track span{
-  display:block;height:100%;background:var(--accent);
-  transition:width .5s ease, background-color .3s ease;
-}
 .deadline-note{margin:0;font-family:var(--f-mono);font-size:10px;color:var(--ink-3);line-height:1.5}
 
-/* Trois jours ou moins : l'encadre bascule en alerte, sans clignoter. */
-.deadline[data-soon="true"]{
-  background:var(--warn-soft);
-  border-bottom-color:color-mix(in srgb, var(--warn) 40%, var(--line));
+.capsule[data-soon="true"] .capsule-v{color:var(--warn)}
+.capsule[data-soon="true"] .capsule-k{color:var(--warn)}
+.capsule[data-soon="true"] .pass-track span{background:var(--warn)}
+.capsule[data-soon="true"] .capsule-dial{
+  border-radius:50%;
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--warn) 35%, transparent),
+             0 0 28px -6px color-mix(in srgb, var(--warn) 45%, transparent);
 }
-.deadline[data-soon="true"] .deadline-v{color:var(--warn)}
-.deadline[data-soon="true"] .deadline-track span{background:var(--warn)}
-/* Passe l'echeance, plus rien a courir : l'encadre s'eteint. */
-.deadline[data-over="true"] .deadline-v{font-size:18px;color:var(--ink-3);font-weight:500}
-.deadline[data-over="true"] .deadline-track span{background:var(--ink-3)}
+/* Passe l'echeance, plus rien a courir : le centre s'eteint. */
+.capsule[data-over="true"] .capsule-v{font-size:16px;color:var(--ink-3);font-weight:600}
+.capsule[data-over="true"] .pass-track span{background:var(--ink-3)}
+
+@media (max-width:760px){
+  .capsule{grid-template-columns:1fr;justify-items:center;gap:16px;padding:18px 16px}
+  .capsule-side{width:100%}
+  .capsule-pct{justify-content:center}
+}
 @media (max-width:620px){
-  .deadline{padding:11px 13px 12px}
-  .deadline-v{font-size:23px}
+  .capsule{padding:15px 13px}
+  .capsule-dial{width:138px;height:138px}
+  .dial circle{stroke-width:8}
+  .capsule-core{inset:22px}
+  .capsule-v{font-size:26px}
+  .capsule-pct b{font-size:29px}
+  .score{padding:9px 11px}
+  .score-v{font-size:20px}
 }

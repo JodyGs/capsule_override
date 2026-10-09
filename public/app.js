@@ -386,30 +386,57 @@ function humanLeft(ms) {
 }
 
 const finDate = new Intl.DateTimeFormat("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+// Au centre du cadran il n'y a qu'un disque de quatre-vingt-dix pixels : la
+// date y tient en une ligne ou elle deborde sur l'anneau. La version longue
+// reste sous la capsule, ou la place ne manque pas.
+const coreDate = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+const bornDate = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short" });
 
+/* Le centre du cadran et la regle de la saison. Les deux anneaux, eux, sont
+   peints par renderStats : ils ne dependent que de la collection, pas du
+   temps, et n'ont aucune raison d'etre redessines chaque minute. */
 function paintDeadline() {
-  const box = $("deadline");
+  const box = $("capsule");
+  const pass = $("pass");
   const fin = state.which === "legacy" ? null : seasonEndAt();
-  if (!fin) { box.hidden = true; return; }
+
+  // Une archive n'a pas d'echeance : le centre le dit au lieu d'afficher un
+  // rebours arrete a zero, et la regle de saison disparait.
+  if (!fin) {
+    box.dataset.over = "true";
+    box.dataset.soon = "false";
+    pass.hidden = true;
+    $("capsule-k").textContent = "Archive";
+    $("deadline-v").textContent = "Saison close";
+    $("deadline-sub").textContent = "";
+    $("deadline-note").textContent = "Plus d'echeance : les paliers sont figes, rien ne se perd.";
+    return;
+  }
 
   const t = now();
   const reste = fin.at - t;
-  box.hidden = false;
   box.dataset.over = String(reste <= 0);
-  // Sous trois jours, l'encadre passe en teinte d'alerte.
+  // Sous trois jours, tout ce qui touche au temps passe en teinte d'alerte.
   box.dataset.soon = String(reste > 0 && reste <= 3 * 86400000);
+  $("capsule-k").textContent = "Fin du passe";
 
-  // La jauge montre la saison consommee : un chiffre qui descend ne dit pas
+  // La regle montre la saison consommee : un chiffre qui descend ne dit pas
   // s'il reste beaucoup ou peu, une barre qui se remplit le montre.
   const debut = state.catalogue?.seasonStart;
-  let part = 1;
-  if (debut && reste > 0) {
+  let depart = null, part = 1;
+  if (debut) {
     const [y, m, d] = debut.split("-").map(Number);
-    const zone = state.catalogue.events.zone;
-    const depart = instantAt(zone, y, m, d, 0, 0);
-    part = Math.min(1, Math.max(0, (t - depart) / (fin.at - depart)));
+    depart = instantAt(state.catalogue.events.zone, y, m, d, 0, 0);
+    if (reste > 0) part = Math.min(1, Math.max(0, (t - depart) / (fin.at - depart)));
   }
-  $("deadline-fill").style.width = `${Math.round(part * 100)}%`;
+  pass.hidden = depart === null;
+  if (depart !== null) {
+    $("deadline-fill").style.width = `${Math.round(part * 100)}%`;
+    $("pass-a").textContent = ordinal(bornDate.format(new Date(depart)));
+    $("pass-c").textContent = ordinal(bornDate.format(new Date(fin.at)));
+    const jour = Math.floor((t - depart) / 86400000) + 1;
+    $("pass-b").textContent = reste <= 0 ? "termine" : `jour ${jour}`;
+  }
 
   if (reste <= 0) {
     $("deadline-v").textContent = "Saison terminee";
@@ -418,10 +445,11 @@ function paintDeadline() {
     return;
   }
   $("deadline-v").textContent = humanLeft(reste);
-  $("deadline-sub").textContent = ordinal(finDate.format(new Date(fin.at)));
+  $("deadline-sub").textContent = ordinal(coreDate.format(new Date(fin.at)));
+  const quand = `Fin le ${ordinal(finDate.format(new Date(fin.at)))}.`;
   $("deadline-note").textContent = fin.exact
-    ? "Horaire confirme par Epic."
-    : "Heure estimee : Epic publie le jour, pas l'heure. Le minuteur en jeu fait foi.";
+    ? `${quand} Horaire confirme par Epic.`
+    : `${quand} Heure estimee : Epic publie le jour, pas l'heure — le minuteur en jeu fait foi.`;
 }
 
 function startAgenda() {
@@ -717,6 +745,19 @@ $("grid").addEventListener("click", (e) => {
 /* ------------------------------------------------------------
    Scores
    ------------------------------------------------------------ */
+/* Les deux rayons du cadran, tels que le SVG les declare. Le perimetre se
+   calcule ici plutot que de dormir en dur dans la feuille de style : changer
+   un rayon dans le balisage ne doit pas demander de recalculer a la main. */
+const DIAL_U = 2 * Math.PI * 70;
+const DIAL_M = 2 * Math.PI * 56;
+const arc = (el, part, tour) => {
+  const p = Math.min(1, Math.max(0, part));
+  el.style.strokeDasharray = `${(p * tour).toFixed(2)} ${tour.toFixed(2)}`;
+  // Un bout arrondi reste visible meme sur une longueur nulle : a zero piece,
+  // le cadran afficherait un point qu'on lirait comme une premiere prise.
+  el.style.strokeLinecap = p > 0 ? "round" : "butt";
+};
+
 /* Le compte de la collection courante. Un seul endroit : l'ecran, l'image
    d'export et le message de partage doivent annoncer les memes chiffres. */
 function tally() {
@@ -741,8 +782,12 @@ function renderStats() {
   $("s-mastered").firstChild.nodeValue = mastered;
   $("s-pct").firstChild.nodeValue = pct;
   $("s-full").firstChild.nodeValue = full;
-  $("bar-m").style.width = `${(mastered / denom) * 100}%`;
-  $("bar-u").style.width = `${((unlocked - mastered) / denom) * 100}%`;
+  // Les deux anneaux. L'arc se dessine en coupant le trait : une longueur
+  // visible, puis le reste du tour en vide. Les maitrises sont un
+  // sous-ensemble des debloques, donc les deux arcs partent du meme haut et
+  // l'anneau interieur se lit comme inscrit dans l'autre, sans legende.
+  arc($("dial-u"), denom ? unlocked / denom : 0, DIAL_U);
+  arc($("dial-m"), denom ? mastered / denom : 0, DIAL_M);
 
   for (const rarity of ["rare", "epic", "legendary", "mythic"]) {
     const subset = state.live.filter((s) => s.rarity === rarity);

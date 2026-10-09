@@ -141,7 +141,10 @@ for (const s of sprites.sprites) {
   if (s.icon) ok(sw.includes(`icons/sprites/${s.id}.png`), `precache base ${s.id}`);
   for (const v of s.variantIcons || []) ok(sw.includes(`icons/variants/${s.id}-${v}.png`), `precache ${s.id}-${v}`);
 }
-eq(sw.match(/capsule-v(\d+)/)[1], "56", "version du service worker");
+/* Garde-fou volontairement rigide : un service worker non renumerote sert
+   l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
+   a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
+eq(sw.match(/capsule-v(\d+)/)[1], "57", "version du service worker");
 const refs = [...sw.matchAll(/\.\/icons\/(?:sprites|variants|family)\/([a-z0-9-]+)\.png/g)].map((m) => m[1]);
 const vivants = new Set([...sprites.sprites, ...legacy.sprites, ...family.sprites].flatMap((s) =>
   [s.id, ...(s.variantIcons || []).map((v) => `${s.id}-${v}`)]));
