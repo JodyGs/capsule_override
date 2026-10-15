@@ -6,17 +6,19 @@
     "date": "2026-11-01",
     "time": "02:00",
     "timeConfirmed": false,
-    "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : le compte a rebours se termine donc au plus tot. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
+    "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : deux sources estiment plutot 4 h du matin a New York, donc le compte a rebours se termine au plus tot — se tromper dans ce sens-la est le seul acceptable. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-15",
   "news": {
-    "version": "2026-10-09",
-    "title": "Les Trick or Treat sont la",
-    "date": "9 octobre 2026",
+    "version": "2026-10-15",
+    "title": "Miel, Obsession et une septieme ligne",
+    "date": "15 octobre 2026",
     "lines": [
-      "Les vingt-trois variantes Trick or Treat qui manquaient sont entrees dans le butin le 8 octobre. Vingt-quatre esprits en ont une — tous sauf Mega Man — et le total passe de 122 a 145 pieces.",
-      "Elles sont liees a Fortnitemares : elles ne resteront pas apres l'evenement.",
-      "Un code de plus, VeryScaryPumpkin, qui verse trois Snack-O'-Lantern. Cinquante en tout."
+      "Les deux esprits annonces sont sortis avec la v42.40 : Miel, dernier laureat du concours Design-a-Sprite, et Obsession, venu du film. Chacun avec ses six variantes.",
+      "Septieme ligne : Coin-coin. Elle ne se ramasse pas — c'est une recompense de Maitrise, et seuls cinq esprits en ont une : Jonesy, Broussaille, Aventure, Spooky Dash et Klombo, aux paliers 40, 45, 50, 55 et 60.",
+      "Vingt-sept esprits, 162 pieces. Sprite Checklist annonce le meme total.",
+      "La rarete d'Obsession n'est annoncee que par une source : elle reste a confirmer.",
+      "Un code de plus, DOOR2DOOR4CANDY, qui verse deux accelerateurs d'extraction."
     ]
   },
   "variants": [
@@ -56,6 +58,12 @@
       "name": "Trick or Treat",
       "note": "Des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, arrivee avec Fortnitemares : la Couronne le 1er octobre au bout de sa chaine de maitrise, les vingt-trois autres le 8. Elles sont liees a l'evenement et ne resteront pas apres.",
       "find": "Dans les coffres et les codes de triche ramasses sur la carte."
+    },
+    {
+      "id": "quack",
+      "name": "Coin-coin",
+      "note": "Chaque esprit que vous portez gagne un supplement d'XP d'esprit a chaque fois qu'il en gagne — Epic ne donne aucun pourcentage. La forme Coin-coin garde par ailleurs la capacite de son esprit. Septieme ligne de la saison, arrivee le 15 octobre : elle ne se ramasse pas, elle se merite, et seuls cinq esprits en ont une.",
+      "find": "Pas en partie : c'est une recompense de Maitrise, a reclamer dans l'onglet Recompenses du menu Override."
     }
   ],
   "rarities": [
@@ -105,7 +113,9 @@
     "morgana",
     "spookydash",
     "deer",
-    "vampire"
+    "vampire",
+    "honey",
+    "obsession"
   ],
   "sprites": [
     {
@@ -122,7 +132,8 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
+        "trick",
+        "quack"
       ],
       "variants": [
         "base",
@@ -130,8 +141,12 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
-      ]
+        "trick",
+        "quack"
+      ],
+      "variantHow": {
+        "quack": "Palier 40 de la Maitrise des esprits."
+      }
     },
     {
       "id": "bush",
@@ -147,7 +162,8 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
+        "trick",
+        "quack"
       ],
       "variants": [
         "base",
@@ -155,8 +171,12 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
-      ]
+        "trick",
+        "quack"
+      ],
+      "variantHow": {
+        "quack": "Palier 45 de la Maitrise des esprits."
+      }
     },
     {
       "id": "adventure",
@@ -172,7 +192,8 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
+        "trick",
+        "quack"
       ],
       "variants": [
         "base",
@@ -180,8 +201,12 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
-      ]
+        "trick",
+        "quack"
+      ],
+      "variantHow": {
+        "quack": "Palier 50 de la Maitrise des esprits."
+      }
     },
     {
       "id": "8bit",
@@ -347,7 +372,8 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
+        "trick",
+        "quack"
       ],
       "variants": [
         "base",
@@ -355,8 +381,12 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
-      ]
+        "trick",
+        "quack"
+      ],
+      "variantHow": {
+        "quack": "Palier 60 de la Maitrise des esprits — le dernier de la piste."
+      }
     },
     {
       "id": "crown",
@@ -642,7 +672,8 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
+        "trick",
+        "quack"
       ],
       "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
       "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast",
@@ -652,8 +683,12 @@
         "cheat",
         "loot",
         "bounty",
-        "trick"
-      ]
+        "trick",
+        "quack"
+      ],
+      "variantHow": {
+        "quack": "Palier 55 de la Maitrise des esprits."
+      }
     },
     {
       "id": "vampire",
@@ -721,6 +756,56 @@
       ],
       "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
       "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots",
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty",
+        "trick"
+      ]
+    },
+    {
+      "id": "honey",
+      "name": "Miel",
+      "sub": "Honey Sprite · par Conejito_sam",
+      "rarity": "epic",
+      "released": true,
+      "effect": "Vos tirs a distance peuvent faire surgir un essaim d'abeilles a l'endroit touche. L'essaim inflige 5 degats par seconde, ne grandit pas avec le niveau, et peut vous blesser aussi.",
+      "source": "Coffres-citrouilles de Fortnitemares · Coffres et codes de triche · Dernier laureat du concours Design-a-Sprite",
+      "icon": true,
+      "variantIcons": [
+        "gold",
+        "cheat",
+        "loot",
+        "bounty",
+        "trick"
+      ],
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty",
+        "trick"
+      ]
+    },
+    {
+      "id": "obsession",
+      "name": "Obsession",
+      "sub": "Obsession Sprite · One Wish Willow",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "One Wish Willow vous aide a ramasser les autres esprits. Epic n'a pas explique comment.",
+      "source": "Coffres-citrouilles et coffres rares · Codes de triche · Collaboration avec le film Obsession. Rarete non recoupee : une seule source l'annonce Mythique",
+      "variants": [
+        "base",
+        "gold",
+        "cheat",
+        "loot",
+        "bounty",
+        "trick"
+      ],
       "icon": true,
       "variantIcons": [
         "gold",

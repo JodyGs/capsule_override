@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v59";
+const VERSION = "capsule-v60";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -204,7 +204,26 @@ const SHELL = [
   "./icons/variants/dumpster-loot.png",
   "./icons/variants/dumpster-bounty.png",
   "./icons/variants/onigiri-loot.png",
-  "./icons/variants/overshield-loot.png"
+  "./icons/variants/overshield-loot.png",
+
+  // 15 octobre : Miel, Obsession et la ligne Coin-coin.
+  "./icons/variants/jonesy-quack.png",
+  "./icons/variants/bush-quack.png",
+  "./icons/variants/adventure-quack.png",
+  "./icons/variants/klombo-quack.png",
+  "./icons/variants/spookydash-quack.png",
+  "./icons/sprites/honey.png",
+  "./icons/variants/honey-gold.png",
+  "./icons/variants/honey-cheat.png",
+  "./icons/variants/honey-loot.png",
+  "./icons/variants/honey-bounty.png",
+  "./icons/variants/honey-trick.png",
+  "./icons/sprites/obsession.png",
+  "./icons/variants/obsession-gold.png",
+  "./icons/variants/obsession-cheat.png",
+  "./icons/variants/obsession-loot.png",
+  "./icons/variants/obsession-bounty.png",
+  "./icons/variants/obsession-trick.png",
 ];
 
 self.addEventListener("install", (event) => {

@@ -55,6 +55,9 @@ VARIANT_PREFIX = {
 # pour la Trick or Treat. On essaie donc les noms de rechange avant d'abandonner.
 WIKI_ALIAS = {
     "bush": ["Bushranger"],
+    # L'esprit s'appelle Obsession en jeu, mais la wiki le classe sous le nom
+    # du personnage du film — One Wish Willow — pour ses six formes.
+    "obsession": ["One_Wish_Willow"],
 }
 BASE = "https://fortnite.weirdgloop.org/images/"
 UA = "capsule-override/1.0 (projet de fan, non commercial)"

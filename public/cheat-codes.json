@@ -1,6 +1,6 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-15",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
   "note": "Cinquante codes actifs au 9 octobre, dont six livres avec Fortnitemares. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
@@ -179,6 +179,13 @@
       "label": "Gizmos et objets",
       "codes": [
         {
+          "code": "DOOR2DOOR4CANDY",
+          "reward": "2 Accelerateurs d'extraction",
+          "once": true,
+          "new": true,
+          "tag": "Fortnitemares"
+        },
+        {
           "code": "O2Override",
           "reward": "Lama de ravitaillement + 5 extracteurs portables",
           "once": true,
@@ -257,7 +264,6 @@
           "code": "VeryScaryPumpkin",
           "reward": "3 Snack-O'-Lantern",
           "once": true,
-          "new": true,
           "tag": "Fortnitemares"
         }
       ]
