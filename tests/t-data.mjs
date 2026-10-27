@@ -16,9 +16,9 @@ const own = (s) => s.variants || [...variantIds];
 const sortis = sprites.sprites.filter((s) => s.released);
 
 /* ---- l'etat du releve ---- */
-eq(sprites.updatedAt, "2026-10-15", "date de releve sprites");
-eq(codes.updatedAt, "2026-10-15", "date de releve codes");
-ok(html.includes("15 octobre 2026"), "date du pied de page");
+eq(sprites.updatedAt, "2026-10-27", "date de releve sprites");
+eq(codes.updatedAt, "2026-10-27", "date de releve codes");
+ok(html.includes("27 octobre 2026"), "date du pied de page");
 eq(sprites.sprites.length, 27, "esprits catalogues");
 eq(sprites.variants.length, 7, "lignes de variantes");
 eq(sortis.length, 27, "esprits sortis");
@@ -160,7 +160,7 @@ for (const s of sprites.sprites) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "60", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "61", "version du service worker");
 const refs = [...sw.matchAll(/\.\/icons\/(?:sprites|variants|family)\/([a-z0-9-]+)\.png/g)].map((m) => m[1]);
 const vivants = new Set([...sprites.sprites, ...legacy.sprites, ...family.sprites].flatMap((s) =>
   [s.id, ...(s.variantIcons || []).map((v) => `${s.id}-${v}`)]));
@@ -209,18 +209,28 @@ for (const t of new Set(family.sprites.map((f) => f.tint))) {
 
 /* ---- codes ---- */
 const all = codes.groups.flatMap((g) => g.codes);
-eq(all.length, 51, "nombre de codes");
-eq(all.filter((c) => c.once).length, 44, "codes a usage unique");
-eq(all.filter((c) => c.once === false).length, 7, "codes reutilisables");
-eq(new Set(all.map((c) => c.code.toUpperCase())).size, 51, "codes uniques, casse ignoree");
-eq(all.filter((c) => c.new).length, 1, "codes marques nouveaux");
-ok(all.some((c) => c.code === "DOOR2DOOR4CANDY" && c.new), "nouveau code present DOOR2DOOR4CANDY");
+eq(all.length, 56, "nombre de codes");
+eq(all.filter((c) => c.once).length, 48, "codes a usage unique");
+eq(all.filter((c) => c.once === false).length, 8, "codes reutilisables");
+eq(new Set(all.map((c) => c.code.toUpperCase())).size, 56, "codes uniques, casse ignoree");
+/* La pastille « nouveau » marque les codes du releve du jour, et rien d'autre :
+   un code qui la garde d'un releve sur l'autre ne veut plus rien dire. */
+const NOUVEAUX = ["SuppliesForTheHunt", "B1gBodySw3rve", "Pr1vat3j3t", "LuhLeakyz"];
+eq(all.filter((c) => c.new).length, NOUVEAUX.length, "codes marques nouveaux");
+for (const n of NOUVEAUX) ok(all.some((c) => c.code === n && c.new), `nouveau code present ${n}`);
 for (const n of ["runSystemOverride", "ImTheRealEdgelord", "IThinkTheKeyFoundMeChat",
                  "CrowsAreAfraid", "PumpkinSpiceLife", "s7h-50p-r03", "Bonerattler", "PowerOut"]) {
   ok(all.some((c) => c.code === n), `code toujours la ${n}`);
 }
-/* Retires : expire, ou jamais confirme. */
-for (const n of ["NoProLlama", "BRB"]) ok(!all.some((c) => c.code === n), `${n} absent`);
+/* Retire parce qu'expire — et il ne revient pas. */
+ok(!all.some((c) => c.code === "NoProLlama"), "NoProLlama, expire le 14 septembre, reste dehors");
+/* BRB a passe la saison dehors : une seule liste le portait, un agregateur le
+   donnait pour faux. Quatre sources le donnent actif en octobre, il entre —
+   mais il doit raconter ce detour, sinon personne ne saura qu'il a ete doute. */
+const brb = all.find((c) => c.code === "BRB");
+ok(brb, "BRB entre une fois recoupe");
+ok(/ecarte/i.test(brb?.warn || ""), "BRB dit pourquoi il n'etait pas la");
+eq(brb?.once, false, "BRB est une transformation, donc reutilisable");
 /* Un code derriere une quete doit le dire, sinon on le croit casse. */
 for (const n of ["runSystemOverride", "ImTheRealEdgelord", "s7h-50p-r03", "YourThoughtsAreMine"]) {
   ok(all.find((c) => c.code === n).warn, `${n} annonce sa condition`);

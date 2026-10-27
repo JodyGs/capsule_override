@@ -1,6 +1,6 @@
 {
   "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-10-27",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
   "note": "Cinquante codes actifs au 9 octobre, dont six livres avec Fortnitemares. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
   "sources": [
@@ -179,10 +179,17 @@
       "label": "Gizmos et objets",
       "codes": [
         {
+          "code": "SuppliesForTheHunt",
+          "reward": "2 Snack-O'-Lantern",
+          "once": true,
+          "new": true,
+          "tag": "Fortnitemares",
+          "warn": "Nintendo Life l'ecrit « SupplesForTheHunt » ; trois autres listes et Dexerto ecrivent « Supplies ». Les codes ignorent la casse, pas l'orthographe."
+        },
+        {
           "code": "DOOR2DOOR4CANDY",
           "reward": "2 Accelerateurs d'extraction",
           "once": true,
-          "new": true,
           "tag": "Fortnitemares"
         },
         {
@@ -273,6 +280,27 @@
       "label": "XP et cosmetiques",
       "codes": [
         {
+          "code": "LuhLeakyz",
+          "reward": "Musique de lobby : « Time Passed » de Yeat",
+          "once": true,
+          "new": true,
+          "tag": "Yeat"
+        },
+        {
+          "code": "Pr1vat3j3t",
+          "reward": "Musique de lobby : « Marching » de Yeat",
+          "once": true,
+          "new": true,
+          "tag": "Yeat"
+        },
+        {
+          "code": "B1gBodySw3rve",
+          "reward": "Musique de lobby : « Lil Krazy » de Yeat",
+          "once": true,
+          "new": true,
+          "tag": "Yeat"
+        },
+        {
           "code": "OverrideXP",
           "reward": "40 000 XP",
           "once": true
@@ -316,6 +344,12 @@
       "label": "Transformations du lobby",
       "hint": "Les seuls codes reutilisables : ils changent l'apparence du lobby, sans recompense a collecter.",
       "codes": [
+        {
+          "code": "BRB",
+          "reward": "Vous transforme en toilettes",
+          "once": false,
+          "warn": "Longtemps ecarte d'ici : une seule liste le portait et un agregateur le donnait pour faux. Quatre sources le donnent actif en octobre. Elles divergent encore sur la portee — vous seul, ou tout le lobby."
+        },
         {
           "code": "LetsBlockAndRoll",
           "reward": "Vous transforme en bloc Tetris",

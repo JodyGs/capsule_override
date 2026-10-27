@@ -6,19 +6,18 @@
     "date": "2026-11-01",
     "time": "02:00",
     "timeConfirmed": false,
-    "note": "Epic publie le jour, jamais l'heure a l'avance. Celle retenue ici est son horaire de bascule habituel : deux sources estiment plutot 4 h du matin a New York, donc le compte a rebours se termine au plus tot — se tromper dans ce sens-la est le seul acceptable. La veille, Epic annonce l'heure exacte, et le minuteur du passe en jeu fait foi."
+    "note": "Epic n'a toujours pas publie l'heure. Deux estimations independantes convergent desormais sur 4 h du matin a New York ; le rebours vise 2 h et vous laisse donc deux heures de marge, parce que se tromper en avance est le seul sens acceptable. Epic annonce l'heure exacte la veille, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-10-27",
   "news": {
-    "version": "2026-10-15",
-    "title": "Miel, Obsession et une septieme ligne",
-    "date": "15 octobre 2026",
+    "version": "2026-10-27",
+    "title": "Plus d'esprits a venir : il reste a finir",
+    "date": "27 octobre 2026",
     "lines": [
-      "Les deux esprits annonces sont sortis avec la v42.40 : Miel, dernier laureat du concours Design-a-Sprite, et Obsession, venu du film. Chacun avec ses six variantes.",
-      "Septieme ligne : Coin-coin. Elle ne se ramasse pas — c'est une recompense de Maitrise, et seuls cinq esprits en ont une : Jonesy, Broussaille, Aventure, Spooky Dash et Klombo, aux paliers 40, 45, 50, 55 et 60.",
-      "Vingt-sept esprits, 162 pieces. Sprite Checklist annonce le meme total.",
-      "La rarete d'Obsession n'est annoncee que par une source : elle reste a confirmer.",
-      "Un code de plus, DOOR2DOOR4CANDY, qui verse deux accelerateurs d'extraction."
+      "Aucun esprit ni aucune variante depuis le 15 octobre, et il n'y en aura plus : la saison est close a 27 esprits et 162 pieces. Ce qui manque encore se joue dans les quatre jours qui restent.",
+      "Les Trick or Treat partent avec Fortnitemares. Les autres lignes survivent en styles, celle-la non : ce sont les vingt-quatre pieces a aller chercher en priorite.",
+      "Coin-coin se reclame dans l'onglet Recompenses, pas en partie. Si vous avez passe les paliers 40, 45, 50, 55 ou 60, les esprits vous attendent deja la-bas.",
+      "Cinq codes de plus : SuppliesForTheHunt, trois musiques de lobby signees Yeat, et BRB, longtemps ecarte d'ici faute de source fiable. Cinquante-six en tout, tous a consommer avant la bascule."
     ]
   },
   "variants": [
