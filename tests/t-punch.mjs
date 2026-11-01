@@ -44,9 +44,48 @@ const override = lire("sprites-override.json");
   }
 }
 
+/* Le repli par le mot. Depuis que les illustrations de la saison sont
+   arrivees, plus aucune fiche n'est dans ce cas : le catalogue est donc
+   retouche a la volee. Le repli doit marcher le jour ou Epic annonce un
+   esprit avant qu'une image existe — c'etait l'etat de la saison entiere le
+   matin du 1er novembre. */
+{
+  const { document } = await boot({
+    mutate: (cat) => {
+      const s = cat.sprites.find((x) => x.released);
+      delete s.icon;
+      delete s.variantIcons;
+      s.id = "sans-image";
+      cat.order = [...cat.order];
+      cat.order.unshift("sans-image");
+    },
+  });
+  const cells = [...document.querySelectorAll('.card[data-sprite="sans-image"] .pcell')];
+  ok(cells.length > 0, "la fiche sans image a bien sa bande");
+  for (const c of cells) {
+    ok(!c.querySelector("img.pvicon"), `${c.dataset.v} : pas d'image a montrer`);
+    const mot = c.querySelector(".pword");
+    ok(mot && mot.textContent.trim().length > 0, `${c.dataset.v} : le mot sert de repli`);
+    eq(mot.textContent.includes(" "), false, "le repli tient en un mot");
+  }
+}
+
 /* L'autre moitie de la regle : des que les illustrations existent, elles
-   prennent la place du mot. Override les a toutes — c'est donc l'archive qui
-   verifie le chemin avec vignettes, sur des fichiers reellement presents. */
+   prennent la place du mot. La saison en cours les a toutes depuis le
+   1er novembre, et Override aussi — on verifie sur les deux. */
+{
+  const { document } = await boot();
+  const sprite = season.sprites.find((s) => s.released && (s.variants || []).length > 1);
+  const cells = [...document.querySelectorAll(`.card[data-sprite="${sprite.id}"] .pcell`)];
+  eq(cells.filter((c) => c.querySelector("img.pvicon")).length, cells.length,
+     "chaque case de la saison porte sa vignette");
+  eq(cells[0].querySelector("img.pvicon").getAttribute("src"),
+     `icons/sprites/${sprite.id}.png`, "la case Base reprend l'illustration de l'esprit");
+  eq(cells[1].querySelector("img.pvicon").getAttribute("src"),
+     `icons/variants/${sprite.id}-${sprite.variants[1]}.png`,
+     "la case Fortune prend l'illustration de sa variante");
+}
+
 {
   const { document, click } = await boot();
   click(document.getElementById("btn-legacy"));

@@ -62,6 +62,10 @@ for (const premature of ["t-liluzi", "t-transponder"]) {
 /* ---- variantes ---- */
 eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
    "les trois lignes ouvertes de la saison, dans l'ordre");
+/* Les identifiants restent anglais — ils sont stables et servent de nom de
+   fichier — mais ce qui s'affiche est le nom du jeu en francais. */
+eq(sprites.variants.find((v) => v.id === "cursed").name, "Malediction",
+   "la ligne Cursed porte son nom francais");
 /* La ligne Or est annoncee pour le 12 novembre. Elle n'a rien a faire dans le
    catalogue avant d'etre ramassable : elle ferait un filtre vide et un
    denominateur faux. La page, elle, doit l'annoncer. */
@@ -69,14 +73,14 @@ ok(!variantIds.has("gold"), "la ligne Or reste dehors jusqu'a sa sortie");
 ok(html.includes("12 novembre"), "mais la page annonce sa date");
 const seuls = sprites.sprites.filter((s) => own(s).length === 1);
 eq(seuls.length, 1, "un seul esprit sans variante");
-eq(seuls[0].id, "t-sweetdreams", "et c'est Sweet Dreams");
+eq(seuls[0].id, "t-sweetdreams", "et c'est Doux reves");
 /* Combien d'esprits portent chaque ligne : les deux lignes de la saison
    couvrent tout le monde sauf Sweet Dreams. */
 const ATTENDU_PAR_LIGNE = { fortune: 10, cursed: 10 };
 for (const ligne of ["fortune", "cursed"]) {
   eq(sortis.filter((s) => own(s).includes(ligne)).length, ATTENDU_PAR_LIGNE[ligne],
      `esprits avec une ${ligne}`);
-  ok(!own(seuls[0]).includes(ligne), `Sweet Dreams n'a pas de ${ligne}`);
+  ok(!own(seuls[0]).includes(ligne), `Doux reves n'a pas de ${ligne}`);
 }
 /* Cursed se paie : l'app doit le dire, sinon on l'equipe en nageant. */
 ok(/eau vous blesse/i.test(sprites.variants.find((v) => v.id === "cursed").note || ""),
@@ -87,8 +91,32 @@ for (const v of sprites.variants) ok(typeof v.find === "string" && v.find, `la l
 /* La route a change de nature cette saison : ce n'est plus la fouille, c'est
    l'affiche puis la carte puis le coffre enterre. Si la fiche ne le dit pas,
    l'utilisateur cherche avec les reflexes de la saison passee. */
-ok(/affiche/i.test(sprites.variants.find((v) => v.id === "base").find || ""),
-   "la ligne de base explique la chasse aux affiches");
+ok(/avis de recherche/i.test(sprites.variants.find((v) => v.id === "base").find || ""),
+   "la ligne de base explique la chasse aux avis de recherche");
+/* Le vocabulaire est celui du jeu en francais, pas une traduction maison :
+   chercher « affiche » dans l'app ne donnerait rien en partie. */
+ok(!/affiches de recherche/i.test(JSON.stringify(sprites) + html),
+   "nulle part « affiches de recherche » : le jeu dit « avis de recherche »");
+
+/* ---- les noms ---- */
+/* Epic traduit : cinq des onze esprits n'ont pas le meme nom en francais. Le
+   nom affiche est celui du jeu, le nom anglais reste en sous-titre parce que
+   c'est celui des guides, des listes et des recherches. */
+const NOMS_FR = {
+  "t-halfpeeld": ["Mi-pelure", "Halfpeel'd"], "t-wayfinder": ["Guide", "Wayfinder"],
+  "t-kelper": ["Varech", "Kelper"], "t-squibbly": ["Crapoulpe", "Lil' Squibbly"],
+  "t-sweetdreams": ["Doux reves", "Sweet Dreams"], "t-repete": ["Re-Pete", "Re-Pete"],
+  "t-barry": ["Barry O'Fish", "Barry O'Fish"], "t-exmarks": ["Exmarks", "Exmarks"],
+  "t-plundarrgh": ["Plundarrgh", "Plundarrgh"], "t-chester": ["Chester", "Chester"],
+  "t-flacko": ["Lil' Flacko", "Lil' Flacko"],
+};
+for (const s of sprites.sprites) {
+  const [fr, en] = NOMS_FR[s.id] || [];
+  eq(s.name, fr, `${s.id} porte son nom francais`);
+  ok(String(s.sub).startsWith(en), `${s.id} garde son nom anglais en sous-titre`);
+}
+ok(/version francaise|annonce officielle/i.test(sprites.namesNote || ""),
+   "le catalogue dit d'ou viennent les noms");
 
 /* ---- raretes ---- */
 const rarities = new Set(sprites.rarities.map((r) => r.id));
@@ -164,15 +192,34 @@ for (const v of sprites.variants) {
 }
 
 /* ---- images ---- */
-/* La saison ouvre sans illustrations : la wiki n'a rien publie le 1er
-   novembre, les onze noms y renvoient une 404. C'est un etat legitime, a deux
-   conditions — que le catalogue le dise, et qu'aucune fiche ne promette une
-   image absente, parce que l'app servirait alors une vignette cassee. */
-eq(sprites.iconsPending, true, "le catalogue annonce ses illustrations manquantes");
-ok(/404|wiki/i.test(sprites.iconsNote || ""), "et dit pourquoi elles manquent");
-for (const s of sprites.sprites) {
-  ok(!s.icon, `${s.id} ne promet pas d'illustration qu'il n'a pas`);
-  eq((s.variantIcons || []).length, 0, `${s.id} n'en promet pas pour ses variantes`);
+/* Les illustrations de cette saison ne viennent pas de la wiki, qui n'avait
+   rien publie le 1er novembre, mais de Sprite Catch. Un catalogue doit dire
+   d'ou viennent ses images quand ce n'est pas de la source habituelle, et
+   l'app doit les crediter. */
+ok(!("iconsPending" in sprites), "plus d'attente d'illustrations : elles sont la");
+ok(/Sprite Catch/i.test(sprites.iconsNote || ""), "le catalogue nomme la source des images");
+ok(/wiki/i.test(sprites.iconsNote || ""), "et dit que la wiki reste la source de reference");
+ok(/Sprite Catch/i.test(html), "la page credite la source des illustrations");
+/* Le script doit savoir retrouver ces images tout seul : une URL recopiee a
+   la main vieillit en silence, l'empreinte dans le nom de fichier change. */
+ok(script.includes("CATCH_SLUG") && script.includes("spritecatch.com/sprites/"),
+   "le script sait interroger la deuxieme source");
+ok(script.indexOf("return fetch(noms, prefix)") < script.indexOf("catch_urls(sprite_id).get(variant)"),
+   "et il essaie la wiki avant elle");
+/* Chaque esprit sorti a son illustration et celles de ses variantes : c'est
+   le controle qui rattrape l'oubli classique, ajouter un esprit au JSON sans
+   lancer le script d'icones. */
+for (const s of sortis) {
+  ok(s.icon === true, `${s.id}, deja sorti, a son illustration`);
+  ok(existsSync(join(PUB, `icons/sprites/${s.id}.png`)), `fichier ${s.id}.png`);
+  for (const v of own(s)) {
+    if (v === "base") continue;
+    ok((s.variantIcons || []).includes(v), `${s.id} illustre sa variante ${v}`);
+    ok(existsSync(join(PUB, `icons/variants/${s.id}-${v}.png`)), `fichier ${s.id}-${v}.png`);
+  }
+  for (const v of s.variantIcons || []) {
+    ok(own(s).includes(v), `illustration ${s.id}-${v} adossee a une variante obtenable`);
+  }
 }
 /* Le script d'icones doit connaitre les nouveaux noms, sinon le jour ou la
    wiki publie il faudra y repenser. */
@@ -204,19 +251,20 @@ for (const s of override.sprites.filter((x) => x.released)) {
     ok((s.variantIcons || []).includes(v), `${s.id} illustre sa variante ${v}`);
   }
 }
-/* Le precache ne porte que sur Override : c'etait la saison en cours jusqu'a
-   hier, ses images sont deja dans la coquille, et les retirer obligerait tous
-   ceux qui ont l'app installee a les retelecharger pour consulter l'archive.
-   Runners n'y a jamais ete — 117 pieces de plus pour une saison que l'on
-   ouvre une fois par an — et la nouvelle saison n'a encore aucune image. */
-for (const s of override.sprites) {
+/* Le precache porte sur la saison en cours et sur Override : la premiere
+   parce qu'une liste sans images est illisible hors connexion, la seconde
+   parce que ses images y etaient deja et que les retirer obligerait chaque
+   telephone installe a les retelecharger pour consulter l'archive. Runners
+   n'y a jamais ete — 117 pieces de plus pour une saison qu'on ouvre une fois
+   par an. */
+for (const s of [...sprites.sprites, ...override.sprites]) {
   if (s.icon) ok(sw.includes(`icons/sprites/${s.id}.png`), `precache base ${s.id}`);
   for (const v of s.variantIcons || []) ok(sw.includes(`icons/variants/${s.id}-${v}.png`), `precache ${s.id}-${v}`);
 }
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "62", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "63", "version du service worker");
 for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json", "./cheat-codes.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }
@@ -377,6 +425,7 @@ ok(!sprites.news.lines.some((l) => /[<>]/.test(l)), "l'annonce reste du texte");
    ce qui a change dans la facon de chasser. */
 const annonce = sprites.news.lines.join(" ");
 ok(/Override/.test(annonce), "l'annonce dit ce qu'est devenue la saison passee");
-ok(/affiche/i.test(annonce), "et explique la nouvelle route vers les esprits");
+ok(/avis de recherche/i.test(annonce), "et explique la nouvelle route vers les esprits");
+ok(/Mi-pelure/.test(annonce), "et previent que les noms affiches sont ceux du jeu en francais");
 
 fin();

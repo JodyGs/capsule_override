@@ -15,35 +15,35 @@
     "date": "1er novembre 2026",
     "lines": [
       "Override s'est fermee cette nuit. Elle n'est pas perdue : l'onglet Override garde vos coches, vos compteurs et votre export, intacts. Ces esprits ne se ramassent simplement plus en partie.",
-      "Treasure Hunters ouvre avec onze esprits et trois lignes — base, Fortune et Cursed. Dix esprits portent les trois, Sweet Dreams n'a que sa base : trente-et-une pieces a faire.",
-      "La chasse a change de regles. On n'ouvre plus des coffres au hasard : on arrache une affiche de recherche, elle devient une carte au tresor, la carte mene a un coffre enterre qu'on deterre a la pioche. Exmarks et Wayfinder raccourcissent tout le reste — a prendre en premier.",
+      "Treasure Hunters ouvre avec onze esprits et trois lignes — base, Fortune et Malediction. Dix esprits portent les trois, Doux reves n'a que sa base : trente-et-une pieces a faire.",
+      "La chasse a change de regles. On n'ouvre plus des coffres au hasard : on arrache un avis de recherche, il devient une carte au tresor, la carte mene a un coffre enterre qu'on deterre a la pioche. Exmarks et Guide raccourcissent tout le reste — a prendre en premier.",
+      "Les noms affiches sont ceux de la version francaise : Mi-pelure, Guide, Varech, Crapoulpe, Doux reves. Le nom anglais est juste en dessous, puisque c'est celui des guides.",
       "La ligne Or revient le 12 novembre, avec son bonus d'XP par elimination. Elle n'est pas encore dans la liste : elle y entrera le jour ou elle sortira, pas avant.",
       "Epic n'a publie aucune rarete cette saison. Les onze fiches portent « A confirmer » plutot qu'un palier deduit des taux d'apparition par un seul site.",
       "Poussiere et gizmos sont repartis de zero avec la bascule. Les cinquante-six codes du lobby n'ont pas bouge, mais ceux qui offraient une variante Override n'ont plus d'objet : les esprits qu'ils donnaient sont au Jardin."
     ]
   },
-  "iconsPending": true,
-  "iconsNote": "La wiki n'a pas encore mis en ligne les illustrations de cette saison : testees une a une le 1er novembre, les onze renvoient une 404. Les fiches affichent donc une pastille a initiale. Le script d'icones connait deja leurs noms : il les ramenera des que la wiki publiera.",
-  "namesNote": "Les noms sont ceux de l'annonce officielle, en anglais. La version francaise du jeu en traduit parfois (Bush etait devenu Broussaille la saison passee) : le releve suivra le jeu plutot que de traduire a sa place.",
+  "iconsNote": "Les illustrations viennent de Sprite Catch : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera.",
+  "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes.",
   "rarityNote": "Epic n'a publie aucune rarete pour cette saison. Un seul site en propose, en precisant lui-meme les deduire des taux d'apparition, et une deuxieme source le contredit sur Sweet Dreams. Les onze fiches portent donc « A confirmer » : une rarete ne se publie ici que recoupee.",
   "variants": [
     {
       "id": "base",
       "name": "Base",
       "note": "L'esprit dans sa forme d'origine.",
-      "find": "Arrachez une affiche de recherche : elle devient une carte au tresor, la carte mene a un coffre a esprits enterre, et la pioche fait le reste."
+      "find": "Reperez un avis de recherche sur un mur et arrachez-le : il se transforme en carte au tresor menant a un coffre a esprits enterre, que la pioche deterre."
     },
     {
       "id": "fortune",
       "name": "Fortune",
-      "note": "Revele les coffres proches, en plus du pouvoir de l'esprit. Premiere des deux lignes de la saison, disponible des le lancement.",
-      "find": "Dans les coffres a esprits rouges, dits rubis, qui n'en donnent que des Fortune. Les affiches et les cartes au tresor y menent aussi."
+      "note": "Revele les coffres a proximite, en plus du pouvoir de l'esprit. Premiere des deux lignes de la saison, disponible des le lancement.",
+      "find": "Dans les coffres a esprits rouges, dits rubis, qui n'en donnent que des Fortune. Les avis de recherche et les cartes au tresor y menent aussi."
     },
     {
       "id": "cursed",
-      "name": "Cursed",
-      "note": "Augmente vos chances de tomber sur une variante rare, mais l'eau vous blesse tant que l'esprit est equipe. Mauvais mariage avec Kelper et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
-      "find": "Comme la base : affiches, cartes au tresor et coffres a esprits. L'equiper augmente le taux des autres variantes rares."
+      "name": "Malediction",
+      "note": "Augmente vos chances de trouver des variantes d'esprits rares, mais l'eau vous blesse tant que l'esprit est equipe. Mauvais mariage avec Varech et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
+      "find": "Comme la base : avis de recherche, cartes au tresor et coffres a esprits. L'equiper augmente le taux des autres variantes rares."
     }
   ],
   "rarities": [
@@ -85,14 +85,19 @@
   "sprites": [
     {
       "id": "t-halfpeeld",
-      "name": "Halfpeel'd",
+      "name": "Mi-pelure",
       "sub": "Halfpeel'd Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Marque sur la carte les adversaires que vous eliminez. La portee de detection grandit a chaque niveau.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Indique les eliminations sur la carte. Le rayon de detection augmente a chaque niveau.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -103,10 +108,15 @@
       "sub": "Re-Pete Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Recharge plus vite, et peut vous rendre une partie des munitions depensees.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Rechargement plus rapide, avec une chance de recuperer les munitions.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -117,10 +127,15 @@
       "sub": "Barry O'Fish Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Consomme moins d'endurance quand vous sprintez dans l'eau. Au niveau maximum, ajoute un effet Claque.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Consomme moins d'endurance en sprintant dans l'eau. Donne l'effet torgnole au niveau max.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -131,10 +146,15 @@
       "sub": "Exmarks Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Revele les cartes au tresor et les affiches de recherche proches. Au niveau maximum, fait apparaitre une carte au tresor.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier : il raccourcit toutes les autres chasses",
+      "effect": "Revele les cartes au tresor et les avis de recherche a proximite. Fait apparaitre une carte au tresor au niveau max.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier : il raccourcit toutes les autres chasses",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -145,10 +165,15 @@
       "sub": "Plundarrgh Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Ouvrir un coffre accelere votre pioche et vos deplacements.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Ouvrez des coffres pour augmenter la vitesse de la pioche et de deplacement.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -159,52 +184,72 @@
       "sub": "Chester Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Les coffres peuvent lacher du butin en plus, et vous ne subissez plus les degats de chute.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Peut faire apparaitre du butin supplementaire dans les coffres et annule les degats de chute.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
     },
     {
       "id": "t-wayfinder",
-      "name": "Wayfinder",
+      "name": "Guide",
       "sub": "Wayfinder Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Revele les esprits proches et ajoute du butin dans les coffres enterres.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier, avec Exmarks",
+      "effect": "Revele les esprits a proximite et fait apparaitre du butin supplementaire dans les coffres enterres.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier, avec Exmarks",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
     },
     {
       "id": "t-kelper",
-      "name": "Kelper",
+      "name": "Varech",
       "sub": "Kelper Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Rend de la vie tant que vous etes dans l'eau, davantage a chaque niveau.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Restaure des PV au fil du temps dans l'eau. Les soins augmentent a chaque niveau.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
     },
     {
       "id": "t-squibbly",
-      "name": "Lil' Squibbly",
+      "name": "Crapoulpe",
       "sub": "Lil' Squibbly Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Sauter dans un trou de peche en sort un poisson et du butin en plus.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Sautez dans les coins de peche pour attraper du poisson et obtenir du butin bonus.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
+        "fortune",
+        "cursed"
+      ],
+      "icon": true,
+      "variantIcons": [
         "fortune",
         "cursed"
       ]
@@ -215,8 +260,8 @@
       "sub": "Lil' Flacko Sprite · A$AP Rocky",
       "rarity": "unknown",
       "released": true,
-      "effect": "A l'atterrissage, une onde de choc repousse les adversaires autour de vous.",
-      "source": "Peut tomber du boss A$AP Rocky, a bord du S.S. Rocky · Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Cree une petite onde de choc a l'atterrissage, repoussant les adversaires.",
+      "source": "Peut tomber du boss A$AP Rocky, a bord du S.S. Rocky, sur l'ile Croix-des-Os · Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
         "fortune",
@@ -224,19 +269,25 @@
       ],
       "variantHow": {
         "base": "Le boss A$AP Rocky peut le lacher, sans garantie. Sinon, comme les autres : affiche, carte, coffre enterre."
-      }
+      },
+      "icon": true,
+      "variantIcons": [
+        "fortune",
+        "cursed"
+      ]
     },
     {
       "id": "t-sweetdreams",
-      "name": "Sweet Dreams",
+      "name": "Doux reves",
       "sub": "Sweet Dreams Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "Donne un objet au hasard a chaque niveau gagne. Au niveau maximum, explose en butin mythique.",
-      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "effect": "Le cousin eloigne de l'esprit Reve. Octroie un objet aleatoire a chaque gain de niveau, jusqu'a un objet mythique au niveau maximal.",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base"
-      ]
+      ],
+      "icon": true
     }
   ],
   "events": {
@@ -245,18 +296,18 @@
     "list": [
       {
         "id": "mastery",
-        "name": "Mastery Monday",
+        "name": "Lundi de maitrise",
         "day": 1,
         "start": "09:00",
         "hours": 24,
-        "what": "Vingt-quatre heures a deux fois plus d'XP d'esprit et deux fois plus de poussiere. Le rendez-vous qui remplace le Cheat Code Monday de la saison passee.",
+        "what": "Vingt-quatre heures a deux fois plus d'XP d'esprit et deux fois plus de poussiere. Les coffres a esprits et les avis de recherche apparaissent aussi en plus grand nombre sur l'ile. Le rendez-vous qui remplace le Cheat Code Monday de la saison passee.",
         "confirmed": true,
         "focus": "master",
         "advice": "Les esprits montent deux fois plus vite : poussez au niveau 5 ce que vous avez deja."
       },
       {
         "id": "captain",
-        "name": "Captain's Day",
+        "name": "Jour du capitaine",
         "day": 6,
         "start": "09:00",
         "what": "Un capitaine par semaine, avec son equipage, son lieu et son butin. Le premier est arrive avec la saison, un dimanche ; les suivants tombent le samedi. Chaque capitaine amene de quoi completer la collection.",
@@ -267,7 +318,7 @@
     ]
   },
   "mastery": {
-    "note": "Une page de Maitrise s'ouvre chaque semaine, dans l'onglet Tresor du lobby. Elle verse des Localisateurs chanceux, des Feux d'artifice dores et d'autres gizmos, et fait monter le sac a dos Coffre-fort de maitrise.",
-    "reward": "Maitriser quarante esprits donne le parapluie Piquer du nez du navigateur."
+    "note": "Une page de Maitrise s'ouvre chaque semaine, dans l'onglet Tresor du salon. Elle verse des localisateurs fetiches, des feux d'artifice dores et d'autres gizmos, et fait monter l'accessoire de dos Coffre-fort de maitrise des esprits.",
+    "reward": "Maitriser quarante esprits donne le Parapluie Plongeon du navigateur."
   }
 }

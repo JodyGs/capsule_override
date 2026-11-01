@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v62";
+const VERSION = "capsule-v63";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -22,6 +22,42 @@ const SHELL = [
   "./icons/favicon-180.png",
 
   // Icones des esprits : indispensables pour que la liste reste lisible hors ligne.
+  // Treasure Hunters : les onze esprits de la saison en cours et leurs variantes.
+  "./icons/sprites/t-halfpeeld.png",
+  "./icons/variants/t-halfpeeld-fortune.png",
+  "./icons/variants/t-halfpeeld-cursed.png",
+  "./icons/sprites/t-repete.png",
+  "./icons/variants/t-repete-fortune.png",
+  "./icons/variants/t-repete-cursed.png",
+  "./icons/sprites/t-barry.png",
+  "./icons/variants/t-barry-fortune.png",
+  "./icons/variants/t-barry-cursed.png",
+  "./icons/sprites/t-exmarks.png",
+  "./icons/variants/t-exmarks-fortune.png",
+  "./icons/variants/t-exmarks-cursed.png",
+  "./icons/sprites/t-plundarrgh.png",
+  "./icons/variants/t-plundarrgh-fortune.png",
+  "./icons/variants/t-plundarrgh-cursed.png",
+  "./icons/sprites/t-chester.png",
+  "./icons/variants/t-chester-fortune.png",
+  "./icons/variants/t-chester-cursed.png",
+  "./icons/sprites/t-wayfinder.png",
+  "./icons/variants/t-wayfinder-fortune.png",
+  "./icons/variants/t-wayfinder-cursed.png",
+  "./icons/sprites/t-kelper.png",
+  "./icons/variants/t-kelper-fortune.png",
+  "./icons/variants/t-kelper-cursed.png",
+  "./icons/sprites/t-squibbly.png",
+  "./icons/variants/t-squibbly-fortune.png",
+  "./icons/variants/t-squibbly-cursed.png",
+  "./icons/sprites/t-flacko.png",
+  "./icons/variants/t-flacko-fortune.png",
+  "./icons/variants/t-flacko-cursed.png",
+  "./icons/sprites/t-sweetdreams.png",
+
+  // Override, passee en archive le 1er novembre. Ses images restent precachees :
+  // elles l'etaient deja, et les retirer obligerait chaque telephone installe a
+  // les retelecharger pour consulter l'archive.
   "./icons/sprites/jonesy.png",
   "./icons/sprites/bush.png",
   "./icons/sprites/adventure.png",

@@ -1,7 +1,7 @@
 # Capsule Override
 
 Suivi des esprits de **Fortnite — Treasure Hunters**, la mini-saison qui ferme le chapitre 7.
-Cochez ce que vous avez *débloqué* et *maîtrisé*, variantes Fortune et Cursed comprises.
+Cochez ce que vous avez *débloqué* et *maîtrisé*, variantes Fortune et Malédiction comprises.
 
 Application web **installable sur iPhone et Android**, qui fonctionne hors connexion.
 **Aucun compte, aucun serveur, aucune base de données** : vos coches sont écrites dans le
@@ -246,9 +246,9 @@ trois règles apprises le 1er novembre 2026 :
 ## Le rendez-vous du moment
 
 Un bandeau sous les compteurs annonce le prochain rendez-vous de la semaine, ou celui qui
-court. Treasure Hunters en compte deux : **Mastery Monday** (lundi 9 h à mardi 9 h à New
-York — XP d'esprit et poussière doublés) et **Captain's Day** (samedi 9 h — un capitaine, son
-équipage et son butin). Override en avait trois, dont les **Power Hours** à deux fenêtres par
+court. Treasure Hunters en compte deux : le **Lundi de maîtrise** (lundi 9 h à mardi 9 h à New
+York, 15 h CET — XP d'esprit et poussière doublés) et le **Jour du capitaine** (samedi 9 h — un
+capitaine, son équipage et son butin). Override en avait trois, dont les **Power Hours** à deux fenêtres par
 jour ; le mécanisme `starts` leur survit et resservira.
 
 Les horaires vivent dans `public/sprites.json`, sous `events`, en heure de New York. L'app les
@@ -606,10 +606,16 @@ et **Sweet Dreams** qui n'a que sa forme de base. Deux exceptions à connaître 
 - **Aucune rareté publiée.** Epic n'en a donné pour cette saison. Un seul site en propose, en
   précisant lui-même les déduire des taux d'apparition, et une deuxième source le contredit :
   les onze fiches portent « À confirmer », et le catalogue dit pourquoi dans `rarityNote`.
-- **Aucune illustration.** La wiki n'avait rien publié le 1er novembre — les onze noms y
-  renvoient une 404, testés un à un. Le catalogue porte `iconsPending: true` et les fiches
-  affichent leur pastille à initiale ; le script connaît déjà les noms. Un test vérifie que
-  cet état est **déclaré**, et qu'aucune fiche ne promet une image absente.
+- **Les illustrations ne viennent pas de la wiki.** Elle n'avait rien publié le 1er novembre —
+  les onze noms y renvoyaient une 404, testés un à un, et les pages `… Sprite` y sont encore
+  des liens rouges. Elles viennent donc de **Sprite Catch**, qui les servait le jour même :
+  11 bases et 20 variantes, 31 images pour 31 pièces. Le script interroge toujours la wiki
+  d'abord et rebasculera dessus dès qu'elle publiera.
+- **Les noms affichés sont ceux du jeu en français.** Epic publie son annonce traduite, et
+  cinq des onze y changent de nom : **Mi-pelure** (Halfpeel'd), **Guide** (Wayfinder),
+  **Varech** (Kelper), **Crapoulpe** (Lil' Squibbly), **Doux rêves** (Sweet Dreams). Le nom
+  anglais reste en sous-titre, puisque c'est celui des guides et des recherches. Le
+  vocabulaire suit : ce sont des **avis de recherche**, pas des affiches.
 
 La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
 jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
@@ -639,6 +645,27 @@ wiki l'enregistre sous `The_Deer_-_Item_-_Fortnite.png`, **sans le mot « Sprite
 script collait systématiquement. Il essaie désormais les deux formes avant de déclarer une
 image absente. Seuls Miel et Obsession, pas encore sortis, gardent leur pastille à initiale. Cinq autres noms
 
+### Deux sources pour les illustrations
+
+`scripts/fetch-sprite-icons.py` interroge **la Fortnite Wiki d'abord** : elle nomme, date et
+crédite, et c'est elle qui sert les 300 images des saisons closes. Mais elle publie avec du
+retard — au lancement de Treasure Hunters, les onze esprits y renvoyaient une 404 pendant que
+le jeu tournait déjà. **Sprite Catch** sert alors de filet : le script lit la page de l'esprit
+et y récupère l'URL de chaque variante. Les noms de fichiers y portent une empreinte qui change
+à chaque reversement, donc la page est relue à chaque passage plutôt qu'une URL recopiée qui
+vieillirait en silence. Le script dit en fin de course quelles images ne sont pas venues de la
+wiki ; ces lignes disparaîtront d'elles-mêmes le jour où elle publiera.
+
+Le script accepte un ou plusieurs catalogues en argument :
+
+```bash
+python3 scripts/fetch-sprite-icons.py public/sprites.json
+```
+
+Sans argument, il les parcourt tous. Rapatrier onze esprits ne justifie pas de retélécharger
+trois cents images, et chaque téléchargement est une occasion de perdre une entrée juste sur
+un incident réseau.
+
 Pensez à incrémenter `VERSION` dans `public/sw.js` après une modification, pour que les
 téléphones déjà installés récupèrent la nouvelle version — un bandeau leur proposera alors
 de recharger.
@@ -663,7 +690,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1621 vérifications** qui tournent sans navigateur — 1838 avec
+Les catalogues ont le leur, **1779 vérifications** qui tournent sans navigateur — 1982 avec
 les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
 pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, 56 codes dont 48
 récompenses), la table des collections et le fait que **chaque clé de stockage reste collée à
