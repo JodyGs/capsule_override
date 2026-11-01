@@ -10,19 +10,19 @@
   },
   "updatedAt": "2026-11-01",
   "news": {
-    "version": "2026-11-01-c",
-    "title": "Les raretes tombent, l'escargot entre",
+    "version": "2026-11-01-d",
+    "title": "L'escargot a son visage",
     "date": "1er novembre 2026",
     "lines": [
-      "Les onze esprits de l'annonce ont enfin leur rarete. Epic n'en publie toujours aucune, mais deux traqueurs independants tombent d'accord palier par palier, sans exception : 3 Rares, 2 Epiques, 4 Legendaires, 2 Mythiques. La regle de la maison est respectee, le detail par rarete redevient lisible.",
-      "Transponder Snail entre dans la liste : il tourne en partie, mais ne figure ni dans l'annonce d'Epic, ni sur la wiki, ni chez le traqueur qui sert toutes les autres images. Signale en jeu et nomme dans les fichiers du jeu — assez pour l'ajouter, pas pour tout savoir de lui.",
-      "Ce qu'on en sait : il donne des ressources supplementaires au ramassage, pour vous et vos equipiers. Une seule source le dit, d'ou la mention « effet non confirme ». Il n'a ni Fortune ni Malediction, et aucune image dont on reponde : sa pastille porte son initiale en attendant. 32 pieces, donc, et non plus 31.",
-      "Lil Uzi Vert Jr. est annonce pour le 7 novembre, avec l'arrivee du capitaine Lil Uzi. Il figure en fin de liste, date, avec son illustration, sans compter dans le total tant qu'il n'est pas sorti."
+      "Transponder Snail a enfin son illustration. Elle existait, elle ne ressemblait simplement a aucune autre : un dessin a plat la ou tous les esprits sont en relief. C'est le style de la collaboration One Piece, pas une image de remplissage — le fichier est le meme que celui du jeu, octet pour octet. 32 pieces, toutes illustrees.",
+      "Les raretes, elles, reculent. Un troisieme traqueur, qui les lit dans les donnees de carte du jeu, en contredit quatre : Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois sources s'accordent restent publies ; les quatre contestes repassent a « A confirmer », avec qui dit quoi sur la fiche.",
+      "La couleur de la carte dans l'ecran Esprits du jeu tranchera plus vite que n'importe quel site. Si vous l'avez sous les yeux, elle vaut mieux que trois traqueurs.",
+      "Lil Uzi Vert Jr. passe Legendaire : deux sources s'accordent. Il reste date du 7 novembre et hors total jusqu'a sa sortie."
     ]
   },
-  "iconsNote": "Les illustrations viennent de Sprite Catch, et celle de Lil Uzi Vert Jr. de FN Sprite Tracker : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. Transponder Snail reste sans image : la seule qui circule est un dessin a plat, quand toutes les autres sont les rendus du jeu. Sa fiche porte `iconPending` et garde sa pastille a initiale plutot qu'une illustration dont on ne repond pas.",
+  "iconsNote": "Les illustrations viennent de Sprite Catch, et celles de Transponder Snail et de Lil Uzi Vert Jr. de FN Sprite Tracker : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. L'escargot est dessine a plat quand tous les autres sont en relief : ce n'est pas un remplissage mais le style de la collaboration One Piece — Fortnite.GG sert le meme fichier sous le nom interne de l'asset, identique octet pour octet.",
   "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Transponder Snail, lui, ne figure pas dans l'annonce : son nom francais n'est pas encore releve, la fiche garde donc l'anglais.",
-  "rarityNote": "Epic n'a publie aucune rarete pour cette saison. Les onze esprits de l'annonce portent celle sur laquelle deux traqueurs independants — Sprite Catch et FN Sprite Tracker — tombent d'accord, palier par palier, sans exception. C'est la regle de la maison : une rarete se publie recoupee, jamais sur une source seule. Transponder Snail et Lil Uzi Vert Jr. n'en ont qu'une chacun : ils restent « A confirmer ».",
+  "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les cinq fiches contestees portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
   "variants": [
     {
       "id": "base",
@@ -143,10 +143,10 @@
       "id": "t-exmarks",
       "name": "Exmarks",
       "sub": "Exmarks Sprite",
-      "rarity": "legendary",
+      "rarity": "unknown",
       "released": true,
       "effect": "Revele les cartes au tresor et les avis de recherche a proximite. Fait apparaitre une carte au tresor au niveau max.",
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier : il raccourcit toutes les autres chasses",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier : il raccourcit toutes les autres chasses · Rarete contestee : deux traqueurs la donnent Legendaire, un troisieme Epique",
       "variants": [
         "base",
         "fortune",
@@ -181,10 +181,10 @@
       "id": "t-chester",
       "name": "Chester",
       "sub": "Chester Sprite",
-      "rarity": "legendary",
+      "rarity": "unknown",
       "released": true,
       "effect": "Peut faire apparaitre du butin supplementaire dans les coffres et annule les degats de chute.",
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Rarete contestee : deux traqueurs la donnent Legendaire, un troisieme Epique",
       "variants": [
         "base",
         "fortune",
@@ -200,10 +200,10 @@
       "id": "t-wayfinder",
       "name": "Guide",
       "sub": "Wayfinder Sprite",
-      "rarity": "epic",
+      "rarity": "unknown",
       "released": true,
       "effect": "Revele les esprits a proximite et fait apparaitre du butin supplementaire dans les coffres enterres.",
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier, avec Exmarks",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier, avec Exmarks · Rarete contestee : deux traqueurs la donnent Epique, un troisieme Rare",
       "variants": [
         "base",
         "fortune",
@@ -238,10 +238,10 @@
       "id": "t-squibbly",
       "name": "Crapoulpe",
       "sub": "Lil' Squibbly Sprite",
-      "rarity": "legendary",
+      "rarity": "unknown",
       "released": true,
       "effect": "Sautez dans les coins de peche pour attraper du poisson et obtenir du butin bonus.",
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Rarete contestee : deux traqueurs la donnent Legendaire, un troisieme Epique",
       "variants": [
         "base",
         "fortune",
@@ -296,22 +296,22 @@
       "released": true,
       "effect": "Donne des ressources supplementaires au ramassage, pour vous et vos equipiers.",
       "unconfirmed": true,
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Absent de l'annonce officielle : signale en partie, nomme dans les fichiers du jeu, et suivi par un seul traqueur — qui le donne Epique, sans deuxieme source pour le dire",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Absent de l'annonce officielle : signale en partie, et nomme FeedJet dans les fichiers du jeu · Rarete contestee : un traqueur le donne Epique, un autre Legendaire",
       "variants": [
         "base"
       ],
-      "iconPending": true
+      "icon": true
     },
     {
       "id": "t-liluzi",
       "name": "Lil Uzi Vert Jr.",
       "sub": "Lil Uzi Vert Jr. Sprite",
-      "rarity": "unknown",
+      "rarity": "legendary",
       "released": false,
       "releasesOn": "2026-11-07",
       "effect": "Effet inconnu : Epic ne l'a pas publie.",
       "unconfirmed": true,
-      "source": "Annonce pour la semaine 2 : Epic fait arriver Lil Uzi le 7 novembre avec « de nouveaux esprits etranges », et les fichiers du jeu nomment celui-ci. Un traqueur le donne Legendaire et lui prete une Fortune et une Malediction : une seule source, donc sa fiche n'en porte aucune avant sa sortie.",
+      "source": "Annonce pour la semaine 2 : Epic fait arriver Lil Uzi le 7 novembre avec « de nouveaux esprits etranges », et les fichiers du jeu nomment celui-ci. Deux sources le donnent Legendaire et lui pretent une Fortune et une Malediction : sa fiche n'affichera ces variantes qu'a sa sortie.",
       "variants": [
         "base"
       ],

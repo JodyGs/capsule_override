@@ -93,16 +93,28 @@ _catch_cache = {}
 # Troisieme source, pour ce que les deux premieres n'ont pas. FN Sprite
 # Tracker sert ses images en WebP, sous un nom fixe : pas d'empreinte, donc
 # pas de page a relire. Il porte des esprits que personne d'autre n'a — Lil
-# Uzi Vert Jr. y figurait avant sa sortie. Attention : il comble aussi les
-# trous avec des illustrations qui ne sont pas celles du jeu, alors chaque
-# image recuperee ici se regarde avant d'etre publiee.
+# Uzi Vert Jr. y figurait avant sa sortie, et le Transponder Snail n'existe
+# que la. Son escargot a l'air faux : dessin a plat, quand tous les autres
+# esprits sont des rendus en relief. Il ne l'est pas. Fortnite.GG sert le
+# meme fichier sous le nom interne de l'asset — T_Icon_BR_Creature_Sprite_
+# FeedJet_L.webp — et les deux sont identiques, octet pour octet, somme de
+# controle a l'appui. Le style vient de la collaboration One Piece, pas d'un
+# remplissage. La lecon vaut d'etre ecrite : une illustration qui detonne se
+# verifie, elle ne se rejette pas.
 FNS_IMAGE = "https://fnsprites.app/sprites/{slug}_{style}.webp"
 FNS_SLUG = {
     "t-halfpeeld": "halfpeeld", "t-repete": "repete", "t-barry": "barryofish",
     "t-exmarks": "exmarks", "t-plundarrgh": "plundarrgh", "t-chester": "chester",
     "t-wayfinder": "wayfinder", "t-kelper": "kelper", "t-squibbly": "lilsquibbly",
     "t-flacko": "lilflacko", "t-sweetdreams": "sweetdreams", "t-liluzi": "liluzivert",
+    "t-snail": "transponder",
 }
+# Les noms internes des assets, releves sur Fortnite.GG. Ils ne servent a
+# aucun telechargement — le site refuse les acces automatises, et c'est son
+# droit — mais ils identifient un esprit sans ambiguite quand les noms
+# d'affichage changent d'une langue a l'autre : Exmarks est TreasureMap,
+# Guide est Compass, Crapoulpe est Squibbly, l'escargot est FeedJet et
+# Lil Uzi Vert Jr. est RookGecko.
 FNS_STYLE = {"base": "normal", "fortune": "fortune", "cursed": "cursed"}
 
 # Le nom du fichier sur la wiki ne suit pas toujours l'identifiant interne.

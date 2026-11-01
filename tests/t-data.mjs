@@ -144,19 +144,20 @@ const tally = sprites.sprites.reduce((m, s) => ({ ...m, [s.rarity]: (m[s.rarity]
    elles sont publiees. Les deux fiches qui n'ont qu'une source restent
    « A confirmer », et le catalogue dit laquelle est laquelle. */
 eq(tally.rare, 3, "esprits Rares");
-eq(tally.epic, 2, "esprits Epiques");
-eq(tally.legendary, 4, "esprits Legendaires");
+eq(tally.epic, 1, "esprits Epiques");
+eq(tally.legendary, 2, "esprits Legendaires");
 eq(tally.mythic, 2, "esprits Mythiques");
 ok(sprites.rarities.some((r) => r.id === "unknown"),
    "le libelle « A confirmer » reste disponible");
-eq(tally.unknown || 0, 2, "les deux fiches a source unique restent a confirmer");
+eq(tally.unknown || 0, 5, "les fiches contestees restent a confirmer");
 eq(sprites.sprites.filter((s) => s.rarity === "unknown").map((s) => s.id).sort().join(","),
-   "t-liluzi,t-snail", "et ce sont bien l'escargot et l'esprit a venir");
-ok(/recoup|deux traqueurs|independant/i.test(sprites.rarityNote || ""),
-   "le catalogue dit comment les raretes ont ete etablies");
-ok(/deux traqueurs independants/i.test(html), "la page l'explique aussi");
+   "t-chester,t-exmarks,t-snail,t-squibbly,t-wayfinder",
+   "et ce sont les quatre paliers contestes, plus l'escargot");
+ok(/contredit|contestee|ne s'accordent pas/i.test(sprites.rarityNote || ""),
+   "le catalogue dit que les sources se contredisent");
+ok(/conteste/i.test(html), "la page l'explique aussi");
 for (const s of sprites.sprites.filter((x) => x.rarity === "unknown")) {
-  ok(/une seule source|un seul traqueur|une source/i.test(s.source || ""),
+  ok(/contestee|une seule source|un seul traqueur/i.test(s.source || ""),
      `${s.id} dit pourquoi sa rarete manque`);
 }
 
@@ -224,6 +225,7 @@ for (const v of sprites.variants) {
    d'ou viennent ses images quand ce n'est pas de la source habituelle, et
    l'app doit les crediter. */
 ok(!("iconsPending" in sprites), "plus d'attente d'illustrations : elles sont la");
+ok(!sprites.sprites.some((s) => s.iconPending), "aucune fiche n'attend plus la sienne");
 ok(/Sprite Catch/i.test(sprites.iconsNote || ""), "le catalogue nomme la source des images");
 ok(/wiki/i.test(sprites.iconsNote || ""), "et dit que la wiki reste la source de reference");
 ok(/Sprite Catch/i.test(html), "la page credite la source des illustrations");
@@ -238,8 +240,10 @@ ok(script.indexOf("return fetch(noms, prefix)") < script.indexOf("catch_urls(spr
    "elles sont essayees dans l'ordre : wiki, puis Sprite Catch, puis FN Sprite Tracker");
 /* Le troisieme sert aussi des illustrations qui ne sont pas celles du jeu :
    le script doit le dire a qui le relira. */
-ok(/pas celles du jeu|se regarde avant/i.test(script),
-   "le script previent que la troisieme source se verifie a l'oeil");
+ok(/ne se rejette pas/i.test(script),
+   "le script garde la lecon : une illustration qui detonne se verifie");
+ok(script.includes("FeedJet") && script.includes("RookGecko"),
+   "et les noms internes des assets, qui identifient un esprit sans ambiguite");
 /* Chaque esprit sorti a son illustration et celles de ses variantes : c'est
    le controle qui rattrape l'oubli classique, ajouter un esprit au JSON sans
    lancer le script d'icones. */
@@ -307,7 +311,7 @@ for (const s of [...sprites.sprites, ...override.sprites]) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "66", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "67", "version du service worker");
 for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }
@@ -439,7 +443,7 @@ ok(!sprites.news.lines.some((l) => /[<>]/.test(l)), "l'annonce reste du texte");
    l'app ne sait pas, parce que c'est la moitie de l'information. */
 const annonce = sprites.news.lines.join(" ");
 ok(/Snail|escargot/i.test(annonce), "l'annonce nomme ce qui vient d'entrer");
-ok(/non confirme|une seule source|a relever|pas encore/i.test(annonce),
+ok(/conteste|contredit|non confirme|a relever/i.test(annonce),
    "et dit ce qui reste incertain");
 ok(new RegExp(`${pieces}\\b`).test(annonce), "et annonce le nouveau total de pieces");
 

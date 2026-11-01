@@ -580,13 +580,13 @@ et **32 pièces** : trois lignes (base, Fortune, Malédiction), dix esprits qui 
 toutes, **Doux rêves** et **Transponder Snail** qui n'ont que leur forme de base. Trois
 exceptions à connaître :
 
-- **Les raretés ne viennent pas d'Epic.** Il n'en a publié aucune pour cette saison. Les onze
-  esprits de l'annonce portent celle sur laquelle **deux traqueurs indépendants** — Sprite
-  Catch et FN Sprite Tracker — tombent d'accord, palier par palier, sans une divergence :
-  3 Rares, 2 Épiques, 4 Légendaires, 2 Mythiques. La règle n'a pas bougé, c'est elle qui a
-  tenu Obsession hors des raretés toute la saison passée : une rareté se publie **recoupée**,
-  jamais sur une source seule. Les deux fiches à source unique restent « À confirmer », et
-  `rarityNote` dit lesquelles.
+- **Les raretés ne viennent pas d'Epic, et les traqueurs se contredisent.** Sprite Catch et
+  FN Sprite Tracker donnent les mêmes onze paliers. Fortnite.GG, qui les lit dans les données
+  de carte du jeu, en conteste **quatre** — Exmarks, Chester, Guide et Crapoulpe, chaque fois
+  d'un cran plus bas. Les **sept paliers unanimes** sont publiés ; les quatre contestés, plus
+  l'escargot, portent « À confirmer » et nomment qui dit quoi. La règle n'a pas bougé, c'est
+  elle qui a tenu Obsession hors des raretés toute la saison passée. La couleur de la carte
+  dans l'écran Esprits du jeu tranchera plus vite que n'importe quel site.
 - **Les illustrations ne viennent pas de la wiki.** Elle n'avait rien publié le 1er novembre —
   les onze noms y renvoyaient une 404, testés un à un, et les pages `… Sprite` y sont encore
   des liens rouges. Elles viennent donc de **Sprite Catch**, qui les servait le jour même :
@@ -603,10 +603,11 @@ exceptions à connaître :
   recoupé par les fichiers du jeu qui le nomment. La règle n'a pas bougé pour autant : un
   fichier servi n'est pas une sortie, mais une sortie vue en partie en est une. Son effet ne
   vient que d'une source (`unconfirmed: true`) et son nom français reste à relever. Son
-  illustration aussi lui manque : la seule qui circule est un **dessin à plat**, là où toutes
-  les autres sont les rendus 3D du jeu — c'est du remplissage, pas l'asset. Sa fiche porte
-  donc `iconPending: true`, le catalogue le nomme, et un test vérifie qu'aucune image ne
-  traîne pour elle. Mieux vaut une pastille à initiale qu'une image dont on ne répond pas.
+  illustration, elle, a failli être écartée : c'est un **dessin à plat**, là où tous les autres
+  esprits sont des rendus en relief. Vérification faite, c'est bien l'asset du jeu — Fortnite.GG
+  sert le même fichier sous le nom interne `FeedJet`, identique octet pour octet. Le style vient
+  de la collaboration One Piece. **Une illustration qui détonne se vérifie, elle ne se rejette
+  pas** : la leçon est écrite dans le script.
 
 La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
 jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
@@ -647,10 +648,14 @@ et y récupère l'URL de chaque variante. Les noms de fichiers y portent une emp
 vieillirait en silence.
 
 En troisième, **FN Sprite Tracker**, pour ce que les deux premières n'ont pas : Lil Uzi Vert
-Jr. y avait son rendu avant même sa sortie. Ses images sont en WebP sous un nom fixe, donc pas
-de page à relire. Avertissement inscrit dans le script : ce site **comble aussi les trous avec
-des illustrations qui ne sont pas celles du jeu** — le Transponder Snail y a un dessin à plat
-quand tout le reste est en rendu 3D. Toute image qui en vient se regarde avant d'être publiée.
+Jr. y avait son rendu avant même sa sortie, et le Transponder Snail n'existe que là. Ses images
+sont en WebP sous un nom fixe, donc pas de page à relire.
+
+Le script porte aussi les **noms internes des assets**, relevés sur Fortnite.GG — Exmarks est
+`TreasureMap`, Guide est `Compass`, Crapoulpe est `Squibbly`, l'escargot est `FeedJet`, Lil Uzi
+Vert Jr. est `RookGecko`. Ils ne servent à aucun téléchargement : ce site refuse les accès
+automatisés, et c'est son droit. Ils identifient un esprit sans ambiguïté quand les noms
+d'affichage changent d'une langue à l'autre.
 
 Le script dit en fin de course quelles images ne sont pas venues de la wiki ; ces lignes
 disparaîtront d'elles-mêmes le jour où elle publiera. Une fiche qui déclare `iconPending` est
@@ -689,7 +694,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1721 vérifications** qui tournent sans navigateur — 1937 avec
+Les catalogues ont le leur, **1727 vérifications** qui tournent sans navigateur — 1942 avec
 les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
 pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, la sauvegarde
 des 56 codes et l'absence de toute trace d'eux dans l'app), la table des collections et le fait que **chaque clé de stockage reste collée à
