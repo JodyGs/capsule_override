@@ -1,8 +1,8 @@
 {
-  "season": "Chapitre 7 Saison 4 — Override",
-  "updatedAt": "2026-10-27",
+  "season": "Treasure Hunters — mini-saison de fin de chapitre",
+  "updatedAt": "2026-11-01",
   "where": "Panneau « …/ admin panel », en haut a droite du lobby. Tapez le code, validez. La casse n'a pas d'importance.",
-  "note": "Cinquante codes actifs au 9 octobre, dont six livres avec Fortnitemares. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la sortie de la saison. Un code a duree limitee disparait a son expiration. Les codes d'esprit versent 10 000 poussieres a la place si vous possedez deja la variante.",
+  "note": "Cinquante-six codes, releves une derniere fois le 27 octobre et inchanges depuis : au 28 octobre, aucune liste n'avait de nouveaute a ajouter avant la bascule, et aucune ne les a reverifies depuis l'ouverture de Treasure Hunters. Deux reserves, donc. Les codes qui versaient une variante Cheat Master offrent un esprit d'Override, desormais hors partie : personne n'a dit ce qu'ils donnent a sa place. Et la poussiere comme les gizmos sont repartis de zero avec la saison, donc ce qu'un code verse part d'un compteur neuf. Seuls les codes confirmes par plusieurs sources figurent ici : une vague de faux codes circule depuis la saison passee. Un code a duree limitee disparait a son expiration. Ces codes ne sont pas lies a une saison : ils ont traverse la bascule du 1er novembre sans annonce d'Epic, ni dans un sens ni dans l'autre.",
   "sources": [
     "lobbyhack.com",
     "VICE",
@@ -90,7 +90,7 @@
           }
         }
       ],
-      "hint": "Un code par esprit, et le raccourci le plus sur. Depuis le 27 aout, ces memes variantes Cheat Master se trouvent aussi en partie en reussissant des codes de triche, mais la recompense n'y est pas garantie. Si vous possedez deja la variante, Epic verse 10 000 poussieres d'esprit a la place."
+      "hint": "Un code par esprit. Ces variantes Cheat Master appartiennent a Override : depuis le 1er novembre, les esprits qu'elles habillent ne se ramassent plus en partie et vivent au Jardin des esprits. Le code existe toujours, mais aucune source n'a dit ce qu'il verse depuis la bascule. Si vous possediez deja la variante, Epic versait 10 000 poussieres d'esprit a la place."
     },
     {
       "id": "dust",
@@ -182,7 +182,6 @@
           "code": "SuppliesForTheHunt",
           "reward": "2 Snack-O'-Lantern",
           "once": true,
-          "new": true,
           "tag": "Fortnitemares",
           "warn": "Nintendo Life l'ecrit « SupplesForTheHunt » ; trois autres listes et Dexerto ecrivent « Supplies ». Les codes ignorent la casse, pas l'orthographe."
         },
@@ -283,21 +282,18 @@
           "code": "LuhLeakyz",
           "reward": "Musique de lobby : « Time Passed » de Yeat",
           "once": true,
-          "new": true,
           "tag": "Yeat"
         },
         {
           "code": "Pr1vat3j3t",
           "reward": "Musique de lobby : « Marching » de Yeat",
           "once": true,
-          "new": true,
           "tag": "Yeat"
         },
         {
           "code": "B1gBodySw3rve",
           "reward": "Musique de lobby : « Lil Krazy » de Yeat",
           "once": true,
-          "new": true,
           "tag": "Yeat"
         },
         {

@@ -1,14 +1,16 @@
 # Capsule Override
 
-Suivi des esprits de **Fortnite — Chapitre 7 Saison 4 « Override »**.
-Cochez ce que vous avez *débloqué* et *maîtrisé*, variantes Or et Cheat Master comprises.
+Suivi des esprits de **Fortnite — Treasure Hunters**, la mini-saison qui ferme le chapitre 7.
+Cochez ce que vous avez *débloqué* et *maîtrisé*, variantes Fortune et Cursed comprises.
 
 Application web **installable sur iPhone et Android**, qui fonctionne hors connexion.
 **Aucun compte, aucun serveur, aucune base de données** : vos coches sont écrites dans le
 stockage du téléphone et y restent. Thème clair, sombre ou automatique, au choix.
 
-Deux collections cohabitent sans jamais se mélanger : la **saison en cours** (Chapitre 7
-Saison 4 — Override) et les **saisons passées**, accessibles par le bouton *Legacy*.
+Trois collections cohabitent sans jamais se mélanger : la **saison en cours**
+(Treasure Hunters) et deux **saisons closes** — Chapitre 7 Saison 4 « Override » et
+Chapitre 7 Saison 3 « Runners » —, accessibles par le bouton de collection. Chacune garde
+ses coches, ses compteurs et son export.
 
 ---
 
@@ -74,10 +76,16 @@ ne savent pas le faire), puis **Partager → Sur l'écran d'accueil → Ajouter*
 
 ## Où vivent les données
 
-Tout est dans le `localStorage` du navigateur, sous la clé `capsule-override.store.v4`
-(la saison passée sous `capsule-override.legacy.v1`, les codes du lobby sous
+Tout est dans le `localStorage` du navigateur, **une clé par saison** :
+`capsule-override.treasure.v1` pour Treasure Hunters, `capsule-override.store.v4` pour
+Override, `capsule-override.legacy.v1` pour Runners. Les codes du lobby sont sous
 `capsule-override.codes.v1`, le thème sous `capsule-override.theme`, le pseudo Epic sous
-`capsule-override.player.v1`).
+`capsule-override.player.v1`.
+
+La clé reste **collée à sa saison**, jamais à la place qu'elle occupe dans le bouton. C'est
+ce qui a permis à Override de passer en archive le 1er novembre 2026 sans migration : son
+fichier a changé de nom, sa clé non. Si la clé avait suivi l'emplacement « saison en cours »,
+162 pièces cochées se seraient retrouvées projetées sur onze esprits qui n'existaient pas.
 Au démarrage, l'app appelle `navigator.storage.persist()` pour demander au système de ne pas
 effacer ces données quand la place manque — l'écran **Réglages** vous dit si c'est accordé.
 
@@ -103,8 +111,9 @@ dans **Réglages → Pseudo Epic Games**, où *Effacer* le retire (il sera redem
 prochain lancement).
 
 Il **signe l'image d'export**, en haut à droite de l'en-tête, et il ouvre le **message
-pré-rempli** de la feuille de partage : *« Jody Gs — ma collection d'esprits Override. »*, ou
-*« … d'esprits Legacy. »* depuis l'autre collection. Le message reste court : les chiffres sont
+pré-rempli** de la feuille de partage : *« Jody Gs — ma collection d'esprits Saison en cours. »*, ou le nom de
+l'archive ouverte depuis les autres collections — le libellé vient de la table
+`COLLECTIONS`, pas d'un nom de saison écrit en dur. Le message reste court : les chiffres sont
 déjà sur l'image, les répéter ferait doublon. Le nom du fichier reprend le pseudo aussi
 (`capsule-override-jody-gs-2026-08-21.png`). Sans pseudo, image, message et nom de fichier
 retrouvent exactement leur forme d'avant. Certaines applications ignorent le texte quand un
@@ -138,57 +147,52 @@ Utilisez *Réglages → Sauvegarde JSON*, puis *Importer* sur l'autre appareil.
 
 ---
 
-## Family : une galerie, pas une collection
+## La galerie maison, mise de côté
 
-Une troisième liste, en plus de la saison en cours et de Legacy. Neuf esprits maison qui
-n'existent nulle part dans Fortnite : l'Esprit du Miskine, de la Souplesse, de l'Obstruction,
-du Piqué, du Ragequit, du Dealer, de la Vantardise, de l'Administratif et du Développeur.
+Une troisième liste a longtemps accompagné les saisons : neuf esprits maison qui n'existent
+nulle part dans Fortnite, en lecture seule, sans clé de stockage du tout. Elle a quitté l'app
+le **1er novembre 2026**, à la bascule vers Treasure Hunters, pour laisser le bouton de
+collection aux trois saisons d'esprits.
 
-Elle est **en lecture seule**, et ce n'est pas qu'une question d'affichage : `COLLECTIONS.family`
-n'a **pas de clé de stockage du tout**. `readStore` rend un objet vide, `setStatus` et
-`saveStore` sortent immédiatement. Sans ce garde-fou, `storeKey()` vaudrait `null` et la
-reprise d'anciennes sauvegardes irait piocher dans celles de la saison en cours.
+Elle n'est pas supprimée : catalogue, images et tests sont gardés entiers dans
+**`archive/famille/`**, avec un `README.md` qui dit comment la rebrancher — et pourquoi une
+page à elle lui irait sans doute mieux qu'un quatrième cran dans un bouton.
 
-Ce qui disparaît avec elle : les cases à cocher et le tableau des variantes, les compteurs, la
-barre de progression, le compte à rebours, la recherche, les filtres, la bascule cartes/liste,
-le bandeau des rendez-vous et l'état de sauvegarde. Aucun n'aurait de prise sur une galerie.
-
-**Le bouton Exporter reste**, lui. L'image se construit sans score, sans barre, sans colonnes
-de variantes et sans la légende des coches — il n'y a rien à légender —, garde le liseré teinté
-de chaque fiche et termine sur *« Galerie : ces esprits n'existent pas dans Fortnite. »*
-L'en-tête est plus courte d'autant, et le nom du fichier porte la collection
-(`capsule-override-jodygs-family-2026-09-27.png`).
-
-Le bouton en haut à droite **tourne** sur les trois collections au lieu de basculer entre deux,
-et affiche toujours le nom de la suivante. `CYCLE` est simplement l'ordre des clés de
-`COLLECTIONS`.
-
-Les illustrations vivent dans `public/icons/family/`, pas dans `icons/sprites/` : le dossier
-est déclaré par collection, ce qui évite qu'une fiche maison et un esprit du jeu se disputent
-un nom de fichier.
-
-Chaque fiche porte **le nom de son esprit** — *Esprit du Miskine*, *du Ragequit*, *de
-l'Administratif* — et le prénom passe en sous-titre, comme le nom anglais chez les vrais.
-
-Toutes sont **mythiques**. Une galerie n'a pas de paliers à gravir, alors la couleur n'y classe
-plus rien : elle identifie. Un champ `tint` par fiche remplace la teinte de rareté sur la carte
-— rose, orange, rouge ou vert. Ces trois couleurs sont des tokens comme les autres, définies dans les
-**trois** palettes du thème (clair, sombre par défaut, sombre choisi à la main) ; un test compte
-les définitions, parce qu'une couleur oubliée dans un seul bloc ne se voit qu'en changeant de
-thème.
+La **mécanique** de galerie reste dans l'app, elle. `COLLECTIONS` accepte toujours une entrée
+sans clé de stockage (`store: null`) : `readStore` rend alors un objet vide, `setStatus` et
+`saveStore` sortent immédiatement, les compteurs, les filtres, le rebours et la bande
+perforée s'éteignent, et l'export perd ses colonnes de variantes. Les teintes `--f-*` sont
+restées dans les trois palettes du thème. Des tests veillent sur tout ça, précisément pour
+que le retour ne commence pas par une chasse aux couleurs disparues.
 
 ---
 
-## Legacy : les saisons passées
+## Les saisons closes : Override et Runners
 
-Le bouton **Legacy**, à côté de Réglages, bascule sur le catalogue des saisons terminées —
-aujourd'hui le **Chapitre 7 Saison 3 « Runners »**, ses 25 esprits et leurs 92 variantes.
+Le bouton de collection, à côté de Réglages, **tourne** sur les trois saisons et annonce
+toujours le nom de la suivante — `CYCLE` est simplement l'ordre des clés de `COLLECTIONS`.
+Deux d'entre elles sont closes :
 
-C'est une collection **entièrement séparée** : son propre catalogue
-(`public/sprites-legacy.json`), sa propre clé de stockage
-(`capsule-override.legacy.v1`), ses propres compteurs, son propre export. Cocher un esprit
-d'un côté ne touche jamais l'autre. La collection ouverte est retenue d'une visite à
-l'autre, et le bandeau orange rappelle en permanence qu'on ne regarde pas la saison en cours.
+| Saison | Fichier | Clé de stockage | Compte |
+| --- | --- | --- | --- |
+| Treasure Hunters | `sprites.json` | `capsule-override.treasure.v1` | 11 esprits, 31 pièces |
+| Override (C7 S4) | `sprites-override.json` | `capsule-override.store.v4` | 27 esprits, 162 pièces |
+| Runners (C7 S3) | `sprites-legacy.json` | `capsule-override.legacy.v1` | 25 esprits, 117 pièces |
+
+Chacune est **entièrement séparée** : son catalogue, sa clé, ses compteurs, son export.
+Cocher un esprit d'un côté ne touche jamais les autres. La collection ouverte est retenue
+d'une visite à l'autre, et le bandeau rappelle en permanence qu'on ne regarde pas la saison
+en cours.
+
+Une saison close porte `over: true` dans la table. C'est ce drapeau — et plus un nom de
+collection écrit en dur — qui arrête le rebours et les rendez-vous, pose l'ambiance patinée
+et fait afficher *Archive · Saison close* au centre du cadran. Un test interdit désormais la
+comparaison `state.which === "legacy"` dans l'app : avec deux archives, elle était devenue un
+piège silencieux.
+
+Les coches, elles, **ne sont pas gelées** : une archive se complète encore, puisque les
+esprits restent consultables au Jardin des esprits et que l'on peut vouloir rattraper son
+relevé après coup.
 
 ### Les variantes, reconstituées fichier par fichier
 
@@ -220,17 +224,32 @@ n'est donc pas une preuve de sortie : c'est un bon rappel des limites de la mét
 ### Ajouter une saison
 
 Créez un `public/sprites-<saison>.json` sur le même modèle, ajoutez-le à `COLLECTIONS` dans
-`public/app.js`, ses identifiants à `WIKI_NAME` dans `scripts/fetch-sprite-icons.py`, et son
-fichier à la liste du service worker. Les identifiants d'esprits doivent être préfixés pour
-ne pas entrer en collision d'une saison à l'autre (`l-` pour Runners).
+`public/app.js`, ses identifiants à `WIKI_NAME` dans `scripts/fetch-sprite-icons.py`, son
+chemin à `CATALOGUES` dans le même script, et son fichier à la liste du service worker. Les
+identifiants d'esprits doivent être préfixés pour ne pas entrer en collision d'une saison à
+l'autre (`l-` pour Runners, `t-` pour Treasure Hunters) : le dossier d'icônes est commun.
+
+**Faire passer la saison en cours en archive**, c'est l'opération inverse, et elle tient en
+trois règles apprises le 1er novembre 2026 :
+
+1. Renommez le fichier, **jamais la clé de stockage** — la clé appartient à la saison, pas à
+   l'emplacement. La nouvelle saison en reçoit une neuve.
+2. L'archive perd ce qui ne la concerne plus : `events`, `news`, et son `seasonEnd` devient
+   une simple date. Elle gagne une `note` — ce que deviennent ces esprits — et un
+   `variantsNote` qui fige son compte définitif. Le bandeau lit les deux dans le catalogue.
+3. Les reprises d'anciennes sauvegardes (`store.v3`, `store.v2`, la version à plat) suivent
+   **leur** saison. Elles ont été écrites pendant Override : les verser dans la saison en
+   cours reviendrait à cocher des esprits qui n'existent pas.
 
 ---
 
 ## Le rendez-vous du moment
 
 Un bandeau sous les compteurs annonce le prochain rendez-vous de la semaine, ou celui qui
-court : **Cheat Code Monday** (lundi 9 h à mardi 9 h à New York — les esprits montent deux fois
-plus vite, la poussière est doublée), **New Sprite Day** (jeudi 9 h) et **Power Hours** (samedi 14 h et 21 h, deux heures chacune).
+court. Treasure Hunters en compte deux : **Mastery Monday** (lundi 9 h à mardi 9 h à New
+York — XP d'esprit et poussière doublés) et **Captain's Day** (samedi 9 h — un capitaine, son
+équipage et son butin). Override en avait trois, dont les **Power Hours** à deux fenêtres par
+jour ; le mécanisme `starts` leur survit et resservira.
 
 Les horaires vivent dans `public/sprites.json`, sous `events`, en heure de New York. L'app les
 convertit à l'heure du téléphone en passant par `Intl.DateTimeFormat` : le décalage est relu à
@@ -405,15 +424,15 @@ Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
 `…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
 dorée indique combien restent à utiliser.
 
-**49 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
+**56 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
 un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
 (`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
 se consomme au niveau du compte Epic, pas de la saison.
 
-Les sept codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`,
-`PowerOut`, `CrowsAreAfraid`, `PumpkinSpiceLife`, `s7h-50p-r03`)
+Les huit codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`,
+`PowerOut`, `CrowsAreAfraid`, `PumpkinSpiceLife`, `s7h-50p-r03`, `BRB`)
 se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 42 récompenses** : ils ne
+leur case est en pointillés et ils **ne comptent pas dans les 48 récompenses** : ils ne
 donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
 une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
 d'accent.
@@ -475,13 +494,16 @@ public/                  l'application, statique de bout en bout
   index.html
   app.js                 tout le comportement
   styles.css             thème clair et sombre, passe mobile
-  sprites.json           le catalogue de la saison
+  sprites.json           le catalogue de la saison en cours
+  sprites-override.json  l'archive du Chapitre 7 Saison 4 — Override
+  sprites-legacy.json    l'archive du Chapitre 7 Saison 3 — Runners
   cheat-codes.json       les codes du panneau d'administration du lobby
   icons/sprites/         l'icone de chaque esprit, telle qu'elle apparaît en jeu
   icons/variants/        l'illustration de chaque variante (Or, Cheat Master, Gummy…)
   manifest.webmanifest   nom, icônes, mode plein écran
   sw.js                  service worker : fonctionnement hors connexion
   icons/
+archive/famille/         la galerie maison, gardée hors de l'app (voir son README)
 serve.js                 prévisualisation locale uniquement
 scripts/make-icons.py         régénère les icônes de l'app (npm run icons)
 scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprite-icons)
@@ -576,6 +598,23 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
+**État au 1er novembre 2026** : Override est close, à **27 esprits** et **162 pièces** — son
+compte définitif, figé dans `sprites-override.json`. Treasure Hunters ouvre à **11 esprits**
+et **31 pièces** : trois lignes (base, Fortune, Cursed), dix esprits qui les portent toutes,
+et **Sweet Dreams** qui n'a que sa forme de base. Deux exceptions à connaître :
+
+- **Aucune rareté publiée.** Epic n'en a donné pour cette saison. Un seul site en propose, en
+  précisant lui-même les déduire des taux d'apparition, et une deuxième source le contredit :
+  les onze fiches portent « À confirmer », et le catalogue dit pourquoi dans `rarityNote`.
+- **Aucune illustration.** La wiki n'avait rien publié le 1er novembre — les onze noms y
+  renvoient une 404, testés un à un. Le catalogue porte `iconsPending: true` et les fiches
+  affichent leur pastille à initiale ; le script connaît déjà les noms. Un test vérifie que
+  cet état est **déclaré**, et qu'aucune fiche ne promet une image absente.
+
+La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
+jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
+les notes.
+
 **État au 1er octobre 2026** : **25 esprits jouables** et **122 pièces obtenables**.
 Fortnitemares en a livré quatre — **Spooky Dash**, **Vampire**, **Le Cerf** et **Plongeon dans
 la benne**, le lauréat du concours — avec une sixième ligne de variantes, **Trick or Treat**.
@@ -624,9 +663,11 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1236 vérifications** qui tournent sans navigateur : les comptes
-publiés (21 esprits jouables, 101 pièces, 25 esprits et 117 pièces en Legacy, 41 codes dont
-38 récompenses), l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
+Les catalogues ont le leur, **1621 vérifications** qui tournent sans navigateur — 1838 avec
+les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
+pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, 56 codes dont 48
+récompenses), la table des collections et le fait que **chaque clé de stockage reste collée à
+sa saison**, l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres
 quatre, qu'aucun esprit retiré ne laisse d'image ou d'entrée de précache derrière lui, les

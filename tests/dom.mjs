@@ -8,6 +8,11 @@ import { dirname, join } from "node:path";
 
 export const PUB = join(dirname(fileURLToPath(import.meta.url)), "..", "public");
 export const lire = (f) => JSON.parse(readFileSync(join(PUB, f), "utf8"));
+/* La clef de stockage de la saison en cours, lue dans l'app plutot que
+   recopiee : elle change a chaque bascule de saison, et un test qui ecrit
+   dans l'ancienne remplit une archive sans que rien ne proteste. */
+export const CLEF = readFileSync(join(PUB, "app.js"), "utf8")
+  .match(/current:\s*\{[^}]*store:\s*"([^"]+)"/)[1];
 
 export async function boot({ store = {}, mutate = null, at = null } = {}) {
   // Le compte a rebours depend de l'heure : on la fige avant de demarrer.
@@ -29,8 +34,8 @@ export async function boot({ store = {}, mutate = null, at = null } = {}) {
   if (mutate) mutate(season);
   const files = {
     "sprites.json": season,
+    "sprites-override.json": lire("sprites-override.json"),
     "sprites-legacy.json": lire("sprites-legacy.json"),
-    "sprites-family.json": lire("sprites-family.json"),
     "cheat-codes.json": lire("cheat-codes.json"),
   };
   const g = globalThis;

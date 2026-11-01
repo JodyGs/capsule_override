@@ -2,37 +2,32 @@
    tout l'interet est qu'elles ne divergent jamais, et que les filtres
    continuent de compter sur les lignes du tableau meme quand celui-ci ne
    s'affiche plus. */
-import { boot, lire, compteur } from "./dom.mjs";
+import { boot, lire, compteur, CLEF } from "./dom.mjs";
 
 const { ok, eq, fin } = compteur();
 const season = lire("sprites.json");
+const override = lire("sprites-override.json");
 
-/* Une case par ligne de variante, dans l'ordre du catalogue. */
+/* Une case par ligne de variante, dans l'ordre du catalogue. La saison en
+   cours ouvre sans illustrations — la wiki ne les a pas encore publiees — donc
+   c'est le repli par le mot qui est a l'ecran, et c'est lui qu'on verifie ici
+   sur le vrai catalogue plutot que sur une fiche retouchee. */
 {
   const { document } = await boot();
-  const sprite = season.sprites.find((s) => s.released
+  const toutes = season.sprites.find((s) => s.released
     && (s.variants || season.variants.map((v) => v.id)).length === season.variants.length);
-  const card = document.querySelector(`.card[data-sprite="${sprite.id}"]`);
+  const card = document.querySelector(`.card[data-sprite="${toutes.id}"]`);
   const cells = [...card.querySelectorAll(".pcell")];
   eq(cells.length, season.variants.length, "une case par ligne de variante");
   eq(cells.map((c) => c.dataset.v).join(","), season.variants.map((v) => v.id).join(","),
      "les cases suivent l'ordre du catalogue");
-  // Au centre de chaque case, l'illustration de la variante — c'est ce qui
-  // permet a la vue Liste de rester lisible sans ecrire les noms.
-  eq(cells.filter((c) => c.querySelector("img.pvicon")).length, cells.length,
-     "chaque case porte la vignette de sa variante");
-  eq(cells[0].querySelector("img.pvicon").getAttribute("src"),
-     `icons/sprites/${sprite.id}.png`, "la case Base reprend l'illustration de l'esprit");
-  eq(cells[1].querySelector("img.pvicon").getAttribute("src"),
-     `icons/variants/${sprite.id}-gold.png`, "la case Or prend l'illustration doree");
-  ok(!cells[0].querySelector(".vicon"),
-     "la vignette de la bande n'est pas celle du tableau : elle n'ouvre pas la visionneuse");
 
-  // Pas d'illustration — un esprit pas encore sorti — le mot reprend la place.
-  // Jamais une case vide : on ne saurait plus de quelle ligne il s'agit.
+  // Jamais une case vide : sans vignette ni mot, on ne saurait plus de quelle
+  // ligne il s'agit. Et le mot doit tenir en un mot, sinon la case deborde.
   for (const c of document.querySelectorAll("#grid .pcell")) {
     const img = c.querySelector("img.pvicon"), mot = c.querySelector(".pword");
     ok(!!img !== !!mot, `${c.dataset.s}/${c.dataset.v} : une vignette ou un mot, pas les deux`);
+    if (mot) eq(mot.textContent.includes(" "), false, `${c.dataset.v} : le repli tient en un mot`);
   }
   for (const c of cells) {
     eq(c.dataset.val, "0", `${c.dataset.v} part a vide`);
@@ -40,38 +35,36 @@ const season = lire("sprites.json");
        `${c.dataset.v} annonce son etat a la voix`);
   }
 
-  /* Mega Man n'a qu'une ligne : sa bande n'a qu'une case. */
+  /* Sweet Dreams n'a que sa forme de base : sa bande n'a qu'une case. */
   const seul = season.sprites.find((s) => Array.isArray(s.variants) && s.variants.length === 1);
+  ok(seul, "un esprit sans variante existe bien dans le catalogue");
   if (seul) {
     const b = document.querySelector(`.card[data-sprite="${seul.id}"] .punch`);
     eq(b.querySelectorAll(".pcell").length, 1, `${seul.id} n'expose que sa ligne`);
   }
 }
 
-/* Pas d'illustration — un esprit annonce dont l'image n'existe pas encore —
-   le mot reprend la place. Jamais une case vide : on ne saurait plus de
-   quelle ligne il s'agit. Aucun esprit du catalogue n'est dans ce cas
-   aujourd'hui, d'ou le catalogue retouche : le repli doit marcher le jour ou
-   Epic annonce un esprit avant d'en publier l'image. */
+/* L'autre moitie de la regle : des que les illustrations existent, elles
+   prennent la place du mot. Override les a toutes — c'est donc l'archive qui
+   verifie le chemin avec vignettes, sur des fichiers reellement presents. */
 {
-  const { document } = await boot({
-    mutate: (cat) => {
-      const s = cat.sprites.find((x) => x.released);
-      delete s.icon;
-      delete s.variantIcons;
-      s.id = "sans-image";
-      cat.order = cat.order.map((id) => id);
-      cat.order.unshift("sans-image");
-    },
-  });
-  const cells = [...document.querySelectorAll('.card[data-sprite="sans-image"] .pcell')];
-  ok(cells.length > 0, "la fiche sans image a bien sa bande");
-  for (const c of cells) {
-    ok(!c.querySelector("img.pvicon"), `${c.dataset.v} : pas d'image a montrer`);
-    const mot = c.querySelector(".pword");
-    ok(mot && mot.textContent.trim().length > 0, `${c.dataset.v} : le mot sert de repli`);
-    eq(mot.textContent.includes(" "), false, "le repli tient en un mot");
-  }
+  const { document, click } = await boot();
+  click(document.getElementById("btn-legacy"));
+  await new Promise((r) => setTimeout(r, 40));
+  const sprite = override.sprites.find((s) => s.released
+    && (s.variants || []).length === override.variants.length);
+  const card = document.querySelector(`.card[data-sprite="${sprite.id}"]`);
+  const cells = [...card.querySelectorAll(".pcell")];
+  eq(cells.length, override.variants.length, "une case par ligne, dans l'archive aussi");
+  eq(cells.filter((c) => c.querySelector("img.pvicon")).length, cells.length,
+     "chaque case porte la vignette de sa variante");
+  eq(cells[0].querySelector("img.pvicon").getAttribute("src"),
+     `icons/sprites/${sprite.id}.png`, "la case Base reprend l'illustration de l'esprit");
+  eq(cells[1].querySelector("img.pvicon").getAttribute("src"),
+     `icons/variants/${sprite.id}-${override.variants[1].id}.png`,
+     "la case suivante prend l'illustration de sa variante");
+  ok(!cells[0].querySelector(".vicon"),
+     "la vignette de la bande n'est pas celle du tableau : elle n'ouvre pas la visionneuse");
 }
 
 /* La case tourne : vide, debloquee, maitrisee, vide. */
@@ -122,7 +115,7 @@ const season = lire("sprites.json");
   // la fois, pour que chaque filtre ait quelque chose a retenir et a ecarter.
   const store = { entries: { [sprite.id]: { [vars[0]]: 1, [vars[1]]: 2 } } };
   const { document, setFilter } = await boot({
-    store: { "capsule-override.store.v4": JSON.stringify(store) } });
+    store: { [CLEF]: JSON.stringify(store) } });
   const card = document.querySelector(`.card[data-sprite="${sprite.id}"]`);
   const off = () => [...card.querySelectorAll(".pcell")]
     .filter((c) => c.classList.contains("is-off")).map((c) => c.dataset.v);
@@ -146,21 +139,19 @@ const season = lire("sprites.json");
 /* Le compte de pieces s'appuie sur les lignes du tableau. Elles ne
    s'affichent plus en vue Liste, elles doivent rester dans la carte. */
 {
-  const { document } = await boot();
+  const { document, click } = await boot();
   const sprite = season.sprites.find((s) => s.released);
   const card = document.querySelector(`.card[data-sprite="${sprite.id}"]`);
   ok(card.querySelectorAll(".vrow").length > 0, "les lignes survivent a la bande");
-  ok(card.querySelectorAll(".vrow .vicon").length > 0, "et gardent leurs vignettes");
-}
 
-/* Une galerie ne coche rien : pas de bande non plus. */
-{
-  const { document, click } = await boot();
+  // Les vignettes du tableau se verifient la ou les images existent : la
+  // saison en cours attend encore les siennes.
   click(document.getElementById("btn-legacy"));
   await new Promise((r) => setTimeout(r, 40));
-  click(document.getElementById("btn-legacy"));
-  await new Promise((r) => setTimeout(r, 40));
-  eq(document.querySelectorAll("#grid .pcell").length, 0, "aucune case dans Family");
+  const vieux = override.sprites.find((s) => s.released && s.icon);
+  const archive = document.querySelector(`.card[data-sprite="${vieux.id}"]`);
+  ok(archive.querySelectorAll(".vrow").length > 0, "les lignes de l'archive aussi");
+  ok(archive.querySelectorAll(".vrow .vicon").length > 0, "et elles gardent leurs vignettes");
 }
 
 /* La feuille de style doit bien separer les deux vues, sinon les deux

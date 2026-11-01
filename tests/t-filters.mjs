@@ -2,7 +2,7 @@
    sur telephone il se replie derriere un bouton. Le piege est de confondre
    les deux — un attribut `hidden` pose pour la galerie avait fait disparaitre
    le panneau sur toutes les tailles, bouton compris. */
-import { boot, lire, compteur } from "./dom.mjs";
+import { boot, lire, compteur, CLEF } from "./dom.mjs";
 
 const { ok, eq, fin } = compteur();
 const season = lire("sprites.json");
@@ -25,22 +25,22 @@ const season = lire("sprites.json");
   eq(panneau.hidden, false, "replie, c'est le CSS qui decide, pas l'attribut");
 }
 
-/* En galerie il n'y a rien a filtrer : le panneau et son bouton s'en vont. */
+/* Les trois collections se filtrent de la meme facon : une archive a ses
+   lignes et ses raretes comme la saison en cours. Le panneau reste servi
+   visible partout — c'est la regression qui avait fait disparaitre les
+   filtres, et elle revenait par une collection, pas par une taille d'ecran. */
 {
-  const { document, click } = await boot();
+  const { document, click, peek } = await boot();
   const panneau = document.getElementById("filter-panel");
-  click(document.getElementById("btn-legacy"));
-  await new Promise((r) => setTimeout(r, 40));
-  eq(panneau.hidden, false, "Legacy se filtre comme la saison en cours");
-
-  click(document.getElementById("btn-legacy"));
-  await new Promise((r) => setTimeout(r, 40));
-  eq(panneau.hidden, true, "Family : rien a filtrer");
-  eq(document.getElementById("btn-filters").hidden, true, "ni bouton pour le rouvrir");
-
-  click(document.getElementById("btn-legacy"));
-  await new Promise((r) => setTimeout(r, 40));
-  eq(panneau.hidden, false, "de retour sur la saison en cours, le panneau revient");
+  for (const attendue of ["override", "legacy", "current"]) {
+    click(document.getElementById("btn-legacy"));
+    await new Promise((r) => setTimeout(r, 40));
+    eq(peek.state.which, attendue, `le bouton mene a ${attendue}`);
+    eq(panneau.hidden, false, `${attendue} se filtre comme la saison en cours`);
+    eq(document.getElementById("btn-filters").hidden, false, `et garde son bouton (${attendue})`);
+    ok(document.querySelectorAll("#rarity-chips [data-rarity]").length > 1,
+       `les puces de rarete sont construites pour ${attendue}`);
+  }
 }
 
 /* Chaque filtre de statut retient ce qu'il annonce, et rien d'autre. */
@@ -49,7 +49,7 @@ const season = lire("sprites.json");
   const vars = sprite.variants || season.variants.map((v) => v.id);
   const store = { entries: { [sprite.id]: Object.fromEntries(vars.map((v) => [v, 2])) } };
   const { document, setFilter, visibleCards, visibleRows } = await boot({
-    store: { "capsule-override.store.v4": JSON.stringify(store) } });
+    store: { [CLEF]: JSON.stringify(store) } });
   const carte = (id) => document.querySelector(`.card[data-sprite="${id}"]`);
 
   setFilter("mastered");

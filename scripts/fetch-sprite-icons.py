@@ -27,6 +27,7 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CATALOGUES = [
     os.path.join(ROOT, "public", "sprites.json"),
+    os.path.join(ROOT, "public", "sprites-override.json"),
     os.path.join(ROOT, "public", "sprites-legacy.json"),
 ]
 OUT_DIR = os.path.join(ROOT, "public", "icons", "sprites")
@@ -49,12 +50,21 @@ VARIANT_PREFIX = {
     "loot": "Loot_Hacker",
     "bounty": "Bounty_Hunter",
     "trick": "Trick_or_Treat",
+    # Treasure Hunters
+    "fortune": "Fortune",
+    "cursed": "Cursed",
 }
 # La wiki n'est pas toujours coherente d'une variante a l'autre : le Buisson
 # s'y trouve sous « Bush » pour cinq de ses six formes, et sous « Bushranger »
 # pour la Trick or Treat. On essaie donc les noms de rechange avant d'abandonner.
 WIKI_ALIAS = {
     "bush": ["Bushranger"],
+    # Les apostrophes des noms de Treasure Hunters ne survivent pas toujours
+    # au nom de fichier : on essaie la forme nue avant d'abandonner.
+    "t-halfpeeld": ["Halfpeeld", "Halfpeel'd_Banana"],
+    "t-barry": ["Barry_OFish", "Barry_O_Fish"],
+    "t-squibbly": ["Lil_Squibbly", "Squibbly"],
+    "t-flacko": ["Lil_Flacko", "Flacko"],
     # L'esprit s'appelle Obsession en jeu, mais la wiki le classe sous le nom
     # du personnage du film — One Wish Willow — pour ses six formes.
     "obsession": ["One_Wish_Willow"],
@@ -108,6 +118,17 @@ WIKI_NAME = {
     "l-burntpeanut": "TheBurntPeanut", "l-vinijr": "Vini_Jr.",
     "l-batman": "Batman", "l-pollo": "Pollo",
     "l-ironmouse": "Ironmouse", "l-johnwick": "John_Wick",
+
+    # Treasure Hunters — mini-saison de fin de chapitre. Le prefixe « t- »
+    # evite la collision dans le dossier d'icones, partage par les saisons.
+    # La wiki n'avait rien publie le 1er novembre : les noms sont ici pour
+    # que le premier passage utile les ramene sans y revenir.
+    "t-halfpeeld": "Halfpeel'd", "t-repete": "Re-Pete",
+    "t-barry": "Barry_O'Fish", "t-exmarks": "Exmarks",
+    "t-plundarrgh": "Plundarrgh", "t-chester": "Chester",
+    "t-wayfinder": "Wayfinder", "t-kelper": "Kelper",
+    "t-squibbly": "Lil'_Squibbly", "t-flacko": "Lil'_Flacko",
+    "t-sweetdreams": "Sweet_Dreams",
 }
 
 

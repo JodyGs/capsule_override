@@ -10,13 +10,25 @@ const $ = (id) => document.getElementById(id);
    elles : ni les coches, ni les compteurs, ni l'export. « Family » n'a pas
    de stockage du tout : c'est une galerie, on n'y coche rien. L'ordre du
    tableau est celui du bouton, qui tourne. */
+/* Une entree par saison suivie. La clef de stockage reste collee a sa saison,
+   et pas a la place qu'elle occupe dans le bouton : quand Override est passee
+   en archive, le 1er novembre, ses coches sont restees la ou elles etaient
+   ecrites — « store.v4 » n'a pas change de proprietaire, c'est le fichier
+   servi en « saison en cours » qui a change. Rien a migrer, rien a perdre.
+   `over` marque une saison finie : plus de rebours, plus de rendez-vous, mais
+   les coches restent modifiables — une archive se complete encore au Jardin.
+   `store: null` marque une galerie, en lecture seule ; la mecanique reste en
+   place, sans collection qui s'en serve pour l'instant. */
 const COLLECTIONS = {
-  current: { file: "sprites.json",        store: "capsule-override.store.v4",  label: "Saison en cours", icons: "sprites" },
-  legacy:  { file: "sprites-legacy.json", store: "capsule-override.legacy.v1", label: "Legacy",          icons: "sprites" },
-  family:  { file: "sprites-family.json", store: null,                         label: "Family",          icons: "family" }
+  current: { file: "sprites.json",          store: "capsule-override.treasure.v1", label: "Saison en cours", icons: "sprites" },
+  override:{ file: "sprites-override.json", store: "capsule-override.store.v4",    label: "Override",        icons: "sprites", over: true },
+  legacy:  { file: "sprites-legacy.json",   store: "capsule-override.legacy.v1",   label: "Runners",         icons: "sprites", over: true }
 };
 const CYCLE = Object.keys(COLLECTIONS);
 const readOnly = () => COLLECTIONS[state.which].store === null;
+/* Saison close : l'app arrete le rebours et les rendez-vous, et teinte la
+   page. Elle ne gele pas les coches pour autant. */
+const archive = () => COLLECTIONS[state.which].over === true;
 
 const K_COLLECTION = "capsule-override.collection";
 const K_THEME = "capsule-override.theme";
@@ -334,7 +346,7 @@ let agendaTimer = null;
 function paintAgenda() {
   const box = $("agenda");
   // Les saisons passees n'ont plus de rendez-vous : le bandeau n'a pas lieu d'etre.
-  const state_ = state.which === "legacy" ? null : nextEvent(state.catalogue?.events, now());
+  const state_ = archive() ? null : nextEvent(state.catalogue?.events, now());
   if (!state_) { box.hidden = true; return; }
 
   const { event, live, today, at, until } = state_;
@@ -398,7 +410,7 @@ const bornDate = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "shor
 function paintDeadline() {
   const box = $("capsule");
   const pass = $("pass");
-  const fin = state.which === "legacy" ? null : seasonEndAt();
+  const fin = archive() ? null : seasonEndAt();
 
   // Une archive n'a pas d'echeance : le centre le dit au lieu d'afficher un
   // rebours arrete a zero, et la regle de saison disparait.
@@ -480,8 +492,11 @@ function readStore() {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed.entries === "object") return parsed.entries || {};
     }
-    // Les reprises d'anciennes sauvegardes ne concernent que la saison en cours.
-    if (state.which !== "current") return {};
+    // Les reprises d'anciennes sauvegardes ne concernent qu'Override : ces
+    // clefs — store.v3, store.v2, la version a plat — ont toutes ete ecrites
+    // pendant cette saison-la. Les verser dans la saison en cours reviendrait
+    // a cocher des esprits qui n'existent plus.
+    if (state.which !== "override") return {};
 
     // Versions a profils multiples : on reprend celui qui etait ouvert.
     for (const key of K_LEGACY_PROFILES) {
@@ -591,6 +606,15 @@ const cardToken = (sprite) => TINTS[sprite.tint] || rarityToken(sprite.rarity);
 
 const rarityLabel = (id) =>
   state.catalogue.rarities.find((r) => r.id === id)?.label || id;
+
+/* Les raretes a montrer : celles que la collection ouverte porte reellement,
+   dans l'ordre du catalogue. Les quatre paliers etaient ecrits en dur, ce qui
+   tenait tant qu'une saison avait ses quatre paliers remplis. Treasure
+   Hunters a ouvert sans aucune rarete publiee : le detail affichait quatre
+   lignes a zero et pas une ligne pour les trente-et-une pieces a confirmer. */
+const raritesEnJeu = () => state.catalogue.rarities
+  .map((r) => r.id)
+  .filter((id) => state.live.some((sprite) => sprite.rarity === id));
 
 const iconUrl = (sprite) => `icons/${COLLECTIONS[state.which].icons}/${sprite.id}.png`;
 const variantIconUrl = (sprite, variant) => `icons/variants/${sprite.id}-${variant}.png`;
@@ -891,7 +915,7 @@ function renderStats() {
   arc($("dial-u"), denom ? unlocked / denom : 0, DIAL_U);
   arc($("dial-m"), denom ? mastered / denom : 0, DIAL_M);
 
-  for (const rarity of ["rare", "epic", "legendary", "mythic"]) {
+  for (const rarity of raritesEnJeu()) {
     const subset = state.live.filter((s) => s.rarity === rarity);
     const d = subset.reduce((n, sprite) => n + variantsOf(sprite).length, 0);
     let ru = 0, rm = 0;
@@ -920,7 +944,7 @@ function buildRarityPanel() {
 
   const box = $("by-rarity");
   box.innerHTML = "";
-  for (const rarity of ["rare", "epic", "legendary", "mythic"]) {
+  for (const rarity of raritesEnJeu()) {
     const el = document.createElement("div");
     el.className = "rr";
     el.innerHTML = `
@@ -1260,13 +1284,13 @@ async function renderCollectionImage() {
   ctx.fillRect(0, 0, W, H);
 
   /* --- entete --- */
-  const code = state.catalogue.code || "OVERRIDE";
+  const code = state.catalogue.code || "FORTNITE";
   ctx.font = '10px "Press Start 2P", monospace';
   const codeW = ctx.measureText(code).width + 26;
-  ctx.fillStyle = state.which === "legacy" ? c.rarity.legendary : c.accent;
+  ctx.fillStyle = archive() ? c.rarity.legendary : c.accent;
   roundRect(ctx, PAD, 38, codeW, 30, 5);
   ctx.fill();
-  ctx.fillStyle = state.which === "legacy" ? c.bg : c.accentInk;
+  ctx.fillStyle = archive() ? c.bg : c.accentInk;
   ctx.fillText(code, PAD + 13, 58);
 
   ctx.fillStyle = c.ink;
@@ -1480,8 +1504,10 @@ function notify(message) {
    qui figure deja sur la pastille de l'image. */
 const seasonText = () => String(state.catalogue.season || "").split("—")[0].trim();
 
-/* De quelle collection il s'agit, en un mot. */
-const collectionWord = () => (state.which === "legacy" ? "Legacy" : "Override");
+/* De quelle collection il s'agit, en un mot. Le nom vient de la table : trois
+   saisons tiennent desormais dans le meme bouton, et un ternaire de plus a
+   chaque bascule etait la garantie d'en oublier un. */
+const collectionWord = () => COLLECTIONS[state.which].label;
 
 /* Le titre que reprennent les applications qui n'affichent pas de texte. */
 function shareTitle() {
@@ -1597,7 +1623,7 @@ function backupText() {
 
 function backupName(extension) {
   const who = shareSlug() ? `-${shareSlug()}` : "";
-  const suffix = state.which === "legacy" ? "-legacy" : "";
+  const suffix = state.which === "current" ? "" : `-${state.which}`;
   return `capsule-override${who}${suffix}.${extension}`;
 }
 
@@ -1797,7 +1823,9 @@ $("btn-wipe").addEventListener("click", () => {
   state.entries = {};
   try {
     localStorage.removeItem(storeKey());
-    if (state.which === "current") {
+    // Les clefs d'avant appartiennent a Override : c'est en effacant Override
+    // qu'on les efface.
+    if (state.which === "override") {
       for (const key of [...K_LEGACY_PROFILES, K_LEGACY_ACTIVE, K_LEGACY_FLAT]) {
         localStorage.removeItem(key);
       }
@@ -2478,11 +2506,14 @@ async function loadCollection(which, { remember = true } = {}) {
   state.denom = countPieces();
   state.entries = readStore();
 
-  const legacy = which === "legacy";
+  const passee = archive();
   const galerie = readOnly();
-  document.body.classList.toggle("is-legacy", legacy);
+  document.body.classList.toggle("is-legacy", passee);
   document.body.classList.toggle("is-gallery", galerie);
-  $("legacy-banner").hidden = !legacy && !galerie;
+  $("legacy-banner").hidden = !passee && !galerie;
+  // Deux archives, deux histoires : le bandeau les lit dans le catalogue au
+  // lieu de les porter en dur dans la page.
+  $("legacy-lead").textContent = state.catalogue.note || "";
   $("legacy-note").textContent = state.catalogue.variantsNote || "";
   $("gallery-note").hidden = !galerie;
   $("gallery-note").textContent = galerie ? state.catalogue.note || "" : "";
@@ -2515,7 +2546,7 @@ async function loadCollection(which, { remember = true } = {}) {
   // Le badge porte deja le nom de code — OVERRIDE, RUNNERS. Le repeter dans
   // la ligne qui le suit allongeait la barre sans rien ajouter.
   $("season-label").textContent = `Fortnite · ${state.catalogue.season.replace(/\s*—.*$/, "")}`;
-  $("season-mark").textContent = state.catalogue.code || "OVERRIDE";
+  $("season-mark").textContent = state.catalogue.code || "FORTNITE";
 
   $("s-unlocked-sub").textContent = state.catalogue.variants.length > 1
     ? "pieces collectees" : "esprits rencontres";

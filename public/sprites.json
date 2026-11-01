@@ -1,68 +1,49 @@
 {
-  "season": "Chapitre 7 Saison 4 — Override",
-  "code": "OVERRIDE",
-  "seasonStart": "2026-08-20",
+  "season": "Treasure Hunters — mini-saison de fin de chapitre",
+  "code": "TREASURE",
+  "seasonStart": "2026-11-01",
   "seasonEnd": {
-    "date": "2026-11-01",
+    "date": "2026-12-05",
     "time": "02:00",
     "timeConfirmed": false,
-    "note": "Epic n'a toujours pas publie l'heure. Deux estimations independantes convergent desormais sur 4 h du matin a New York ; le rebours vise 2 h et vous laisse donc deux heures de marge, parce que se tromper en avance est le seul sens acceptable. Epic annonce l'heure exacte la veille, et le minuteur du passe en jeu fait foi."
+    "note": "Epic n'a pas publie d'heure de fin : la page du passe renvoie a l'evenement de fin du chapitre, annonce pour le samedi 5 decembre. Une estimation isolee parlait du 30 novembre ; cinq sources tiennent le 5. Le rebours vise 2 h du matin a New York pour se tromper en avance. Epic annonce l'heure exacte la veille, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-11-01",
   "news": {
-    "version": "2026-10-27",
-    "title": "Plus d'esprits a venir : il reste a finir",
-    "date": "27 octobre 2026",
+    "version": "2026-11-01",
+    "title": "Nouvelle saison : Treasure Hunters",
+    "date": "1er novembre 2026",
     "lines": [
-      "Aucun esprit ni aucune variante depuis le 15 octobre, et il n'y en aura plus : la saison est close a 27 esprits et 162 pieces. Ce qui manque encore se joue dans les quatre jours qui restent.",
-      "Les Trick or Treat partent avec Fortnitemares. Les autres lignes survivent en styles, celle-la non : ce sont les vingt-quatre pieces a aller chercher en priorite.",
-      "Coin-coin se reclame dans l'onglet Recompenses, pas en partie. Si vous avez passe les paliers 40, 45, 50, 55 ou 60, les esprits vous attendent deja la-bas.",
-      "Cinq codes de plus : SuppliesForTheHunt, trois musiques de lobby signees Yeat, et BRB, longtemps ecarte d'ici faute de source fiable. Cinquante-six en tout, tous a consommer avant la bascule."
+      "Override s'est fermee cette nuit. Elle n'est pas perdue : l'onglet Override garde vos coches, vos compteurs et votre export, intacts. Ces esprits ne se ramassent simplement plus en partie.",
+      "Treasure Hunters ouvre avec onze esprits et trois lignes — base, Fortune et Cursed. Dix esprits portent les trois, Sweet Dreams n'a que sa base : trente-et-une pieces a faire.",
+      "La chasse a change de regles. On n'ouvre plus des coffres au hasard : on arrache une affiche de recherche, elle devient une carte au tresor, la carte mene a un coffre enterre qu'on deterre a la pioche. Exmarks et Wayfinder raccourcissent tout le reste — a prendre en premier.",
+      "La ligne Or revient le 12 novembre, avec son bonus d'XP par elimination. Elle n'est pas encore dans la liste : elle y entrera le jour ou elle sortira, pas avant.",
+      "Epic n'a publie aucune rarete cette saison. Les onze fiches portent « A confirmer » plutot qu'un palier deduit des taux d'apparition par un seul site.",
+      "Poussiere et gizmos sont repartis de zero avec la bascule. Les cinquante-six codes du lobby n'ont pas bouge, mais ceux qui offraient une variante Override n'ont plus d'objet : les esprits qu'ils donnaient sont au Jardin."
     ]
   },
+  "iconsPending": true,
+  "iconsNote": "La wiki n'a pas encore mis en ligne les illustrations de cette saison : testees une a une le 1er novembre, les onze renvoient une 404. Les fiches affichent donc une pastille a initiale. Le script d'icones connait deja leurs noms : il les ramenera des que la wiki publiera.",
+  "namesNote": "Les noms sont ceux de l'annonce officielle, en anglais. La version francaise du jeu en traduit parfois (Bush etait devenu Broussaille la saison passee) : le releve suivra le jeu plutot que de traduire a sa place.",
+  "rarityNote": "Epic n'a publie aucune rarete pour cette saison. Un seul site en propose, en precisant lui-meme les deduire des taux d'apparition, et une deuxieme source le contredit sur Sweet Dreams. Les onze fiches portent donc « A confirmer » : une rarete ne se publie ici que recoupee.",
   "variants": [
     {
       "id": "base",
       "name": "Base",
       "note": "L'esprit dans sa forme d'origine.",
-      "find": "Chaque esprit a ses coins de carte."
+      "find": "Arrachez une affiche de recherche : elle devient une carte au tresor, la carte mene a un coffre a esprits enterre, et la pioche fait le reste."
     },
     {
-      "id": "gold",
-      "name": "Or",
-      "note": "Trois fois plus d'XP par elimination. Disponible depuis le lancement de la saison ; les Power Hours en relancent regulierement le taux d'apparition.",
-      "find": "En partie, comme la version de base. Les Power Hours en relancent le taux."
+      "id": "fortune",
+      "name": "Fortune",
+      "note": "Revele les coffres proches, en plus du pouvoir de l'esprit. Premiere des deux lignes de la saison, disponible des le lancement.",
+      "find": "Dans les coffres a esprits rouges, dits rubis, qui n'en donnent que des Fortune. Les affiches et les cartes au tresor y menent aussi."
     },
     {
-      "id": "cheat",
-      "name": "Cheat Master",
-      "note": "Les codes de triche s'entrent sans suivre les fleches : n'importe quelle touche les valide. Nouveaute de la saison ; tous les esprits sortis en ont une, sauf Mega Man.",
-      "find": "En reussissant un code de triche en partie. La recompense n'est pas garantie."
-    },
-    {
-      "id": "loot",
-      "name": "Loot Hacker",
-      "note": "Augmente de 20 pour cent vos chances de declencher un Loot Hack en fouillant un coffre. Quatrieme ligne de la saison : la Couronne l'a eue le 3 septembre, les quatorze autres sont entrees dans le butin le 10.",
-      "find": "Dans les coffres et les codes de triche, comme la version de base."
-    },
-    {
-      "id": "bounty",
-      "name": "Bounty Hunter",
-      "note": "Peut faire apparaitre un esprit supplementaire quand vous eliminez un adversaire. Ne monte de niveau qu'aux eliminations. Cinquieme ligne de la saison, sortie le 24 septembre ; celle de la Couronne se merite au bout de sa chaine de maitrise.",
-      "find": "Sur les adversaires que vous eliminez, et nulle part ailleurs.",
-      "levelUp": "Ne gagne de l'XP qu'aux eliminations : fouiller un coffre ou extraire n'y change rien. Une fois au niveau 5, elle se banque comme les autres."
-    },
-    {
-      "id": "trick",
-      "name": "Trick or Treat",
-      "note": "Des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, arrivee avec Fortnitemares : la Couronne le 1er octobre au bout de sa chaine de maitrise, les vingt-trois autres le 8. Elles sont liees a l'evenement et ne resteront pas apres.",
-      "find": "Dans les coffres et les codes de triche ramasses sur la carte."
-    },
-    {
-      "id": "quack",
-      "name": "Coin-coin",
-      "note": "Chaque esprit que vous portez gagne un supplement d'XP d'esprit a chaque fois qu'il en gagne — Epic ne donne aucun pourcentage. La forme Coin-coin garde par ailleurs la capacite de son esprit. Septieme ligne de la saison, arrivee le 15 octobre : elle ne se ramasse pas, elle se merite, et seuls cinq esprits en ont une.",
-      "find": "Pas en partie : c'est une recompense de Maitrise, a reclamer dans l'onglet Recompenses du menu Override."
+      "id": "cursed",
+      "name": "Cursed",
+      "note": "Augmente vos chances de tomber sur une variante rare, mais l'eau vous blesse tant que l'esprit est equipe. Mauvais mariage avec Kelper et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
+      "find": "Comme la base : affiches, cartes au tresor et coffres a esprits. L'equiper augmente le taux des autres variantes rares."
     }
   ],
   "rarities": [
@@ -88,773 +69,205 @@
     }
   ],
   "order": [
-    "dumpster",
-    "jonesy",
-    "adventure",
-    "bush",
-    "sonic",
-    "tails",
-    "shadow",
-    "8bit",
-    "jackrabbit",
-    "crown",
-    "killswitch",
-    "klombo",
-    "megaman",
-    "overshield",
-    "pond",
-    "xray",
-    "onigiri",
-    "stormscout",
-    "blinky",
-    "birthday",
-    "crash",
-    "morgana",
-    "spookydash",
-    "deer",
-    "vampire",
-    "honey",
-    "obsession"
+    "t-halfpeeld",
+    "t-repete",
+    "t-barry",
+    "t-exmarks",
+    "t-plundarrgh",
+    "t-chester",
+    "t-wayfinder",
+    "t-kelper",
+    "t-squibbly",
+    "t-flacko",
+    "t-sweetdreams"
   ],
+  "orderNote": "L'ordre est recopie de l'annonce officielle d'Epic, qui numerote les esprits de cette saison dans l'ecran de collection. Un esprit absent de cette liste se range a la fin.",
   "sprites": [
     {
-      "id": "jonesy",
-      "name": "Jonesy",
-      "sub": "Esprit Jonesy",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Recupere de la vie ou du bouclier peu apres avoir subi des degats.",
-      "source": "Choix de depart · Coffres · Coffres a codes rares",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variantHow": {
-        "quack": "Palier 40 de la Maitrise des esprits."
-      }
-    },
-    {
-      "id": "bush",
-      "name": "Broussaille",
-      "sub": "Bush Sprite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Fait apparaitre un buisson sur vous apres un delai. Au niveau max, buisson instantane apres une elimination.",
-      "source": "Choix de depart · Coffres · Coffres a codes rares",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variantHow": {
-        "quack": "Palier 45 de la Maitrise des esprits."
-      }
-    },
-    {
-      "id": "adventure",
-      "name": "Aventure",
-      "sub": "Adventure Sprite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Ameliore un objet aleatoire de votre inventaire a chaque montee de niveau.",
-      "source": "Choix de depart · Coffres · Coffres a codes rares · Zones hautes",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variantHow": {
-        "quack": "Palier 50 de la Maitrise des esprits."
-      }
-    },
-    {
-      "id": "8bit",
-      "name": "8-Bit",
-      "sub": "8-Bit Sprite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Garantit un fusil a pompe 8-Bit dans votre premier coffre, avec un multiplicateur de score dessus.",
-      "source": "Coffres · Coffres a codes rares · Zones hautes et montagneuses",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "sonic",
-      "name": "Sonic",
-      "sub": "Collaboration Sonic",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Sprint plus rapide a chaque niveau, et acces au Spin Dash.",
-      "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "tails",
-      "name": "Tails",
-      "sub": "Collaboration Sonic",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Planez grace a Tails. La vitesse de vol stationnaire augmente a chaque niveau.",
-      "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "shadow",
-      "name": "Shadow",
-      "sub": "Collaboration Sonic",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Recharge automatiquement vos armes non equipees. Au niveau max, recharge aussi l'arme en main.",
-      "source": "Greenhill · Coffres · Coffres a codes epiques",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "killswitch",
-      "name": "Killswitch",
-      "sub": "Esprit Killswitch",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Entrez en Suspension avec une precision amelioree quand vous visez en l'air.",
-      "source": "Sur l'ile de nuit uniquement · Coffres · Coffres a codes epiques",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "jackrabbit",
-      "name": "Jackrabbit",
-      "sub": "Jazz Jackrabbit",
-      "rarity": "legendary",
-      "released": true,
-      "effect": "Autorise un second saut en plein vol. Le temps de recharge entre deux sauts diminue a chaque niveau.",
-      "source": "Coffres · Coffres a codes legendaires · Zones hautes et montagneuses",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "klombo",
-      "name": "Klombo",
-      "sub": "Esprit Klombo",
-      "rarity": "mythic",
-      "released": true,
-      "effect": "Offre des objets aleatoires a chaque niveau. Ne monte de niveau qu'en consommant des soins ou du bouclier.",
-      "source": "Tous les types de coffres · Tous les coffres a codes",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variantHow": {
-        "quack": "Palier 60 de la Maitrise des esprits — le dernier de la piste."
-      }
-    },
-    {
-      "id": "crown",
-      "name": "Couronne",
-      "sub": "Victory Crown",
-      "rarity": "mythic",
-      "released": true,
-      "effect": "Couronnes bonus apres une Victoire Royale. Ne monte de niveau qu'en gagnant des parties.",
-      "source": "Victoires Royales · Maitrise des autres variantes Couronne",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variantHow": {
-        "cheat": "En maitrisant l'esprit Couronne au niveau 5 — aucun code ne la donne. Epic reconnait un bug qui en prive certains joueurs.",
-        "loot": "En maitrisant la Couronne Or : il faut remporter une partie avec chaque variante, dans l'ordre Base, Cheat Master, Or, puis Loot Hacker.",
-        "bounty": "En maitrisant la Loot Hacker Couronne : la chaine complete est Base, Cheat Master, Or, Loot Hacker, puis Bounty Hunter — une victoire avec chacune.",
-        "trick": "En maitrisant la Bounty Hunter Couronne. La chaine complete compte six crans : Base, Cheat Master, Or, Loot Hacker, Bounty Hunter, puis Trick or Treat — une victoire avec chacune."
-      },
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "stormscout",
-      "name": "Storm Scout",
-      "sub": "Eclaireur de tempete",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Apres 10 degats de tempete : Surregime et energie illimitee — course, saut et controle aerien ameliores. De 12 s au niveau 1 a 20 s au niveau 5, ou il revele en plus les prochains cercles.",
-      "source": "Coffres et consoles de code de triche · Reliefs et zones en hauteur",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "xray",
-      "name": "Rayons X",
-      "sub": "X-Ray Sprite · par Avila215",
-      "rarity": "legendary",
-      "released": true,
-      "effect": "Marque periodiquement les ennemis autour de vous. La cadence et le rayon du marquage augmentent a chaque niveau.",
-      "source": "Coffres et codes de triche",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "onigiri",
-      "name": "Onigiri",
-      "sub": "Onigiri Sprite · par Enorull",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Declenche Surregime apres avoir mange ou bu un consommable. L'effet dure plus longtemps a chaque niveau.",
-      "source": "Coffres et codes de triche · Meilleures chances avec un code bleu",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "overshield",
-      "name": "Surbouclier",
-      "sub": "Overshield Sprite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Accorde du Surbouclier, dont la quantite augmente a chaque niveau.",
-      "source": "Coffres et codes de triche",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "megaman",
-      "name": "Mega Man",
-      "sub": "Mega Man Sprite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Friction reduite pendant les glissades : vous glissez plus loin a chaque niveau.",
-      "source": "Coffres et codes de triche",
-      "variants": [
-        "base"
-      ],
-      "icon": true
-    },
-    {
-      "id": "crash",
-      "name": "Crash Bandicoot",
-      "sub": "Crash Bandicoot Sprite",
-      "rarity": "legendary",
-      "released": true,
-      "effect": "Sautez en l'air pour declencher une toupie qui blesse et repousse les ennemis autour de vous.",
-      "source": "Codes de triche violets et coffres · Zones hautes et montagneuses",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "blinky",
-      "name": "Blinky",
-      "sub": "Blinky Sprite · Pac-Man",
-      "rarity": "legendary",
-      "released": true,
-      "effect": "Encaisser des degats vous camoufle un court instant. Le camouflage dure plus longtemps a chaque niveau.",
-      "source": "Coffres et codes de triche",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "pond",
-      "name": "Etang",
-      "sub": "Pond Sprite · par Pine & Kiri",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Sautez juste apres avoir atterri pour declencher un super saut, plus haut et plus souvent a chaque niveau.",
-      "source": "Coffres et codes de triche",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "morgana",
-      "name": "Morgana",
-      "sub": "Morgana Sprite · Persona 5",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Augmente l'efficacite de vos soins : 15 pour cent au niveau 1, jusqu'au double au niveau 5.",
-      "source": "Coffres des chambres fortes et codes de triche epiques · Golden Grove et Cluster Coast",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variantHow": {
-        "bounty": "Sur un adversaire elimine, comme les autres Bounty Hunter. Une source la signale buguee a sa sortie : si elle ne tombe jamais, ce n'est pas vous."
-      },
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "birthday",
-      "name": "Anniversaire",
-      "sub": "Birthday Sprite · 9 ans de Fortnite",
-      "rarity": "rare",
-      "released": true,
-      "effect": "Ouvrir un coffre peut faire apparaitre une part de gateau, qui rend vie et bouclier. Au niveau maximum, les eliminations aussi.",
-      "source": "Coffres et codes de triche · Taux double pendant la Birthday Power Hour du 26 septembre",
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "spookydash",
-      "name": "Spooky Dash",
-      "sub": "Spooky Dash Sprite",
-      "rarity": "mythic",
-      "released": true,
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "effect": "Traverse certains obstacles d'une ruee. La charge se recharge seule, de 15 secondes au niveau 1 a 10 au niveau 5.",
-      "source": "Coffres citrouille et codes de triche · Nightmare Neighborhood, Wonkeland, Cluster Coast",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick",
-        "quack"
-      ],
-      "variantHow": {
-        "quack": "Palier 55 de la Maitrise des esprits."
-      }
-    },
-    {
-      "id": "vampire",
-      "name": "Vampire",
-      "sub": "Vampire Sprite",
-      "rarity": "legendary",
-      "released": true,
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "effect": "Rend de la vie a chaque fois que vous blessez un adversaire. La part regagnee monte a chaque niveau.",
-      "source": "Coffres, citrouilles a casser et boss de Fortnitemares",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "deer",
-      "name": "Le Cerf",
-      "sub": "The Deer Sprite · 99 Nights in the Forest",
-      "rarity": "legendary",
-      "released": true,
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "effect": "Les attaques de melee frappent plus fort, pioche comprise : de 22 a 30 de degats selon le niveau.",
-      "source": "Coffres citrouille, garantis · Codes de triche epiques pour les meilleures chances",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "dumpster",
-      "name": "Plongeon dans la benne",
-      "sub": "Dumpster Dive Sprite · par StinkyPrincessGoose",
-      "rarity": "epic",
-      "released": true,
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "effect": "La nourriture soigne davantage, et sortir d'une cachette fait trouver de quoi manger. La qualite monte a chaque niveau.",
-      "source": "Codes de triche rares et epiques · Rarement dans les coffres, jamais en partie contre des bots",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "honey",
-      "name": "Miel",
-      "sub": "Honey Sprite · par Conejito_sam",
-      "rarity": "epic",
-      "released": true,
-      "effect": "Vos tirs a distance peuvent faire surgir un essaim d'abeilles a l'endroit touche. L'essaim inflige 5 degats par seconde, ne grandit pas avec le niveau, et peut vous blesser aussi.",
-      "source": "Coffres-citrouilles de Fortnitemares · Coffres et codes de triche · Dernier laureat du concours Design-a-Sprite",
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ],
-      "variants": [
-        "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
-      ]
-    },
-    {
-      "id": "obsession",
-      "name": "Obsession",
-      "sub": "Obsession Sprite · One Wish Willow",
+      "id": "t-halfpeeld",
+      "name": "Halfpeel'd",
+      "sub": "Halfpeel'd Sprite",
       "rarity": "unknown",
       "released": true,
-      "effect": "One Wish Willow vous aide a ramasser les autres esprits. Epic n'a pas explique comment.",
-      "source": "Coffres-citrouilles et coffres rares · Codes de triche · Collaboration avec le film Obsession. Rarete non recoupee : une seule source l'annonce Mythique",
+      "effect": "Marque sur la carte les adversaires que vous eliminez. La portee de detection grandit a chaque niveau.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-repete",
+      "name": "Re-Pete",
+      "sub": "Re-Pete Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Recharge plus vite, et peut vous rendre une partie des munitions depensees.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-barry",
+      "name": "Barry O'Fish",
+      "sub": "Barry O'Fish Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Consomme moins d'endurance quand vous sprintez dans l'eau. Au niveau maximum, ajoute un effet Claque.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-exmarks",
+      "name": "Exmarks",
+      "sub": "Exmarks Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Revele les cartes au tresor et les affiches de recherche proches. Au niveau maximum, fait apparaitre une carte au tresor.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier : il raccourcit toutes les autres chasses",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-plundarrgh",
+      "name": "Plundarrgh",
+      "sub": "Plundarrgh Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Ouvrir un coffre accelere votre pioche et vos deplacements.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-chester",
+      "name": "Chester",
+      "sub": "Chester Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Les coffres peuvent lacher du butin en plus, et vous ne subissez plus les degats de chute.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-wayfinder",
+      "name": "Wayfinder",
+      "sub": "Wayfinder Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Revele les esprits proches et ajoute du butin dans les coffres enterres.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines · A prendre en premier, avec Exmarks",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-kelper",
+      "name": "Kelper",
+      "sub": "Kelper Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Rend de la vie tant que vous etes dans l'eau, davantage a chaque niveau.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-squibbly",
+      "name": "Lil' Squibbly",
+      "sub": "Lil' Squibbly Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Sauter dans un trou de peche en sort un poisson et du butin en plus.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
+      ]
+    },
+    {
+      "id": "t-flacko",
+      "name": "Lil' Flacko",
+      "sub": "Lil' Flacko Sprite · A$AP Rocky",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "A l'atterrissage, une onde de choc repousse les adversaires autour de vous.",
+      "source": "Peut tomber du boss A$AP Rocky, a bord du S.S. Rocky · Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base",
+        "fortune",
+        "cursed"
       ],
-      "icon": true,
-      "variantIcons": [
-        "gold",
-        "cheat",
-        "loot",
-        "bounty",
-        "trick"
+      "variantHow": {
+        "base": "Le boss A$AP Rocky peut le lacher, sans garantie. Sinon, comme les autres : affiche, carte, coffre enterre."
+      }
+    },
+    {
+      "id": "t-sweetdreams",
+      "name": "Sweet Dreams",
+      "sub": "Sweet Dreams Sprite",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Donne un objet au hasard a chaque niveau gagne. Au niveau maximum, explose en butin mythique.",
+      "source": "Affiches de recherche · Coffres a esprits · Adversaires elimines",
+      "variants": [
+        "base"
       ]
     }
   ],
   "events": {
     "zone": "America/New_York",
-    "note": "Trois rendez-vous par semaine. Les horaires sont ceux annonces par Epic, en heure de New York ; l'app les convertit a l'heure de votre telephone.",
+    "note": "Deux rendez-vous par semaine. Les horaires sont ceux annonces par Epic, en heure de New York ; l'app les convertit a l'heure de votre telephone.",
     "list": [
       {
-        "id": "cheatcode",
-        "name": "Cheat Code Monday",
+        "id": "mastery",
+        "name": "Mastery Monday",
         "day": 1,
         "start": "09:00",
         "hours": 24,
-        "what": "Vingt-quatre heures durant lesquelles les esprits montent deux fois plus vite, la poussiere est doublee et les codes de triche frappent plus fort.",
+        "what": "Vingt-quatre heures a deux fois plus d'XP d'esprit et deux fois plus de poussiere. Le rendez-vous qui remplace le Cheat Code Monday de la saison passee.",
         "confirmed": true,
         "focus": "master",
         "advice": "Les esprits montent deux fois plus vite : poussez au niveau 5 ce que vous avez deja."
       },
       {
-        "id": "newsprite",
-        "name": "New Sprite Day",
-        "day": 4,
+        "id": "captain",
+        "name": "Captain's Day",
+        "day": 6,
         "start": "09:00",
-        "what": "Un esprit ou une variante rejoint la collection, en general a 9 h a New York. Epic ne s'y tient pas toujours : certaines sorties tombent un samedi, ou arrivent par un correctif en milieu de semaine.",
+        "what": "Un capitaine par semaine, avec son equipage, son lieu et son butin. Le premier est arrive avec la saison, un dimanche ; les suivants tombent le samedi. Chaque capitaine amene de quoi completer la collection.",
         "confirmed": true,
         "focus": "new",
-        "advice": "Un esprit ou une variante rejoint la collection : regardez ce qui vient d'apparaitre."
-      },
-      {
-        "id": "power",
-        "name": "Power Hours",
-        "day": 6,
-        "what": "Deux fenetres de deux heures, 14 h et 21 h a New York. Epic annonce dans la semaine ce qu'elles relancent : une famille de variantes, la sortie d'un esprit, parfois les deux. Les editions speciales durent plus longtemps.",
-        "confirmed": true,
-        "starts": [
-          "14:00",
-          "21:00"
-        ],
-        "hours": 2,
-        "focus": "find",
-        "advice": "Le taux des variantes remonte pendant deux heures : c'est le meilleur moment pour celles qui vous manquent."
+        "advice": "Un capitaine arrive : regardez ce que son equipage ajoute a la carte."
       }
     ]
   },
-  "orderNote": "L'ordre de l'ecran de collection en jeu, releve par l'utilisateur. Aucune source publique ne le documente : il est recopie tel quel plutot que deduit d'une regle. Un esprit absent de cette liste se range a la fin."
+  "mastery": {
+    "note": "Une page de Maitrise s'ouvre chaque semaine, dans l'onglet Tresor du lobby. Elle verse des Localisateurs chanceux, des Feux d'artifice dores et d'autres gizmos, et fait monter le sac a dos Coffre-fort de maitrise.",
+    "reward": "Maitriser quarante esprits donne le parapluie Piquer du nez du navigateur."
+  }
 }

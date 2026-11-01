@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v61";
+const VERSION = "capsule-v62";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -11,8 +11,8 @@ const SHELL = [
   "./styles.css",
   "./app.js",
   "./sprites.json",
+  "./sprites-override.json",
   "./sprites-legacy.json",
-  "./sprites-family.json",
   "./cheat-codes.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
@@ -41,15 +41,6 @@ const SHELL = [
   "./icons/sprites/crash.png",
   "./icons/sprites/blinky.png",
   "./icons/sprites/morgana.png",
-  "./icons/family/angelo.png",
-  "./icons/family/paola.png",
-  "./icons/family/oliver.png",
-  "./icons/family/lenny.png",
-  "./icons/family/marion.png",
-  "./icons/family/gaby.png",
-  "./icons/family/nelson.png",
-  "./icons/family/emilie.png",
-  "./icons/family/jody.png",
   "./icons/sprites/birthday.png",
   "./icons/sprites/spookydash.png",
   "./icons/sprites/vampire.png",

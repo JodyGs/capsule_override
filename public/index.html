@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Capsule Override</title>
-<meta name="description" content="Traqueur des esprits de Fortnite Chapitre 7 Saison 4 Override : debloque, maitrise, variantes Or et Cheat Master. Vos coches restent sur votre telephone.">
+<meta name="description" content="Traqueur des esprits de Fortnite Treasure Hunters : debloque, maitrise, variantes Fortune et Cursed. Les saisons Override et Runners restent suivies a part. Vos coches restent sur votre telephone.">
 
 <!-- Le theme est applique avant le premier rendu, sinon la page clignote. -->
 <script>
@@ -54,8 +54,8 @@
 
     <div class="appbar">
       <div class="appbar-left">
-        <span class="mark" id="season-mark">OVERRIDE</span>
-        <span class="season" id="season-label">Fortnite · Chapitre 7 Saison 4</span>
+        <span class="mark" id="season-mark">TREASURE</span>
+        <span class="season" id="season-label">Fortnite · Treasure Hunters</span>
         <button type="button" class="player-chip" id="btn-player" hidden
                 title="Votre pseudo Epic — toucher pour le modifier">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -94,13 +94,13 @@
 
     <header class="top">
       <h1>Capsule Override</h1>
-      <p class="lede"><b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5. <span class="lede-more">Variantes Or et Cheat Master comprises. Tout reste sur votre telephone, meme hors connexion.</span></p>
+      <p class="lede"><b>Debloque</b> quand l'esprit entre dans votre collection, <b>Maitrise</b> quand vous l'extrayez au niveau&nbsp;5. <span class="lede-more">Variantes Fortune et Cursed comprises. Tout reste sur votre telephone, meme hors connexion.</span></p>
 
       <div class="legacy-banner" id="legacy-banner" hidden>
         <div id="legacy-text">
-          <p><strong>Saison passee.</strong> Ces esprits ne se ramassent plus en partie : ils survivent en styles de la Capsule a esprits, en pilotes de Gardien et en residents du Jardin des esprits. Cette collection est <strong>totalement independante</strong> de la saison en cours — coches, compteurs et export separes.</p>
+          <p><strong>Saison passee.</strong> <span id="legacy-lead"></span></p>
           <details class="legacy-why">
-            <summary>Pourquoi 25 esprits et pas 117 ?</summary>
+            <summary>D'ou vient ce compte ?</summary>
             <p class="form-note" id="legacy-note"></p>
           </details>
         </div>
@@ -136,12 +136,12 @@
             <div class="scores">
               <div class="score is-unlocked">
                 <span class="score-k">Debloques</span>
-                <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/162</small></span>
+                <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/31</small></span>
                 <span class="score-sub" id="s-unlocked-sub">entrees collectees</span>
               </div>
               <div class="score is-mastered">
                 <span class="score-k">Maitrises</span>
-                <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/162</small></span>
+                <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/31</small></span>
                 <span class="score-sub">extraits au niveau 5</span>
               </div>
               <div class="score">
@@ -251,57 +251,50 @@
     <section class="notes">
       <div class="note">
         <h3>Comment on maitrise un esprit</h3>
-        <p>Faire monter un esprit au <strong>niveau 5</strong> ne suffit pas : il faut le <strong>banquer a un site d'extraction</strong> (ou remporter la Victoire Royale en le tenant au niveau 5). C'est la qu'il passe « maitrise », qu'il avance le palier de Maitrise des esprits et qu'il devient un style de la <strong>Capsule a esprits</strong> pour les detenteurs du passe de combat.</p>
-        <p>La saison compte <strong>27 esprits</strong> et <strong>162 pieces</strong>, et c'est son compte definitif : rien n'est sorti depuis le 15 octobre et Epic a annonce qu'il n'y aurait plus rien. Les <strong>Trick or Treat</strong> partent avec Fortnitemares — les autres lignes survivront en styles, celle-la non.</p>
-        <p>Depuis la v42.20, <strong>maitriser un esprit divise par deux</strong> la poussiere necessaire pour l'invoquer.</p>
-        <p>Seul l'esprit equipe en slot principal gagne de l'XP. Elimination +200, doublon extrait +200, mise a terre +100, conteneur fouille +75.</p>
-        <p>Trois rendez-vous par semaine : le <strong>Cheat Code Monday</strong> (du lundi 15 h au mardi 15 h, heure francaise) fait monter les esprits deux fois plus vite, double la poussiere et renforce les codes de triche ; le <strong>New Sprite Day</strong> du jeudi ajoute un esprit ou une variante ; les <strong>Power Hours</strong> du samedi ouvrent deux fenetres de deux heures (20 h et 3 h, heure francaise) qui relancent une famille de variantes ou accompagnent la sortie d'un esprit. Epic annonce le theme dans la semaine, et allonge parfois les seances pour une occasion.</p>
+        <p>Faire monter un esprit au <strong>niveau 5</strong> ne suffit pas : il faut le <strong>banquer a un site d'extraction</strong> (ou remporter la Victoire Royale en le tenant au niveau 5). C'est la qu'il passe « maitrise » et qu'il avance les pages de <strong>Maitrise des esprits</strong>, dans l'onglet Tresor du lobby.</p>
+        <p>La saison ouvre avec <strong>11 esprits</strong> et <strong>31 pieces</strong> : dix esprits portent les trois lignes, <strong>Sweet Dreams</strong> n'a que sa forme de base. Une page de Maitrise s'ouvre chaque semaine ; elle verse des Localisateurs chanceux, des Feux d'artifice dores et d'autres gizmos, et fait monter le sac a dos <strong>Coffre-fort de maitrise</strong>. <strong>Quarante esprits maitrises</strong> donnent le parapluie Piquer du nez du navigateur — plus que la saison n'en compte, donc variantes comprises.</p>
+        <p>Deux rendez-vous par semaine, et non plus trois : le <strong>Mastery Monday</strong> (du lundi 15 h au mardi 15 h, heure francaise) double l'XP d'esprit et la poussiere ; le <strong>Captain's Day</strong> amene un capitaine, son equipage et son butin — le premier est tombe avec la saison, un dimanche, les suivants le samedi vers 15 h, heure francaise.</p>
+        <p>La <strong>poussiere</strong> et les <strong>gizmos</strong> sont repartis de zero a la bascule du 1er novembre, comme a chaque changement de saison. Les esprits, eux, restent : ceux d'Override sont au Jardin des esprits et dans l'onglet Override de cette app.</p>
       </div>
       <div class="note">
         <h3>Ce que font les variantes</h3>
-        <p><strong>Or</strong> : trois fois plus d'XP par elimination. Disponible depuis le lancement ; les Golden Hours du 22 aout n'ont fait qu'en augmenter le taux d'apparition.</p>
-        <p><strong>Loot Hacker</strong> : <strong>+20 %</strong> de chances de declencher un Loot Hack en fouillant un coffre.</p>
-        <p><strong>Trick or Treat</strong> : des bonbons peuvent tomber des coffres que vous ouvrez. Sixieme ligne de la saison, portee par les vingt-quatre esprits sauf <strong>Mega Man</strong>. Celle de la <strong>Couronne</strong> se merite au bout de sa chaine, qui compte six crans ; les autres se ramassent en partie.</p>
-        <p><strong>Bounty Hunter</strong> : peut faire apparaitre un esprit de plus quand vous eliminez un adversaire — mais elle ne monte de niveau <strong>qu'aux eliminations</strong>, jamais en fouillant. Sortie le 24 septembre. <strong>Mega Man</strong> reste la seule exception : il n'a aucune variante.</p>
-        <p><strong>Coin-coin</strong> : la seule ligne qui ne se ramasse pas. C'est une <strong>recompense de Maitrise</strong>, a reclamer dans l'onglet Recompenses du menu Override, et seuls cinq esprits en ont une — <strong>Jonesy</strong> au palier 40, <strong>Broussaille</strong> au 45, <strong>Aventure</strong> au 50, <strong>Spooky Dash</strong> au 55 et <strong>Klombo</strong> au 60. Chaque esprit porte gagne un supplement d'XP d'esprit ; Epic n'a pas donne de pourcentage. Les paliers viennent des guides, Epic ne les a pas publies.</p>
-        <p><strong>Cheat Master</strong> : les codes de triche s'entrent sans suivre les fleches — n'importe quelle touche les valide. Six s'obtiennent par un code du lobby, la <strong>Couronne</strong> en maitrisant l'esprit Couronne au niveau 5 (Epic reconnait un bug qui prive certains joueurs de la recompense), quatre autres — <strong>Klombo, Shadow, Jackrabbit, Killswitch</strong> — sont sortis le <strong>27 aout</strong>, a trouver en reussissant des codes de triche en partie, <strong>Storm Scout</strong> est arrive le 29 aout et les quatre esprits du 3 septembre en ont une d'emblee, sauf Mega Man. Cheat Master Klombo est donne pour l'esprit le plus rare de la saison.</p>
+        <p><strong>Fortune</strong> : revele les coffres proches, en plus du pouvoir de l'esprit. Les coffres a esprits <strong>rouges</strong>, dits rubis, n'en donnent que des Fortune.</p>
+        <p><strong>Cursed</strong> : augmente vos chances de tomber sur une variante rare, mais <strong>l'eau vous blesse</strong> tant qu'il est equipe. A eviter avec <strong>Kelper</strong> et <strong>Barry O'Fish</strong>, dont les pouvoirs se jouent justement dans l'eau — et a equiper quand vous chassez les variantes des autres.</p>
+        <p><strong>Or</strong> : annoncee pour le <strong>12 novembre</strong>, avec son bonus d'XP par elimination. Elle <strong>n'est pas encore dans la liste</strong> : elle y entrera le jour de sa sortie, et le denominateur montera ce jour-la. Un site avance le 14 ; l'annonce d'Epic dit le 12.</p>
+        <p><strong>Sweet Dreams</strong> est le seul esprit sans Fortune ni Cursed. Deux sources le confirment ; une troisieme titre « 33 esprits » en supposant les trois lignes partout, ce qui en ajoute deux qui n'existent pas.</p>
       </div>
       <div class="note">
         <h3>Ce qui n'est pas dans la liste</h3>
-        <p>La rarete d'<strong>Obsession</strong> n'est annoncee que par une source, qui le dit Mythique. Tant qu'une deuxieme ne la confirme pas, sa fiche porte « A confirmer » plutot qu'une rarete inventee. Le <strong>Bullet</strong> d'Enorull, lui, n'arrivera jamais : Epic l'a echange contre son <strong>Onigiri</strong>.</p>
-        <p>Cinq autres noms circulent depuis les fichiers du jeu — <strong>Meowscles, BodySlam, Cube, Headshot et Squibbly</strong> — sans effet connu, sans date et sans moyen de les obtenir. Ils ne figurent pas dans la liste ci-dessus : un fichier servi n'est pas une sortie, la saison passee l'a deja prouve.</p>
-        <p>Des six lignes de la saison passee annoncees par les fuites (Gomme, Galaxie, Gemme, Holographique, Cube, Coin-coin), seule <strong>Coin-coin</strong> est arrivee — et sous une autre forme, en recompense de Maitrise. Les cinq autres restent sans confirmation d'Epic.</p>
+        <p><strong>Aucune rarete.</strong> Epic n'en a publie pour cette saison. Un seul site en propose, en precisant lui-meme les deduire des taux d'apparition, et une deuxieme source le contredit sur Sweet Dreams. Les onze fiches portent donc « A confirmer » plutot qu'un palier invente — c'est la meme regle qui a tenu Obsession hors des raretes jusqu'au bout de la saison passee.</p>
+        <p><strong>Deux noms de plus</strong> circulent sur une seule liste — <strong>Lil' Uzi Vert Jr.</strong> et <strong>Transponder Snail</strong>. L'annonce d'Epic ne les compte pas parmi les onze, et le capitaine Lil Uzi n'arrive que le 7 novembre. Ils entreront quand ils sortiront : un fichier servi n'est pas une sortie.</p>
+        <p><strong>Pas encore d'illustrations.</strong> La wiki n'a pas mis en ligne les images de cette saison : les onze noms y renvoient une 404, testes un a un. Les fiches affichent une pastille a initiale en attendant ; le script connait deja leurs noms et les ramenera au premier passage utile.</p>
+        <p><strong>Les noms sont en anglais</strong>, ceux de l'annonce officielle. La version francaise du jeu en traduit parfois — Bush etait devenu Broussaille la saison passee. Le releve suivra le jeu plutot que de traduire a sa place.</p>
       </div>
       <div class="note">
         <h3>Ou chercher</h3>
         <ul>
-          <li><strong>Codes de triche en partie</strong> — la meilleure source. Depuis la v42.20, un esprit de n'importe quelle rarete peut sortir d'un code bleu ou violet ; les <strong>violets</strong> donnent beaucoup plus souvent une variante, les <strong>orange</strong> en garantissent une, plutot de haute rarete. Le jeu favorise desormais les variantes qui vous manquent.</li>
-          <li><strong>Zones hautes et montagneuses</strong> — 8-Bit, Aventure, Jonesy, Jackrabbit, Storm Scout, Crash Bandicoot.</li>
-          <li><strong>Coffres et codes de triche, partout</strong> — X-Ray, Onigiri, Surbouclier, Mega Man, Blinky, Etang.</li>
-          <li><strong>Chambres fortes</strong> — Morgana, du cote de Golden Grove et Cluster Coast.</li>
-          <li><strong>Sur un adversaire elimine</strong> — les variantes Bounty Hunter, et elles seules.</li>
-          <li><strong>Greenhill</strong> — le POI Sonic : Sonic, Tails, Shadow.</li>
-          <li><strong>De nuit uniquement</strong> — Killswitch.</li>
-          <li><strong>Choix de depart</strong> — Broussaille, Aventure, Jonesy.</li>
+          <li><strong>Les affiches de recherche</strong> — la route principale, et elle est nouvelle. On arrache une affiche sur un mur, elle devient une <strong>carte au tresor</strong>, la carte mene a un <strong>coffre a esprits enterre</strong>, et la pioche fait le reste.</li>
+          <li><strong>Exmarks et Wayfinder d'abord</strong> — le premier revele les cartes et les affiches proches, le second les esprits proches. Les deux raccourcissent toutes les chasses suivantes.</li>
+          <li><strong>Les coffres a esprits</strong> — un esprit garanti. Leur aspect annonce ce qu'ils contiennent : les <strong>rouges</strong> donnent des Fortune.</li>
+          <li><strong>Les boss</strong> — <strong>A$AP Rocky</strong>, a bord du S.S. Rocky, peut lacher <strong>Lil' Flacko</strong>. Sans garantie : Epic ecrit « peut ».</li>
+          <li><strong>Sur un adversaire elimine</strong> — un joueur qui portait un esprit le lache.</li>
+          <li><strong>Les coffres ordinaires</strong> — une petite chance d'un esprit au hasard, rien de plus.</li>
+          <li><strong>N'oubliez pas d'extraire</strong> — tant qu'un esprit n'est pas passe par un site d'extraction ou un extracteur portatif, il n'est pas dans votre collection.</li>
         </ul>
       </div>
     </section>
 
     <div class="foot">
-      Donnees recoupees le 27 octobre 2026 a partir de
-      <a href="https://gamerant.com/fortnite-override-ch7-s4-all-sprites-effects-locations-how-to-get/">Game Rant</a>,
-      <a href="https://insider-gaming.com/fortnite-chapter-7-season-4-sprites/">Insider Gaming</a>,
-      <a href="https://www.destructoid.com/all-fortnite-chapter-7-season-4-sprites/">Destructoid</a>,
-      <a href="https://spritechecklist.net/season-4">Sprite Checklist</a>,
-      <a href="https://techwiser.com/fortnite-chapter-7-season-4-sprites/">TechWiser</a>,
-      <a href="https://www.theclick.gg/fortnite-cheat-master-sprites/">The Click</a>,
-      <a href="https://beebom.com/fortnite-sprite-events-schedule/">Beebom</a> et
-      <a href="https://www.vice.com/en/article/fortnite-new-sprites-september-17-complete-list/">VICE</a> et les
-      <a href="https://communities.epicgames.com/thread/v42-20-fortnite-override-battle-royale-update-notes/g1Wm">notes officielles v42.20</a>.
-      Icones des esprits issues de la <a href="https://fortnite.weirdgloop.org/">Fortnite Wiki</a>.
-      Fortnite et ses visuels appartiennent a Epic Games ; projet de fan non commercial,
-      publie dans le cadre de la <a href="https://www.fortnite.com/news/fan-content-policy">Fan Content Policy</a>,
-      sans lien ni affiliation avec Epic Games.
+      Donnees recoupees le 1er novembre 2026 a partir de
+      l'<a href="https://communities.epicgames.com/thread/set-sail-for-fortnite-treasure-hunters-the-greatest-adventure-of-all-time/Pmud">annonce officielle d'Epic</a>,
+      <a href="https://www.vice.com/en/article/all-33-new-fortnite-sprites-added-in-treasure-hunters-mini-season-full-list/">VICE</a>,
+      <a href="https://spritecatch.com/news/treasure-hunters-new-sprites/">SpriteCatch</a>,
+      <a href="https://www.theclick.gg/fortnite-treasure-hunters-sprites/">The Click</a>,
+      <a href="https://gamerant.com/fortnite-treasure-hunters-mini-season-all-sprites-checklist-locations-how-to-get/">Game Rant</a>,
+      <a href="https://endgametools.com/en/fortnite/news/fortnite-treasure-hunters-update">Endgame Tools</a>,
+      <a href="https://www.gamesradar.com/games/fortnite/fortnite-lobby-hack-codes/">GamesRadar</a> et
+      <a href="https://www.dexerto.com/fortnite/fortnite-admin-panel-cheat-codes-august-2026-3400374/">Dexerto</a>.
+      Les saisons Override et Runners gardent leurs sources dans l'historique du depot.
     </div>
   </div>
 </div>
