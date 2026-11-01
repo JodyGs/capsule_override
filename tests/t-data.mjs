@@ -61,10 +61,16 @@ ok(snail?.released, "Transponder Snail est dans la liste");
 eq(snail?.unconfirmed, true, "son effet est marque non confirme");
 ok(/signale en partie|fichiers du jeu/i.test(snail?.source || ""), "sa fiche dit d'ou il sort");
 eq((snail?.variants || []).join(","), "base", "il n'a que sa forme de base");
-/* Lil Uzi Vert Jr. est date : il ferme la liste et ne compte pas. */
+/* Lil Uzi Vert Jr. est date : il ferme la liste et ne compte pas. Il a son
+   illustration avant sa sortie — une fiche a venir illustree vaut mieux
+   qu'une pastille, du moment que le fichier existe vraiment. */
 const uzi = sprites.sprites.find((s) => s.id === "t-liluzi");
 ok(uzi && !uzi.released, "Lil Uzi Vert Jr. figure sans etre sorti");
 eq(uzi?.releasesOn, "2026-11-07", "a la date annoncee par Epic");
+eq(uzi?.icon, true, "et il a deja son illustration");
+ok(existsSync(join(PUB, "icons/sprites/t-liluzi.png")), "dont le fichier est bien la");
+eq((uzi?.variants || []).join(","), "base",
+   "sans lui preter les variantes qu'une seule source lui donne");
 
 /* ---- variantes ---- */
 eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
@@ -132,19 +138,26 @@ ok(/version francaise|annonce officielle/i.test(sprites.namesNote || ""),
 const rarities = new Set(sprites.rarities.map((r) => r.id));
 sprites.sprites.forEach((s) => ok(rarities.has(s.rarity), `rarete connue pour ${s.id}`));
 const tally = sprites.sprites.reduce((m, s) => ({ ...m, [s.rarity]: (m[s.rarity] || 0) + 1 }), {});
-/* « A confirmer » est une rarete valable du catalogue. Epic n'a publie aucun
-   palier pour cette saison : un seul site en propose, en precisant lui-meme
-   les deduire des taux d'apparition, et une deuxieme source le contredit. La
-   regle est qu'une rarete ne se publie que recoupee — et qu'a defaut le
-   catalogue dise pourquoi, une fois, au lieu de onze fois. */
+/* Epic n'a publie aucun palier cette saison. La regle n'est pas « pas de
+   rarete » : c'est « pas de rarete sur une source seule ». Deux traqueurs
+   independants s'accordent sur les onze de l'annonce, palier par palier :
+   elles sont publiees. Les deux fiches qui n'ont qu'une source restent
+   « A confirmer », et le catalogue dit laquelle est laquelle. */
+eq(tally.rare, 3, "esprits Rares");
+eq(tally.epic, 2, "esprits Epiques");
+eq(tally.legendary, 4, "esprits Legendaires");
+eq(tally.mythic, 2, "esprits Mythiques");
 ok(sprites.rarities.some((r) => r.id === "unknown"),
    "le libelle « A confirmer » reste disponible");
-eq(tally.unknown || 0, 13, "raretes restant a confirmer");
-ok(/non publi|non communiqu|deduir|recoup/i.test(sprites.rarityNote || ""),
-   "le catalogue dit pourquoi les raretes manquent");
-ok(/rarete/i.test(html) && html.includes("A confirmer"), "la page l'explique aussi");
+eq(tally.unknown || 0, 2, "les deux fiches a source unique restent a confirmer");
+eq(sprites.sprites.filter((s) => s.rarity === "unknown").map((s) => s.id).sort().join(","),
+   "t-liluzi,t-snail", "et ce sont bien l'escargot et l'esprit a venir");
+ok(/recoup|deux traqueurs|independant/i.test(sprites.rarityNote || ""),
+   "le catalogue dit comment les raretes ont ete etablies");
+ok(/deux traqueurs independants/i.test(html), "la page l'explique aussi");
 for (const s of sprites.sprites.filter((x) => x.rarity === "unknown")) {
-  ok(Boolean(s.source), `${s.id} dit au moins ou le chercher`);
+  ok(/une seule source|un seul traqueur|une source/i.test(s.source || ""),
+     `${s.id} dit pourquoi sa rarete manque`);
 }
 
 /* ---- l'ordre releve dans le jeu ---- */
@@ -171,6 +184,10 @@ ok(!/\["rare", "epic", "legendary", "mythic"\]/.test(app),
 ok(app.includes("const raritesEnJeu"), "il lit les raretes que la collection porte vraiment");
 ok(app.includes("row.hidden = !keep"), "les lignes hors sujet se cachent aussi");
 ok(/\[hidden\]\{display:none !important\}/.test(css), "le style sait cacher une ligne");
+/* La pastille « A venir » porte une date : c'est la seule qui ne tienne pas
+   en un mot, et elle recouvrait le sous-titre quand le nom passait sur deux
+   lignes — ce qui est arrive le jour ou « Lil Uzi Vert Jr. » est entre. */
+ok(/\.tag\.soon\{[^}]*white-space:normal/.test(css), "la pastille d'une sortie a venir sait passer a la ligne");
 
 /* ---- fin du passe ---- */
 const finPasse = sprites.seasonEnd;
@@ -214,8 +231,15 @@ ok(/Sprite Catch/i.test(html), "la page credite la source des illustrations");
    la main vieillit en silence, l'empreinte dans le nom de fichier change. */
 ok(script.includes("CATCH_SLUG") && script.includes("spritecatch.com/sprites/"),
    "le script sait interroger la deuxieme source");
-ok(script.indexOf("return fetch(noms, prefix)") < script.indexOf("catch_urls(sprite_id).get(variant)"),
-   "et il essaie la wiki avant elle");
+ok(script.includes("FNS_SLUG") && script.includes("fnsprites.app/sprites/"),
+   "et la troisieme, pour ce que les deux premieres n'ont pas");
+ok(script.indexOf("return fetch(noms, prefix)") < script.indexOf("catch_urls(sprite_id).get(variant)")
+   && script.indexOf("catch_urls(sprite_id).get(variant)") < script.indexOf("FNS_IMAGE.format"),
+   "elles sont essayees dans l'ordre : wiki, puis Sprite Catch, puis FN Sprite Tracker");
+/* Le troisieme sert aussi des illustrations qui ne sont pas celles du jeu :
+   le script doit le dire a qui le relira. */
+ok(/pas celles du jeu|se regarde avant/i.test(script),
+   "le script previent que la troisieme source se verifie a l'oeil");
 /* Chaque esprit sorti a son illustration et celles de ses variantes : c'est
    le controle qui rattrape l'oubli classique, ajouter un esprit au JSON sans
    lancer le script d'icones. */
@@ -283,7 +307,7 @@ for (const s of [...sprites.sprites, ...override.sprites]) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "65", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "66", "version du service worker");
 for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }

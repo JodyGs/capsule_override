@@ -627,7 +627,10 @@ h1{
 .tags{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none;max-width:45%}
 .tag{font-family:var(--f-mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:3px 7px;border-radius:4px;border:1px solid currentColor;white-space:nowrap}
 .tag.rarity{color:var(--rc,var(--ink-3))}
-.tag.soon{color:var(--ink-3);border-style:dashed}
+/* « A venir — 7 novembre » est la seule pastille qui ne tient pas en un
+   mot. En nowrap elle debordait de sa colonne et recouvrait le
+   sous-titre des que le nom passait sur deux lignes. */
+.tag.soon{color:var(--ink-3);border-style:dashed;white-space:normal;text-align:right}
 .tag.done{color:var(--gold);background:var(--gold-soft)}
 
 .effect{margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.5}

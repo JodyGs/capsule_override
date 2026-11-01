@@ -90,6 +90,21 @@ CATCH_SLUG = {
 }
 _catch_cache = {}
 
+# Troisieme source, pour ce que les deux premieres n'ont pas. FN Sprite
+# Tracker sert ses images en WebP, sous un nom fixe : pas d'empreinte, donc
+# pas de page a relire. Il porte des esprits que personne d'autre n'a — Lil
+# Uzi Vert Jr. y figurait avant sa sortie. Attention : il comble aussi les
+# trous avec des illustrations qui ne sont pas celles du jeu, alors chaque
+# image recuperee ici se regarde avant d'etre publiee.
+FNS_IMAGE = "https://fnsprites.app/sprites/{slug}_{style}.webp"
+FNS_SLUG = {
+    "t-halfpeeld": "halfpeeld", "t-repete": "repete", "t-barry": "barryofish",
+    "t-exmarks": "exmarks", "t-plundarrgh": "plundarrgh", "t-chester": "chester",
+    "t-wayfinder": "wayfinder", "t-kelper": "kelper", "t-squibbly": "lilsquibbly",
+    "t-flacko": "lilflacko", "t-sweetdreams": "sweetdreams", "t-liluzi": "liluzivert",
+}
+FNS_STYLE = {"base": "normal", "fortune": "fortune", "cursed": "cursed"}
+
 # Le nom du fichier sur la wiki ne suit pas toujours l'identifiant interne.
 WIKI_NAME = {
     "8bit": "8-Bit",
@@ -225,6 +240,13 @@ def illustration(sprite_id, noms, variant):
     url = catch_urls(sprite_id).get(variant)
     if url:
         return _telecharger_url(url), "spritecatch"
+
+    slug, style = FNS_SLUG.get(sprite_id), FNS_STYLE.get(variant)
+    if slug and style:
+        try:
+            return _telecharger_url(FNS_IMAGE.format(slug=slug, style=style)), "fnsprites"
+        except Exception as err:                   # noqa: BLE001
+            erreurs.append(str(err))
     raise RuntimeError(" | ".join(erreurs) or "aucune source ne sert cette image")
 
 
@@ -269,8 +291,16 @@ def main(argv=()):
                 continue
             wiki = WIKI_NAME.get(sprite["id"])
             noms = [wiki, *WIKI_ALIAS.get(sprite["id"], [])] if wiki else None
-            if not wiki:
-                missing.append((sprite["id"], "nom wiki inconnu"))
+            # Pas de nom wiki n'est plus une impasse : les sources de secours
+            # connaissent des esprits que la wiki n'a pas encore nommes. Si
+            # aucune ne repond, on retombe sur le traitement d'echec habituel.
+            if not wiki and sprite["id"] not in CATCH_SLUG and sprite["id"] not in FNS_SLUG:
+                # Une fiche qui declare attendre son image n'est pas un defaut :
+                # c'est un etat connu, ecrit dans le catalogue, et le script ne
+                # doit pas le signaler comme une panne a chaque passage.
+                raison = ("en attente, declaree dans le catalogue" if sprite.get("iconPending")
+                          else "nom wiki inconnu")
+                missing.append((sprite["id"], raison))
                 sprite.pop("icon", None)
                 continue
             try:

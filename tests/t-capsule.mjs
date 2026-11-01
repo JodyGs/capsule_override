@@ -142,9 +142,17 @@ const TOUR_M = 2 * Math.PI * 56;
   const { document, click, peek } = await boot();
   const lignes = () => [...document.querySelectorAll("#by-rarity .rr-k")]
     .map((e) => e.textContent.trim());
-  eq(lignes().join(","), "A confirmer", "la saison en cours n'a qu'une rarete, a confirmer");
-  const chiffre = document.querySelector("#by-rarity .rr-u").textContent;
-  eq(chiffre, `0 / ${peek.state.denom}`, "et elle porte bien toutes les pieces");
+  const attendues = peek.state.catalogue.rarities
+    .filter((r) => peek.state.live.some((s) => s.rarity === r.id))
+    .map((r) => r.label);
+  eq(lignes().join(","), attendues.join(","),
+     "le detail liste les raretes en jeu, dans l'ordre du catalogue");
+  ok(!lignes().some((l, i, t) => t.indexOf(l) !== i), "sans doublon");
+  // Les lignes se partagent exactement le denominateur : une rarete oubliee
+  // ou comptee deux fois se verrait ici et nulle part ailleurs.
+  const somme = [...document.querySelectorAll("#by-rarity .rr-u")]
+    .reduce((n, e) => n + Number(e.textContent.split("/")[1]), 0);
+  eq(somme, peek.state.denom, "et elles se partagent toutes les pieces");
 
   click(document.getElementById("btn-legacy"));
   await new Promise((r) => setTimeout(r, 40));

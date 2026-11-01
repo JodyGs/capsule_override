@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v65";
+const VERSION = "capsule-v66";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -53,6 +53,7 @@ const SHELL = [
   "./icons/variants/t-flacko-fortune.png",
   "./icons/variants/t-flacko-cursed.png",
   "./icons/sprites/t-sweetdreams.png",
+  "./icons/sprites/t-liluzi.png",
 
   // Override, passee en archive le 1er novembre. Ses images restent precachees :
   // elles l'etaient deja, et les retirer obligerait chaque telephone installe a

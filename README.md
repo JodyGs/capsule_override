@@ -580,9 +580,13 @@ et **32 pièces** : trois lignes (base, Fortune, Malédiction), dix esprits qui 
 toutes, **Doux rêves** et **Transponder Snail** qui n'ont que leur forme de base. Trois
 exceptions à connaître :
 
-- **Aucune rareté publiée.** Epic n'en a donné pour cette saison. Un seul site en propose, en
-  précisant lui-même les déduire des taux d'apparition, et une deuxième source le contredit :
-  les onze fiches portent « À confirmer », et le catalogue dit pourquoi dans `rarityNote`.
+- **Les raretés ne viennent pas d'Epic.** Il n'en a publié aucune pour cette saison. Les onze
+  esprits de l'annonce portent celle sur laquelle **deux traqueurs indépendants** — Sprite
+  Catch et FN Sprite Tracker — tombent d'accord, palier par palier, sans une divergence :
+  3 Rares, 2 Épiques, 4 Légendaires, 2 Mythiques. La règle n'a pas bougé, c'est elle qui a
+  tenu Obsession hors des raretés toute la saison passée : une rareté se publie **recoupée**,
+  jamais sur une source seule. Les deux fiches à source unique restent « À confirmer », et
+  `rarityNote` dit lesquelles.
 - **Les illustrations ne viennent pas de la wiki.** Elle n'avait rien publié le 1er novembre —
   les onze noms y renvoyaient une 404, testés un à un, et les pages `… Sprite` y sont encore
   des liens rouges. Elles viennent donc de **Sprite Catch**, qui les servait le jour même :
@@ -598,9 +602,11 @@ exceptions à connaître :
   ni par la wiki — et il tourne pourtant en partie. Il est entré sur un **signalement en jeu**,
   recoupé par les fichiers du jeu qui le nomment. La règle n'a pas bougé pour autant : un
   fichier servi n'est pas une sortie, mais une sortie vue en partie en est une. Son effet ne
-  vient que d'une source (`unconfirmed: true`), il n'a aucune image nulle part
-  (`iconPending: true` sur la fiche, et le catalogue le nomme), et son nom français reste à
-  relever.
+  vient que d'une source (`unconfirmed: true`) et son nom français reste à relever. Son
+  illustration aussi lui manque : la seule qui circule est un **dessin à plat**, là où toutes
+  les autres sont les rendus 3D du jeu — c'est du remplissage, pas l'asset. Sa fiche porte
+  donc `iconPending: true`, le catalogue le nomme, et un test vérifie qu'aucune image ne
+  traîne pour elle. Mieux vaut une pastille à initiale qu'une image dont on ne répond pas.
 
 La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
 jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
@@ -630,7 +636,7 @@ wiki l'enregistre sous `The_Deer_-_Item_-_Fortnite.png`, **sans le mot « Sprite
 script collait systématiquement. Il essaie désormais les deux formes avant de déclarer une
 image absente. Seuls Miel et Obsession, pas encore sortis, gardent leur pastille à initiale. Cinq autres noms
 
-### Deux sources pour les illustrations
+### Trois sources pour les illustrations
 
 `scripts/fetch-sprite-icons.py` interroge **la Fortnite Wiki d'abord** : elle nomme, date et
 crédite, et c'est elle qui sert les 300 images des saisons closes. Mais elle publie avec du
@@ -638,8 +644,17 @@ retard — au lancement de Treasure Hunters, les onze esprits y renvoyaient une 
 le jeu tournait déjà. **Sprite Catch** sert alors de filet : le script lit la page de l'esprit
 et y récupère l'URL de chaque variante. Les noms de fichiers y portent une empreinte qui change
 à chaque reversement, donc la page est relue à chaque passage plutôt qu'une URL recopiée qui
-vieillirait en silence. Le script dit en fin de course quelles images ne sont pas venues de la
-wiki ; ces lignes disparaîtront d'elles-mêmes le jour où elle publiera.
+vieillirait en silence.
+
+En troisième, **FN Sprite Tracker**, pour ce que les deux premières n'ont pas : Lil Uzi Vert
+Jr. y avait son rendu avant même sa sortie. Ses images sont en WebP sous un nom fixe, donc pas
+de page à relire. Avertissement inscrit dans le script : ce site **comble aussi les trous avec
+des illustrations qui ne sont pas celles du jeu** — le Transponder Snail y a un dessin à plat
+quand tout le reste est en rendu 3D. Toute image qui en vient se regarde avant d'être publiée.
+
+Le script dit en fin de course quelles images ne sont pas venues de la wiki ; ces lignes
+disparaîtront d'elles-mêmes le jour où elle publiera. Une fiche qui déclare `iconPending` est
+annoncée comme telle, pas comme une panne.
 
 Le script accepte un ou plusieurs catalogues en argument :
 
@@ -674,7 +689,7 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1719 vérifications** qui tournent sans navigateur — 1935 avec
+Les catalogues ont le leur, **1721 vérifications** qui tournent sans navigateur — 1937 avec
 les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
 pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, la sauvegarde
 des 56 codes et l'absence de toute trace d'eux dans l'app), la table des collections et le fait que **chaque clé de stockage reste collée à
