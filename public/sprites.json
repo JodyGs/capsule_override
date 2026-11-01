@@ -21,7 +21,7 @@
     ]
   },
   "iconsNote": "Les illustrations viennent de Sprite Catch, et celles de Transponder Snail et de Lil Uzi Vert Jr. de FN Sprite Tracker : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. L'escargot est dessine a plat quand tous les autres sont en relief : ce n'est pas un remplissage mais le style de la collaboration One Piece — Fortnite.GG sert le meme fichier sous le nom interne de l'asset, identique octet pour octet.",
-  "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Transponder Snail, lui, ne figure pas dans l'annonce : son nom francais n'est pas encore releve, la fiche garde donc l'anglais.",
+  "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Escargophone, absent de l'annonce, a ete releve directement dans le jeu : c'est la meme source qui l'avait fait entrer dans la liste.",
   "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les cinq fiches contestees portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
   "variants": [
     {
@@ -290,13 +290,13 @@
     },
     {
       "id": "t-snail",
-      "name": "Transponder Snail",
+      "name": "Escargophone",
       "sub": "Transponder Snail Sprite · One Piece",
       "rarity": "unknown",
       "released": true,
       "effect": "Donne des ressources supplementaires au ramassage, pour vous et vos equipiers.",
       "unconfirmed": true,
-      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Absent de l'annonce officielle : signale en partie, et nomme FeedJet dans les fichiers du jeu · Rarete contestee : un traqueur le donne Epique, un autre Legendaire",
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Absent de l'annonce officielle : signale en partie, nomme Escargophone par le jeu et FeedJet dans ses fichiers · Rarete contestee : un traqueur le donne Epique, un autre Legendaire",
       "variants": [
         "base"
       ],

@@ -122,8 +122,8 @@ const NOMS_FR = {
   "t-barry": ["Barry O'Fish", "Barry O'Fish"], "t-exmarks": ["Exmarks", "Exmarks"],
   "t-plundarrgh": ["Plundarrgh", "Plundarrgh"], "t-chester": ["Chester", "Chester"],
   "t-flacko": ["Lil' Flacko", "Lil' Flacko"],
-  // Hors annonce : pas de nom francais releve, la fiche garde l'anglais.
-  "t-snail": ["Transponder Snail", "Transponder Snail"],
+  // Hors annonce : son nom francais a ete releve dans le jeu, pas dans un texte.
+  "t-snail": ["Escargophone", "Transponder Snail"],
   "t-liluzi": ["Lil Uzi Vert Jr.", "Lil Uzi Vert Jr."],
 };
 for (const s of sprites.sprites) {
