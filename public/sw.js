@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v63";
+const VERSION = "capsule-v65";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -13,7 +13,6 @@ const SHELL = [
   "./sprites.json",
   "./sprites-override.json",
   "./sprites-legacy.json",
-  "./cheat-codes.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
@@ -300,7 +299,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Le catalogue de la saison change au fil des patchs : reseau d'abord.
-  if (/\/(sprites(-legacy)?|cheat-codes)\.json$/.test(url.pathname)) {
+  if (/\/sprites(-override|-legacy)?\.json$/.test(url.pathname)) {
     event.respondWith(
       fetch(request)
         .then((res) => putInCache(request, res))

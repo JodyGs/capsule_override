@@ -78,9 +78,11 @@ ne savent pas le faire), puis **Partager → Sur l'écran d'accueil → Ajouter*
 
 Tout est dans le `localStorage` du navigateur, **une clé par saison** :
 `capsule-override.treasure.v1` pour Treasure Hunters, `capsule-override.store.v4` pour
-Override, `capsule-override.legacy.v1` pour Runners. Les codes du lobby sont sous
-`capsule-override.codes.v1`, le thème sous `capsule-override.theme`, le pseudo Epic sous
-`capsule-override.player.v1`.
+Override, `capsule-override.legacy.v1` pour Runners. Le thème est sous
+`capsule-override.theme`, le pseudo Epic sous `capsule-override.player.v1`. (Une clé
+`capsule-override.codes.v1` traîne peut-être encore sur les téléphones : c'est le suivi des
+codes du lobby, dont l'écran est parti le 1er novembre. Elle n'est plus ni lue ni écrite, et
+elle attend sagement si l'écran revient.)
 
 La clé reste **collée à sa saison**, jamais à la place qu'elle occupe dans le bouton. C'est
 ce qui a permis à Override de passer en archive le 1er novembre 2026 sans migration : son
@@ -307,18 +309,15 @@ Pour annoncer une mise à jour, il suffit donc de changer `news.version` en mêm
 
 ## Que faire maintenant
 
-Le suivi sait ce qui manque, les codes savent ce qui s'obtient d'un mot tapé dans le lobby.
-Le bouton **Que faire maintenant** met les deux bout à bout, ce qu'il fallait jusque-là faire
-de tête. Le panneau range ce qui reste en cinq temps :
+Le suivi sait ce qui manque, l'agenda sait ce que le jeu récompense en ce moment. Le bouton
+**Que faire maintenant** met les deux bout à bout, ce qu'il fallait jusque-là faire de tête.
+Le panneau range ce qui reste en trois temps :
 
 1. **Le conseil du moment** — voir plus bas.
-2. **À taper dans le lobby** — les codes non utilisés qui donnent une pièce qui vous manque.
-   La pastille du bouton compte exactement ceux-là : c'est le seul chiffre sur lequel on peut
-   agir dans la minute.
-3. **À trouver en partie**, une rubrique par ligne de variante, avec la consigne générale et,
+2. **À trouver en partie**, une rubrique par ligne de variante, avec la consigne générale et,
    pour les bases, la source propre à chaque esprit.
-4. **À maîtriser** — ce qui est déjà là mais pas encore banqué.
-5. Le rappel des codes qui ne donnent pas d'esprit mais restent à réclamer.
+3. **À maîtriser** — ce qui est déjà là mais pas encore banqué. La pastille du bouton les
+   compte : ce sont les pièces qui ne demandent pas de chercher, juste d'y penser.
 
 ### Le conseil du moment
 
@@ -351,9 +350,8 @@ donner la leur, **« Bounty Hunter — 2 à monter aux éliminations »** : affi
 banque à un site d'extraction » aurait été faux sur la moitié du trajet. La note précise quand
 même qu'une fois le niveau 5 atteint, elle se banque comme les autres.
 
-Le lien entre un code et une pièce est une donnée explicite (`"grants"` dans
-`public/cheat-codes.json`), pas une lecture du libellé de récompense : sept codes la portent,
-et un test vérifie qu'aucun ne vise un esprit ou une variante qui n'existe pas.
+Le lien entre un code et une pièce était une donnée explicite (`"grants"`), jamais une lecture
+du libellé de récompense. Il survit dans la sauvegarde : voir *Les codes du lobby, mis de côté*.
 
 ---
 
@@ -418,56 +416,34 @@ Cocher une pièce pendant qu'un filtre est actif la retire de la vue : c'est vou
 vide à mesure. Le parcours naturel est donc *Manquants* pour trouver, puis *À maîtriser* pour
 finir.
 
-## Codes du lobby
+## Les codes du lobby, mis de côté
 
-Le bouton **Codes**, dans la barre du haut, ouvre la liste des codes du panneau
-`…/ admin panel` — ceux qu'on tape dans le lobby avant de lancer une partie. Une pastille
-dorée indique combien restent à utiliser.
+L'app a longtemps porté un écran **Codes** : les 56 codes du panneau `…/ admin panel`,
+cochables, copiables d'un geste, avec une pastille dorée annonçant ceux qui restaient. Il a
+quitté la barre le **1er novembre 2026**, avec la bascule vers Treasure Hunters.
 
-**56 codes**, groupés par type de récompense, **tous cochables** une fois utilisés. Toucher
-un code le copie dans le presse-papier. Le suivi vit dans sa propre clé
-(`capsule-override.codes.v1`) : il est indépendant des collections d'esprits, puisqu'un code
-se consomme au niveau du compte Epic, pas de la saison.
+Pas par ménage, par honnêteté. Les codes qui versaient une variante **Cheat Master** habillent
+des esprits d'Override, qui ne se ramassent plus en partie : le code existe peut-être encore,
+il ne fait plus avancer aucune case. La **poussière** et les **gizmos** sont repartis de zéro
+avec la saison. Et aucune liste publique n'a revu ces codes depuis le 28 octobre. Un écran qui
+affiche cinquante-six entrées non revérifiées **a l'air** d'un écran à jour : c'est le pire des
+deux états possibles.
 
-Les huit codes de transformation (`LetsBlockAndRoll`, `DontBlockMe`, `InsertCoinToContinue`,
-`PowerOut`, `CrowsAreAfraid`, `PumpkinSpiceLife`, `s7h-50p-r03`, `BRB`)
-se cochent comme les autres, mais
-leur case est en pointillés et ils **ne comptent pas dans les 48 récompenses** : ils ne
-donnent rien à réclamer et peuvent être retapés autant de fois qu'on veut. Les cocher est
-une note personnelle, pas un gain acquis — d'où le fond neutre plutôt que la teinte
-d'accent.
+La liste est gardée entière dans **`archive/codes-du-lobby/`**, avec un README qui dit ce
+qu'il faut ramener, et dans quel ordre, le jour où Epic en redistribue. Les sept codes qui
+déclaraient la variante offerte (`grants`) y sont aussi : c'est ce qui permettait au plan
+d'action de dire « celle-là, un mot dans le lobby suffit ».
 
-La liste vient de `public/cheat-codes.json`, recoupée sur onze sources le 1er octobre 2026
-(VICE, lobbyhack.com, The Click, allthings.how, Beebom, Destructoid, PCGamesN, Nintendo Life,
-GamesRadar, TheGamer, Game Rant). Trois codes portent une pastille dorée **nouveau**.
+Ce qui part avec eux, dans l'app : le bouton et sa pastille, la modale, le stockage
+`capsule-override.codes.v1`, la section *À taper dans le lobby* du plan d'action, le rappel
+des codes sans esprit, et 3,7 Ko de styles. Des tests vérifient qu'il n'en reste **aucune
+trace** — un `fetch` oublié vers un fichier absent, c'est une modale vide et une erreur
+silencieuse.
 
-Un code n'entre que s'il est **confirmé par plusieurs sources**. Une vague de faux codes
-circule depuis le début de la saison, et les listes publiées ne se recoupent pas : selon le
-site, le total annoncé va de 22 à 43. `BRB` en est l'exemple — quatre sites le donnaient actif,
-mais lobbyhack.com, le tracker le plus précis, l'exclut et signale la contrefaçon. Il a été
-retiré, comme `PlayToLevelUp` qu'une seule source donne.
-
-**Un code expiré sort de la liste.** `NoProLlama` n'était valable que du 7 au 14 septembre :
-il a disparu le 17. Une case qu'on ne peut plus cocher n'aide personne, et la garder ferait
-croire à une récompense encore disponible. Deux codes gardent volontairement une casse
-inhabituelle — `NOCTURNEOP55N1` et `SAYH12WR1X3L` — parce qu'en casse mixte les `O`/`0` et
-`1`/`l` deviennent ambigus à recopier ; le suivi, lui, ignore la casse.
-
-- **`JonesyIsGolden`** — esprit Jonesy **Or**, actif depuis le 24 août. Le premier code à
-  offrir une variante Or plutôt qu'une Cheat Master.
-- **`GatherAndCraft`** — esprit Buisson Cheat Master, conditionné à la quête d'histoire de
-  Wrixel (Ziggy).
-- **`H0p0nVC`** — 2 000 poussières, cinquième mot de la série multilingue.
-
-Quatre entrées portent un avertissement là où les sources se contredisent (`O2Override`,
-`DontBlockMe`, `Play4All`, `H0p0nVC`), et une précision neutre en gris là où l'information
-est simplement utile. La distinction est volontaire : l'orange signale un désaccord entre
-sources, le gris une note.
-
-Epic distribue de nouveaux codes via le Discord officiel dans le cadre de l'ARG Override :
-ajoutez-les dans `public/cheat-codes.json` et incrémentez `VERSION` dans `public/sw.js`.
-Le champ `"new": true` allume la pastille dorée, `"warn"` l'avertissement orange et
-`"note"` la précision grise.
+La pastille du bouton **Que faire maintenant** comptait les pièces derrière un code : le seul
+chiffre sur lequel on pouvait agir dans la minute. Elle compte désormais les pièces **déjà
+débloquées qu'il ne reste qu'à extraire**. Celles-là non plus ne demandent pas de chercher :
+elles demandent d'y penser.
 
 ---
 
@@ -497,13 +473,13 @@ public/                  l'application, statique de bout en bout
   sprites.json           le catalogue de la saison en cours
   sprites-override.json  l'archive du Chapitre 7 Saison 4 — Override
   sprites-legacy.json    l'archive du Chapitre 7 Saison 3 — Runners
-  cheat-codes.json       les codes du panneau d'administration du lobby
   icons/sprites/         l'icone de chaque esprit, telle qu'elle apparaît en jeu
   icons/variants/        l'illustration de chaque variante (Or, Cheat Master, Gummy…)
   manifest.webmanifest   nom, icônes, mode plein écran
   sw.js                  service worker : fonctionnement hors connexion
   icons/
 archive/famille/         la galerie maison, gardée hors de l'app (voir son README)
+archive/codes-du-lobby/  les 56 codes, gardés de la même façon
 serve.js                 prévisualisation locale uniquement
 scripts/make-icons.py         régénère les icônes de l'app (npm run icons)
 scripts/fetch-sprite-icons.py  récupère les icônes des esprits (npm run sprite-icons)
@@ -599,9 +575,10 @@ couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y in
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
 **État au 1er novembre 2026** : Override est close, à **27 esprits** et **162 pièces** — son
-compte définitif, figé dans `sprites-override.json`. Treasure Hunters ouvre à **11 esprits**
-et **31 pièces** : trois lignes (base, Fortune, Cursed), dix esprits qui les portent toutes,
-et **Sweet Dreams** qui n'a que sa forme de base. Deux exceptions à connaître :
+compte définitif, figé dans `sprites-override.json`. Treasure Hunters ouvre à **12 esprits**
+et **32 pièces** : trois lignes (base, Fortune, Malédiction), dix esprits qui les portent
+toutes, **Doux rêves** et **Transponder Snail** qui n'ont que leur forme de base. Trois
+exceptions à connaître :
 
 - **Aucune rareté publiée.** Epic n'en a donné pour cette saison. Un seul site en propose, en
   précisant lui-même les déduire des taux d'apparition, et une deuxième source le contredit :
@@ -616,6 +593,14 @@ et **Sweet Dreams** qui n'a que sa forme de base. Deux exceptions à connaître 
   **Varech** (Kelper), **Crapoulpe** (Lil' Squibbly), **Doux rêves** (Sweet Dreams). Le nom
   anglais reste en sous-titre, puisque c'est celui des guides et des recherches. Le
   vocabulaire suit : ce sont des **avis de recherche**, pas des affiches.
+
+- **Transponder Snail n'est annoncé nulle part** : ni par Epic, ni par les suiveurs d'esprits,
+  ni par la wiki — et il tourne pourtant en partie. Il est entré sur un **signalement en jeu**,
+  recoupé par les fichiers du jeu qui le nomment. La règle n'a pas bougé pour autant : un
+  fichier servi n'est pas une sortie, mais une sortie vue en partie en est une. Son effet ne
+  vient que d'une source (`unconfirmed: true`), il n'a aucune image nulle part
+  (`iconPending: true` sur la fiche, et le catalogue le nomme), et son nom français reste à
+  relever.
 
 La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
 jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
@@ -679,8 +664,7 @@ boutons, règle « maîtrisé implique débloqué », badge *Complet*, compteurs
 par rareté, statut et recherche, écriture différée dans le stockage, bouton *Tout effacer*,
 les trois modes de thème avec leur persistance et la couleur de barre d'état, la reprise
 d'une ancienne sauvegarde à profils, la bascule Legacy avec l'étanchéité des deux collections et
-le nombre exact de variantes par esprit, le suivi des codes du lobby et son
-indépendance vis-à-vis des collections, et surtout **réouverture de l'app avec des données existantes** — les coches
+le nombre exact de variantes par esprit, et surtout **réouverture de l'app avec des données existantes** — les coches
 sont toutes restituées.
 
 Le pseudo Epic, la structure de la carte et le plan d'action ont leur propre harnais,
@@ -690,10 +674,10 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1779 vérifications** qui tournent sans navigateur — 1982 avec
+Les catalogues ont le leur, **1719 vérifications** qui tournent sans navigateur — 1935 avec
 les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
-pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, 56 codes dont 48
-récompenses), la table des collections et le fait que **chaque clé de stockage reste collée à
+pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, la sauvegarde
+des 56 codes et l'absence de toute trace d'eux dans l'app), la table des collections et le fait que **chaque clé de stockage reste collée à
 sa saison**, l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans
 les textes permanents, la répartition des raretés, l'absence de code en double, le fait qu'aucun code
 n'offre une variante non obtenable, que Mega Man n'ait qu'une ligne et les quinze autres

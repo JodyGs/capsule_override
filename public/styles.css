@@ -199,97 +199,17 @@ body{
 .sync[data-state="warn"]{color:var(--warn)}
 .sync[data-state="warn"] i{background:var(--warn)}
 
-/* Bouton Codes : une pastille annonce combien restent a utiliser. */
-.codes-btn{gap:8px}
-.codes-btn svg{flex:none}
-.codes-count{
-  min-width:17px;height:17px;padding:0 4px;border-radius:9px;
-  background:var(--gold);color:var(--gold-ink);
-  font-size:10px;font-weight:700;display:grid;place-items:center;line-height:1;
-}
-
-/* --- modale des codes --- */
+/* --- en-tete des modales larges : plan d'action, comparaison --- */
 .sheet-wide{width:min(620px,calc(100vw - 32px))}
-.codes-progress{
+.sheet-count{
   margin-left:auto;font-family:var(--f-mono);font-size:10.5px;
   text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);white-space:nowrap;
-}
-.codes-group{display:flex;flex-direction:column;gap:9px}
-.codes-group h3{
-  font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;
-  color:var(--ink-3);margin:0;font-weight:600;
-}
-.codes-ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-
-.code-row{
-  display:grid;grid-template-columns:auto minmax(0,auto) minmax(0,1fr);
-  align-items:start;gap:11px;
-  background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
-  padding:8px 11px;transition:border-color .15s,background .15s;
-}
-/* La case et le code s'alignent sur la premiere ligne de la recompense,
-   meme quand un avertissement allonge celle-ci. */
-.code-text,
-.code-reward{padding-top:5px}
-.code-row .code-check{margin-top:0}
-.code-row.is-used{
-  background:var(--accent-soft);
-  border-color:color-mix(in srgb, var(--accent) 40%, transparent);
-}
-/* Un code reutilisable coche est une note personnelle, pas une recompense
-   acquise : fond neutre plutot que la teinte d'accent. */
-.code-row.is-used:has(.is-reusable){background:var(--surface-3);border-color:var(--line-strong)}
-.code-check{
-  width:30px;height:30px;flex:none;display:grid;place-items:center;padding:0;cursor:pointer;
-  background:var(--surface);border:1px solid var(--line-strong);border-radius:7px;color:var(--ink-3);
-}
-.code-check svg{width:14px;height:14px;display:block}
-.code-check[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-/* Reutilisable : meme remplissage une fois coche, mais bordure pointillee
-   pour rappeler que le code peut etre retape et ne rapporte rien. */
-.code-check.is-reusable{border-style:dashed}
-.code-check.is-reusable[aria-pressed="true"]{border-style:dashed}
-.code-text{
-  font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--ink);
-  background:none;border:0;border-bottom:1px dashed var(--line-strong);
-  padding:2px 0;cursor:pointer;text-align:left;white-space:nowrap;
-}
-.code-text:hover{color:var(--accent);border-bottom-color:var(--accent)}
-.code-row.is-used .code-text{color:var(--ink-2)}
-.code-reward{
-  font-size:12.5px;color:var(--ink-2);line-height:1.45;min-width:0;
-  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;
-}
-.code-tag{
-  font-style:normal;font-family:var(--f-mono);font-size:9.5px;text-transform:uppercase;
-  letter-spacing:.08em;color:var(--ink-3);border:1px solid var(--line-strong);
-  border-radius:4px;padding:1px 5px;white-space:nowrap;
-}
-/* Codes ajoutes depuis la sortie de la saison : la pastille se voit,
-   sans crier plus fort que la recompense elle-meme. */
-.code-tag.is-new{
-  color:var(--gold);border-color:color-mix(in srgb, var(--gold) 55%, transparent);
-  background:color-mix(in srgb, var(--gold) 12%, transparent);font-weight:600;
-}
-/* Une precision utile n'est pas une mise en garde : le gris la distingue
-   de l'orange reserve aux desaccords entre sources. */
-.code-note{
-  flex:1 1 100%;font-size:11px;color:var(--ink-3);line-height:1.5;
-}
-.code-warn{
-  flex:1 1 100%;font-size:11px;color:var(--warn);line-height:1.5;
 }
 
 @media (max-width:620px){
   .sheet-wide{width:100vw}
-  .codes-progress{width:100%;margin-left:0;order:3;padding-top:2px}
+  .sheet-count{width:100%;margin-left:0;order:3;padding-top:2px}
   .sheet-head{flex-wrap:wrap}
-  /* En colonne etroite, la recompense passe sous le code. */
-  .code-row{grid-template-columns:auto minmax(0,1fr);gap:9px 10px;padding:9px 11px}
-  .code-reward{grid-column:2;font-size:12px}
-  .code-check{width:34px;height:34px}
-  #btn-codes-label{display:none}
-  .codes-btn{padding:8px 12px;gap:6px}
 }
 
 /* Bouton Legacy : discret par defaut, teinte quand on est dans le passe. */
@@ -929,7 +849,6 @@ dialog.zoom::backdrop{background:rgba(10,7,18,.66);backdrop-filter:blur(4px)}
   .todo-rows li{grid-template-columns:26px minmax(0,1fr)}
   .todo-note{grid-column:2}
 }
-.code-row.is-todo{grid-template-columns:auto auto minmax(0,1fr)}
 .agenda-when{display:flex;align-items:center;gap:9px;flex:none;min-width:0}
 .agenda-when b{font-family:var(--f-display);font-size:14.5px;font-weight:700;white-space:nowrap}
 .agenda-delay{

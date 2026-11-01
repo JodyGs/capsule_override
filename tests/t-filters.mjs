@@ -74,6 +74,28 @@ const season = lire("sprites.json");
   eq(visibleRows(carte(sprite.id)).length, vars.length, "et toutes les lignes avec");
 }
 
+/* Le plan d'action s'ouvre pour de vrai. Il n'etait plus couvert depuis que
+   les tests de la galerie maison sont partis avec elle, et une fonction
+   emportee par erreur dans un autre menage a suffi a le casser en silence :
+   le bouton repondait, la modale restait fermee. */
+{
+  const sprite = season.sprites.find((s) => s.released);
+  const vars = sprite.variants || season.variants.map((v) => v.id);
+  const store = { entries: { [sprite.id]: { [vars[0]]: 1 } } };
+  const { document, openTodo } = await boot({ store: { [CLEF]: JSON.stringify(store) } });
+  const liste = openTodo();
+  eq(document.getElementById("todo").open, true, "le panneau s'ouvre");
+  const titres = [...liste.querySelectorAll("h3")].map((h) => h.textContent);
+  ok(titres.length > 0, `le plan a des rubriques, obtenu ${JSON.stringify(titres)}`);
+  ok(titres.some((t) => /a trouver/.test(t)), "dont ce qu'il reste a trouver en partie");
+  ok(titres.some((t) => /maitriser|extraire/i.test(t)),
+     `dont ce qui attend une extraction, obtenu ${JSON.stringify(titres)}`);
+  ok(/piece/.test(document.getElementById("todo-progress").textContent), "l'en-tete compte les pieces");
+  // La pastille du bouton compte ce qui attend une extraction.
+  eq(document.getElementById("todo-count").textContent, "1", "la pastille compte la piece a extraire");
+  eq(document.getElementById("todo-count").hidden, false, "et elle se montre");
+}
+
 function statusDansLeMagasin(spriteId, variantId, store) {
   return store.entries[spriteId]?.[variantId] || 0;
 }

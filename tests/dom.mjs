@@ -36,7 +36,6 @@ export async function boot({ store = {}, mutate = null, at = null } = {}) {
     "sprites.json": season,
     "sprites-override.json": lire("sprites-override.json"),
     "sprites-legacy.json": lire("sprites-legacy.json"),
-    "cheat-codes.json": lire("cheat-codes.json"),
   };
   const g = globalThis;
   const def = (k, v) => Object.defineProperty(g, k, { value: v, configurable: true, writable: true });

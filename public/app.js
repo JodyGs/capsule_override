@@ -1836,165 +1836,6 @@ $("btn-wipe").addEventListener("click", () => {
 });
 
 /* ============================================================
-   Codes du panneau d'administration du lobby
-   ============================================================ */
-const K_CODES = "capsule-override.codes.v1";
-const codesDialog = $("codes");
-let codesData = null;
-let codesUsed = {};
-
-function readCodes() {
-  try {
-    const raw = localStorage.getItem(K_CODES);
-    const parsed = raw ? JSON.parse(raw) : null;
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveCodes() {
-  try { localStorage.setItem(K_CODES, JSON.stringify(codesUsed)); } catch { /* stockage plein */ }
-}
-
-const allCodes = () => (codesData?.groups || []).flatMap((g) => g.codes);
-const onceCodes = () => allCodes().filter((c) => c.once);
-
-function refreshCodesBadge() {
-  const total = onceCodes().length;
-  const used = onceCodes().filter((c) => codesUsed[c.code.toUpperCase()]).length;
-  const left = total - used;
-
-  const badge = $("codes-count");
-  badge.hidden = left === 0 || !total;
-  badge.textContent = left;
-  $("btn-codes").title = total
-    ? `${left} recompense${left > 1 ? "s" : ""} encore a reclamer sur ${total}`
-    : "Les codes du panneau d'administration du lobby";
-
-  const progress = $("codes-progress");
-  if (progress) progress.textContent = total ? `${used} / ${total} recompenses` : "";
-}
-
-function buildCodes() {
-  const box = $("codes-list");
-  box.innerHTML = "";
-
-  for (const group of codesData.groups) {
-    const section = document.createElement("section");
-    section.className = "codes-group";
-    section.innerHTML = `
-      <h3>${esc(group.label)}</h3>
-      ${group.hint ? `<p class="form-note">${esc(group.hint)}</p>` : ""}`;
-
-    const list = document.createElement("ul");
-    list.className = "codes-ul";
-    for (const entry of group.codes) {
-      const key = entry.code.toUpperCase();
-      const li = document.createElement("li");
-      li.className = "code-row";
-      // Tout se coche, y compris les codes reutilisables : ils ne rapportent
-      // rien a reclamer, mais on veut pouvoir noter ceux deja essayes.
-      const verb = entry.once ? "comme utilise" : "comme deja essaye";
-      li.innerHTML = `
-        <button type="button" class="code-check${entry.once ? "" : " is-reusable"}"
-                data-code="${key}" aria-pressed="false"
-                aria-label="Marquer ${esc(entry.code)} ${verb}"
-                title="Marquer ${esc(entry.code)} ${verb}">${ICON_U}</button>
-        <button type="button" class="code-text" data-copy="${esc(entry.code)}"
-                title="Copier ${esc(entry.code)}">${esc(entry.code)}</button>
-        <span class="code-reward">${esc(entry.reward)}${
-          entry.new ? '<em class="code-tag is-new">nouveau</em>' : ""}${
-          entry.tag ? `<em class="code-tag">${esc(entry.tag)}</em>` : ""}${
-          entry.once ? "" : '<em class="code-tag">reutilisable</em>'}${
-          entry.note ? `<small class="code-note">${esc(entry.note)}</small>` : ""}${
-          entry.warn ? `<small class="code-warn">${esc(entry.warn)}</small>` : ""}</span>`;
-      list.appendChild(li);
-    }
-    section.appendChild(list);
-    box.appendChild(section);
-  }
-  paintCodes();
-}
-
-function paintCodes() {
-  for (const btn of $("codes-list").querySelectorAll(".code-check[data-code]")) {
-    const on = Boolean(codesUsed[btn.dataset.code]);
-    btn.setAttribute("aria-pressed", String(on));
-    btn.closest(".code-row").classList.toggle("is-used", on);
-  }
-  refreshCodesBadge();
-  // Un code coche disparait du plan : le compteur doit suivre.
-  if (state.catalogue) refreshTodoBadge();
-}
-
-$("codes-list").addEventListener("click", async (e) => {
-  const check = e.target.closest(".code-check[data-code]");
-  if (check) {
-    const key = check.dataset.code;
-    if (codesUsed[key]) delete codesUsed[key];
-    else codesUsed[key] = true;
-    saveCodes();
-    paintCodes();
-    if (navigator.vibrate) navigator.vibrate(10);
-    return;
-  }
-
-  const copy = e.target.closest(".code-text");
-  if (copy) {
-    const text = copy.dataset.copy;
-    try {
-      await navigator.clipboard.writeText(text);
-      notify(`« ${text} » copie.`);
-    } catch {
-      notify("Copie impossible ici — recopiez le code a la main.");
-    }
-  }
-});
-
-$("btn-codes-reset").addEventListener("click", () => {
-  const n = allCodes().length;
-  if (!confirm(`Decocher les ${n} codes ? Vous perdrez le suivi de ceux deja utilises.`)) return;
-  codesUsed = {};
-  saveCodes();
-  paintCodes();
-});
-
-$("btn-codes").addEventListener("click", async () => {
-  if (!codesData) {
-    try {
-      const res = await fetch("cheat-codes.json", { cache: "no-cache" });
-      if (!res.ok) throw new Error("codes");
-      codesData = await res.json();
-    } catch {
-      notify("La liste des codes n'a pas pu etre chargee.");
-      return;
-    }
-    $("codes-where").textContent = codesData.where || "";
-    $("codes-note").textContent = codesData.note || "";
-    buildCodes();
-  }
-  codesDialog.showModal();
-});
-
-$("codes-close").addEventListener("click", () => codesDialog.close());
-
-/* Le compteur du bouton doit etre juste des le premier affichage, sans
-   attendre que l'utilisateur ouvre la modale. */
-async function primeCodes() {
-  codesUsed = readCodes();
-  try {
-    const res = await fetch("cheat-codes.json", { cache: "no-cache" });
-    if (!res.ok) return;
-    codesData = await res.json();
-    $("codes-where").textContent = codesData.where || "";
-    $("codes-note").textContent = codesData.note || "";
-    buildCodes();
-    refreshTodoBadge();
-  } catch { /* hors ligne au premier lancement : la modale reessaiera */ }
-}
-
-/* ============================================================
    Comparer avec quelqu'un
    Le format de sauvegarde existe deja ; il suffisait de le lire sans
    l'ecrire. Strictement en lecture : la collection locale n'est pas touchee.
@@ -2136,28 +1977,18 @@ $("grid").addEventListener("click", (e) => {
    ============================================================ */
 const todoDialog = $("todo");
 
-/* Le code du lobby qui offre cette piece, s'il existe et s'il n'a pas
-   deja ete consomme. */
-function codeFor(spriteId, variantId) {
-  return allCodes().find((c) => c.grants?.sprite === spriteId
-    && c.grants?.variant === variantId
-    && !codesUsed[c.code.toUpperCase()]);
-}
-
 /* La consigne generale d'une ligne de variante. Elle vit dans le catalogue :
    « en partie » convenait tant que toutes les lignes se ramassaient pareil,
-   mais une Bounty Hunter ne sort que d'un adversaire elimine. */
+   mais une Bounty Hunter ne sortait que d'un adversaire elimine. */
 const howToLine = (variant) => variant.find || "En partie.";
 
-/* Ce qui distingue cette piece-la des autres de sa ligne : la source propre
-   a l'esprit pour une base, ou une exception declaree au catalogue. */
 function howToPiece(sprite, variant) {
   return sprite.variantHow?.[variant.id]
     || (variant.id === "base" ? sprite.source || "" : "");
 }
 
 function todoPlan() {
-  const lobby = [];
+
   // Une entree par ligne de variante, dans l'ordre du catalogue : grouper par
   // consigne donnait une section par esprit, puisque chacun a sa source.
   const field = new Map();
@@ -2181,16 +2012,12 @@ function todoPlan() {
         continue;
       }
 
-      const code = codeFor(sprite.id, variant.id);
-      if (code) { lobby.push({ sprite, variant, code }); continue; }
       if (!field.has(variant.id)) field.set(variant.id, { variant, pieces: [] });
       field.get(variant.id).pieces.push({ sprite, variant, note: howToPiece(sprite, variant) });
     }
   }
 
-  // Les codes qui ne donnent pas de piece : poussiere, XP, gizmos, ecrans.
-  const spare = onceCodes().filter((c) => !c.grants && !codesUsed[c.code.toUpperCase()]);
-  return { lobby, field: [...field.values()], toMaster, toGrind: [...toGrind.values()], spare };
+  return { field: [...field.values()], toMaster, toGrind: [...toGrind.values()] };
 }
 
 /* Le conseil du moment. Le plan connait deja ce qui reste a faire ; l'agenda
@@ -2234,7 +2061,7 @@ function buildTodo() {
   const box = $("todo-list");
   box.innerHTML = "";
   const plan = todoPlan();
-  const total = plan.lobby.length + plan.field.reduce((n, g) => n + g.pieces.length, 0);
+  const total = plan.field.reduce((n, g) => n + g.pieces.length, 0);
 
   $("todo-progress").textContent = total
     ? `${total} piece${total > 1 ? "s" : ""} a trouver`
@@ -2260,26 +2087,7 @@ function buildTodo() {
     box.appendChild(el);
   }
 
-  /* 1. Ce qui s'obtient tout de suite, sans jouer. */
-  if (plan.lobby.length) {
-    const list = document.createElement("ul");
-    list.className = "codes-ul";
-    for (const { sprite, variant, code } of plan.lobby) {
-      const li = document.createElement("li");
-      li.className = "code-row is-todo";
-      li.innerHTML = `
-        <img class="vicon" src="${variant.id === "base" ? iconUrl(sprite) : variantIconUrl(sprite, variant.id)}"
-             alt="" width="26" height="26" loading="lazy" decoding="async">
-        <button type="button" class="code-text" data-copy="${esc(code.code)}"
-                title="Copier ${esc(code.code)}">${esc(code.code)}</button>
-        <span class="code-reward">${esc(pieceName(sprite, variant))}${
-          code.warn ? `<small class="code-warn">${esc(code.warn)}</small>` : ""}</span>`;
-      list.appendChild(li);
-    }
-    section("A taper dans le lobby", "Gratuit et immediat : un mot dans le panneau d'administration.", list);
-  }
-
-  /* 2. Ce qu'il faut aller chercher en partie, ligne de variante par ligne. */
+  /* 1. Ce qu'il faut aller chercher en partie, ligne de variante par ligne. */
   for (const { variant, pieces } of plan.field) {
     const list = document.createElement("ul");
     list.className = "todo-rows";
@@ -2294,7 +2102,7 @@ function buildTodo() {
     section(`${variant.name} — ${pieces.length} a trouver`, howToLine(variant), list);
   }
 
-  /* 3. Ce qui est deja la mais pas encore banque. */
+  /* 2. Ce qui est deja la mais pas encore banque. */
   if (plan.toMaster.length) {
     const list = document.createElement("ul");
     list.className = "todo-pieces";
@@ -2322,19 +2130,6 @@ function buildTodo() {
     section(`${variant.name} — ${pieces.length} a monter aux eliminations`, variant.levelUp, list);
   }
 
-  /* 4. Le reste des codes, qui ne donne pas d'esprit mais reste a prendre. */
-  if (plan.spare.length) {
-    const el = document.createElement("p");
-    el.className = "form-note";
-    el.textContent = `${plan.spare.length} autre${plan.spare.length > 1 ? "s" : ""} code${
-      plan.spare.length > 1 ? "s" : ""} du lobby ${plan.spare.length > 1 ? "restent" : "reste"
-      } a reclamer : poussiere, XP, gizmos et ecrans de chargement.`;
-    const row = document.createElement("div");
-    row.className = "row";
-    row.appendChild(el);
-    section("Recompenses a cote de la collection", "", row);
-  }
-
   if (!box.children.length) {
     const done = document.createElement("p");
     done.className = "form-note";
@@ -2351,35 +2146,25 @@ function refreshTodoBadge() {
   const hors = state.which !== "current";
   strip.hidden = hors;
   if (hors) return;
-  // Le compteur annonce ce qui s'obtient sans jouer : c'est le seul chiffre
-  // sur lequel on peut agir dans la minute.
-  const free = codesData ? todoPlan().lobby.length : 0;
+  // La pastille annonçait les pieces derriere un code du lobby : c'etait le
+  // seul chiffre sur lequel on pouvait agir dans la minute. Les codes sont
+  // partis, mais le besoin reste — alors elle compte desormais les pieces
+  // deja debloquees qu'il ne reste qu'a extraire. Celles-la non plus ne
+  // demandent pas de chercher : elles demandent d'y penser.
+  const pret = todoPlan().toMaster.length;
   const badge = $("todo-count");
-  badge.hidden = free === 0;
-  badge.textContent = free;
-  $("btn-todo").title = free
-    ? `${free} piece${free > 1 ? "s" : ""} vous attend${free > 1 ? "ent" : ""} derriere un code du lobby`
+  badge.hidden = pret === 0;
+  badge.textContent = pret;
+  $("btn-todo").title = pret
+    ? `${pret} piece${pret > 1 ? "s" : ""} au niveau 5 n'attend${pret > 1 ? "ent" : ""} plus que l'extraction`
     : "Ce qu'il reste a trouver, et comment";
 }
 
 $("btn-todo").addEventListener("click", () => {
-  if (!codesData) { notify("La liste des codes n'a pas encore ete chargee."); return; }
   buildTodo();
   todoDialog.showModal();
 });
 $("todo-close").addEventListener("click", () => todoDialog.close());
-
-// Copier un code depuis le plan, comme dans la liste des codes.
-$("todo-list").addEventListener("click", async (e) => {
-  const copy = e.target.closest(".code-text");
-  if (!copy) return;
-  try {
-    await navigator.clipboard.writeText(copy.dataset.copy);
-    notify(`« ${copy.dataset.copy} » copie.`);
-  } catch {
-    notify("Copie impossible ici — recopiez le code a la main.");
-  }
-});
 
 /* ============================================================
    Installation sur mobile
@@ -2651,7 +2436,6 @@ async function boot() {
 
   $("app").hidden = false;
 
-  primeCodes();
   paintPlayer();
 
   // Premiere utilisation, ou pseudo efface : on le demande. Une fois

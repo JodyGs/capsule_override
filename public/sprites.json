@@ -10,21 +10,18 @@
   },
   "updatedAt": "2026-11-01",
   "news": {
-    "version": "2026-11-01",
-    "title": "Nouvelle saison : Treasure Hunters",
+    "version": "2026-11-01-b",
+    "title": "L'escargot rejoint la liste",
     "date": "1er novembre 2026",
     "lines": [
-      "Override s'est fermee cette nuit. Elle n'est pas perdue : l'onglet Override garde vos coches, vos compteurs et votre export, intacts. Ces esprits ne se ramassent simplement plus en partie.",
-      "Treasure Hunters ouvre avec onze esprits et trois lignes — base, Fortune et Malediction. Dix esprits portent les trois, Doux reves n'a que sa base : trente-et-une pieces a faire.",
-      "La chasse a change de regles. On n'ouvre plus des coffres au hasard : on arrache un avis de recherche, il devient une carte au tresor, la carte mene a un coffre enterre qu'on deterre a la pioche. Exmarks et Guide raccourcissent tout le reste — a prendre en premier.",
-      "Les noms affiches sont ceux de la version francaise : Mi-pelure, Guide, Varech, Crapoulpe, Doux reves. Le nom anglais est juste en dessous, puisque c'est celui des guides.",
-      "La ligne Or revient le 12 novembre, avec son bonus d'XP par elimination. Elle n'est pas encore dans la liste : elle y entrera le jour ou elle sortira, pas avant.",
-      "Epic n'a publie aucune rarete cette saison. Les onze fiches portent « A confirmer » plutot qu'un palier deduit des taux d'apparition par un seul site.",
-      "Poussiere et gizmos sont repartis de zero avec la bascule. Les cinquante-six codes du lobby n'ont pas bouge, mais ceux qui offraient une variante Override n'ont plus d'objet : les esprits qu'ils donnaient sont au Jardin."
+      "Transponder Snail entre dans la liste : il tourne en partie, mais ne figure ni dans l'annonce d'Epic, ni chez les suiveurs d'esprits. Signale en jeu, et nomme dans les fichiers du jeu — ca suffit pour l'ajouter, pas pour tout savoir de lui.",
+      "Ce qu'on en sait : il donne des ressources supplementaires au ramassage, pour vous et vos equipiers. Une seule source le dit, donc la fiche le marque « effet non confirme ». Il n'a ni Fortune ni Malediction, et aucune image nulle part — sa pastille porte son initiale en attendant.",
+      "32 pieces, donc, et non plus 31. Si le jeu l'appelle autrement en francais, son nom suivra au prochain releve.",
+      "Lil Uzi Vert Jr. est annonce pour le 7 novembre, avec l'arrivee du capitaine Lil Uzi. Il figure en fin de liste, date, sans compter dans le total tant qu'il n'est pas sorti."
     ]
   },
-  "iconsNote": "Les illustrations viennent de Sprite Catch : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera.",
-  "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes.",
+  "iconsNote": "Les illustrations viennent de Sprite Catch : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. Transponder Snail n'a encore d'image nulle part, pas meme sur Sprite Catch : sa fiche porte `iconPending` et s'affiche avec une pastille a initiale.",
+  "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Transponder Snail, lui, ne figure pas dans l'annonce : son nom francais n'est pas encore releve, la fiche garde donc l'anglais.",
   "rarityNote": "Epic n'a publie aucune rarete pour cette saison. Un seul site en propose, en precisant lui-meme les deduire des taux d'apparition, et une deuxieme source le contredit sur Sweet Dreams. Les onze fiches portent donc « A confirmer » : une rarete ne se publie ici que recoupee.",
   "variants": [
     {
@@ -79,7 +76,9 @@
     "t-kelper",
     "t-squibbly",
     "t-flacko",
-    "t-sweetdreams"
+    "t-sweetdreams",
+    "t-snail",
+    "t-liluzi"
   ],
   "orderNote": "L'ordre est recopie de l'annonce officielle d'Epic, qui numerote les esprits de cette saison dans l'ecran de collection. Un esprit absent de cette liste se range a la fin.",
   "sprites": [
@@ -288,6 +287,34 @@
         "base"
       ],
       "icon": true
+    },
+    {
+      "id": "t-snail",
+      "name": "Transponder Snail",
+      "sub": "Transponder Snail Sprite · One Piece",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Donne des ressources supplementaires au ramassage, pour vous et vos equipiers.",
+      "unconfirmed": true,
+      "source": "Avis de recherche · Coffres a esprits · Adversaires elimines · Absent de l'annonce officielle : signale en partie, et nomme dans les fichiers du jeu",
+      "variants": [
+        "base"
+      ],
+      "iconPending": true
+    },
+    {
+      "id": "t-liluzi",
+      "name": "Lil Uzi Vert Jr.",
+      "sub": "Lil Uzi Vert Jr. Sprite",
+      "rarity": "unknown",
+      "released": false,
+      "releasesOn": "2026-11-07",
+      "effect": "Effet inconnu : Epic ne l'a pas publie.",
+      "unconfirmed": true,
+      "source": "Annonce pour la semaine 2 : Epic fait arriver Lil Uzi le 7 novembre avec « de nouveaux esprits etranges », et les fichiers du jeu nomment celui-ci. Aucune des deux sources ne dit l'autre.",
+      "variants": [
+        "base"
+      ]
     }
   ],
   "events": {

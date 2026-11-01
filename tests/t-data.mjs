@@ -8,7 +8,6 @@ const { ok, eq, fin } = compteur();
 const sprites = lire("sprites.json");
 const override = lire("sprites-override.json");
 const legacy = lire("sprites-legacy.json");
-const codes = lire("cheat-codes.json");
 const txt = (f) => readFileSync(join(PUB, f), "utf8");
 const sw = txt("sw.js"), html = txt("index.html"), app = txt("app.js"), css = txt("styles.css");
 const script = readFileSync(join(PUB, "..", "scripts", "fetch-sprite-icons.py"), "utf8");
@@ -24,15 +23,14 @@ const sortis = sprites.sprites.filter((s) => s.released);
 
 /* ---- l'etat du releve ---- */
 eq(sprites.updatedAt, "2026-11-01", "date de releve sprites");
-eq(codes.updatedAt, "2026-11-01", "date de releve codes");
 ok(html.includes("1er novembre 2026"), "date du pied de page");
 eq(sprites.code, "TREASURE", "code de la saison en cours");
 eq(sprites.seasonStart, "2026-11-01", "jour d'ouverture de la saison");
-eq(sprites.sprites.length, 11, "esprits catalogues");
+eq(sprites.sprites.length, 13, "esprits catalogues");
 eq(sprites.variants.length, 3, "lignes de variantes");
-eq(sortis.length, 11, "esprits sortis");
+eq(sortis.length, 12, "esprits sortis");
 const pieces = sortis.reduce((n, s) => n + own(s).length, 0);
-eq(pieces, 31, "pieces obtenables");
+eq(pieces, 32, "pieces obtenables");
 /* Le denominateur ecrit en dur dans la page n'est qu'un repli, le temps que le
    script compte — mais un repli faux fait sauter le chiffre sous les yeux au
    chargement. Il se verifie contre le total calcule, pas contre une constante
@@ -42,7 +40,7 @@ for (const id of ["s-unlocked-d", "s-mastered-d"]) {
 }
 /* Le chiffre annonce dans les notes doit etre celui que le script calcule :
    c'est la phrase que l'utilisateur lit avant de compter lui-meme. */
-ok(html.includes(`<strong>${sprites.sprites.length} esprits</strong>`), "les notes annoncent le bon nombre d'esprits");
+ok(html.includes(`<strong>${sortis.length} esprits</strong>`), "les notes annoncent le bon nombre d'esprits sortis");
 ok(html.includes(`<strong>${pieces} pieces</strong>`), "les notes annoncent le bon nombre de pieces");
 
 /* ---- ce qui est annonce mais pas sorti ---- */
@@ -53,11 +51,20 @@ for (const s of attendus) {
 }
 ok(app.includes("function soonLabel"), "la carte sait afficher la date de sortie");
 ok(app.includes('timeZone: "UTC"'), "la date est lue en UTC, pas dans le fuseau du telephone");
-/* Deux noms circulent sur une seule liste, et le capitaine qui amene le
-   premier n'arrive que le 7 novembre. Un fichier servi n'est pas une sortie. */
-for (const premature of ["t-liluzi", "t-transponder"]) {
-  ok(!ids.includes(premature), `${premature} attend sa sortie dehors`);
-}
+/* Un fichier servi n'est pas une sortie — mais une sortie vue en partie en
+   est une. Transponder Snail n'est annonce nulle part et ne figure chez aucun
+   suiveur ; il est entre sur un signalement en jeu, recoupe par les fichiers
+   du jeu. Sa fiche doit porter les deux reserves qui vont avec : l'effet ne
+   vient que d'une source, et aucune image n'existe encore. */
+const snail = sprites.sprites.find((s) => s.id === "t-snail");
+ok(snail?.released, "Transponder Snail est dans la liste");
+eq(snail?.unconfirmed, true, "son effet est marque non confirme");
+ok(/signale en partie|fichiers du jeu/i.test(snail?.source || ""), "sa fiche dit d'ou il sort");
+eq((snail?.variants || []).join(","), "base", "il n'a que sa forme de base");
+/* Lil Uzi Vert Jr. est date : il ferme la liste et ne compte pas. */
+const uzi = sprites.sprites.find((s) => s.id === "t-liluzi");
+ok(uzi && !uzi.released, "Lil Uzi Vert Jr. figure sans etre sorti");
+eq(uzi?.releasesOn, "2026-11-07", "a la date annoncee par Epic");
 
 /* ---- variantes ---- */
 eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
@@ -71,16 +78,16 @@ eq(sprites.variants.find((v) => v.id === "cursed").name, "Malediction",
    denominateur faux. La page, elle, doit l'annoncer. */
 ok(!variantIds.has("gold"), "la ligne Or reste dehors jusqu'a sa sortie");
 ok(html.includes("12 novembre"), "mais la page annonce sa date");
-const seuls = sprites.sprites.filter((s) => own(s).length === 1);
-eq(seuls.length, 1, "un seul esprit sans variante");
-eq(seuls[0].id, "t-sweetdreams", "et c'est Doux reves");
+const seuls = sortis.filter((s) => own(s).length === 1);
+eq(seuls.map((s) => s.id).sort().join(","), "t-snail,t-sweetdreams",
+   "deux esprits sans variante : Doux reves et l'escargot");
 /* Combien d'esprits portent chaque ligne : les deux lignes de la saison
    couvrent tout le monde sauf Sweet Dreams. */
 const ATTENDU_PAR_LIGNE = { fortune: 10, cursed: 10 };
 for (const ligne of ["fortune", "cursed"]) {
   eq(sortis.filter((s) => own(s).includes(ligne)).length, ATTENDU_PAR_LIGNE[ligne],
      `esprits avec une ${ligne}`);
-  ok(!own(seuls[0]).includes(ligne), `Doux reves n'a pas de ${ligne}`);
+  for (const seul of seuls) ok(!own(seul).includes(ligne), `${seul.id} n'a pas de ${ligne}`);
 }
 /* Cursed se paie : l'app doit le dire, sinon on l'equipe en nageant. */
 ok(/eau vous blesse/i.test(sprites.variants.find((v) => v.id === "cursed").note || ""),
@@ -109,6 +116,9 @@ const NOMS_FR = {
   "t-barry": ["Barry O'Fish", "Barry O'Fish"], "t-exmarks": ["Exmarks", "Exmarks"],
   "t-plundarrgh": ["Plundarrgh", "Plundarrgh"], "t-chester": ["Chester", "Chester"],
   "t-flacko": ["Lil' Flacko", "Lil' Flacko"],
+  // Hors annonce : pas de nom francais releve, la fiche garde l'anglais.
+  "t-snail": ["Transponder Snail", "Transponder Snail"],
+  "t-liluzi": ["Lil Uzi Vert Jr.", "Lil Uzi Vert Jr."],
 };
 for (const s of sprites.sprites) {
   const [fr, en] = NOMS_FR[s.id] || [];
@@ -129,7 +139,7 @@ const tally = sprites.sprites.reduce((m, s) => ({ ...m, [s.rarity]: (m[s.rarity]
    catalogue dise pourquoi, une fois, au lieu de onze fois. */
 ok(sprites.rarities.some((r) => r.id === "unknown"),
    "le libelle « A confirmer » reste disponible");
-eq(tally.unknown || 0, 11, "raretes restant a confirmer");
+eq(tally.unknown || 0, 13, "raretes restant a confirmer");
 ok(/non publi|non communiqu|deduir|recoup/i.test(sprites.rarityNote || ""),
    "le catalogue dit pourquoi les raretes manquent");
 ok(/rarete/i.test(html) && html.includes("A confirmer"), "la page l'explique aussi");
@@ -148,7 +158,7 @@ for (const [nom, cat] of [["saison", sprites], ["Override", override]]) {
   ok(/recopie|releve/i.test(cat.orderNote || ""), `l'origine de l'ordre est notee (${nom})`);
 }
 eq(sprites.order[0], "t-halfpeeld", "la grille ouvre sur Halfpeel'd, premier de l'annonce");
-eq(sprites.order.at(-1), "t-sweetdreams", "et se ferme sur Sweet Dreams, onzieme");
+eq(sprites.order.at(-1), "t-liluzi", "et se ferme sur l'esprit pas encore sorti");
 ok(app.includes("state.catalogue.order"), "l'app suit l'ordre du catalogue");
 
 /* ---- filtres ---- */
@@ -210,6 +220,15 @@ ok(script.indexOf("return fetch(noms, prefix)") < script.indexOf("catch_urls(spr
    le controle qui rattrape l'oubli classique, ajouter un esprit au JSON sans
    lancer le script d'icones. */
 for (const s of sortis) {
+  /* Un esprit sorti dont aucune source ne sert encore l'image a le droit
+     d'attendre — a condition de le dire, fiche par fiche, et que le
+     catalogue le nomme. Sans ca, l'app servirait une vignette cassee. */
+  if (s.iconPending) {
+    ok(!s.icon, `${s.id} attend son image et ne la promet pas`);
+    ok(sprites.iconsNote.includes(s.name), `le catalogue nomme ${s.id} parmi les images manquantes`);
+    ok(!existsSync(join(PUB, `icons/sprites/${s.id}.png`)), `et aucun fichier ne traine pour ${s.id}`);
+    continue;
+  }
   ok(s.icon === true, `${s.id}, deja sorti, a son illustration`);
   ok(existsSync(join(PUB, `icons/sprites/${s.id}.png`)), `fichier ${s.id}.png`);
   for (const v of own(s)) {
@@ -264,8 +283,8 @@ for (const s of [...sprites.sprites, ...override.sprites]) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "63", "version du service worker");
-for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json", "./cheat-codes.json"]) {
+eq(sw.match(/capsule-v(\d+)/)[1], "65", "version du service worker");
+for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }
 const refs = [...sw.matchAll(/\.\/icons\/(?:sprites|variants)\/([a-z0-9-]+)\.png/g)].map((m) => m[1]);
@@ -356,61 +375,31 @@ for (const t of new Set(family.sprites.map((f) => f.tint))) {
      `la teinte ${t} est encore definie dans les trois palettes`);
 }
 
-/* ---- codes ---- */
-const all = codes.groups.flatMap((g) => g.codes);
-eq(all.length, 56, "nombre de codes");
-eq(all.filter((c) => c.once).length, 48, "codes a usage unique");
-eq(all.filter((c) => c.once === false).length, 8, "codes reutilisables");
-eq(new Set(all.map((c) => c.code.toUpperCase())).size, 56, "codes uniques, casse ignoree");
-/* La pastille « nouveau » marque les codes du releve du jour, et rien d'autre.
-   Ce releve-ci n'en a aucun : aucune liste n'avait de nouveaute avant la
-   bascule, et aucune ne les a reverifies depuis. Garder les pastilles
-   d'octobre aurait fait passer de l'ancien pour du neuf. */
-eq(all.filter((c) => c.new).length, 0, "aucun code marque nouveau ce releve");
-for (const n of ["SuppliesForTheHunt", "B1gBodySw3rve", "Pr1vat3j3t", "LuhLeakyz",
-                 "runSystemOverride", "ImTheRealEdgelord", "IThinkTheKeyFoundMeChat",
-                 "CrowsAreAfraid", "PumpkinSpiceLife", "s7h-50p-r03", "Bonerattler", "PowerOut"]) {
-  ok(all.some((c) => c.code === n), `code toujours la ${n}`);
+/* ---- les codes du lobby, mis de cote ---- */
+/* L'ecran est parti avec la bascule : les codes qui versaient une variante
+   Cheat Master habillent des esprits d'Override, qui ne se ramassent plus,
+   et aucune liste publique ne les a reverifies depuis. La liste reste dans le
+   depot — Epic en redistribuera — mais plus rien dans l'app ne doit la
+   chercher : un fichier absent et un `fetch` qui traine, c'est une modale
+   vide et une erreur silencieuse. */
+const CODES = join(PUB, "..", "archive", "codes-du-lobby");
+ok(existsSync(join(CODES, "cheat-codes.json")), "la liste est gardee dans l'archive");
+ok(existsSync(join(CODES, "README.md")), "et une note dit pourquoi, et comment la rebrancher");
+ok(!existsSync(join(PUB, "cheat-codes.json")), "elle n'est plus servie");
+const codes = JSON.parse(readFileSync(join(CODES, "cheat-codes.json"), "utf8"));
+eq(codes.groups.flatMap((g) => g.codes).length, 56, "les 56 codes sont tous dans la sauvegarde");
+for (const trace of ["cheat-codes", "codesData", "allCodes", "onceCodes", "codesUsed",
+                     "btn-codes", "codes-list", "capsule-override.codes.v1"]) {
+  ok(!app.includes(trace), `l'app ne parle plus de ${trace}`);
+  ok(!html.includes(trace), `la page non plus (${trace})`);
 }
-/* Retire parce qu'expire — et il ne revient pas. */
-ok(!all.some((c) => c.code === "NoProLlama"), "NoProLlama, expire le 14 septembre, reste dehors");
-/* BRB a passe la saison dehors : une seule liste le portait, un agregateur le
-   donnait pour faux. Quatre sources le donnent actif en octobre, il entre —
-   mais il doit raconter ce detour, sinon personne ne saura qu'il a ete doute. */
-const brb = all.find((c) => c.code === "BRB");
-ok(brb, "BRB entre une fois recoupe");
-ok(/ecarte/i.test(brb?.warn || ""), "BRB dit pourquoi il n'etait pas la");
-eq(brb?.once, false, "BRB est une transformation, donc reutilisable");
-/* Un code derriere une quete doit le dire, sinon on le croit casse. */
-for (const n of ["runSystemOverride", "ImTheRealEdgelord", "s7h-50p-r03", "YourThoughtsAreMine"]) {
-  ok(all.find((c) => c.code === n).warn, `${n} annonce sa condition`);
-}
-ok(!/\s/.test(all.map((c) => c.code).join("")), "aucun code ne contient d'espace");
-/* La liste a traverse la bascule sans annonce d'Epic. Elle reste donc telle
-   quelle — mais la page doit porter les deux reserves, sinon on croit les
-   recompenses d'Override encore valables. */
-ok(/Treasure Hunters/i.test(codes.season), "les codes sont ranges sous la saison en cours");
-ok(/reverifi/i.test(codes.note || ""), "la note dit que rien n'a ete reverifie depuis la bascule");
-ok(/poussiere|gizmos/i.test(codes.note || ""), "et que la poussiere est repartie de zero");
-ok(/bascule/i.test(codes.note || ""), "et que la liste a traverse la bascule telle quelle");
-/* L'app n'affiche que `where` et `note` : un troisieme champ d'explication
-   dormirait dans le fichier sans jamais arriver sous les yeux. */
-for (const mort of ["seasonNote", "warning", "intro"]) {
-  ok(!(mort in codes), `pas de champ mort ${mort} dans le catalogue de codes`);
-}
-ok(/Jardin des esprits/i.test(codes.groups.find((g) => g.id === "sprites").hint || ""),
-   "le groupe des esprits offerts dit ou sont passes ces esprits");
-/* Les variantes offertes par un code appartiennent a Override : c'est dans
-   cette archive, et pas dans la saison en cours, qu'elles doivent exister. */
-for (const c of all) {
-  ok(typeof c.reward === "string" && c.reward.length > 0, `recompense renseignee ${c.code}`);
-  if (!c.grants) continue;
-  const s = override.sprites.find((x) => x.id === c.grants.sprite);
-  ok(s && (s.variants || []).includes(c.grants.variant),
-     `la variante offerte par ${c.code} existe bien dans Override`);
-  ok(!sprites.sprites.some((x) => x.id === c.grants.sprite),
-     `et ${c.code} ne promet rien de la saison en cours`);
-}
+ok(!sw.includes("cheat-codes"), "le service worker ne le precache plus");
+ok(!/\.code-row|\.code-check|\.codes-group/.test(css), "les styles de la liste sont partis avec elle");
+/* La pastille du bouton comptait les pieces derriere un code. Elle doit
+   compter autre chose de vrai, pas disparaitre a moitie. */
+ok(app.includes("todoPlan().toMaster.length"), "la pastille du plan compte ce qui attend une extraction");
+ok(!app.includes("plan.lobby") && !app.includes("plan.spare"),
+   "le plan d'action n'a plus de section de codes");
 
 /* ---- annonce ---- */
 if (/^\d{4}-\d{2}-\d{2}$/.test(sprites.news.version)) {
@@ -421,11 +410,13 @@ if (/^\d{4}-\d{2}-\d{2}$/.test(sprites.news.version)) {
 }
 ok(sprites.news.lines.length >= 3, "l'annonce a du contenu");
 ok(!sprites.news.lines.some((l) => /[<>]/.test(l)), "l'annonce reste du texte");
-/* Une bascule de saison se raconte : ou sont passees les coches d'avant, et
-   ce qui a change dans la facon de chasser. */
+/* L'annonce doit nommer ce qui a change depuis le releve precedent — une
+   fiche qui apparait sans explication ressemble a un bug — et dire ce que
+   l'app ne sait pas, parce que c'est la moitie de l'information. */
 const annonce = sprites.news.lines.join(" ");
-ok(/Override/.test(annonce), "l'annonce dit ce qu'est devenue la saison passee");
-ok(/avis de recherche/i.test(annonce), "et explique la nouvelle route vers les esprits");
-ok(/Mi-pelure/.test(annonce), "et previent que les noms affiches sont ceux du jeu en francais");
+ok(/Snail|escargot/i.test(annonce), "l'annonce nomme ce qui vient d'entrer");
+ok(/non confirme|une seule source|a relever|pas encore/i.test(annonce),
+   "et dit ce qui reste incertain");
+ok(new RegExp(`${pieces}\\b`).test(annonce), "et annonce le nouveau total de pieces");
 
 fin();

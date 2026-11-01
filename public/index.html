@@ -72,14 +72,6 @@
           <span class="theme-icon" id="theme-icon" aria-hidden="true"></span>
           <span id="theme-label">Auto</span>
         </button>
-        <button type="button" class="iconbtn codes-btn" id="btn-codes"
-                title="Les codes du panneau d'administration du lobby">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2.6" y="4.4" width="18.8" height="15.2" rx="2.4"/><path d="M6.8 10.2 9.4 12.6 6.8 15"/><path d="M12.4 15.2h4.6"/>
-          </svg>
-          <span id="btn-codes-label">Codes</span>
-          <span class="codes-count" id="codes-count" hidden></span>
-        </button>
         <button type="button" class="iconbtn legacy-btn" id="btn-legacy" aria-pressed="false"
                 title="Voir les esprits des saisons passees, suivis a part">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -136,17 +128,17 @@
             <div class="scores">
               <div class="score is-unlocked">
                 <span class="score-k">Debloques</span>
-                <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/31</small></span>
+                <span class="score-v" id="s-unlocked">0<small id="s-unlocked-d">/32</small></span>
                 <span class="score-sub" id="s-unlocked-sub">entrees collectees</span>
               </div>
               <div class="score is-mastered">
                 <span class="score-k">Maitrises</span>
-                <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/31</small></span>
+                <span class="score-v" id="s-mastered">0<small id="s-mastered-d">/32</small></span>
                 <span class="score-sub">extraits au niveau 5</span>
               </div>
               <div class="score">
                 <span class="score-k">Esprits complets</span>
-                <span class="score-v" id="s-full">0<small id="s-full-d">/11</small></span>
+                <span class="score-v" id="s-full">0<small id="s-full-d">/12</small></span>
                 <span class="score-sub" id="s-full-sub">3 variantes maitrisees</span>
               </div>
             </div>
@@ -252,7 +244,7 @@
       <div class="note">
         <h3>Comment on maitrise un esprit</h3>
         <p>Faire monter un esprit au <strong>niveau 5</strong> ne suffit pas : il faut le <strong>banquer a un site d'extraction</strong> (ou remporter la Victoire Royale en le tenant au niveau 5). C'est la qu'il passe « maitrise » et qu'il avance les pages de <strong>Maitrise des esprits</strong>, dans l'onglet Tresor du lobby.</p>
-        <p>La saison ouvre avec <strong>11 esprits</strong> et <strong>31 pieces</strong> : dix esprits portent les trois lignes, <strong>Doux reves</strong> n'a que sa forme de base. Une page de Maitrise s'ouvre chaque semaine ; elle verse des localisateurs fetiches, des feux d'artifice dores et d'autres gizmos, et fait monter l'accessoire de dos <strong>Coffre-fort de maitrise des esprits</strong>. <strong>Quarante esprits maitrises</strong> donnent le Parapluie Plongeon du navigateur — plus que la saison n'en compte, donc variantes comprises.</p>
+        <p>La saison compte <strong>12 esprits</strong> et <strong>32 pieces</strong> : dix portent les trois lignes, <strong>Doux reves</strong> et <strong>Transponder Snail</strong> n'ont que leur forme de base. Une page de Maitrise s'ouvre chaque semaine ; elle verse des localisateurs fetiches, des feux d'artifice dores et d'autres gizmos, et fait monter l'accessoire de dos <strong>Coffre-fort de maitrise des esprits</strong>. <strong>Quarante esprits maitrises</strong> donnent le Parapluie Plongeon du navigateur — plus que la saison n'en compte, donc variantes comprises.</p>
         <p>Deux rendez-vous par semaine, et non plus trois : le <strong>Lundi de maitrise</strong> (du lundi 15 h au mardi 15 h, heure francaise — Epic annonce lui-meme 15 h CET) double l'XP d'esprit et la poussiere, et fait apparaitre plus de coffres a esprits et d'avis de recherche ; le <strong>Jour du capitaine</strong> amene un capitaine, son equipage et son butin — le premier est tombe avec la saison, un dimanche, les suivants le samedi.</p>
         <p>La <strong>poussiere</strong> et les <strong>gizmos</strong> sont repartis de zero a la bascule du 1er novembre, comme a chaque changement de saison. Les esprits, eux, restent : ceux d'Override sont au Jardin des esprits et dans l'onglet Override de cette app.</p>
       </div>
@@ -261,12 +253,13 @@
         <p><strong>Fortune</strong> : revele les coffres proches, en plus du pouvoir de l'esprit. Les coffres a esprits <strong>rouges</strong>, dits rubis, n'en donnent que des Fortune.</p>
         <p><strong>Malediction</strong> (<i>Cursed</i>) : augmente vos chances de tomber sur une variante rare, mais <strong>l'eau vous blesse</strong> tant qu'il est equipe. A eviter avec <strong>Varech</strong> et <strong>Barry O'Fish</strong>, dont les pouvoirs se jouent justement dans l'eau — et a equiper quand vous chassez les variantes des autres.</p>
         <p><strong>Or</strong> : annoncee pour le <strong>12 novembre</strong>, avec son bonus d'XP par elimination. Elle <strong>n'est pas encore dans la liste</strong> : elle y entrera le jour de sa sortie, et le denominateur montera ce jour-la. Un site avance le 14 ; l'annonce d'Epic dit le 12.</p>
-        <p><strong>Doux reves</strong> est le seul esprit sans Fortune ni Malediction. Trois sources le confirment, dont les illustrations servies : onze esprits, trente-et-une images, pas trente-trois. Un titre de presse annonce « 33 esprits » en supposant les trois lignes partout, ce qui en ajoute deux qui n'existent pas.</p>
+        <p><strong>Doux reves</strong> est le seul esprit de l'annonce sans Fortune ni Malediction (Transponder Snail non plus n'en a). Trois sources le confirment, dont les illustrations servies : onze esprits, trente-et-une images, pas trente-trois. Un titre de presse annonce « 33 esprits » en supposant les trois lignes partout, ce qui en ajoute deux qui n'existent pas.</p>
       </div>
       <div class="note">
         <h3>Ce qui n'est pas dans la liste</h3>
         <p><strong>Aucune rarete.</strong> Epic n'en a publie pour cette saison. Un seul site en propose, en precisant lui-meme les deduire des taux d'apparition, et une deuxieme source le contredit sur Sweet Dreams. Les onze fiches portent donc « A confirmer » plutot qu'un palier invente — c'est la meme regle qui a tenu Obsession hors des raretes jusqu'au bout de la saison passee.</p>
-        <p><strong>Deux noms de plus</strong> circulent sur une seule liste — <strong>Lil' Uzi Vert Jr.</strong> et <strong>Transponder Snail</strong>. L'annonce d'Epic ne les compte pas parmi les onze, et le capitaine Lil Uzi n'arrive que le <strong>7 novembre</strong> avec « de nouveaux esprits etranges ». Epic ecrit d'ailleurs que d'autres « se profilent a l'horizon ». Ils entreront quand ils sortiront : un fichier servi n'est pas une sortie.</p>
+        <p><strong>Transponder Snail n'est annonce nulle part.</strong> Ni dans l'annonce d'Epic, ni chez les suiveurs d'esprits, ni sur la wiki — et pourtant il tourne en partie. Il entre ici sur un <strong>signalement en jeu</strong>, recoupe par les fichiers du jeu qui le nomment : un fichier servi n'est pas une sortie, mais une sortie vue en partie en est une. Son effet ne vient que d'une seule source, d'ou la mention « effet non confirme » sur sa fiche, et son nom francais reste a relever.</p>
+        <p><strong>Lil Uzi Vert Jr.</strong> ferme la liste, date du <strong>7 novembre</strong> : c'est le jour ou Epic fait arriver le capitaine Lil Uzi avec « de nouveaux esprits etranges », et les fichiers du jeu nomment celui-ci. Il ne compte pas dans le total tant qu'il n'est pas sorti. Epic ecrit d'ailleurs que d'autres « se profilent a l'horizon ».</p>
         <p><strong>Les illustrations ne viennent pas de la wiki</strong>, pour une fois. Au 1er novembre elle n'avait rien publie pour cette saison : les onze noms y renvoyaient une 404, testes un a un. Elles viennent donc de <strong>Sprite Catch</strong>, qui les servait le jour meme. Le script interroge toujours la wiki en premier et rebasculera dessus des qu'elle publiera.</p>
         <p><strong>Les noms affiches sont ceux du jeu en francais</strong> — <strong>Mi-pelure</strong>, <strong>Guide</strong>, <strong>Varech</strong>, <strong>Crapoulpe</strong>, <strong>Doux reves</strong> —, releves dans l'annonce officielle traduite par Epic. Le nom anglais reste en sous-titre : c'est celui que portent les guides, les listes et les recherches.</p>
       </div>
@@ -293,9 +286,7 @@
       <a href="https://spritecatch.com/news/treasure-hunters-new-sprites/">Sprite Catch</a> (d'ou viennent les illustrations),
       <a href="https://www.theclick.gg/fortnite-treasure-hunters-sprites/">The Click</a>,
       <a href="https://gamerant.com/fortnite-treasure-hunters-mini-season-all-sprites-checklist-locations-how-to-get/">Game Rant</a>,
-      <a href="https://endgametools.com/en/fortnite/news/fortnite-treasure-hunters-update">Endgame Tools</a>,
-      <a href="https://www.gamesradar.com/games/fortnite/fortnite-lobby-hack-codes/">GamesRadar</a> et
-      <a href="https://www.dexerto.com/fortnite/fortnite-admin-panel-cheat-codes-august-2026-3400374/">Dexerto</a>.
+      <a href="https://endgametools.com/en/fortnite/news/fortnite-treasure-hunters-update">Endgame Tools</a>.
       Les saisons Override et Runners gardent leurs sources dans l'historique du depot.
     </div>
   </div>
@@ -415,7 +406,7 @@
 <dialog class="sheet sheet-wide" id="compare">
   <div class="sheet-head">
     <h2 id="compare-title">Comparaison</h2>
-    <span class="codes-progress" id="compare-score"></span>
+    <span class="sheet-count" id="compare-score"></span>
     <button type="button" class="sheet-close" id="compare-close" aria-label="Fermer">&times;</button>
   </div>
   <div class="sheet-body">
@@ -436,9 +427,6 @@
 </dialog>
 
 <!-- ============================================================
-     Que faire maintenant : le pont entre la collection et les codes
-     ============================================================ -->
-<!-- ============================================================
      Quoi de neuf : s'ouvre tout seul quand le catalogue servi est
      plus recent que celui vu la derniere fois sur cet appareil.
      ============================================================ -->
@@ -456,10 +444,13 @@
   </div>
 </dialog>
 
+<!-- ============================================================
+     Que faire maintenant : ce qui reste a trouver, et par ou
+     ============================================================ -->
 <dialog class="sheet sheet-wide" id="todo">
   <div class="sheet-head">
     <h2>Que faire maintenant</h2>
-    <span class="codes-progress" id="todo-progress"></span>
+    <span class="sheet-count" id="todo-progress"></span>
     <button type="button" class="sheet-close" id="todo-close" aria-label="Fermer">&times;</button>
   </div>
   <div class="sheet-body">
@@ -493,25 +484,6 @@
       </div>
       <p class="form-note">Entre 3 et 16 caracteres, comme chez Epic. Modifiable a tout moment dans Reglages.</p>
     </form>
-  </div>
-</dialog>
-
-<!-- ============================================================
-     Codes du panneau d'administration
-     ============================================================ -->
-<dialog class="sheet sheet-wide" id="codes">
-  <div class="sheet-head">
-    <h2>Codes du lobby</h2>
-    <span class="codes-progress" id="codes-progress"></span>
-    <button type="button" class="sheet-close" id="codes-close" aria-label="Fermer">&times;</button>
-  </div>
-  <div class="sheet-body">
-    <p class="form-note" id="codes-where"></p>
-    <div id="codes-list"></div>
-    <p class="form-note" id="codes-note"></p>
-    <div class="row">
-      <button type="button" class="btn btn-ghost" id="btn-codes-reset">Tout decocher</button>
-    </div>
   </div>
 </dialog>
 
