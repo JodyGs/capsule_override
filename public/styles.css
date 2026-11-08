@@ -723,6 +723,8 @@ h1{
 .tog:hover{border-color:var(--ink-3);color:var(--ink-2);background:var(--surface-2)}
 .tog[aria-pressed="true"]{border-style:solid}
 .tog svg{width:15px;height:15px;display:block}
+/* Esprit pas encore sorti : la case se voit, elle ne se coche pas. */
+.tog:disabled,.pcell:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
 .tog[aria-pressed="true"].t-u{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .tog[aria-pressed="true"].t-m{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
 /* Le tampon. C'est le geste qu'on repete cent fois : il merite un recul,

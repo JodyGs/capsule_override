@@ -8,21 +8,21 @@
     "timeConfirmed": false,
     "note": "Epic n'a pas publie d'heure de fin : la page du passe renvoie a l'evenement de fin du chapitre, annonce pour le samedi 5 decembre. Une estimation isolee parlait du 30 novembre ; cinq sources tiennent le 5. Le rebours vise 2 h du matin a New York pour se tromper en avance. Epic annonce l'heure exacte la veille, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-08",
   "news": {
-    "version": "2026-11-01-d",
-    "title": "L'escargot a son visage",
-    "date": "1er novembre 2026",
+    "version": "2026-11-08",
+    "title": "Lil Uzi Vert Jr. est sorti",
+    "date": "8 novembre 2026",
     "lines": [
-      "Transponder Snail a enfin son illustration. Elle existait, elle ne ressemblait simplement a aucune autre : un dessin a plat la ou tous les esprits sont en relief. C'est le style de la collaboration One Piece, pas une image de remplissage — le fichier est le meme que celui du jeu, octet pour octet. 32 pieces, toutes illustrees.",
-      "Les raretes, elles, reculent. Un troisieme traqueur, qui les lit dans les donnees de carte du jeu, en contredit quatre : Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois sources s'accordent restent publies ; les quatre contestes repassent a « A confirmer », avec qui dit quoi sur la fiche.",
-      "La couleur de la carte dans l'ecran Esprits du jeu tranchera plus vite que n'importe quel site. Si vous l'avez sous les yeux, elle vaut mieux que trois traqueurs.",
-      "Lil Uzi Vert Jr. passe Legendaire : deux sources s'accordent. Il reste date du 7 novembre et hors total jusqu'a sa sortie."
+      "Lil Uzi Vert Jr. entre dans le total, avec ses trois formes : base, Fortune et Malediction. Epic le fait arriver ce dimanche avec le capitaine Lil Uzi Vert, boss de la semaine, qui peut le lacher. Son effet est publie par Epic : un Chug Splash quand vous restaurez votre bouclier. La saison passe a 13 esprits et 35 pieces.",
+      "Sa rarete est contestee : un traqueur le donne Mythique, les deux qui le donnaient Legendaire n'ont pas bouge. Elle reste « A confirmer » ; la couleur de sa carte dans l'ecran Esprits tranchera.",
+      "Le Jour du capitaine tombe le dimanche, pas le samedi : Epic date les capitaines du 1er, du 8, du 15 et du 22 novembre. Pendant vingt-quatre heures a partir de 15 h, heure francaise, les variantes de l'esprit du capitaine tombent plus souvent. Le bandeau du rendez-vous suit.",
+      "La ligne Or n'est toujours pas dans la liste : l'annonce d'Epic la date desormais du 22 novembre, quand Sprite Catch dit encore le 12. Elle entrera le jour ou elle se ramassera."
     ]
   },
   "iconsNote": "Les illustrations viennent de Sprite Catch, et celles de Transponder Snail et de Lil Uzi Vert Jr. de FN Sprite Tracker : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. L'escargot est dessine a plat quand tous les autres sont en relief : ce n'est pas un remplissage mais le style de la collaboration One Piece — Fortnite.GG sert le meme fichier sous le nom interne de l'asset, identique octet pour octet.",
   "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Escargophone, absent de l'annonce, a ete releve directement dans le jeu : c'est la meme source qui l'avait fait entrer dans la liste.",
-  "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les cinq fiches contestees portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
+  "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les six fiches contestees — les quatre, l'escargot et Lil Uzi Vert Jr. — portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
   "variants": [
     {
       "id": "base",
@@ -39,7 +39,7 @@
     {
       "id": "cursed",
       "name": "Malediction",
-      "note": "Augmente vos chances de trouver des variantes d'esprits rares, mais l'eau vous blesse tant que l'esprit est equipe. Mauvais mariage avec Varech et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
+      "note": "Augmente vos chances de trouver des variantes d'esprits rares, mais l'eau vous blesse tant que l'esprit est equipe. Arrivee avec la semaine du capitaine Lil Uzi Vert, alors que les fichiers la portaient des le lancement. Mauvais mariage avec Varech et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
       "find": "Comme la base : avis de recherche, cartes au tresor et coffres a esprits. L'equiper augmente le taux des autres variantes rares."
     }
   ],
@@ -306,16 +306,23 @@
       "id": "t-liluzi",
       "name": "Lil Uzi Vert Jr.",
       "sub": "Lil Uzi Vert Jr. Sprite",
-      "rarity": "legendary",
-      "released": false,
-      "releasesOn": "2026-11-07",
-      "effect": "Effet inconnu : Epic ne l'a pas publie.",
-      "unconfirmed": true,
-      "source": "Annonce pour la semaine 2 : Epic fait arriver Lil Uzi le 7 novembre avec « de nouveaux esprits etranges », et les fichiers du jeu nomment celui-ci. Deux sources le donnent Legendaire et lui pretent une Fortune et une Malediction : sa fiche n'affichera ces variantes qu'a sa sortie.",
+      "rarity": "unknown",
+      "released": true,
+      "effect": "Declenche un Chug Splash quand vous restaurez votre bouclier. Le temps de recharge raccourcit a chaque niveau.",
+      "source": "Peut tomber du boss Lil Uzi Vert, capitaine de la semaine, avec son Lil' SMG · Avis de recherche · Coffres a esprits · Adversaires elimines · Rarete contestee : un traqueur le donne Mythique, deux autres Legendaire",
       "variants": [
-        "base"
+        "base",
+        "fortune",
+        "cursed"
       ],
-      "icon": true
+      "variantHow": {
+        "base": "Le boss Lil Uzi Vert peut le lacher, sans garantie : Epic ecrit « peut etre a vous ». Sinon, comme les autres : avis, carte, coffre enterre."
+      },
+      "icon": true,
+      "variantIcons": [
+        "fortune",
+        "cursed"
+      ]
     }
   ],
   "events": {
@@ -336,12 +343,13 @@
       {
         "id": "captain",
         "name": "Jour du capitaine",
-        "day": 6,
+        "day": 0,
         "start": "09:00",
-        "what": "Un capitaine par semaine, avec son equipage, son lieu et son butin. Le premier est arrive avec la saison, un dimanche ; les suivants tombent le samedi. Chaque capitaine amene de quoi completer la collection.",
+        "what": "Chaque dimanche, un nouveau capitaine prend la forteresse avec son equipage, son arme et son esprit. Pendant vingt-quatre heures, les variantes de l'esprit du capitaine tombent plus souvent.",
         "confirmed": true,
         "focus": "new",
-        "advice": "Un capitaine arrive : regardez ce que son equipage ajoute a la carte."
+        "advice": "Le capitaine de la semaine est arrive : son esprit et ses variantes tombent plus souvent pendant vingt-quatre heures.",
+        "hours": 24
       }
     ]
   },

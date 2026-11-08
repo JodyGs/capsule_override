@@ -520,21 +520,40 @@ function readStore() {
   return {};
 }
 
+/* La clef et les coches sont capturees au moment de la coche, pas au moment
+   de l'ecriture. Relire storeKey() 250 ms plus tard ecrivait dans la saison
+   ouverte entre-temps : cocher puis changer de collection versait les coches
+   de Treasure Hunters dans la clef d'Override, et effacait l'archive. */
 let saveTimer = null;
+let pendingWrite = null;
 function saveStore({ immediate = false } = {}) {
   if (readOnly()) return;
+  const key = storeKey();
+  const entries = state.entries;
   const write = () => {
+    pendingWrite = null;
     try {
-      localStorage.setItem(storeKey(), JSON.stringify({ v: 4, updatedAt: now(), entries: state.entries }));
+      localStorage.setItem(key, JSON.stringify({ v: 4, updatedAt: now(), entries }));
       flashSaved();
     } catch {
       setSync("warn", "Stockage plein");
     }
   };
   clearTimeout(saveTimer);
+  pendingWrite = write;
   if (immediate) write();
   else saveTimer = setTimeout(write, 250);
 }
+
+/* Ecrit tout de suite ce qui attendait son delai. Avant de changer de
+   collection, et quand l'app passe en arriere-plan : un telephone qui ferme
+   l'app dans le quart de seconde qui suit une coche la perdait. */
+function flushStore() {
+  clearTimeout(saveTimer);
+  if (pendingWrite) pendingWrite();
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) flushStore(); });
+window.addEventListener("pagehide", flushStore);
 
 const statusOf = (spriteId, variant) => state.entries?.[spriteId]?.[variant] || 0;
 
@@ -692,6 +711,10 @@ function buildCards() {
     // vignette et ne peut donc pas remplacer le tableau — les deux coexistent
     // et c'est le selecteur Cartes / Liste qui choisit. Balayer vite ou voir
     // de quoi il s'agit sont deux besoins differents.
+    // Pas encore sorti : la case existe, pour qu'on voie ce qui arrive, mais
+    // elle ne se coche pas — l'esprit ne s'obtient pas encore. Une coche deja
+    // posee par une version precedente reste stockee et s'affichera.
+    const off = sprite.released ? "" : ' disabled title="Pas encore sorti"';
     const strip = readOnly() ? "" : `<div class="punch">${variantsOf(sprite).map((v) => {
       // L'illustration au centre de la case plutot que son nom abrege : on
       // reconnait une Trick or Treat a sa citrouille bien plus vite qu'au
@@ -703,7 +726,7 @@ function buildCards() {
         : `<span class="pword">${esc(shortVariant(v))}</span>`;
       return `
         <button type="button" class="pcell" data-s="${sprite.id}" data-v="${v.id}"
-                data-n="${esc(v.name)}" data-val="0" title="${esc(v.name)}">${dedans}</button>`;
+                data-n="${esc(v.name)}" data-val="0"${off || ` title="${esc(v.name)}"`}>${dedans}</button>`;
     }).join("")}
       </div>`;
 
@@ -712,9 +735,9 @@ function buildCards() {
       <div class="vrow ${v.id === "gold" ? "v-gold" : v.id === "cheat" ? "v-cheat" : ""}" data-variant="${v.id}">
         <span class="vname"${v.note ? ` title="${esc(v.note)}"` : ""}>${variantMarkAt(sprite, v)}${esc(v.name)}</span>
         <button type="button" class="tog t-u" data-s="${sprite.id}" data-v="${v.id}" data-lvl="1"
-                aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} debloque" title="Debloque">${ICON_U}</button>
+                aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} debloque"${off || ' title="Debloque"'}>${ICON_U}</button>
         <button type="button" class="tog t-m" data-s="${sprite.id}" data-v="${v.id}" data-lvl="2"
-                aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} maitrise" title="Maitrise — extrait au niveau 5">${ICON_M}</button>
+                aria-pressed="false" aria-label="${esc(sprite.name)} ${esc(v.name)} maitrise"${off || ' title="Maitrise — extrait au niveau 5"'}>${ICON_M}</button>
       </div>`).join("");
 
     // L'icone est un enfant direct de la carte, pas un morceau du bloc de
@@ -843,7 +866,7 @@ $("grid").addEventListener("keydown", (e) => {
    ------------------------------------------------------------ */
 $("grid").addEventListener("click", (e) => {
   const btn = e.target.closest(".tog, .pcell");
-  if (!btn) return;
+  if (!btn || btn.disabled) return;
 
   const { s: spriteId, v: variant } = btn.dataset;
   const current = statusOf(spriteId, variant);
@@ -1085,6 +1108,9 @@ function matches(sprite) {
   if (f.status === "soon" && sprite.released) return false;
 
   const rule = statusRule(f.status);
+  // « Manquants » est une liste de chasse : un esprit qu'on ne peut pas encore
+  // obtenir n'y a pas sa place, il a son propre filtre « A venir ».
+  if ((rule?.wants || rule?.every) && !sprite.released) return false;
   const values = variantsOf(sprite).map((v) => statusOf(sprite.id, v.id));
   if (rule?.wants && !values.some(rule.wants)) return false;
   if (rule?.every && !values.every(rule.every)) return false;
@@ -1264,7 +1290,10 @@ async function renderCollectionImage() {
   // La note sur les cases vides passe a la ligne : depuis la cinquieme ligne
   // de variantes, elle debordait du cadre et se retrouvait coupee.
   const NOTE_LIGNE = variants.length > 1;
-  const FOOT = NOTE_LIGNE ? 116 : 92;
+  const FOOT = NOTE_LIGNE ? 138 : 92;
+  // La ligne « case vide » occupe footY + 30 : les notes et la date passent
+  // dessous au lieu de s'y superposer.
+  const NOTES_Y = NOTE_LIGNE ? 54 : 32;
   const H = HEAD + rows.length * ROW + FOOT;
 
   // Deux fois la taille : l'image reste nette une fois reduite par la messagerie.
@@ -1474,11 +1503,11 @@ async function renderCollectionImage() {
       : "1 esprit pas encore sorti, non compte");
   }
   if (host) notes.push(host);
-  if (notes.length) ctx.fillText(notes.join("  ·  "), PAD, footY + 32);
+  if (notes.length) ctx.fillText(notes.join("  ·  "), PAD, footY + NOTES_Y);
 
   const stamp = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   ctx.textAlign = "right";
-  ctx.fillText(stamp, W - PAD, footY + 32);
+  ctx.fillText(stamp, W - PAD, footY + NOTES_Y);
   ctx.textAlign = "left";
 
   return new Promise((done, fail) => {
@@ -1716,11 +1745,14 @@ function parseBackup(raw) {
   }
   if (!incoming || typeof incoming !== "object") throw new Error("format");
 
-  const known = new Set(state.catalogue.sprites.map((s) => s.id));
-  const variants = new Set(state.catalogue.variants.map((v) => v.id));
+  // Les variantes se verifient esprit par esprit : Doux reves n'a pas de
+  // Fortune, une sauvegarde qui lui en preterait une gonflerait le compte
+  // annonce sans rien cocher de reel.
+  const own = new Map(state.catalogue.sprites.map((s) => [s.id, new Set(variantsOf(s).map((v) => v.id))]));
   const entries = {};
   for (const [spriteId, slots] of Object.entries(incoming)) {
-    if (!known.has(spriteId)) continue;
+    const variants = own.get(spriteId);
+    if (!variants) continue;
     for (const [variant, value] of Object.entries(slots || {})) {
       if (variants.has(variant) && (value === 1 || value === 2)) {
         (entries[spriteId] ||= {})[variant] = value;
@@ -1820,6 +1852,9 @@ $("account-close").addEventListener("click", () => $("account").close());
 
 $("btn-wipe").addEventListener("click", () => {
   if (!confirm(`Decocher toute la collection « ${state.catalogue.season} » sur cet appareil ? C'est definitif.`)) return;
+  // Une coche de la derniere seconde ne doit pas ressusciter apres l'effacement.
+  clearTimeout(saveTimer);
+  pendingWrite = null;
   state.entries = {};
   try {
     localStorage.removeItem(storeKey());
@@ -2143,7 +2178,7 @@ function buildTodo() {
 function refreshTodoBadge() {
   const strip = $("strip");
   // Les rendez-vous et le plan ne valent que pour la saison en cours.
-  const hors = state.which !== "current";
+  const hors = archive() || readOnly();
   strip.hidden = hors;
   if (hors) return;
   // La pastille annonçait les pieces derriere un code du lobby : c'etait le
@@ -2217,6 +2252,7 @@ if ("serviceWorker" in navigator) {
         const toast = $("update-toast");
         toast.hidden = false;
         $("btn-update").onclick = () => {
+          flushStore();
           worker.postMessage("skip-waiting");
           toast.hidden = true;
         };
@@ -2272,8 +2308,14 @@ async function fetchCatalogue(which) {
 /* Bascule d'une collection a l'autre : catalogue, coches, compteurs et
    filtres sont entierement reconstruits. Les deux ne se melangent jamais. */
 async function loadCollection(which, { remember = true } = {}) {
+  // Le catalogue d'abord, l'etat ensuite. Changer state.which avant le
+  // chargement laissait, le temps du reseau — ou pour toujours si le
+  // chargement echouait —, une collection affichee qui n'etait plus celle
+  // ou s'ecrivaient les coches.
+  const catalogue = await fetchCatalogue(which);
+  flushStore();
   state.which = which;
-  state.catalogue = await fetchCatalogue(which);
+  state.catalogue = catalogue;
   // Les esprits sortis d'abord. Eux seuls ont une illustration, une rarete
   // et une source ; un « a venir » pose au milieu de la liste ressemble a un
   // trou dans la grille. Le tri est stable, donc l'ordre choisi dans le

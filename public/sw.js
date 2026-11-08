@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v67";
+const VERSION = "capsule-v69";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -21,7 +21,7 @@ const SHELL = [
   "./icons/favicon-180.png",
 
   // Icones des esprits : indispensables pour que la liste reste lisible hors ligne.
-  // Treasure Hunters : les onze esprits de la saison en cours et leurs variantes.
+  // Treasure Hunters : les treize esprits de la saison en cours et leurs variantes.
   "./icons/sprites/t-halfpeeld.png",
   "./icons/variants/t-halfpeeld-fortune.png",
   "./icons/variants/t-halfpeeld-cursed.png",
@@ -54,6 +54,8 @@ const SHELL = [
   "./icons/variants/t-flacko-cursed.png",
   "./icons/sprites/t-sweetdreams.png",
   "./icons/sprites/t-liluzi.png",
+  "./icons/variants/t-liluzi-fortune.png",
+  "./icons/variants/t-liluzi-cursed.png",
   "./icons/sprites/t-snail.png",
 
   // Override, passee en archive le 1er novembre. Ses images restent precachees :
@@ -109,10 +111,9 @@ const SHELL = [
   "./icons/sprites/l-ironmouse.png",
   "./icons/sprites/l-johnwick.png",
 
-  // Vignettes des variantes de la saison en cours. Celles des saisons
-  // passees ne sont pas prechargees : le gestionnaire fetch les met en
-  // cache a la premiere consultation, ce qui evite 92 fichiers a
-  // l'installation pour une collection qu'on ne consulte qu'a l'occasion.
+  // Vignettes des variantes d'Override, precachees du temps ou elle etait la
+  // saison en cours. Celles de Runners ne le sont pas : le gestionnaire fetch
+  // les met en cache a la premiere consultation.
   "./icons/variants/jonesy-gold.png",
   "./icons/variants/jonesy-cheat.png",
   "./icons/variants/bush-gold.png",
@@ -258,9 +259,14 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE)
       // addAll echoue en bloc des qu'un fichier manque : on tolere les absents.
-      .then((cache) => Promise.all(SHELL.map((url) => cache.add(url).catch(() => null))))
-      .then(() => self.skipWaiting())
+      // « reload » contourne le cache HTTP : sans lui, une nouvelle version
+      // pouvait precacher l'ancien app.js encore frais chez le navigateur.
+      .then((cache) => Promise.all(SHELL.map((url) =>
+        cache.add(new Request(url, { cache: "reload" })).catch(() => null))))
   );
+  // Pas de skipWaiting ici : le nouveau worker attend que l'utilisateur touche
+  // « Recharger ». Le prendre d'office rechargeait la page en pleine partie,
+  // et le bandeau de mise a jour ne s'affichait jamais.
 });
 
 self.addEventListener("activate", (event) => {
@@ -275,10 +281,12 @@ self.addEventListener("message", (event) => {
   if (event.data === "skip-waiting") self.skipWaiting();
 });
 
-const putInCache = (request, response) => {
+const putInCache = (request, response, event) => {
   if (response.ok) {
     const copy = response.clone();
-    caches.open(CACHE).then((cache) => cache.put(request, copy));
+    const saved = caches.open(CACHE).then((cache) => cache.put(request, copy));
+    // Sans waitUntil, le navigateur peut arreter le worker avant l'ecriture.
+    event?.waitUntil(saved);
   }
   return response;
 };
@@ -294,8 +302,10 @@ self.addEventListener("fetch", (event) => {
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
-        .then((res) => putInCache(request, res))
-        .catch(() => caches.match("./index.html") || caches.match("./"))
+        .then((res) => putInCache(request, res, event))
+        // caches.match rend une promesse, toujours vraie : le « || » d'avant
+        // ne tentait jamais la seconde clef.
+        .catch(async () => (await caches.match("./index.html")) || caches.match("./"))
     );
     return;
   }
@@ -304,7 +314,7 @@ self.addEventListener("fetch", (event) => {
   if (/\/sprites(-override|-legacy)?\.json$/.test(url.pathname)) {
     event.respondWith(
       fetch(request)
-        .then((res) => putInCache(request, res))
+        .then((res) => putInCache(request, res, event))
         .catch(() => caches.match(request))
     );
     return;
@@ -314,8 +324,9 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(request).then((hit) => {
       const network = fetch(request)
-        .then((res) => putInCache(request, res))
+        .then((res) => putInCache(request, res, event))
         .catch(() => hit);
+      if (hit) event.waitUntil(network);
       return hit || network;
     })
   );

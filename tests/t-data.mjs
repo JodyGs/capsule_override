@@ -22,15 +22,15 @@ const own = (s) => s.variants || [...variantIds];
 const sortis = sprites.sprites.filter((s) => s.released);
 
 /* ---- l'etat du releve ---- */
-eq(sprites.updatedAt, "2026-11-01", "date de releve sprites");
+eq(sprites.updatedAt, "2026-11-08", "date de releve sprites");
 ok(html.includes("1er novembre 2026"), "date du pied de page");
 eq(sprites.code, "TREASURE", "code de la saison en cours");
 eq(sprites.seasonStart, "2026-11-01", "jour d'ouverture de la saison");
 eq(sprites.sprites.length, 13, "esprits catalogues");
 eq(sprites.variants.length, 3, "lignes de variantes");
-eq(sortis.length, 12, "esprits sortis");
+eq(sortis.length, 13, "esprits sortis");
 const pieces = sortis.reduce((n, s) => n + own(s).length, 0);
-eq(pieces, 32, "pieces obtenables");
+eq(pieces, 35, "pieces obtenables");
 /* Le denominateur ecrit en dur dans la page n'est qu'un repli, le temps que le
    script compte — mais un repli faux fait sauter le chiffre sous les yeux au
    chargement. Il se verifie contre le total calcule, pas contre une constante
@@ -61,16 +61,16 @@ ok(snail?.released, "Transponder Snail est dans la liste");
 eq(snail?.unconfirmed, true, "son effet est marque non confirme");
 ok(/signale en partie|fichiers du jeu/i.test(snail?.source || ""), "sa fiche dit d'ou il sort");
 eq((snail?.variants || []).join(","), "base", "il n'a que sa forme de base");
-/* Lil Uzi Vert Jr. est date : il ferme la liste et ne compte pas. Il a son
-   illustration avant sa sortie — une fiche a venir illustree vaut mieux
-   qu'une pastille, du moment que le fichier existe vraiment. */
+/* Lil Uzi Vert Jr. est sorti le 8 novembre, avec le capitaine de la semaine
+   deux. Ses trois formes sont confirmees par deux sources ; sa rarete, elle,
+   est contestee et reste « A confirmer ». */
 const uzi = sprites.sprites.find((s) => s.id === "t-liluzi");
-ok(uzi && !uzi.released, "Lil Uzi Vert Jr. figure sans etre sorti");
-eq(uzi?.releasesOn, "2026-11-07", "a la date annoncee par Epic");
-eq(uzi?.icon, true, "et il a deja son illustration");
+ok(uzi?.released, "Lil Uzi Vert Jr. est sorti");
+ok(!("releasesOn" in (uzi || {})), "et ne porte plus de date d'attente");
+eq(uzi?.rarity, "unknown", "sa rarete contestee n'est pas tranchee a la place du jeu");
+eq(uzi?.icon, true, "il a son illustration");
 ok(existsSync(join(PUB, "icons/sprites/t-liluzi.png")), "dont le fichier est bien la");
-eq((uzi?.variants || []).join(","), "base",
-   "sans lui preter les variantes qu'une seule source lui donne");
+eq((uzi?.variants || []).join(","), "base,fortune,cursed", "et ses trois formes");
 
 /* ---- variantes ---- */
 eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
@@ -79,17 +79,17 @@ eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
    fichier — mais ce qui s'affiche est le nom du jeu en francais. */
 eq(sprites.variants.find((v) => v.id === "cursed").name, "Malediction",
    "la ligne Cursed porte son nom francais");
-/* La ligne Or est annoncee pour le 12 novembre. Elle n'a rien a faire dans le
+/* La ligne Or est annoncee, a une date que les sources se disputent. Elle n'a rien a faire dans le
    catalogue avant d'etre ramassable : elle ferait un filtre vide et un
    denominateur faux. La page, elle, doit l'annoncer. */
 ok(!variantIds.has("gold"), "la ligne Or reste dehors jusqu'a sa sortie");
-ok(html.includes("12 novembre"), "mais la page annonce sa date");
+ok(html.includes("22 novembre"), "mais la page annonce la date d'Epic");
 const seuls = sortis.filter((s) => own(s).length === 1);
 eq(seuls.map((s) => s.id).sort().join(","), "t-snail,t-sweetdreams",
    "deux esprits sans variante : Doux reves et l'escargot");
 /* Combien d'esprits portent chaque ligne : les deux lignes de la saison
    couvrent tout le monde sauf Sweet Dreams. */
-const ATTENDU_PAR_LIGNE = { fortune: 10, cursed: 10 };
+const ATTENDU_PAR_LIGNE = { fortune: 11, cursed: 11 };
 for (const ligne of ["fortune", "cursed"]) {
   eq(sortis.filter((s) => own(s).includes(ligne)).length, ATTENDU_PAR_LIGNE[ligne],
      `esprits avec une ${ligne}`);
@@ -145,14 +145,14 @@ const tally = sprites.sprites.reduce((m, s) => ({ ...m, [s.rarity]: (m[s.rarity]
    « A confirmer », et le catalogue dit laquelle est laquelle. */
 eq(tally.rare, 3, "esprits Rares");
 eq(tally.epic, 1, "esprits Epiques");
-eq(tally.legendary, 2, "esprits Legendaires");
+eq(tally.legendary, 1, "esprits Legendaires");
 eq(tally.mythic, 2, "esprits Mythiques");
 ok(sprites.rarities.some((r) => r.id === "unknown"),
    "le libelle « A confirmer » reste disponible");
-eq(tally.unknown || 0, 5, "les fiches contestees restent a confirmer");
+eq(tally.unknown || 0, 6, "les fiches contestees restent a confirmer");
 eq(sprites.sprites.filter((s) => s.rarity === "unknown").map((s) => s.id).sort().join(","),
-   "t-chester,t-exmarks,t-snail,t-squibbly,t-wayfinder",
-   "et ce sont les quatre paliers contestes, plus l'escargot");
+   "t-chester,t-exmarks,t-liluzi,t-snail,t-squibbly,t-wayfinder",
+   "et ce sont les quatre paliers contestes, l'escargot et Lil Uzi");
 ok(/contredit|contestee|ne s'accordent pas/i.test(sprites.rarityNote || ""),
    "le catalogue dit que les sources se contredisent");
 ok(/conteste/i.test(html), "la page l'explique aussi");
@@ -172,7 +172,7 @@ for (const [nom, cat] of [["saison", sprites], ["Override", override]]) {
   ok(/recopie|releve/i.test(cat.orderNote || ""), `l'origine de l'ordre est notee (${nom})`);
 }
 eq(sprites.order[0], "t-halfpeeld", "la grille ouvre sur Halfpeel'd, premier de l'annonce");
-eq(sprites.order.at(-1), "t-liluzi", "et se ferme sur l'esprit pas encore sorti");
+eq(sprites.order.at(-1), "t-liluzi", "et se ferme sur le dernier arrive");
 ok(app.includes("state.catalogue.order"), "l'app suit l'ordre du catalogue");
 
 /* ---- filtres ---- */
@@ -311,7 +311,7 @@ for (const s of [...sprites.sprites, ...override.sprites]) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "67", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "69", "version du service worker");
 for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }
@@ -442,7 +442,7 @@ ok(!sprites.news.lines.some((l) => /[<>]/.test(l)), "l'annonce reste du texte");
    fiche qui apparait sans explication ressemble a un bug — et dire ce que
    l'app ne sait pas, parce que c'est la moitie de l'information. */
 const annonce = sprites.news.lines.join(" ");
-ok(/Snail|escargot/i.test(annonce), "l'annonce nomme ce qui vient d'entrer");
+ok(/Lil Uzi/i.test(annonce), "l'annonce nomme ce qui vient d'entrer");
 ok(/conteste|contredit|non confirme|a relever/i.test(annonce),
    "et dit ce qui reste incertain");
 ok(new RegExp(`${pieces}\\b`).test(annonce), "et annonce le nouveau total de pieces");

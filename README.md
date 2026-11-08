@@ -98,6 +98,16 @@ soumise à la purge des 7 jours qui touche les simples sites web.
 Les sauvegardes des versions précédentes sont reprises automatiquement, y compris celles à
 plusieurs profils — c'est le profil qui était ouvert qui devient votre collection.
 
+**Une coche s'écrit toujours dans la saison où elle a été posée.** L'écriture est différée
+d'un quart de seconde, et elle relisait jusqu'ici la clé au moment d'écrire : cocher puis
+changer aussitôt de collection — ou changer de collection hors ligne, quand le catalogue
+suivant ne se chargeait pas — versait les coches de la saison en cours dans la clé
+d'Override, et l'archive était perdue. La clé est maintenant capturée au moment de la coche,
+la collection ne change qu'une fois son catalogue chargé, et toute écriture en attente part
+avant la bascule, quand l'app passe en arrière-plan et avant un rechargement de mise à jour.
+`tests/t-store.mjs` rejoue les deux scénarios et vérifie qu'un tour complet des trois
+collections laisse chaque clé identique, octet pour octet.
+
 ---
 
 ## Le pseudo Epic
@@ -177,7 +187,7 @@ Deux d'entre elles sont closes :
 
 | Saison | Fichier | Clé de stockage | Compte |
 | --- | --- | --- | --- |
-| Treasure Hunters | `sprites.json` | `capsule-override.treasure.v1` | 11 esprits, 31 pièces |
+| Treasure Hunters | `sprites.json` | `capsule-override.treasure.v1` | 13 esprits, 35 pièces |
 | Override (C7 S4) | `sprites-override.json` | `capsule-override.store.v4` | 27 esprits, 162 pièces |
 | Runners (C7 S3) | `sprites-legacy.json` | `capsule-override.legacy.v1` | 25 esprits, 117 pièces |
 
@@ -249,8 +259,10 @@ trois règles apprises le 1er novembre 2026 :
 
 Un bandeau sous les compteurs annonce le prochain rendez-vous de la semaine, ou celui qui
 court. Treasure Hunters en compte deux : le **Lundi de maîtrise** (lundi 9 h à mardi 9 h à New
-York, 15 h CET — XP d'esprit et poussière doublés) et le **Jour du capitaine** (samedi 9 h — un
-capitaine, son équipage et son butin). Override en avait trois, dont les **Power Hours** à deux fenêtres par
+York, 15 h CET — XP d'esprit et poussière doublés) et le **Jour du capitaine** (dimanche 9 h à New
+York, pendant 24 h — un capitaine, son équipage, son butin, et les variantes de son esprit qui
+tombent plus souvent). L'app le plaçait le samedi jusqu'au 8 novembre : Epic date ses
+capitaines des 1er, 8, 15 et 22 novembre, tous des dimanches. Override en avait trois, dont les **Power Hours** à deux fenêtres par
 jour ; le mécanisme `starts` leur survit et resservira.
 
 Les horaires vivent dans `public/sprites.json`, sous `events`, en heure de New York. L'app les
@@ -574,6 +586,15 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
+**État au 8 novembre 2026** : **Lil Uzi Vert Jr.** est sorti avec le capitaine de la
+deuxième semaine, et Treasure Hunters passe à **13 esprits** et **35 pièces**. Ses trois
+formes — base, Fortune, Malédiction — sont confirmées par Sprite Catch et Vice, ses vignettes
+viennent de FN Sprite Tracker, et son effet est celui qu'Epic publie. Sa **rareté est
+contestée** : Sprite Catch le donne Mythique, les deux sources d'avant Légendaire ; il porte
+donc « À confirmer », comme Exmarks, Chester, Guide, Crapoulpe et l'escargot. Les
+capitaines suivants (Miku et Teto le 15, Oscar le 22) n'ont pas d'esprit annoncé par Epic :
+rien n'entre avant leur sortie.
+
 **État au 1er novembre 2026** : Override est close, à **27 esprits** et **162 pièces** — son
 compte définitif, figé dans `sprites-override.json`. Treasure Hunters ouvre à **12 esprits**
 et **32 pièces** : trois lignes (base, Fortune, Malédiction), dix esprits qui les portent
@@ -609,8 +630,9 @@ exceptions à connaître :
   de la collaboration One Piece. **Une illustration qui détonne se vérifie, elle ne se rejette
   pas** : la leçon est écrite dans le script.
 
-La ligne **Or** est annoncée pour le 12 novembre. Elle n'entrera dans le catalogue que ce
-jour-là : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
+La ligne **Or** est annoncée, mais les dates se contredisent : l'annonce d'Epic dit
+désormais le 22 novembre, Sprite Catch le 12, GameRant la semaine du 14. Elle n'entrera dans
+le catalogue que le jour où elle se ramassera : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
 les notes.
 
 **État au 1er octobre 2026** : **25 esprits jouables** et **122 pièces obtenables**.
@@ -694,8 +716,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1727 vérifications** qui tournent sans navigateur — 1942 avec
-les trois autres fichiers de tests, tous au vert : les comptes publiés (11 esprits et 31
+Les catalogues ont le leur, **1739 vérifications** qui tournent sans navigateur — 1976 avec
+les quatre autres fichiers de tests, tous au vert : les comptes publiés (13 esprits et 35
 pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, la sauvegarde
 des 56 codes et l'absence de toute trace d'eux dans l'app), la table des collections et le fait que **chaque clé de stockage reste collée à
 sa saison**, l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans

@@ -2,7 +2,7 @@
   "name": "capsule-override",
   "version": "3.0.0",
   "private": true,
-  "description": "Traqueur des esprits Fortnite Chapitre 7 Saison 4 Override. Application web installable, donnees gardees sur l'appareil.",
+  "description": "Traqueur des esprits Fortnite : Treasure Hunters, plus les archives Override (C7 S4) et Runners (C7 S3). Application web installable, donnees gardees sur l'appareil.",
   "type": "module",
   "engines": {
     "node": ">=18"
