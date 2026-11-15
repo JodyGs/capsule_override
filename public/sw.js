@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v69";
+const VERSION = "capsule-v70";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -21,7 +21,7 @@ const SHELL = [
   "./icons/favicon-180.png",
 
   // Icones des esprits : indispensables pour que la liste reste lisible hors ligne.
-  // Treasure Hunters : les treize esprits de la saison en cours et leurs variantes.
+  // Treasure Hunters : les esprits de la saison en cours et leurs variantes.
   "./icons/sprites/t-halfpeeld.png",
   "./icons/variants/t-halfpeeld-fortune.png",
   "./icons/variants/t-halfpeeld-cursed.png",
@@ -57,6 +57,16 @@ const SHELL = [
   "./icons/variants/t-liluzi-fortune.png",
   "./icons/variants/t-liluzi-cursed.png",
   "./icons/sprites/t-snail.png",
+  "./icons/sprites/t-zee.png",
+  "./icons/sprites/t-minimiku.png",
+  "./icons/variants/t-minimiku-fortune.png",
+  "./icons/variants/t-minimiku-cursed.png",
+  "./icons/sprites/t-squiplash.png",
+  "./icons/variants/t-squiplash-fortune.png",
+  "./icons/variants/t-squiplash-cursed.png",
+  "./icons/sprites/t-oscar.png",
+  "./icons/variants/t-oscar-fortune.png",
+  "./icons/variants/t-oscar-cursed.png",
 
   // Override, passee en archive le 1er novembre. Ses images restent precachees :
   // elles l'etaient deja, et les retirer obligerait chaque telephone installe a

@@ -87,6 +87,7 @@ CATCH_SLUG = {
     "t-exmarks": "exmarks", "t-plundarrgh": "plundarrgh", "t-chester": "chester",
     "t-wayfinder": "wayfinder", "t-kelper": "kelper", "t-squibbly": "lil-squibbly",
     "t-flacko": "lil-flacko", "t-sweetdreams": "sweet-dreams",
+    "t-zee": "zee", "t-minimiku": "mini-miku", "t-squiplash": "squiplash",
 }
 _catch_cache = {}
 
@@ -107,7 +108,8 @@ FNS_SLUG = {
     "t-exmarks": "exmarks", "t-plundarrgh": "plundarrgh", "t-chester": "chester",
     "t-wayfinder": "wayfinder", "t-kelper": "kelper", "t-squibbly": "lilsquibbly",
     "t-flacko": "lilflacko", "t-sweetdreams": "sweetdreams", "t-liluzi": "liluzivert",
-    "t-snail": "transponder",
+    "t-snail": "transponder", "t-zee": "zee", "t-minimiku": "minimiku",
+    "t-squiplash": "squiplash", "t-oscar": "siroscar",
 }
 # Les noms internes des assets, releves sur Fortnite.GG. Ils ne servent a
 # aucun telechargement — le site refuse les acces automatises, et c'est son
