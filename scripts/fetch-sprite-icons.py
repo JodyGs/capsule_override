@@ -88,6 +88,7 @@ CATCH_SLUG = {
     "t-wayfinder": "wayfinder", "t-kelper": "kelper", "t-squibbly": "lil-squibbly",
     "t-flacko": "lil-flacko", "t-sweetdreams": "sweet-dreams",
     "t-zee": "zee", "t-minimiku": "mini-miku", "t-squiplash": "squiplash",
+    "t-oscar": "sir-oscar",
 }
 _catch_cache = {}
 
@@ -117,7 +118,7 @@ FNS_SLUG = {
 # d'affichage changent d'une langue a l'autre : Exmarks est TreasureMap,
 # Guide est Compass, Crapoulpe est Squibbly, l'escargot est FeedJet et
 # Lil Uzi Vert Jr. est RookGecko.
-FNS_STYLE = {"base": "normal", "fortune": "fortune", "cursed": "cursed"}
+FNS_STYLE = {"base": "normal", "fortune": "fortune", "cursed": "cursed", "gold": "gold"}
 
 # Le nom du fichier sur la wiki ne suit pas toujours l'identifiant interne.
 WIKI_NAME = {

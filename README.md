@@ -187,7 +187,7 @@ Deux d'entre elles sont closes :
 
 | Saison | Fichier | Clé de stockage | Compte |
 | --- | --- | --- | --- |
-| Treasure Hunters | `sprites.json` | `capsule-override.treasure.v1` | 16 esprits, 42 pièces |
+| Treasure Hunters | `sprites.json` | `capsule-override.treasure.v1` | 17 esprits, 59 pièces |
 | Override (C7 S4) | `sprites-override.json` | `capsule-override.store.v4` | 27 esprits, 162 pièces |
 | Runners (C7 S3) | `sprites-legacy.json` | `capsule-override.legacy.v1` | 25 esprits, 117 pièces |
 
@@ -586,6 +586,13 @@ un tri stable qui conserve l'ordre du fichier à l'intérieur de chaque groupe. 
 couvrent ce retour : l'un démarre l'app sur un catalogue inversé, l'autre y injecte un esprit
 non sorti et vérifie qu'il se range en dernier sans compter dans le total.
 
+**État au 25 novembre 2026** : **Sir Oscar the Second** est sorti le 22 avec le capitaine
+Sir Oscar, et la **ligne Or** avec lui : quatorze esprits la portent, tous sauf Doux rêves,
+Transponder Snail et Zee. Treasure Hunters passe à **17 esprits** et **59 pièces**. Oscar est
+Légendaire chez Sprite Catch comme chez FN Sprite Tracker ; son effet est recoupé par quatre
+sources. Les vignettes Or viennent de Sprite Catch (Lil Uzi Vert Jr. de FN Sprite Tracker).
+Les coches existantes ne bougent pas : l'Or s'ajoute à côté, en case vide.
+
 **État au 15 novembre 2026** : **Mini Miku** (Mythique) et **Squiplash** (Épique) sont
 sortis avec le capitaine Miku et Teto, chacun avec ses trois formes, et **Zee**, l'esprit du
 Point zéro, revient en esprit secret à forme unique, comme Doux rêves. Treasure Hunters passe
@@ -639,10 +646,10 @@ exceptions à connaître :
   de la collaboration One Piece. **Une illustration qui détonne se vérifie, elle ne se rejette
   pas** : la leçon est écrite dans le script.
 
-La ligne **Or** est annoncée pour le 22 novembre, date sur laquelle les sources
-s'accordent désormais, après avoir longtemps hésité entre le 12, le 14 et le 22. Elle n'entrera dans
-le catalogue que le jour où elle se ramassera : un filtre vide et un denominateur faux coûtent plus cher qu'une ligne annoncée dans
-les notes.
+La ligne **Or** est entrée le 22 novembre, le jour où elle s'est ramassée, après avoir été
+annoncée tour à tour pour le 12, le 14 et le 22. Avant cette date, elle n'avait rien à faire
+dans le catalogue : un filtre vide et un dénominateur faux coûtent plus cher qu'une ligne
+annoncée dans les notes.
 
 **État au 1er octobre 2026** : **25 esprits jouables** et **122 pièces obtenables**.
 Fortnitemares en a livré quatre — **Spooky Dash**, **Vampire**, **Le Cerf** et **Plongeon dans
@@ -725,8 +732,8 @@ longueurs hors bornes, normalisation des espaces, relecture de l'ancien format, 
 qui n'écrit rien, effacement, étanchéité vis-à-vis de *Tout effacer*, et le fait que l'icône,
 l'effet, la source et le tableau des variantes restent enfants directs de la carte.
 
-Les catalogues ont le leur, **1821 vérifications** qui tournent sans navigateur — 2075 avec
-les quatre autres fichiers de tests, tous au vert : les comptes publiés (16 esprits et 42
+Les catalogues ont le leur, **1910 vérifications** qui tournent sans navigateur — 2199 avec
+les quatre autres fichiers de tests, tous au vert : les comptes publiés (17 esprits et 59
 pièces cette saison, 27 et 162 dans Override, 25 et 117 dans Runners, la sauvegarde
 des 56 codes et l'absence de toute trace d'eux dans l'app), la table des collections et le fait que **chaque clé de stockage reste collée à
 sa saison**, l'échéance du passe et sa réserve sur l'heure, l'absence de date périmée dans

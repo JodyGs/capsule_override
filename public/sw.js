@@ -2,7 +2,7 @@
    Tous les chemins sont relatifs : l'app marche a la racine d'un domaine
    comme dans un sous-dossier (GitHub Pages, par exemple). */
 
-const VERSION = "capsule-v70";
+const VERSION = "capsule-v71";
 const CACHE = `${VERSION}-shell`;
 
 const SHELL = [
@@ -67,6 +67,20 @@ const SHELL = [
   "./icons/sprites/t-oscar.png",
   "./icons/variants/t-oscar-fortune.png",
   "./icons/variants/t-oscar-cursed.png",
+  "./icons/variants/t-barry-gold.png",
+  "./icons/variants/t-chester-gold.png",
+  "./icons/variants/t-exmarks-gold.png",
+  "./icons/variants/t-flacko-gold.png",
+  "./icons/variants/t-halfpeeld-gold.png",
+  "./icons/variants/t-kelper-gold.png",
+  "./icons/variants/t-liluzi-gold.png",
+  "./icons/variants/t-minimiku-gold.png",
+  "./icons/variants/t-oscar-gold.png",
+  "./icons/variants/t-plundarrgh-gold.png",
+  "./icons/variants/t-repete-gold.png",
+  "./icons/variants/t-squibbly-gold.png",
+  "./icons/variants/t-squiplash-gold.png",
+  "./icons/variants/t-wayfinder-gold.png",
 
   // Override, passee en archive le 1er novembre. Ses images restent precachees :
   // elles l'etaient deja, et les retirer obligerait chaque telephone installe a

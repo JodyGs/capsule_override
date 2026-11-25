@@ -8,22 +8,21 @@
     "timeConfirmed": false,
     "note": "Epic n'a pas publie d'heure de fin : la page du passe renvoie a l'evenement de fin du chapitre, annonce pour le samedi 5 decembre. Une estimation isolee parlait du 30 novembre ; cinq sources tiennent le 5. Le rebours vise 2 h du matin a New York pour se tromper en avance. Epic annonce l'heure exacte la veille, et le minuteur du passe en jeu fait foi."
   },
-  "updatedAt": "2026-11-15",
+  "updatedAt": "2026-11-25",
   "news": {
-    "version": "2026-11-15",
-    "title": "Mini Miku, Squiplash et Zee sont sortis",
-    "date": "15 novembre 2026",
+    "version": "2026-11-25",
+    "title": "Sir Oscar est sorti, la ligne Or aussi",
+    "date": "25 novembre 2026",
     "lines": [
-      "Mini Miku et Squiplash arrivent avec le Jour du capitaine Miku et Teto, chacun avec ses trois formes : base, Fortune et Malediction. Mini Miku est Mythique, Squiplash Epique : les traqueurs sont d'accord.",
-      "Zee, l'esprit du Point zero, revient en esprit secret, comme Doux reves : une seule forme, Mythique, et il ne s'affiche dans le menu du jeu qu'une fois obtenu. Un localisateur fetiche aide a le trouver.",
-      "La saison passe a 16 esprits et 42 pieces. Les noms restent en anglais en attendant leur nom dans la version francaise du jeu.",
-      "Sir Oscar the Second apparait dans A venir : il est attendu avec le prochain capitaine. Son effet et sa rarete ne viennent que d'une source, non confirmes. Il n'entrera dans le total que le jour ou il se ramassera.",
-      "La ligne Or n'est toujours pas dans la liste : les sources la donnent maintenant pour le 22 novembre, avec Oscar. Elle entrera le jour ou elle se ramassera."
+      "Sir Oscar the Second se coche enfin : il est sorti le dimanche 22 novembre avec le capitaine Sir Oscar, boss de l'Oeil du tigre, qui peut le lacher. Il est Legendaire, et deux traqueurs sont d'accord.",
+      "La ligne Or est arrivee le meme jour : trois fois plus d'XP par elimination. Quatorze esprits la portent ; Doux reves, Transponder Snail et Zee n'en ont pas.",
+      "La saison passe a 17 esprits et 59 pieces. Vos coches ne bougent pas : l'Or s'ajoute a cote, en case vide.",
+      "Les raretes contestees le restent : Exmarks, Chester, Guide, Crapoulpe, l'escargot et Lil Uzi Vert Jr. gardent « A confirmer » tant que les sources ne s'accordent pas."
     ]
   },
   "iconsNote": "Les illustrations viennent de Sprite Catch, et celles de Transponder Snail et de Lil Uzi Vert Jr. de FN Sprite Tracker : au 1er novembre, la Fortnite Wiki n'avait rien publie pour cette saison — les onze noms y renvoyaient une 404, testes un a un. Le script interroge la wiki d'abord et rebasculera dessus des qu'elle publiera. L'escargot est dessine a plat quand tous les autres sont en relief : ce n'est pas un remplissage mais le style de la collaboration One Piece — Fortnite.GG sert le meme fichier sous le nom interne de l'asset, identique octet pour octet.",
   "namesNote": "Les noms sont ceux de la version francaise du jeu, releves dans l'annonce officielle d'Epic traduite : Mi-pelure, Guide, Varech, Crapoulpe et Doux reves ne s'appellent pas pareil en anglais. Le nom anglais reste en sous-titre, parce que c'est celui que portent les guides et les listes. Escargophone, absent de l'annonce, a ete releve directement dans le jeu : c'est la meme source qui l'avait fait entrer dans la liste.",
-  "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les fiches contestees — les quatre, l'escargot, Lil Uzi Vert Jr. et Sir Oscar the Second, qui n'a qu'une source — portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
+  "rarityNote": "Epic n'a publie aucune rarete pour cette saison, et les traqueurs ne s'accordent pas. Sprite Catch et FN Sprite Tracker tombent d'accord sur les onze de l'annonce ; Fortnite.GG, qui lit la rarete dans les donnees de carte du jeu, en contredit quatre — Exmarks, Chester, Guide et Crapoulpe, chaque fois d'un cran plus bas. Les sept paliers sur lesquels les trois s'accordent sont publies. Les six fiches contestees — les quatre, l'escargot et Lil Uzi Vert Jr. — portent « A confirmer » et disent qui dit quoi. La couleur de la carte dans l'ecran Esprits du jeu tranchera.",
   "variants": [
     {
       "id": "base",
@@ -42,6 +41,12 @@
       "name": "Malediction",
       "note": "Augmente vos chances de trouver des variantes d'esprits rares, mais l'eau vous blesse tant que l'esprit est equipe. Arrivee avec la semaine du capitaine Lil Uzi Vert, alors que les fichiers la portaient des le lancement. Mauvais mariage avec Varech et Barry O'Fish, dont les pouvoirs se jouent dans l'eau.",
       "find": "Comme la base : avis de recherche, cartes au tresor et coffres a esprits. L'equiper augmente le taux des autres variantes rares."
+    },
+    {
+      "id": "gold",
+      "name": "Or",
+      "note": "Trois fois plus d'XP par elimination, en plus du pouvoir de l'esprit. Arrivee avec la semaine du capitaine Sir Oscar. Doux reves, Transponder Snail et Zee n'en ont pas.",
+      "find": "Comme la base : avis de recherche, cartes au tresor et coffres a esprits. Une Malediction equipee augmente vos chances de tomber dessus."
     }
   ],
   "rarities": [
@@ -98,12 +103,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -117,12 +124,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -136,12 +145,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -155,12 +166,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -174,12 +187,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -193,12 +208,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -212,12 +229,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -231,12 +250,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -250,12 +271,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -269,7 +292,8 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "variantHow": {
         "base": "Le boss A$AP Rocky peut le lacher, sans garantie. Sinon, comme les autres : affiche, carte, coffre enterre."
@@ -277,7 +301,8 @@
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -318,7 +343,8 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "variantHow": {
         "base": "Le boss Lil Uzi Vert peut le lacher, sans garantie : Epic ecrit « peut etre a vous ». Sinon, comme les autres : avis, carte, coffre enterre."
@@ -326,7 +352,8 @@
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -353,12 +380,14 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
@@ -372,34 +401,39 @@
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ]
     },
     {
       "id": "t-oscar",
       "name": "Sir Oscar the Second",
       "sub": "Sir Oscar the Second Sprite",
-      "rarity": "unknown",
-      "released": false,
-      "releasesOn": "2026-11-22",
-      "unconfirmed": true,
-      "effect": "Augmente les degats de la pioche et donne un bref regain de vitesse quand votre bouclier se brise.",
-      "source": "Attendu avec le capitaine Sir Oscar · Une seule source donne son effet et sa rarete (Legendaire) ; un traqueur l'a vu apparaitre quelques minutes le 12 novembre avant d'etre retire",
+      "rarity": "legendary",
+      "released": true,
+      "effect": "Augmente les degats de la pioche et donne un bref regain de vitesse quand votre bouclier se brise. Les deux bonus augmentent a chaque niveau.",
+      "source": "Peut tomber du boss Sir Oscar, capitaine de l'Oeil du tigre · Avis de recherche · Coffres a esprits · Adversaires elimines",
       "variants": [
         "base",
         "fortune",
-        "cursed"
+        "cursed",
+        "gold"
       ],
       "icon": true,
       "variantIcons": [
         "fortune",
-        "cursed"
-      ]
+        "cursed",
+        "gold"
+      ],
+      "variantHow": {
+        "base": "Le boss Sir Oscar peut le lacher, sans garantie. Sinon, comme les autres : avis, carte, coffre enterre."
+      }
     }
   ],
   "events": {

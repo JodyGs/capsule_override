@@ -22,15 +22,15 @@ const own = (s) => s.variants || [...variantIds];
 const sortis = sprites.sprites.filter((s) => s.released);
 
 /* ---- l'etat du releve ---- */
-eq(sprites.updatedAt, "2026-11-15", "date de releve sprites");
+eq(sprites.updatedAt, "2026-11-25", "date de releve sprites");
 ok(html.includes("1er novembre 2026"), "date du pied de page");
 eq(sprites.code, "TREASURE", "code de la saison en cours");
 eq(sprites.seasonStart, "2026-11-01", "jour d'ouverture de la saison");
 eq(sprites.sprites.length, 17, "esprits catalogues");
-eq(sprites.variants.length, 3, "lignes de variantes");
-eq(sortis.length, 16, "esprits sortis");
+eq(sprites.variants.length, 4, "lignes de variantes");
+eq(sortis.length, 17, "esprits sortis");
 const pieces = sortis.reduce((n, s) => n + own(s).length, 0);
-eq(pieces, 42, "pieces obtenables");
+eq(pieces, 59, "pieces obtenables");
 /* Le denominateur ecrit en dur dans la page n'est qu'un repli, le temps que le
    script compte — mais un repli faux fait sauter le chiffre sous les yeux au
    chargement. Il se verifie contre le total calcule, pas contre une constante
@@ -70,12 +70,13 @@ ok(!("releasesOn" in (uzi || {})), "et ne porte plus de date d'attente");
 eq(uzi?.rarity, "unknown", "sa rarete contestee n'est pas tranchee a la place du jeu");
 eq(uzi?.icon, true, "il a son illustration");
 ok(existsSync(join(PUB, "icons/sprites/t-liluzi.png")), "dont le fichier est bien la");
-eq((uzi?.variants || []).join(","), "base,fortune,cursed", "et ses trois formes");
+eq((uzi?.variants || []).join(","), "base,fortune,cursed,gold", "et ses quatre formes");
 /* Le 15 novembre : Mini Miku et Squiplash arrivent avec le capitaine Miku et
    Teto, Zee revient en esprit secret. Sir Oscar the Second est attendu le 22 :
    il s'affiche dans A venir et ne compte pas. */
-for (const [id, formes, rarete] of [["t-minimiku", "base,fortune,cursed", "mythic"],
-  ["t-squiplash", "base,fortune,cursed", "epic"], ["t-zee", "base", "mythic"]]) {
+for (const [id, formes, rarete] of [["t-minimiku", "base,fortune,cursed,gold", "mythic"],
+  ["t-squiplash", "base,fortune,cursed,gold", "epic"], ["t-zee", "base", "mythic"],
+  ["t-oscar", "base,fortune,cursed,gold", "legendary"]]) {
   const s = sprites.sprites.find((x) => x.id === id);
   ok(s?.released, `${id} est sorti`);
   eq((s?.variants || []).join(","), formes, `${id} a ses formes`);
@@ -84,12 +85,11 @@ for (const [id, formes, rarete] of [["t-minimiku", "base,fortune,cursed", "mythi
   for (const v of s?.variantIcons || []) ok(existsSync(join(PUB, `icons/variants/${id}-${v}.png`)), `${id}-${v} est la`);
 }
 const oscar = sprites.sprites.find((s) => s.id === "t-oscar");
-eq(oscar?.released, false, "Sir Oscar the Second n'est pas encore sorti");
-eq(oscar?.releasesOn, "2026-11-22", "il est attendu le 22 novembre");
-eq(oscar?.unconfirmed, true, "son effet n'a qu'une source");
+ok(!("releasesOn" in (oscar || {})), "Sir Oscar the Second ne porte plus de date d'attente");
+ok(!oscar?.unconfirmed, "son effet est recoupe");
 
 /* ---- variantes ---- */
-eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed",
+eq(sprites.variants.map((v) => v.id).join(","), "base,fortune,cursed,gold",
    "les trois lignes ouvertes de la saison, dans l'ordre");
 /* Les identifiants restent anglais — ils sont stables et servent de nom de
    fichier — mais ce qui s'affiche est le nom du jeu en francais. */
@@ -98,15 +98,15 @@ eq(sprites.variants.find((v) => v.id === "cursed").name, "Malediction",
 /* La ligne Or est annoncee, a une date que les sources se disputent. Elle n'a rien a faire dans le
    catalogue avant d'etre ramassable : elle ferait un filtre vide et un
    denominateur faux. La page, elle, doit l'annoncer. */
-ok(!variantIds.has("gold"), "la ligne Or reste dehors jusqu'a sa sortie");
-ok(html.includes("22 novembre"), "mais la page annonce la date d'Epic");
+ok(variantIds.has("gold"), "la ligne Or est entree le jour de sa sortie");
+ok(html.includes("22 novembre"), "et la page dit quand");
 const seuls = sortis.filter((s) => own(s).length === 1);
 eq(seuls.map((s) => s.id).sort().join(","), "t-snail,t-sweetdreams,t-zee",
    "trois esprits sans variante : Doux reves, l'escargot et Zee");
 /* Combien d'esprits portent chaque ligne : les deux lignes de la saison
    couvrent tout le monde sauf Sweet Dreams. */
-const ATTENDU_PAR_LIGNE = { fortune: 13, cursed: 13 };
-for (const ligne of ["fortune", "cursed"]) {
+const ATTENDU_PAR_LIGNE = { fortune: 14, cursed: 14, gold: 14 };
+for (const ligne of ["fortune", "cursed", "gold"]) {
   eq(sortis.filter((s) => own(s).includes(ligne)).length, ATTENDU_PAR_LIGNE[ligne],
      `esprits avec une ${ligne}`);
   for (const seul of seuls) ok(!own(seul).includes(ligne), `${seul.id} n'a pas de ${ligne}`);
@@ -164,14 +164,14 @@ const tally = sprites.sprites.reduce((m, s) => ({ ...m, [s.rarity]: (m[s.rarity]
    « A confirmer », et le catalogue dit laquelle est laquelle. */
 eq(tally.rare, 3, "esprits Rares");
 eq(tally.epic, 2, "esprits Epiques");
-eq(tally.legendary, 1, "esprits Legendaires");
+eq(tally.legendary, 2, "esprits Legendaires");
 eq(tally.mythic, 4, "esprits Mythiques");
 ok(sprites.rarities.some((r) => r.id === "unknown"),
    "le libelle « A confirmer » reste disponible");
-eq(tally.unknown || 0, 7, "les fiches contestees restent a confirmer");
+eq(tally.unknown || 0, 6, "les fiches contestees restent a confirmer");
 eq(sprites.sprites.filter((s) => s.rarity === "unknown").map((s) => s.id).sort().join(","),
-   "t-chester,t-exmarks,t-liluzi,t-oscar,t-snail,t-squibbly,t-wayfinder",
-   "et ce sont les quatre paliers contestes, l'escargot, Lil Uzi et Oscar");
+   "t-chester,t-exmarks,t-liluzi,t-snail,t-squibbly,t-wayfinder",
+   "et ce sont les quatre paliers contestes, l'escargot et Lil Uzi");
 ok(/contredit|contestee|ne s'accordent pas/i.test(sprites.rarityNote || ""),
    "le catalogue dit que les sources se contredisent");
 ok(/conteste/i.test(html), "la page l'explique aussi");
@@ -191,7 +191,7 @@ for (const [nom, cat] of [["saison", sprites], ["Override", override]]) {
   ok(/recopie|releve/i.test(cat.orderNote || ""), `l'origine de l'ordre est notee (${nom})`);
 }
 eq(sprites.order[0], "t-halfpeeld", "la grille ouvre sur Halfpeel'd, premier de l'annonce");
-eq(sprites.order.at(-1), "t-oscar", "et se ferme sur le dernier annonce");
+eq(sprites.order.at(-1), "t-oscar", "et se ferme sur le dernier arrive");
 ok(app.includes("state.catalogue.order"), "l'app suit l'ordre du catalogue");
 
 /* ---- filtres ---- */
@@ -330,7 +330,7 @@ for (const s of [...sprites.sprites, ...override.sprites]) {
 /* Garde-fou volontairement rigide : un service worker non renumerote sert
    l'ancienne coquille a tous ceux qui ont deja ouvert l'app. Ce test tombe
    a chaque livraison — c'est le but, on le remonte en connaissance de cause. */
-eq(sw.match(/capsule-v(\d+)/)[1], "70", "version du service worker");
+eq(sw.match(/capsule-v(\d+)/)[1], "71", "version du service worker");
 for (const f of ["./sprites.json", "./sprites-override.json", "./sprites-legacy.json"]) {
   ok(sw.includes(f), `catalogue precache ${f}`);
 }
@@ -461,7 +461,7 @@ ok(!sprites.news.lines.some((l) => /[<>]/.test(l)), "l'annonce reste du texte");
    fiche qui apparait sans explication ressemble a un bug — et dire ce que
    l'app ne sait pas, parce que c'est la moitie de l'information. */
 const annonce = sprites.news.lines.join(" ");
-ok(/Mini Miku/i.test(annonce) && /Squiplash/.test(annonce) && /Zee/.test(annonce), "l'annonce nomme ce qui vient d'entrer");
+ok(/Oscar/.test(annonce) && /Or\b/.test(annonce), "l'annonce nomme ce qui vient d'entrer");
 ok(/conteste|contredit|non confirme|a relever/i.test(annonce),
    "et dit ce qui reste incertain");
 ok(new RegExp(`${pieces}\\b`).test(annonce), "et annonce le nouveau total de pieces");
